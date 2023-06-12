@@ -1,26 +1,26 @@
 import React, {useState} from "react";
-import {HashRouter as Router, Route, Switch} from "react-router-dom";
+import {HashRouter as Router, Route, Routes} from "react-router-dom";
 import Auth from "../routes/Auth";
 import Home from "../routes/Home";
+import Signup from "../routes/Signup";
 
 const AppRouter = ( {login} ) => {
     return(
         <Router>
-            <Switch>
+            <Routes>
                 {
                     login ?
                     // fragment for render many components without div or parents component
                     <>
-                        <Route exact path='/'>
-                            <Home/>
-                        </Route>
+                        <Route path='/' element={<Home/>}/>
                     </>
                 :
-                    <Route exact path='/'>
-                        <Auth/>
-                    </Route>
+                        <>
+                            <Route path='/' element={<Auth/>}/>
+                            <Route path='/signup' element={<Signup/>}/>
+                        </>
                 }
-            </Switch>
+                </Routes>
         </Router>
     )
 }

@@ -1,8 +1,8 @@
-import React, { useState}  from "react";
-import { Link } from "react-router-dom"
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import React, {useState} from 'react';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {Link} from "react-router-dom";
 
-const Auth = () => {
+const Signup = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const onChange = (event) => {
@@ -15,18 +15,23 @@ const Auth = () => {
             setPassword(value);
         }
     };
-    const onSubmit = (event) => {
+
+    const onSubmit = async (event) => {
         event.preventDefault();
         const auth = getAuth();
-        signInWithEmailAndPassword(auth, email, password)
+        console.log(auth)
+        createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in
                 const user = userCredential.user;
+                console.log(user)
                 // ...
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
+                console.log(errorMessage)
+                // ..
             });
     };
     return (
@@ -48,14 +53,10 @@ const Auth = () => {
                     value={password}
                     onChange={onChange}
                 />
-                <input type="submit" value="Log In" />
+                <input type="submit" value="Sign up" />
             </form>
-            <div>
-                <Link to={"/signup"}><button>Sign in</button></Link>
-                <button>Continue with Google</button>
-                <button>Continue with Github</button>
-            </div>
         </div>
     );
 };
-export default Auth;
+
+export default Signup
