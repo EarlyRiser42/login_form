@@ -3,13 +3,15 @@ import {HashRouter as Router, Route, Routes} from "react-router-dom";
 import Auth from "../routes/Auth";
 import Home from "../routes/Home";
 import Signup from "../routes/Signup";
+import Navigation from "./Navigation";
 
-const AppRouter = ( {login} ) => {
+const AppRouter = ( {isLoggedIn} ) => {
     return(
         <Router>
+            {isLoggedIn && <Navigation />}
             <Routes>
                 {
-                    login ?
+                    isLoggedIn ?
                     // fragment for render many components without div or parents component
                     <>
                         <Route path='/' element={<Home/>}/>
