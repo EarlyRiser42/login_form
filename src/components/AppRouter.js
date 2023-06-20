@@ -5,7 +5,7 @@ import Home from "../routes/Home";
 import Signup from "../routes/Signup";
 import Navigation from "./Navigation";
 
-const AppRouter = ( {isLoggedIn} ) => {
+const AppRouter = ( {isLoggedIn, userObj} ) => {
     return(
         <Router>
             {isLoggedIn && <Navigation />}
@@ -14,7 +14,7 @@ const AppRouter = ( {isLoggedIn} ) => {
                     isLoggedIn ?
                     // fragment for render many components without div or parents component
                     <>
-                        <Route path='/' element={<Home/>}/>
+                        <Route path='/' element={<Home userObj={userObj} />}/>
                     </>
                 :
                         <>
