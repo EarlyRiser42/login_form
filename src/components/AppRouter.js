@@ -4,8 +4,10 @@ import Auth from "../routes/Auth";
 import Home from "../routes/Home";
 import Signup from "../routes/Signup";
 import Navigation from "./Navigation";
+import Profile from "../routes/profile";
 
-const AppRouter = ( {isLoggedIn, userObj} ) => {
+
+const AppRouter = ( {refreshUser, isLoggedIn, userObj} ) => {
     return(
         <Router>
             {isLoggedIn && <Navigation />}
@@ -15,6 +17,7 @@ const AppRouter = ( {isLoggedIn, userObj} ) => {
                     // fragment for render many components without div or parents component
                     <>
                         <Route path='/' element={<Home userObj={userObj} />}/>
+                        <Route path='/' element={<Profile userObj={userObj}  refreshUser={refreshUser}/>}/>
                     </>
                 :
                         <>

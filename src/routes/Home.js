@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { dbService } from "fbase";
 import Writes from "../components/writes";
+import { v4 as uuidv4 } from "uuid";
+import { dbService, storageService } from "fbase";
 const Home = ({ userObj }) => {
     const [nweet, setNweet] = useState("");
     const [nweets, setNweets] = useState([]);
-    const [attachment, setAttachment] = useState();
+    const [attachment, setAttachment] = useState("");
     const getNweets = async () => {
         const dbNweets = await dbService.collection("nweets").get();
         dbNweets.forEach((document) => {
@@ -26,13 +27,26 @@ const Home = ({ userObj }) => {
     }, []);
     const onSubmit = async (event) => {
         event.preventDefault();
-        await dbService.collection("nweets").add({
+        let attachmentUrl = "";
+        if (attachment !== "") {
+            console.log(userObj.uid)
+            const attachmentRef = storageService
+                .ref()
+                .child(`${userObj.uid}/${uuidv4()}`);
+            const response = await attachmentRef.putString(attachment, "data_url");
+            attachmentUrl = await response.ref.getDownloadURL();
+        }
+        const nweetObj = {
             text: nweet,
             createdAt: Date.now(),
-            creatorId: userObj.uid
-        });
-        setNweet("");
+            creatorId: userObj.uid,
+        attachmentUrl,
     };
+    await dbService.collection("nweets").add(nweetObj);
+    setNweet("");
+    setAttachment("");
+    };
+
     const onChange = (event) => {
         const {
             target: { value },
@@ -53,7 +67,9 @@ const Home = ({ userObj }) => {
         };
         reader.readAsDataURL(theFile);
     };
+
     const onClearAttachment = () => setAttachment(null);
+
     return (
         <div>
             <form onSubmit={onSubmit}>
