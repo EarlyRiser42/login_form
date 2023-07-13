@@ -10,7 +10,6 @@ export default ({ refreshUser, userObj }) => {
         navigate("/");
     };
 
-
     const onChange = (event) => {
         const {
             target: { value },

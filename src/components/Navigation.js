@@ -8,6 +8,7 @@ const onLogOutClick = () => {
     authService.signOut();
     navigate('/');
 };
+
 return(
     <nav>
         <ul>
