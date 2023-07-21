@@ -17,7 +17,6 @@ const Home = ({ userObj }) => {
                 setNweets(nweetArray);
             });
     }, []);
-    console.log(nweets)
     return (
         <div className="container">
             <WriteFactory userObj={userObj} />
