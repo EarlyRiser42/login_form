@@ -42,6 +42,13 @@ const Signup = () => {
     const [isregisterd, setisregisterd] = useState(0);
     const [firstpage, setfirstpage] = useState(true);
     const [error, seterror] = useState(0);
+
+    useEffect(() => {
+        if(isregisterd !== 0){
+            seterror(2);
+        }
+    }, [isregisterd]);
+
     const dateChange = (event) => {
         console.log(event)
         const {
@@ -76,7 +83,6 @@ const Signup = () => {
         const auth = getAuth();
         await fetchSignInMethodsForEmail(auth, value)
             .then((result) => {
-                console.log(result, result.length)
                 setisregisterd(result.length);
                 seterror(0);
             }).catch((error) => {
@@ -90,7 +96,6 @@ const Signup = () => {
         return (
             <select>
                 {props.options.map((option, index) => (
-
                     <option key={index}
                         value={option.value}
                         defaultValue={props.defaultValue}
@@ -143,7 +148,7 @@ const Signup = () => {
                             />
                             <div>
                                 {error === 1 && <p>올바른 이메일을 입력해 주세요.</p>}
-                                {(error === 2 || isregisterd > 0) && <p>이미 등록된 이메일입니다.</p>}
+                                {error === 2 && <p>이미 등록된 이메일입니다.</p>}
                             </div>
                             <input
                                 name="password"
