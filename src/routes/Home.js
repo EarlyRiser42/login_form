@@ -5,6 +5,7 @@ import Writes from "../components/writes";
 
 const Home = ({ userObj }) => {
     const [nweets, setNweets] = useState([]);
+
     useEffect(() => {
         dbService
             .collection("nweets")
@@ -17,6 +18,7 @@ const Home = ({ userObj }) => {
                 setNweets(nweetArray);
             });
     }, []);
+
     return (
         <div className="container">
             <WriteFactory userObj={userObj} />

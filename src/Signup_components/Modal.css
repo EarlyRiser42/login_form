@@ -1,0 +1,36 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent; /* 배경을 완전히 투명하게 만듦 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1; /* 모달을 다른 컨텐츠 위에 표시하기 위해 z-index 설정 */
+}
+
+.modal-overlay.show {
+    background-color: rgba(0, 0, 0, 0.5); /* 배경을 어둡게 만들어 모달이 떠있을 때 주변이 어두워짐 */
+}
+
+.modal-content {
+    position: relative;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 2; /* 모달 컨텐츠를 모달 백그라운드 위에 표시하기 위해 z-index 설정 */
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
+}

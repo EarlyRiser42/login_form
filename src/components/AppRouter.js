@@ -1,15 +1,14 @@
 import React, {useState} from "react";
-import {HashRouter as Router, Route, Routes} from "react-router-dom";
+import {Route, Routes, useLocation} from "react-router-dom";
 import Auth from "../routes/Auth";
 import Home from "../routes/Home";
-import Signup from "../routes/Signup";
+import Signup from "../Signup_components/Signup";
 import Navigation from "./Navigation";
 import Profile from "../routes/profile";
 
-
-const AppRouter = ( {refreshUser, isLoggedIn, userObj} ) => {
+const AppRouter = ( {refreshUser, isLoggedIn, userObj, isModalOpen, setIsModalOpen} ) => {
     return(
-        <Router>
+        <div>
             {isLoggedIn && <Navigation userObj={userObj} />}
             <Routes>
                 {
@@ -21,12 +20,12 @@ const AppRouter = ( {refreshUser, isLoggedIn, userObj} ) => {
                     </>
                 :
                         <>
-                            <Route path='/' element={<Auth/>}/>
-                            <Route path='/signup' element={<Signup/>}/>
+                            <Route path='/' element={<Auth setIsModalOpen={setIsModalOpen}/>}/>
+                            <Route path='/signup' element={<Signup isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>}/>
                         </>
                 }
                 </Routes>
-        </Router>
+        </div>
     )
 }
 
