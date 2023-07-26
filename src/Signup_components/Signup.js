@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import { Link,  Outlet, useLocation } from "react-router-dom"
 import First_page from "./First_page";
 import Second_page from "./Second_page";
 import Third_page from "./Third_page";
@@ -8,7 +7,6 @@ import Fifth_page from "./Fifth_page";
 import Modal from "./Modal";
 
 const Signup = () => {
-    const { state } = useLocation();
     // 유저 정보 전체
     const [userData, setUserData] = useState({});
     // 페이지 현재 상태
@@ -27,7 +25,6 @@ const Signup = () => {
     return (
         <div>
                 <Modal>
-                    <Outlet />
                     <div className="signup-modal">
                         {page === 1 && <First_page onNext={handleNextStep} />}
                         {page === 2 && <Second_page onNext={handleNextStep} />}
