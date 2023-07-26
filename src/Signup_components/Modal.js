@@ -1,16 +1,15 @@
 import React from 'react';
 import './Modal.css';
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
-const Modal = ({ children, onClose, showModal }) => {
+const Modal = ({ children}) => {
+    const navigate = useNavigate();
     return (
-        <div className={`modal-overlay ${showModal ? 'show' : ''}`}>
-            <div className="modal-content">
-                <Link to={"/"}>
-                    <button className="modal-close" onClick={onClose}>
-                        X
-                    </button>
-                </Link>
+        <div className="modalDiv">
+            <div className="modal">
+                <button  onClick={() => navigate(-1)}>
+                    X
+                </button>
                 {children}
             </div>
         </div>

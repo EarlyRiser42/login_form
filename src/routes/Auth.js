@@ -1,8 +1,9 @@
 import React, { useState}  from "react";
-import { Link } from "react-router-dom"
+import { Link,  useLocation } from "react-router-dom"
 import { authService, firebaseInstance } from "fbase";
 import AuthForm from "components/AuthForm";
-const Auth = ({setIsModalOpen}) => {
+const Auth = () => {
+    const location = useLocation();
     const onSocialClick = async (event) => {
         const {
             target: { name },
@@ -16,15 +17,12 @@ const Auth = ({setIsModalOpen}) => {
         await authService.signInWithPopup(provider);
     };
 
-    const onClick = () => {
-        setIsModalOpen(true);
-    };
 
     return (
         <div>
             <AuthForm />
             <div>
-                <Link to={"/signup"}><button onClick={onClick}>Sign up</button></Link>
+                <Link to={"/signup"} state={{ background: location }} ><button>Sign up </button></Link>
                 <button name="google" onClick={onSocialClick}>Continue with Google</button>
                 <button name="github" onClick={onSocialClick}>Continue with Github</button>
             </div>
