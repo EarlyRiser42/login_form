@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {fetchSignInMethodsForEmail, getAuth} from "firebase/auth";
 
-const First_page = ({ onNext }) => {
+const First_page = ({ onNext}) => {
     // 유저 정보(출생년도)
     const [year, setyear] = useState('1998');
     const [month, setmonth] = useState('04');
@@ -9,14 +9,14 @@ const First_page = ({ onNext }) => {
     // 유저 정보(이름, 개인정보)
     const [name, setname] = useState("");
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+
     // 에러 유무
     const [isregisterd, setisregisterd] = useState(0);
     const [error, seterror] = useState(0);
 
     const handleNext = () => {
         // Step1 페이지에서 입력한 데이터를 저장하고 다음 페이지로 이동
-        onNext({ name, email });
+        onNext({ name, email, year, month, day });
     };
 
     const generateYears = () => {
@@ -25,7 +25,7 @@ const First_page = ({ onNext }) => {
         const years = [];
 
         for (let year = currentYear; year >= startYear; year--) {
-            years.push({ value: year.toString(), name: year.toString() });
+            years.push({ value: year.toString(), name: "year" });
         }
 
         return years;
@@ -36,7 +36,12 @@ const First_page = ({ onNext }) => {
         const dates = [];
 
         for (let day = startDay; day <= date; day++) {
-            dates.push({ value: day.toString(), name: day.toString() });
+            if(date < 31){
+                dates.push({ value: day.toString(), name: "month" });
+            }
+            else{
+                dates.push({ value: day.toString(), name: "day" });
+            }
         }
         return dates;
     }
@@ -66,19 +71,14 @@ const First_page = ({ onNext }) => {
     }
     const onChange = (event) => {
         const {
-            target: { name, value },
+            target: { value },
         } = event;
-        if (name === "password") {
-            setPassword(value);
-        }
-        else{
-            setname(value);
-        }
+        setname(value);
     };
 
     const emailchange = async (event)  => {
         const {
-            target: { name, value },
+            target: { value },
         } = event;
         setEmail(value);
         const auth = getAuth();
@@ -133,19 +133,11 @@ const First_page = ({ onNext }) => {
                         {error === 1 && <p>올바른 이메일을 입력해 주세요.</p>}
                         {error === 2 && <p>이미 등록된 이메일입니다.</p>}
                     </div>
-                    <input
-                        name="password"
-                        type="password"
-                        placeholder="비밀번호"
-                        required
-                        value={password}
-                        onChange={onChange}
-                    />
                     <SelectBox options={months} onChange={dateChange} defaultValue=""></SelectBox>
                     <SelectBox options={days} onChange={dateChange} defaultValue=""></SelectBox>
                     <SelectBox options={years} onChange={dateChange} defaultValue=""></SelectBox>
                 </form>
-                <button disabled={error === 0 && email.length && password.length && name.length !== 0 ? false : true} onClick={handleNext}>다음</button>
+                <button disabled={error === 0 && email.length &&  name.length !== 0 ? false : true} onClick={handleNext}>다음</button>
         </div>
     );
 };

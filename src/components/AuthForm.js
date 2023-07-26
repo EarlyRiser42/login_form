@@ -55,12 +55,11 @@ const AuthForm = () => {
                 />
                 <input
                     type="submit"
-                    value={newAccount ? "Create Account" : "Sign In"}
+                    value={"로그인"}
                 />
                 {error}
             </form>
             <span onClick={toggleAccount}>
-        {newAccount ? "Sign In" : "Create Account"}
       </span>
         </>
     );

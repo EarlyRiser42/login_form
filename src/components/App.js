@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { authService } from "../fbase";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation} from "react-router-dom";
 import Auth from "../routes/Auth";
 import Home from "../routes/Home";
 import Signup from "../Signup_components/Signup";
