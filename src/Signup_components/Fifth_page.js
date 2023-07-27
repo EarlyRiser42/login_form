@@ -1,40 +1,68 @@
-import React, { useState } from 'react';
-import {createUserWithEmailAndPassword, getAuth} from "firebase/auth";
+import React, { useState, useRef } from 'react';
 
-const Fifth_page = ({ onDone, user_data }) => {
+const Fifth_page = ({ onNext, user_data }) => {
     const [photo, setPhoto] = useState('');
 
-    const handleDone = () => {
-        // Step3 페이지에서 입력한 데이터를 저장하고 회원가입 완료
-        onDone({ photo });
+    const fileRef = useRef(null);
+    const handleNext = () => {
+        // Step1 페이지에서 입력한 데이터를 저장하고 다음 페이지로 이동
+        onNext();
     };
 
-    const Signup = async (event) => {
-        event.preventDefault();
-        const auth = getAuth();
-        createUserWithEmailAndPassword(auth, user_data.email, user_data.password)
-            .then((userCredential) => {
-                // Signed in
-                const user = userCredential.user;
-                console.log(user);
-                // ...
-            })
-            .catch((error) => {
-                const errorMessage = error.message;
-                console.log(errorMessage);
-                //seterror(2);
-                // ..
-            });
+    const onFileChange = (event) => {
+        const {
+            target: { files },
+        } = event;
+        const theFile = files[0];
+        const reader = new FileReader();
+        reader.onloadend = (finishedEvent) => {
+            const {
+                currentTarget: { result },
+            } = finishedEvent;
+            setPhoto(result);
+        };
+        reader.readAsDataURL(theFile);
     };
 
     return (
         <div>
-            <div>{user_data.name}</div>
-            <div>{user_data.email}</div>
-            <div>{user_data.year}</div>
-            <div>{user_data.month}</div>
-            <div>{user_data.day}</div>
-            <input onClick={Signup} type="submit" value="가입" />
+            <div>
+                <h2>프로필 사진 선택하기</h2>
+                <h4>마음에 드는 셀카 사진이 있나요? 지금 업로드하세요.</h4>
+            </div>
+            <div>
+                {!photo &&
+                    <div>
+                        <img src={"/img/basic_profile.png"} alt={"사진 업로드"} width={200} height={200}/>
+                        <img onClick={()=>{fileRef.current.click();}} src={"/img/add_photo.png"}/>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            style={{ display: "none" }}
+                            ref={fileRef}
+                            onChange={onFileChange}
+                        />
+                    </div>}
+
+                {photo && (
+                    <div>
+                        <img  src={photo} width="200px" height="200px" />
+                        <img onClick={()=>{fileRef.current.click();}} src={"/img/add_photo.png"}/>
+                        <img onClick={()=>{setPhoto(null);}} src={"/img/close_cross.png"}/>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            style={{ display: "none" }}
+                            ref={fileRef}
+                            onChange={onFileChange}
+                        />
+                    </div>
+                )}
+            </div>
+            <div>
+                {!photo &&<button onClick={handleNext}>지금은 넘어가기</button>}
+                {photo && <button onClick={handleNext}>다음</button>}
+            </div>
         </div>
     );
 };

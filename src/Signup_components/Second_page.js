@@ -1,21 +1,36 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {createUserWithEmailAndPassword, getAuth} from "firebase/auth";
 
-const Second_page = ({ onNext}) => {
+const Second_page = ({ onNext, onPrev, user_data}) => {
     // 유저 정보(이름, 개인정보)
-    const [checked, setchecked] = useState(true);
+    const [checked, setChecked] = useState(true);
+
+    useEffect(() => {
+        if(user_data.checked){
+            setChecked(user_data.checked);
+        }
+    }, []);
+
     const handleNext = () => {
         // Step1 페이지에서 입력한 데이터를 저장하고 다음 페이지로 이동
-        onNext(checked);
+        onNext({checked});
     };
 
+    const handlePrev = () => {
+        onPrev();
+    }
+
     const checkHandled = () => {
-        setchecked(!checked);
+        setChecked(!checked);
     }
 
     return (
         <div>
             <div>
+                <div>
+                    <button onClick={handlePrev}>←</button>
+                    <h3>4단계 중 2단계</h3>
+                </div>
                 <p>트위터 환경을 맞춤 설정하세요</p>
                 <p>웹에서 트위터 컨텐츠가 표시되는 위치를 추적하세요</p>
                 <div>

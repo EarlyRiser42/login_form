@@ -9,6 +9,7 @@ const WriteFactory = ({ userObj }) => {
         event.preventDefault();
         let attachmentUrl = "";
         if (attachment !== "") {
+            // userobj(현재 로그인한 유저)의 uid로 폴더 생성
             const attachmentRef = storageService
                 .ref()
                 .child(`${userObj.uid}/${uuidv4()}`);
