@@ -8,6 +8,17 @@
     justify-content: center;
     align-items: center;
 }
+
+.modalDiv_notfromAuth {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    background-color: rgba(153, 153, 153, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .modal {
     width: 550px;
     height: 600px;

@@ -2,10 +2,11 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { authService } from "fbase";
 
-const Navigation = ({userObj}) => {
+const Navigation = ({userObj, setIsLoggedIn}) => {
 const navigate = useNavigate();
 const onLogOutClick = () => {
     authService.signOut();
+    setIsLoggedIn(false);
     navigate('/');
 };
 

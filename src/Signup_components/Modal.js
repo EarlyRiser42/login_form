@@ -2,12 +2,12 @@ import React from 'react';
 import './Modal.css';
 
 
-const Modal = ({ children}) => {
-
+const Modal = ({ page, children}) => {
+    const divClassName = page < 5 ? "modalDiv" : "modalDiv_notfromAuth";
     return (
-        <div className="modalDiv">
-            <div className="modal">
 
+        <div className={divClassName}>
+            <div className="modal">
                 {children}
             </div>
         </div>

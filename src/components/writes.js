@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { dbService, storageService } from "fbase";
 
 const Writes = ({ writeObj, isOwner }) => {
-    console.log(writeObj)
     const [editing, setEditing] = useState(false);
     const [NewWrite, setNewWrite] = useState(writeObj.text);
     const onDeleteClick = async () => {

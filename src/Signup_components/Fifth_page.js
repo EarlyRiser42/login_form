@@ -1,6 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
-const Fifth_page = ({ onNext, user_data }) => {
+const Fifth_page = ({onNext, user_data }) => {
+
+
     const [photo, setPhoto] = useState('');
 
     const fileRef = useRef(null);
