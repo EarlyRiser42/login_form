@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {createUserWithEmailAndPassword, getAuth} from "firebase/auth";
 
 const Fourth_page = ({ onNext, onPrev, user_data, page, setPage }) => {

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const Fifth_page = ({onNext, user_data }) => {
+const Fifth_page = ({onNext }) => {
 
 
     const [photo, setPhoto] = useState('');

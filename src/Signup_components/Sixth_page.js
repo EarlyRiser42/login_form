@@ -1,6 +1,6 @@
 import React, { useState} from 'react';
 import { Link } from "react-router-dom"
-const Sixth_page = ({ user_data, setSinging }) => {
+const Sixth_page = ({ user_data, setSigning}) => {
     const [name, setName] = useState(user_data.name);
     const initial = user_data.name;
     const onChange = (event) => {
@@ -9,6 +9,10 @@ const Sixth_page = ({ user_data, setSinging }) => {
         } = event;
         setName(value);
     };
+
+    const onClick = () => {
+        setSigning(false);
+    }
 
     return (
         <div>
@@ -30,8 +34,8 @@ const Sixth_page = ({ user_data, setSinging }) => {
                 </div>
             </div>
             <div>
-                {initial === name && <Link to={"/"}><button onClick={() => {setSinging(false)}}>지금은 넘어가기</button></Link>}
-                {initial !== name && <Link to={"/"}><button onClick={() => {setSinging(false)}}>완료</button></Link>}
+                {initial === name && <Link to={"/"}><button onClick={onClick}>지금은 넘어가기</button></Link>}
+                {initial !== name && <Link to={"/"}><button onClick={onClick}>완료</button></Link>}
             </div>
         </div>
     );

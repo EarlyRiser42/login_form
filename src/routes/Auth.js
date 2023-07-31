@@ -1,8 +1,8 @@
-import React, { useState}  from "react";
+import React  from "react";
 import { Link,  useLocation } from "react-router-dom"
 import { authService, firebaseInstance } from "fbase";
 import AuthForm from "components/AuthForm";
-const Auth = ({setSigning, setFirsttime}) => {
+const Auth = ({setSigning}) => {
 
     // modal 뒷배경
     const location = useLocation();
@@ -25,7 +25,7 @@ const Auth = ({setSigning, setFirsttime}) => {
         <div>
             <AuthForm />
             <div>
-                <Link to={"/signup"} state={{background: location}} ><button onClick={()=>{setSigning(true); setFirsttime(true);}}> Sign up </button></Link>
+                <Link to={"/signup"} state={{background: location}} ><button onClick={() => {setSigning(true)}}> Sign up </button></Link>
                 <button name="google" onClick={onSocialClick}>Continue with Google</button>
                 <button name="github" onClick={onSocialClick}>Continue with Github</button>
             </div>

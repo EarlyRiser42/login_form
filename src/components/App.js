@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { authService } from "../fbase";
-import { Route, Routes, useLocation} from "react-router-dom";
+import { Route, Routes, useLocation, Navigate} from "react-router-dom";
 import Auth from "../routes/Auth";
 import Home from "../routes/Home";
 import Signup from "../Signup_components/Signup";
 import Navigation from "./Navigation";
 import Profile from "../routes/profile";
+import Error_page from "../routes/Error_page";
 
 function App() {
     const [userObj, setUserObj] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    // signup ~새로고침/새로고침
+    // 회원가입 중
     const [signing, setSigning] = useState(false);
-    const [firsttime, setFirsttime] = useState(false);
 
     // 모달 뒷배경
     const location = useLocation();
@@ -46,7 +46,7 @@ function App() {
 
     return (
         <div>
-            {(isLoggedIn && !signing) && <Navigation userObj={userObj} setIsLoggedIn={setIsLoggedIn} />}
+            {(isLoggedIn && !signing)  && <Navigation userObj={userObj} setIsLoggedIn={setIsLoggedIn} />}
                 {(isLoggedIn && !signing) ?
                     (
                     <>
@@ -56,19 +56,21 @@ function App() {
                             path="/profile"
                             element={<Profile userObj={userObj} refreshUser={refreshUser} />}
                         />
+                        <Route path="/signup" element={<Navigate replace to="/error"/>} />
+                        <Route path="/error" element={<Error_page />} />
                         </Routes>
                     </>
                     ) :
                     (
                     <>
                     <Routes location={background || location}>
-                        <Route path="/" element={<Auth setSigning={setSigning} setFirsttime={setFirsttime} />}>
-                            <Route path="/signup" element={<Signup firsttime={firsttime}/>} />
+                        <Route path="/" element={<Auth setSigning={setSigning}/>}>
+                            <Route path="/signup" element={<Signup signing={signing} setSigning={setSigning}/>} />
                         </Route>
                     </Routes>
                     {background && (
                         <Routes>
-                            <Route path="signup" element={<Signup firsttime={firsttime}/>} />
+                            <Route path="signup" element={<Signup signing={signing} setSigning={setSigning}/>} />
                         </Routes>
                     )}
                     </>
