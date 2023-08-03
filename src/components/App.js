@@ -46,31 +46,31 @@ function App() {
 
     return (
         <div>
-            {(isLoggedIn && !signing)  && <Navigation userObj={userObj} setIsLoggedIn={setIsLoggedIn} />}
                 {(isLoggedIn && !signing) ?
                     (
                     <>
-                        <Routes >
+                        {(location.pathname === '/' || location.pathname === '/profile') && <Navigation userObj={userObj} setIsLoggedIn={setIsLoggedIn} />}
+                        <Routes>
                         <Route path="/" element={<Home userObj={userObj} />} />
                         <Route
                             path="/profile"
                             element={<Profile userObj={userObj} refreshUser={refreshUser} />}
                         />
-                        <Route path="/signup" element={<Navigate replace to="/error"/>} />
-                        <Route path="/error" element={<Error_page />} />
+                        <Route path="/*" element={<Error_page/>} />
                         </Routes>
                     </>
                     ) :
                     (
                     <>
                     <Routes location={background || location}>
-                        <Route path="/" element={<Auth setSigning={setSigning}/>}>
-                            <Route path="/signup" element={<Signup signing={signing} setSigning={setSigning}/>} />
-                        </Route>
+                        <Route path="/" element={<Auth setSigning={setSigning}/>} />
+                        <Route path="/signup" element={<Signup signing={signing} setSigning={setSigning}/>} />
+                        <Route path="/*" element={<Navigate to="/"/>} />
                     </Routes>
                     {background && (
                         <Routes>
                             <Route path="signup" element={<Signup signing={signing} setSigning={setSigning}/>} />
+                            <Route path="/*" element={<Navigate replace to="/"/>} />
                         </Routes>
                     )}
                     </>
