@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { authService } from "../fbase";
 import { Route, Routes, useLocation, Navigate} from "react-router-dom";
-import Auth from "../routes/Auth";
-import Home from "../routes/Home";
-import Signup from "../Signup_components/Signup";
-import Navigation from "./Navigation";
-import Profile from "../routes/profile";
+import Auth from "../routes/BF_login/Auth";
+import Home from "../routes/AF_login/Home";
+import Login from '../routes/BF_login/Logins/Login'
+import Signup from "../routes/BF_login/Signups/Signup";
+import Navigation from "../routes/Navigation";
+import Profile from "../routes/AF_login/profile";
 import Error_page from "../routes/Error_page";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
     const [signing, setSigning] = useState(false);
 
     // 모달 뒷배경
+    const [modals, setModals] = useState(true);
     const location = useLocation();
     const background = location.state && location.state.background;
 
@@ -63,13 +65,15 @@ function App() {
                     (
                     <>
                     <Routes location={background || location}>
-                        <Route path="/" element={<Auth setSigning={setSigning}/>} />
-                        <Route path="/signup" element={<Signup signing={signing} setSigning={setSigning}/>} />
+                        <Route path="/" element={<Auth setSigning={setSigning} setModals={setModals}/>} />
+                        <Route path="/signup" element={<Signup signing={signing} setSigning={setSigning} modals={modals} setModals={setModals}/>} />
+                        <Route path="/login" element={<Login modals={modals}/>} />
                         <Route path="/*" element={<Navigate to="/"/>} />
                     </Routes>
                     {background && (
                         <Routes>
-                            <Route path="signup" element={<Signup signing={signing} setSigning={setSigning}/>} />
+                            <Route path="signup" element={<Signup signing={signing} setSigning={setSigning} modals={modals} setModals={setModals}/>} />
+                            <Route path="/login" element={<Login modals={modals} />} />
                             <Route path="/*" element={<Navigate replace to="/"/>} />
                         </Routes>
                     )}

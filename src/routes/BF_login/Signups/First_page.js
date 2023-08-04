@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {fetchSignInMethodsForEmail, getAuth} from "firebase/auth";
-import {useNavigate } from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 
 const First_page = ({ onNext, user_data}) => {
-
     // 유저 정보(출생년도)
     const [year, setYear] = useState('');
     const [month, setMonth] = useState('');
@@ -149,7 +148,7 @@ const First_page = ({ onNext, user_data}) => {
     return (
         <div>
             <div>
-                <button  onClick={() => navigate(-1)}>X</button>
+                <Link to={"/"}><button>X</button></Link>
                 <h3>4단계 중 1단계</h3>
             </div>
 

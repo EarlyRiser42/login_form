@@ -1,7 +1,7 @@
 import React from 'react';
-import {createUserWithEmailAndPassword, getAuth} from "firebase/auth";
+import {createUserWithEmailAndPassword, getAuth, updateProfile} from "firebase/auth";
 
-const Fourth_page = ({ onNext, onPrev, user_data, page, setPage }) => {
+const Fourth_page = ({ onNext, onPrev, user_data, page, setPage, setModals }) => {
     const handlePrev = () => {
         onPrev();
     }
@@ -14,6 +14,7 @@ const Fourth_page = ({ onNext, onPrev, user_data, page, setPage }) => {
                 // Signed in
                 const user = userCredential.user;
                 onNext();
+                setModals(false);
                 console.log(user);
                 console.log("회원가입 완료");
                 // ...
@@ -21,9 +22,24 @@ const Fourth_page = ({ onNext, onPrev, user_data, page, setPage }) => {
             .catch((error) => {
                 const errorMessage = error.message;
                 console.log(errorMessage);
-                //seterror(2);
                 // ..
             });
+        // random id 생성
+        const atIndex = user_data.email.indexOf('@');
+        const username = user_data.email.slice(0, atIndex);
+        const randomNumber = Math.floor(Math.random() * 1000);
+        const displayname = `${username}${randomNumber}@${user_data.email.slice(atIndex + 1)}`;
+
+        updateProfile(auth.currentUser, {
+            name: user_data.name,
+            displayName: displayname,
+            photoURL: "https://firebasestorage.googleapis.com/v0/b/loginform-6747a.appspot.com/o/pfp%2Fbasic.png?alt=media&token=d2b2f037-ee93-4fad-a09d-733332ec28fc"
+        }).then(() => {
+            // Profile updated!
+        }).catch((error) => {
+            // An error occurred
+            console.log(error.message);
+        });
     };
 
     const onClick = (event) => {

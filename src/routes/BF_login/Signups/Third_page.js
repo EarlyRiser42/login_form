@@ -25,8 +25,6 @@ const Third_page = ({ onNext, onPrev, user_data}) => {
         }
     }
 
-
-
     const handleNext = () => {
         // Step2 페이지에서 입력한 데이터를 저장하고 다음 페이지로 이동
         onNext({password});

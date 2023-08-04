@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { dbService } from "fbase";
-import WriteFactory from "../components/WriteFactory";
-import Writes from "../components/writes";
+import WriteFactory from "../../components/WriteFactory";
+import Writes from "../../components/writes";
 
 const Home = ({ userObj }) => {
     const [nweets, setNweets] = useState([]);
