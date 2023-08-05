@@ -2,7 +2,6 @@ import React from 'react';
 import {createUserWithEmailAndPassword, getAuth, updateProfile} from "firebase/auth";
 
 const Fourth_page = ({ onNext, onPrev, user_data, page, setPage, setModals }) => {
-    console.log(user_data)
     const handlePrev = () => {
         onPrev();
     }
@@ -25,7 +24,6 @@ const Fourth_page = ({ onNext, onPrev, user_data, page, setPage, setModals }) =>
                 });
                 onNext();
                 setModals(false);
-                console.log(user);
                 console.log("회원가입 완료");
                 // ...
             })

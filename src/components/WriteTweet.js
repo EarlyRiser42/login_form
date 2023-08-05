@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { storageService, dbService } from "fbase";
 
-const WriteFactory = ({ userObj }) => {
-    const [nweet, setNweet] = useState("");
+const WriteTweet = ({ userObj }) => {
+    const [tweet, setTweet] = useState("");
     const [attachment, setAttachment] = useState("");
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -12,26 +12,25 @@ const WriteFactory = ({ userObj }) => {
             // userobj(현재 로그인한 유저)의 uid로 폴더 생성
             const attachmentRef = storageService
                 .ref()
-                .child(`${userObj.uid}/${uuidv4()}`);
+                .child(`tweet/${uuidv4()}`);
             const response = await attachmentRef.putString(attachment, "data_url");
             attachmentUrl = await response.ref.getDownloadURL();
         }
-        const nweetObj = {
-            text: nweet,
+        const tweetObj = {
+            text: tweet,
             createdAt: Date.now(),
             creatorId: userObj.uid,
             attachmentUrl,
         };
-        console.log(nweetObj)
-        await dbService.collection("nweets").add(nweetObj);
-        setNweet("");
+        await dbService.collection("tweets").add(tweetObj);
+        setTweet("");
         setAttachment("");
     };
     const onChange = (event) => {
         const {
             target: { value },
         } = event;
-        setNweet(value);
+        setTweet(value);
     };
     const onFileChange = (event) => {
         const {
@@ -51,14 +50,14 @@ const WriteFactory = ({ userObj }) => {
     return (
         <form onSubmit={onSubmit}>
             <input
-                value={nweet}
+                value={tweet}
                 onChange={onChange}
                 type="text"
-                placeholder="What's on your mind?"
+                placeholder="무슨 일이 일어나고 있나요?"
                 maxLength={120}
             />
             <input type="file" accept="image/*" onChange={onFileChange} />
-            <input type="submit" value="Nweet" />
+            <input type="submit" value="게시하기" />
             {attachment && (
                 <div>
                     <img src={attachment} width="50px" height="50px" />
@@ -68,4 +67,4 @@ const WriteFactory = ({ userObj }) => {
         </form>
     );
 };
-export default WriteFactory;
+export default WriteTweet;

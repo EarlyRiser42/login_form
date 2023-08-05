@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { dbService } from "fbase";
-import WriteFactory from "../../components/WriteFactory";
-import Writes from "../../components/writes";
+import WriteTweet from "../../components/WriteTweet";
+import TweetForm from "../../components/TweetForm";
 
 const Home = ({ userObj }) => {
     const [tweets, setTweets] = useState([]);
@@ -21,10 +21,10 @@ const Home = ({ userObj }) => {
 
     return (
         <div className="container">
-            <WriteFactory userObj={userObj} />
+            <WriteTweet userObj={userObj} />
             <div style={{ marginTop: 30 }}>
                 {tweets.map((tweet) => (
-                    <Writes
+                    <TweetForm
                         key={tweet.id}
                         writeObj={tweet}
                         isOwner={tweet.creatorId === userObj.uid}
