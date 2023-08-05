@@ -4,18 +4,18 @@ import WriteFactory from "../../components/WriteFactory";
 import Writes from "../../components/writes";
 
 const Home = ({ userObj }) => {
-    const [nweets, setNweets] = useState([]);
+    const [tweets, setTweets] = useState([]);
 
     useEffect(() => {
         dbService
-            .collection("nweets")
+            .collection("tweets")
             .orderBy("createdAt", "desc")
             .onSnapshot((snapshot) => {
                 const nweetArray = snapshot.docs.map((doc) => ({
                     id: doc.id,
                     ...doc.data(),
                 }));
-                setNweets(nweetArray);
+                setTweets(nweetArray);
             });
     }, []);
 
@@ -23,11 +23,11 @@ const Home = ({ userObj }) => {
         <div className="container">
             <WriteFactory userObj={userObj} />
             <div style={{ marginTop: 30 }}>
-                {nweets.map((nweet) => (
+                {tweets.map((tweet) => (
                     <Writes
-                        key={nweet.id}
-                        writeObj={nweet}
-                        isOwner={nweet.creatorId === userObj.uid}
+                        key={tweet.id}
+                        writeObj={tweet}
+                        isOwner={tweet.creatorId === userObj.uid}
                     />
                 ))}
             </div>

@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {fetchSignInMethodsForEmail, getAuth, sendPasswordResetEmail} from "firebase/auth";
-import {Link } from "react-router-dom"
-import {authService, firebaseInstance} from "../../../fbase";
+import {fetchSignInMethodsForEmail, getAuth} from "firebase/auth";
+import {Link} from "react-router-dom";
 
-const First_page = ({ onNext, setPage}) => {
+const First_page = ({onNext}) => {
     const [email, setEmail] = useState("");
     const [error, setError] = useState(false);
 
@@ -16,20 +15,15 @@ const First_page = ({ onNext, setPage}) => {
         return () => clearTimeout(timer);
     }, []);
 
-    const onSocialClick = async (event) => {
+    const EmailChange = async (event)  => {
         const {
-            target: { name },
+            target: { value },
         } = event;
-        let provider;
-        if (name === "google") {
-            provider = new firebaseInstance.auth.GoogleAuthProvider();
-        } else if (name === "github") {
-            provider = new firebaseInstance.auth.GithubAuthProvider();
-        }
-        await authService.signInWithPopup(provider);
-    };
+        setEmail(value);
+    }
 
-    const handleNext = async () => {
+
+    const onClick = async () => {
         const auth = getAuth();
         await fetchSignInMethodsForEmail(auth, email)
             .then((result) => {
@@ -49,29 +43,14 @@ const First_page = ({ onNext, setPage}) => {
         // Step1 페이지에서 입력한 데이터를 저장하고 다음 페이지로 이동
     };
 
-    const EmailChange = async (event)  => {
-        const {
-            target: { value },
-        } = event;
-        setEmail(value);
-    }
-
     return (
         <div>
             <div>
                 <Link to={"/"}><button>X</button></Link>
             </div>
             <div>
-                <span>X 가입하기</span>
-            </div>
-            <div>
-                <button name="google" onClick={onSocialClick}>Google 계정으로 로그인</button>
-                <button name="github" onClick={onSocialClick}>Github으로 로그인</button>
-            </div>
-            <div>
-                <div className={"line"}></div>
-                <span>또는</span>
-                <div className={"line"}></div>
+                <span>내 X계정 찾기</span>
+                <span>비밀번호를 변경하려면 계정에 연결된 이메일, 전화번호 또는 사용자 아이디를 입력해 주세요.</span>
             </div>
             <div>
                 <input
@@ -84,14 +63,7 @@ const First_page = ({ onNext, setPage}) => {
                 />
             </div>
             <div>
-                <button onClick={handleNext}>다음</button>
-            </div>
-            <div>
-                <Link to={"/pwreset"}><button>비밀번호를 잊으셨나요?</button></Link>
-            </div>
-            <div>
-                <span>계정이 없으신가요?</span>
-                <Link to={"/signup"}><span>가입하기</span></Link>
+                <button disabled={!(error === false && email.length !== 0)} onClick={onClick}>다음</button>
             </div>
             <div>
                 {error && <span>죄송합니다. 해당 계정을 찾을 수 없습니다.</span>}

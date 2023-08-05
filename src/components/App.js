@@ -8,6 +8,7 @@ import Signup from "../routes/BF_login/Signups/Signup";
 import Navigation from "../routes/Navigation";
 import Profile from "../routes/AF_login/profile";
 import Error_page from "../routes/Error_page";
+import PW_reset from "../routes/BF_login/PW_resets/Pw_rest";
 
 function App() {
     const [userObj, setUserObj] = useState(null);
@@ -37,6 +38,22 @@ function App() {
         });
     }, []);
 
+    useEffect(() => {
+        authService.onAuthStateChanged((user) => {
+            if (user) {
+                setUserObj({
+                    displayName: user.displayName,
+                    uid: user.uid,
+                    updateProfile: (args) => user.updateProfile(args),
+                });
+                console.log('logged in')
+                setIsLoggedIn(true);
+            } else {
+                setUserObj(null);
+            }
+        });
+    }, [signing]);
+
     const refreshUser = () => {
         const user = authService.currentUser;
         setUserObj({
@@ -48,38 +65,39 @@ function App() {
 
     return (
         <div>
-                {(isLoggedIn && !signing) ?
-                    (
-                    <>
-                        {(location.pathname === '/' || location.pathname === '/profile') && <Navigation userObj={userObj} setIsLoggedIn={setIsLoggedIn} />}
-                        <Routes>
-                        <Route path="/" element={<Home userObj={userObj} />} />
-                        <Route
-                            path="/profile"
-                            element={<Profile userObj={userObj} refreshUser={refreshUser} />}
-                        />
-                        <Route path="/*" element={<Error_page/>} />
-                        </Routes>
-                    </>
-                    ) :
-                    (
-                    <>
-                    <Routes location={background || location}>
-                        <Route path="/" element={<Auth setSigning={setSigning} setModals={setModals}/>} />
-                        <Route path="/signup" element={<Signup signing={signing} setSigning={setSigning} modals={modals} setModals={setModals}/>} />
-                        <Route path="/login" element={<Login modals={modals}/>} />
-                        <Route path="/*" element={<Navigate to="/"/>} />
+            {(isLoggedIn && !signing) ?
+                (
+                <>
+                    {(location.pathname === '/' || location.pathname === '/profile') && <Navigation userObj={userObj} setIsLoggedIn={setIsLoggedIn} />}
+                    <Routes>
+                    <Route path="/" element={<Home userObj={userObj} />} />
+                    <Route
+                        path="/profile"
+                        element={<Profile userObj={userObj} refreshUser={refreshUser} />}
+                    />
+                    <Route path="/*" element={<Error_page/>} />
                     </Routes>
-                    {background && (
-                        <Routes>
-                            <Route path="signup" element={<Signup signing={signing} setSigning={setSigning} modals={modals} setModals={setModals}/>} />
-                            <Route path="/login" element={<Login modals={modals} />} />
-                            <Route path="/*" element={<Navigate replace to="/"/>} />
-                        </Routes>
-                    )}
-                    </>
+                </>
+                ) :
+                (
+                <>
+                <Routes location={background || location}>
+                    <Route path="/" element={<Auth setSigning={setSigning} setModals={setModals}/>} />
+                    <Route path="/signup" element={<Signup signing={signing} setSigning={setSigning} modals={modals} setModals={setModals}/>} />
+                    <Route path="/login" element={<Login modals={modals}/>} />
+                    <Route path="/pwreset" element={<PW_reset modals={false} />}/>
+                    <Route path="/*" element={<Navigate to="/"/>} />
+                </Routes>
+                {background && (
+                    <Routes>
+                        <Route path="signup" element={<Signup signing={signing} setSigning={setSigning} modals={modals} setModals={setModals}/>} />
+                        <Route path="/login" element={<Login modals={modals} />} />
+                        <Route path="/pwreset" element={<PW_reset modals={false} />}/>
+                        <Route path="/*" element={<Navigate replace to="/"/>} />
+                    </Routes>
                 )}
-
+                </>
+            )}
         </div>
     );
 }

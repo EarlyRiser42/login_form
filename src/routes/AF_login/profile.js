@@ -3,12 +3,7 @@ import { authService } from "fbase";
 import { useNavigate } from "react-router-dom";
 
 export default ({ refreshUser, userObj }) => {
-    let navigate = useNavigate();
     const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
-    const onLogOutClick = () => {
-        authService.signOut();
-        navigate("/");
-    };
 
     const onChange = (event) => {
         const {
@@ -16,6 +11,7 @@ export default ({ refreshUser, userObj }) => {
         } = event;
         setNewDisplayName(value);
     };
+
     const onSubmit = async (event) => {
         event.preventDefault();
         if (userObj.displayName !== newDisplayName) {
@@ -37,7 +33,6 @@ export default ({ refreshUser, userObj }) => {
                 />
                 <input type="submit" value="Update Profile" />
             </form>
-            <button onClick={onLogOutClick}>Log Out</button>
         </>
     );
 };

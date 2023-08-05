@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 const Fifth_page = ({onNext }) => {
-
-
     const [photo, setPhoto] = useState('');
 
     const fileRef = useRef(null);
