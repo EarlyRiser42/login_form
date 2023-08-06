@@ -1,8 +1,7 @@
 import React from 'react';
 import {createUserWithEmailAndPassword, getAuth, updateProfile} from "firebase/auth";
 import { dbService } from "fbase";
-import { collection, doc, setDoc } from "firebase/firestore";
-import { v4 as uuidv4 } from "uuid";
+import { doc, setDoc } from "firebase/firestore";
 
 const Fourth_page = ({ onNext, onPrev, user_data, page, setPage, setModals }) => {
     const handlePrev = () => {

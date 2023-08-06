@@ -5,7 +5,6 @@ import { authService, firebaseInstance } from "fbase";
 const Auth = ({setSigning, setModals}) => {
     // modal 뒷배경
     const location = useLocation();
-
     const onSocialClick = async (event) => {
         const {
             target: { name },
@@ -18,7 +17,6 @@ const Auth = ({setSigning, setModals}) => {
         }
         await authService.signInWithPopup(provider);
     };
-
 
     return (
         <div>
