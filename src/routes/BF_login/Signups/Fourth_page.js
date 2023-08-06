@@ -1,5 +1,8 @@
 import React from 'react';
 import {createUserWithEmailAndPassword, getAuth, updateProfile} from "firebase/auth";
+import { dbService } from "fbase";
+import { collection, doc, setDoc } from "firebase/firestore";
+import { v4 as uuidv4 } from "uuid";
 
 const Fourth_page = ({ onNext, onPrev, user_data, page, setPage, setModals }) => {
     const handlePrev = () => {
@@ -13,6 +16,7 @@ const Fourth_page = ({ onNext, onPrev, user_data, page, setPage, setModals }) =>
             .then((userCredential) => {
                 // Signed in
                 const user = userCredential.user;
+                Profile_toDB(user, user_data)
                 updateProfile(user, {
                     displayName: user_data.name,
                     photoURL: "https://firebasestorage.googleapis.com/v0/b/loginform-6747a.appspot.com/o/pfp%2Fbasic.png?alt=media&token=d2b2f037-ee93-4fad-a09d-733332ec28fc"
@@ -32,6 +36,23 @@ const Fourth_page = ({ onNext, onPrev, user_data, page, setPage, setModals }) =>
                 console.log(errorMessage);
                 // ..
             });
+    };
+
+    const Profile_toDB = async (userObj, user_data) => {
+        const profileObj = {
+            id: `${ user_data.email.slice(0, user_data.email.indexOf('@'))}${ Math.floor(Math.random() * 1000)}`,
+            birthyear:  user_data.year,
+            birthmonth: user_data.month,
+            birthday: user_data.day,
+            SignupAt: Date.now(),
+            userUid: userObj.uid,
+        };
+        /*
+        멘션용 dbservice
+        const docRef = doc(collection(dbService, 'profile', userObj.uid, userObj.uid));
+        await setDoc(docRef, profileObj);
+        */
+        await setDoc(doc(dbService, "profile", userObj.uid), profileObj);
     };
 
     const onClick = (event) => {

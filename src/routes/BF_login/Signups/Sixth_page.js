@@ -1,5 +1,8 @@
 import React, { useState} from 'react';
 import { Link } from "react-router-dom"
+import {getAuth} from "firebase/auth";
+import {dbService} from "../../../fbase";
+
 const Sixth_page = ({ user_data, setSigning}) => {
     const [name, setName] = useState(`${ user_data.email.slice(0, user_data.email.indexOf('@'))}${ Math.floor(Math.random() * 1000)}`);
     const initial = `${ user_data.email.slice(0, user_data.email.indexOf('@'))}${ Math.floor(Math.random() * 1000)}`;
@@ -10,8 +13,22 @@ const Sixth_page = ({ user_data, setSigning}) => {
         setName(value);
     };
 
+    const UpdateProfile = async () => {
+        const auth = getAuth();
+        const userObj = auth.currentUser;
+        const profileObj = {
+            id: name,
+            birthyear:  user_data.year,
+            birthmonth: user_data.month,
+            birthday: user_data.day,
+            SignupAt: Date.now(),
+            userUid: userObj.uid,
+        };
+        await dbService.doc(`profile/${userObj.uid}`).update(profileObj);
+    };
 
     const onClick = () => {
+        UpdateProfile();
         setSigning(false);
     };
 

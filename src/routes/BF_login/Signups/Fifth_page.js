@@ -1,4 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
+import {getAuth, updateProfile} from "firebase/auth";
+import { storageService} from "fbase";
+import { v4 as uuidv4 } from "uuid";
 
 const Fifth_page = ({onNext }) => {
     const [photo, setPhoto] = useState('');
@@ -6,7 +9,30 @@ const Fifth_page = ({onNext }) => {
     const fileRef = useRef(null);
     const handleNext = () => {
         // Step1 페이지에서 입력한 데이터를 저장하고 다음 페이지로 이동
+        UpdateProfile();
         onNext();
+    };
+
+    const UpdateProfile = async () => {
+        // pfp to storage service
+        let attachmentUrl = "";
+        const attachmentRef = storageService
+            .ref()
+            .child(`pfp/${uuidv4()}`);
+        const response = await attachmentRef.putString(photo, "data_url");
+        attachmentUrl = await response.ref.getDownloadURL();
+        const auth = getAuth();
+        // firebase userobj update
+        updateProfile(auth.currentUser, {
+            photoURL: attachmentUrl
+        }).then(() => {
+            // Profile updated!
+            // ...
+        }).catch((error) => {
+            // An error occurred
+            console.log(error)
+            // ...
+        });
     };
 
     const onFileChange = (event) => {
@@ -60,7 +86,7 @@ const Fifth_page = ({onNext }) => {
                 )}
             </div>
             <div>
-                {!photo &&<button onClick={handleNext}>지금은 넘어가기</button>}
+                {!photo &&<button onClick={()=>{onNext();}}>지금은 넘어가기</button>}
                 {photo && <button onClick={handleNext}>다음</button>}
             </div>
         </div>

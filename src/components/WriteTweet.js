@@ -8,18 +8,22 @@ const WriteTweet = ({ userObj }) => {
     const onSubmit = async (event) => {
         event.preventDefault();
         let attachmentUrl = "";
+        const uuid = uuidv4();
         if (attachment !== "") {
-            // userobj(현재 로그인한 유저)의 uid로 폴더 생성
             const attachmentRef = storageService
                 .ref()
-                .child(`tweet/${uuidv4()}`);
+                .child(`tweets/${uuid}`);
             const response = await attachmentRef.putString(attachment, "data_url");
             attachmentUrl = await response.ref.getDownloadURL();
         }
         const tweetObj = {
+            tweetid: uuid,
             text: tweet,
             createdAt: Date.now(),
             creatorId: userObj.uid,
+            retweet:false,
+            mention:false,
+            mentionIds: [],
             attachmentUrl,
         };
         await dbService.collection("tweets").add(tweetObj);
@@ -46,7 +50,9 @@ const WriteTweet = ({ userObj }) => {
         };
         reader.readAsDataURL(theFile);
     };
+
     const onClearAttachment = () => setAttachment(null);
+
     return (
         <form onSubmit={onSubmit}>
             <input
