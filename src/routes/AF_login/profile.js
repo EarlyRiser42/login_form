@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { authService } from "fbase";
-import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export default ({ refreshUser, userObj }) => {
+    // 동적 라우팅
+    const profile_id = useParams();
+
     const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
 
     const onChange = (event) => {

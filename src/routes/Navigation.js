@@ -1,11 +1,14 @@
 import React, {useEffect, useState} from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { authService, dbService } from "fbase";
 import {getAuth} from "firebase/auth";
 import { doc, onSnapshot } from 'firebase/firestore';
 
 const Navigation = ({userObj, setIsLoggedIn}) => {
+    // for modal
     const navigate = useNavigate();
+    const location = useLocation();
+
     const [pfp, setPfp] = useState('');
     const [id, setId] = useState('');
     const onLogOutClick = () => {
@@ -32,15 +35,14 @@ const Navigation = ({userObj, setIsLoggedIn}) => {
         return () => unsubscribe();
     },[]);
 
-
     return(
         <nav>
             <div>
                 <Link to="/">홈</Link>
-                <Link to="/profile">프로필</Link>
+                <Link to={`/${userObj.displayName.replace(" ","")}`}>프로필</Link>
             </div>
             <div>
-                <button>게시하기</button>
+                <Link to="/write" state={{background: location}}><button>게시하기</button></Link>
                 <button onClick={onLogOutClick}>Log Out</button>
             </div>
             <div>

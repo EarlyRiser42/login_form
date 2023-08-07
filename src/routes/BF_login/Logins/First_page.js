@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {fetchSignInMethodsForEmail, getAuth, sendPasswordResetEmail} from "firebase/auth";
-import {Link } from "react-router-dom"
+import {Link, useNavigate } from "react-router-dom"
 import {authService, firebaseInstance} from "../../../fbase";
 
 const First_page = ({ onNext, setPage}) => {
     const [email, setEmail] = useState("");
     const [error, setError] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -27,6 +28,7 @@ const First_page = ({ onNext, setPage}) => {
             provider = new firebaseInstance.auth.GithubAuthProvider();
         }
         await authService.signInWithPopup(provider);
+        navigate("/");
     };
 
     const handleNext = async () => {

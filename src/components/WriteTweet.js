@@ -22,8 +22,6 @@ const WriteTweet = ({ userObj }) => {
             createdAt: Date.now(),
             creatorId: userObj.uid,
             retweet:false,
-            mention:false,
-            mentionIds: [],
             attachmentUrl,
         };
         await dbService.collection("tweets").add(tweetObj);
@@ -54,23 +52,36 @@ const WriteTweet = ({ userObj }) => {
     const onClearAttachment = () => setAttachment(null);
 
     return (
-        <form onSubmit={onSubmit}>
-            <input
-                value={tweet}
-                onChange={onChange}
-                type="text"
-                placeholder="무슨 일이 일어나고 있나요?"
-                maxLength={120}
-            />
-            <input type="file" accept="image/*" onChange={onFileChange} />
-            <input type="submit" value="게시하기" />
-            {attachment && (
-                <div>
-                    <img src={attachment} width="50px" height="50px" />
-                    <button onClick={onClearAttachment}>Clear</button>
-                </div>
-            )}
-        </form>
+        <div>
+            <div>
+                <img src={userObj.photoURL}/>
+            </div>
+            <form onSubmit={onSubmit}>
+                <input
+                    value={tweet}
+                    onChange={onChange}
+                    type="text"
+                    placeholder="무슨 일이 일어나고 있나요?"
+                    maxLength={120}
+                />
+                <label htmlFor="fileInput" style={{ cursor: 'pointer' }}>
+                    <img
+                        src="/img/tweet_add_photo.png"
+                        alt="이미지 추가"
+                        style={{ width: '30px', height: '30px' }} // 이미지 스타일을 정의
+                    />
+                </label>
+                <input id="fileInput" type="file" accept="image/*" onChange={onFileChange} style={{display:"none"}}/>
+                <input type="submit" value="게시하기" />
+                {attachment && (
+                    <div>
+                        <img src={attachment} width="50px" height="50px" />
+                        <button onClick={onClearAttachment}>Clear</button>
+                    </div>
+                )}
+            </form>
+        </div>
+
     );
 };
 export default WriteTweet;

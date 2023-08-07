@@ -9,6 +9,7 @@ import Navigation from "../routes/Navigation";
 import Profile from "../routes/AF_login/profile";
 import Error_page from "../routes/Error_page";
 import PW_reset from "../routes/BF_login/PW_resets/Pw_rest";
+import Write from "../routes/AF_login/Write";
 
 function App() {
     const [userObj, setUserObj] = useState(null);
@@ -28,6 +29,7 @@ function App() {
                 setUserObj({
                     displayName: user.displayName,
                     uid: user.uid,
+                    photoURL: user.photoURL,
                     updateProfile: (args) => user.updateProfile(args),
                 });
                 console.log('logged in')
@@ -44,6 +46,7 @@ function App() {
                 setUserObj({
                     displayName: user.displayName,
                     uid: user.uid,
+                    photoURL: user.photoURL,
                     updateProfile: (args) => user.updateProfile(args),
                 });
                 console.log('logged in')
@@ -69,14 +72,20 @@ function App() {
                 (
                 <>
                     {(location.pathname === '/' || location.pathname === '/profile') && <Navigation userObj={userObj} setIsLoggedIn={setIsLoggedIn} />}
-                    <Routes>
-                    <Route path="/" element={<Home userObj={userObj} />} />
-                    <Route
-                        path="/profile"
-                        element={<Profile userObj={userObj} refreshUser={refreshUser} />}
-                    />
-                    <Route path="/*" element={<Error_page/>} />
+                    <Routes location={background || location}>
+                        <Route path="/" element={<Home userObj={userObj} />} />
+                        <Route path="/:profile" element={<Profile userObj={userObj} refreshUser={refreshUser} />}/>
+                        <Route path="/write" element={<Write userObj={userObj} modals={true}/>} />
+                        <Route path="/*" element={<Error_page/>} />
                     </Routes>
+                    {background && (
+                        <Routes>
+                            <Route path="/" element={<Home userObj={userObj} />} />
+                            <Route path="/:profile" element={<Profile userObj={userObj} refreshUser={refreshUser} />}/>
+                            <Route path="/write" element={<Write userObj={userObj} modals={true}/>} />
+                            <Route path="/*" element={<Error_page/>} />
+                        </Routes>
+                    )}
                 </>
                 ) :
                 (
