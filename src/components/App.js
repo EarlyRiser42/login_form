@@ -6,7 +6,7 @@ import Home from "../routes/AF_login/Home";
 import Login from '../routes/BF_login/Logins/Login'
 import Signup from "../routes/BF_login/Signups/Signup";
 import Navigation from "../routes/Navigation";
-import Profile from "../routes/AF_login/profile";
+import Profile from "../routes/AF_login/Profile";
 import Error_page from "../routes/Error_page";
 import PW_reset from "../routes/BF_login/PW_resets/Pw_rest";
 import Write from "../routes/AF_login/Write";
@@ -62,6 +62,7 @@ function App() {
         setUserObj({
             displayName: user.displayName,
             uid: user.uid,
+            photoURL: user.photoURL,
             updateProfile: (args) => user.updateProfile(args),
         });
     };
@@ -71,7 +72,7 @@ function App() {
             {(isLoggedIn && !signing) ?
                 (
                 <>
-                    {(location.pathname === '/' || location.pathname === '/profile') && <Navigation userObj={userObj} setIsLoggedIn={setIsLoggedIn} />}
+                    {(location.pathname === '/' || location.pathname === `/${userObj.uid}` || location.pathname === '/write') && <Navigation userObj={userObj} setIsLoggedIn={setIsLoggedIn} />}
                     <Routes location={background || location}>
                         <Route path="/" element={<Home userObj={userObj} />} />
                         <Route path="/:profile" element={<Profile userObj={userObj} refreshUser={refreshUser} />}/>

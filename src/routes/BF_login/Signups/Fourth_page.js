@@ -40,6 +40,7 @@ const Fourth_page = ({ onNext, onPrev, user_data, page, setPage, setModals }) =>
     const Profile_toDB = async (userObj, user_data) => {
         const profileObj = {
             id: `${ user_data.email.slice(0, user_data.email.indexOf('@'))}${ Math.floor(Math.random() * 1000)}`,
+            backgroundimage: 'https://firebasestorage.googleapis.com/v0/b/loginform-6747a.appspot.com/o/pfp%2Fbackgroundimage.png?alt=media&token=6e328859-4a03-485e-a487-dfdd89c008ba',
             birthyear:  user_data.year,
             birthmonth: user_data.month,
             birthday: user_data.day,
