@@ -9,7 +9,6 @@ const Navigation = ({userObj, setIsLoggedIn}) => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [pfp, setPfp] = useState('');
     const [id, setId] = useState('');
     const onLogOutClick = () => {
         authService.signOut();
@@ -19,8 +18,6 @@ const Navigation = ({userObj, setIsLoggedIn}) => {
 
     useEffect( () => {
         const auth = getAuth();
-        // 프로필 사진 설정
-        setPfp(auth.currentUser.photoURL);
         const docRef = doc(dbService, "profile", auth.currentUser.uid);
 
         // Firestore 리스너 등록
@@ -48,7 +45,7 @@ const Navigation = ({userObj, setIsLoggedIn}) => {
             <div>
                 <span>{userObj.displayName}</span>
                 <span>{id}</span>
-                <img src={pfp} width="50px" height="50px"/>
+                <img src={userObj.photoURL} width="50px" height="50px"/>
             </div>
         </nav>
     )

@@ -22,7 +22,7 @@ const Fifth_page = ({onNext }) => {
         const response = await attachmentRef.putString(photo, "data_url");
         attachmentUrl = await response.ref.getDownloadURL();
         const auth = getAuth();
-        // firebase userobj update
+        // firebase userObj update
         updateProfile(auth.currentUser, {
             photoURL: attachmentUrl
         }).then(() => {

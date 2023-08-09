@@ -4,19 +4,19 @@ import {useParams, Link, useLocation} from "react-router-dom";
 import {getAuth} from "firebase/auth";
 import {doc, onSnapshot} from "firebase/firestore";
 
-export default ({ refreshUser, userObj }) => {
+export default ({ userObj }) => {
     // for modal
     const location = useLocation();
     // 동적 라우팅
     const profile_id = useParams().profile;
-    //
+    // 본인 계정인지 아닌지 확인
     const [owner, setOwner] = useState(false);
+
+    // Auth에 있지않은, DB에 담겨있는 값 -> Auth에 있는 값은 App.js의 userobj로 확인
     const [backgroundiamge, setBackgroundimage] = useState('');
-    const [pfp, setPfp] = useState('');
-    const [displayname, setDisplayname] = useState('');
     const [id, setId] = useState('');
     const [intro, setIntro] = useState('');
-    const [SignupAt, SetSignupAt] = useState('');
+    const [SignupAt, setSignupAt] = useState('');
 
     useEffect(()=>{
         if(userObj.uid === profile_id){
@@ -29,9 +29,6 @@ export default ({ refreshUser, userObj }) => {
 
     useEffect( () => {
         const auth = getAuth();
-        // 프로필 사진 설정
-        setPfp(auth.currentUser.photoURL);
-        setDisplayname(auth.currentUser.displayName);
         const docRef = doc(dbService, "profile", auth.currentUser.uid);
 
         // Firestore 리스너 등록
@@ -40,7 +37,8 @@ export default ({ refreshUser, userObj }) => {
                 // 데이터베이스의 값이 변경될 때마다 새로운 값을 가져와서 id를 업데이트
                 setId(docSnap.data().id);
                 setBackgroundimage(docSnap.data().backgroundimage);
-                SetSignupAt(docSnap.data().SignupAt);
+                setSignupAt(docSnap.data().SignupAt);
+                setIntro(docSnap.data().intro);
             }
         });
 
@@ -78,7 +76,7 @@ export default ({ refreshUser, userObj }) => {
                 {backgroundiamge && <img src={backgroundiamge} width="100px" height="50px"/>}
             </div>
             <div>
-                <img src={pfp} width="50px" height="50px"/>
+                <img src={userObj.photoURL} width="50px" height="50px"/>
             </div>
             <div>
                 {owner && <Link to={"/editprofile"} state={{background: location}}><button>프로필 수정</button></Link>}
@@ -86,7 +84,7 @@ export default ({ refreshUser, userObj }) => {
             </div>
             <div>
                 <span>{id}</span>
-                <span>{displayname}</span>
+                <span>{userObj.displayName}</span>
             </div>
             <div>
                 <span>{intro}</span>

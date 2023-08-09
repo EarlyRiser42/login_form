@@ -27,6 +27,7 @@ function App() {
         authService.onAuthStateChanged((user) => {
             if (user) {
                 setUserObj({
+                    // Auth에 담겨 있는 값
                     displayName: user.displayName,
                     uid: user.uid,
                     photoURL: user.photoURL,

@@ -54,7 +54,7 @@ const WriteTweet = ({ userObj }) => {
     return (
         <div>
             <div>
-                <img src={userObj.photoURL}/>
+                <img src={userObj.photoURL} width="50px" height="50px"/>
             </div>
             <form onSubmit={onSubmit}>
                 <input
