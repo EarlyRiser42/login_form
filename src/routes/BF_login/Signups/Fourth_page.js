@@ -1,7 +1,7 @@
 import React from 'react';
 import {createUserWithEmailAndPassword, getAuth, updateProfile} from "firebase/auth";
 import { dbService } from "fbase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, collection } from "firebase/firestore";
 
 const Fourth_page = ({ onNext, onPrev, user_data, page, setPage, setModals }) => {
     const handlePrev = () => {
@@ -46,12 +46,17 @@ const Fourth_page = ({ onNext, onPrev, user_data, page, setPage, setModals }) =>
             birthday: user_data.day,
             SignupAt: Date.now(),
             userUid: userObj.uid,
+            following: [],
+            follower: [],
+            likes: []
         };
-        /*
-        멘션용 dbservice
-        const docRef = doc(collection(dbService, 'profile', userObj.uid, userObj.uid));
-        await setDoc(docRef, profileObj);
+
+        /* mentions (later)
+        const docRef = doc(collection(dbService, 'profile', userObj.uid, 'following'));
+        await setDoc(docRef, []);
         */
+
+        // for profile info
         await setDoc(doc(dbService, "profile", userObj.uid), profileObj);
     };
 

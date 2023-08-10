@@ -1,0 +1,13 @@
+/* 버튼 기본 스타일 */
+.button {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* 버튼에 마우스를 올렸을 때의 스타일 */
+.button:hover {
+    background-color: #2980b9;
+}

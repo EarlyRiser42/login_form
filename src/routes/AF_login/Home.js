@@ -11,11 +11,11 @@ const Home = ({ userObj }) => {
             .collection("tweets")
             .orderBy("createdAt", "desc")
             .onSnapshot((snapshot) => {
-                const nweetArray = snapshot.docs.map((doc) => ({
+                const tweetArray = snapshot.docs.map((doc) => ({
                     id: doc.id,
                     ...doc.data(),
                 }));
-                setTweets(nweetArray);
+                setTweets(tweetArray);
             });
     }, []);
 

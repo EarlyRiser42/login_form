@@ -6,7 +6,10 @@ import Home from "../routes/AF_login/Home";
 import Login from '../routes/BF_login/Logins/Login'
 import Signup from "../routes/BF_login/Signups/Signup";
 import Navigation from "../routes/Navigation";
-import Profile from "../routes/AF_login/Profile";
+import Profile from "../routes/AF_login/Profiles/Profile";
+import With_replies from "../routes/AF_login/Profiles/With_replies";
+import Media from "../routes/AF_login/Profiles/Media";
+import Likes from "../routes/AF_login/Profiles/Likes";
 import Error_page from "../routes/Error_page";
 import PW_reset from "../routes/BF_login/PW_resets/Pw_rest";
 import Write from "../routes/AF_login/Write";
@@ -22,6 +25,9 @@ function App() {
     const [modals, setModals] = useState(true);
     const location = useLocation();
     const background = location.state && location.state.background;
+
+    // navigation 표시 유무
+    const navi_path = ['/', '/:profile', 'write', `/${userObj.uid}`, `/${userObj.uid}/media`, `/${userObj.uid}/likes`, `/${userObj.uid}/with_replies`];
 
     useEffect(() => {
         authService.onAuthStateChanged((user) => {
@@ -73,10 +79,13 @@ function App() {
             {(isLoggedIn && !signing) ?
                 (
                 <>
-                    {(location.pathname === '/' || location.pathname === `/${userObj.uid}` || location.pathname === '/write') && <Navigation userObj={userObj} setIsLoggedIn={setIsLoggedIn} />}
+                    {navi_path.indexOf(location.pathname) !== -1 && <Navigation userObj={userObj} setIsLoggedIn={setIsLoggedIn} />}
                     <Routes location={background || location}>
                         <Route path="/" element={<Home userObj={userObj} />} />
                         <Route path="/:profile" element={<Profile userObj={userObj} refreshUser={refreshUser} />}/>
+                        <Route path="/:profile/with_replies" element={<With_replies userObj={userObj} refreshUser={refreshUser} />}/>
+                        <Route path="/:profile/media" element={<Media userObj={userObj} refreshUser={refreshUser} />}/>
+                        <Route path="/:profile/likes" element={<Likes userObj={userObj} refreshUser={refreshUser} />}/>
                         <Route path="/write" element={<Write userObj={userObj} modals={true}/>} />
                         <Route path="/*" element={<Error_page/>} />
                     </Routes>
