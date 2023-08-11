@@ -15,7 +15,7 @@ import PW_reset from "../routes/BF_login/PW_resets/Pw_rest";
 import Write from "../routes/AF_login/Write";
 
 function App() {
-    const [userObj, setUserObj] = useState(null);
+    const [userObj, setUserObj] = useState({displayName: '', uid: '', photoURL: ''});
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     // 회원가입 중
@@ -27,7 +27,7 @@ function App() {
     const background = location.state && location.state.background;
 
     // navigation 표시 유무
-    const navi_path = ['/', '/:profile', 'write', `/${userObj.uid}`, `/${userObj.uid}/media`, `/${userObj.uid}/likes`, `/${userObj.uid}/with_replies`];
+    const navi_path = ['/', '/:profile', '/write', `/${userObj.uid}`, `/${userObj.uid}/media`, `/${userObj.uid}/likes`, `/${userObj.uid}/with_replies`];
 
     useEffect(() => {
         authService.onAuthStateChanged((user) => {
@@ -46,23 +46,6 @@ function App() {
             }
         });
     }, []);
-
-    useEffect(() => {
-        authService.onAuthStateChanged((user) => {
-            if (user) {
-                setUserObj({
-                    displayName: user.displayName,
-                    uid: user.uid,
-                    photoURL: user.photoURL,
-                    updateProfile: (args) => user.updateProfile(args),
-                });
-                console.log('logged in')
-                setIsLoggedIn(true);
-            } else {
-                setUserObj(null);
-            }
-        });
-    }, [signing]);
 
     const refreshUser = () => {
         const user = authService.currentUser;
@@ -93,6 +76,9 @@ function App() {
                         <Routes>
                             <Route path="/" element={<Home userObj={userObj} />} />
                             <Route path="/:profile" element={<Profile userObj={userObj} refreshUser={refreshUser} />}/>
+                            <Route path="/:profile/with_replies" element={<With_replies userObj={userObj} refreshUser={refreshUser} />}/>
+                            <Route path="/:profile/media" element={<Media userObj={userObj} refreshUser={refreshUser} />}/>
+                            <Route path="/:profile/likes" element={<Likes userObj={userObj} refreshUser={refreshUser} />}/>
                             <Route path="/write" element={<Write userObj={userObj} modals={true}/>} />
                             <Route path="/*" element={<Error_page/>} />
                         </Routes>

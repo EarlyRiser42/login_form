@@ -55,8 +55,8 @@ const Information = ({ userObj }) => {
                 setBackgroundimage(docSnap.data().backgroundimage);
                 setSignupAt(docSnap.data().SignupAt);
                 setIntro(docSnap.data().intro);
-                setFollow_cnt(docSnap.data().following.length-1);
-                setFollower_cnt(docSnap.data().follower.length-1);
+                setFollow_cnt(docSnap.data().following.length);
+                setFollower_cnt(docSnap.data().follower.length);
             }
         });
 

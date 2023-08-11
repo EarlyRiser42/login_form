@@ -68,7 +68,7 @@ const WriteTweet = ({ userObj }) => {
                     <img
                         src="/img/tweet_add_photo.png"
                         alt="이미지 추가"
-                        style={{ width: '30px', height: '30px' }} // 이미지 스타일을 정의
+                        style={{ width: '20px', height: '20px' }} // 이미지 스타일을 정의
                     />
                 </label>
                 <input id="fileInput" type="file" accept="image/*" onChange={onFileChange} style={{display:"none"}}/>

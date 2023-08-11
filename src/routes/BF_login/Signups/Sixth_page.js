@@ -17,12 +17,7 @@ const Sixth_page = ({ user_data, setSigning}) => {
         const auth = getAuth();
         const userObj = auth.currentUser;
         const profileObj = {
-            id: name,
-            birthyear:  user_data.year,
-            birthmonth: user_data.month,
-            birthday: user_data.day,
-            SignupAt: Date.now(),
-            userUid: userObj.uid,
+            id: name
         };
         await dbService.doc(`profile/${userObj.uid}`).update(profileObj);
     };

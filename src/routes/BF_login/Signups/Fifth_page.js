@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {getAuth, updateProfile} from "firebase/auth";
-import { storageService} from "fbase";
+import {dbService, storageService} from "fbase";
 import { v4 as uuidv4 } from "uuid";
 
 const Fifth_page = ({onNext }) => {
@@ -23,6 +23,11 @@ const Fifth_page = ({onNext }) => {
         attachmentUrl = await response.ref.getDownloadURL();
         const auth = getAuth();
         // firebase userObj update
+        const userObj = auth.currentUser;
+        const profileObj = {
+            photoURL: photo
+        };
+        await dbService.doc(`profile/${userObj.uid}`).update(profileObj);
         updateProfile(auth.currentUser, {
             photoURL: attachmentUrl
         }).then(() => {

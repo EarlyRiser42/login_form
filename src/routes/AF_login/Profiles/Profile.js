@@ -44,6 +44,7 @@ const Profile = ({userObj}) => {
               {tweets.map((tweet) => (
                   <TweetForm
                       key={tweet.id}
+                      userObj={userObj}
                       writeObj={tweet}
                       isOwner={tweet.creatorId === userObj.uid}
                   />
