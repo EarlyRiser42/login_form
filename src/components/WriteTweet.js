@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { storageService, dbService } from "fbase";
 
-const WriteTweet = ({ userObj }) => {
+const WriteTweet = ({ userObj, mention }) => {
     const [tweet, setTweet] = useState("");
     const [attachment, setAttachment] = useState("");
     const onSubmit = async (event) => {
@@ -17,12 +17,15 @@ const WriteTweet = ({ userObj }) => {
             attachmentUrl = await response.ref.getDownloadURL();
         }
         const tweetObj = {
-            tweetid: uuid,
+            tweetId: uuid,
             text: tweet,
             createdAt: Date.now(),
             creatorId: userObj.uid,
-            retweet:false,
-            attachmentUrl,
+            toDBAt: Date.now(),
+            retweeted: false,
+            retweet_cnt: 0,
+            likes: 0,
+            attachmentUrl: attachmentUrl
         };
         await dbService.collection("tweets").add(tweetObj);
         setTweet("");
@@ -57,13 +60,20 @@ const WriteTweet = ({ userObj }) => {
                 <img src={userObj.photoURL} width="50px" height="50px"/>
             </div>
             <form onSubmit={onSubmit}>
-                <input
+                {!mention && <input
                     value={tweet}
                     onChange={onChange}
                     type="text"
                     placeholder="무슨 일이 일어나고 있나요?"
                     maxLength={120}
-                />
+                />}
+                {mention && <input
+                    value={tweet}
+                    onChange={onChange}
+                    type="text"
+                    placeholder="답글을 게시하세요"
+                    maxLength={120}
+                />}
                 <label htmlFor="fileInput" style={{ cursor: 'pointer' }}>
                     <img
                         src="/img/tweet_add_photo.png"
@@ -72,7 +82,8 @@ const WriteTweet = ({ userObj }) => {
                     />
                 </label>
                 <input id="fileInput" type="file" accept="image/*" onChange={onFileChange} style={{display:"none"}}/>
-                <input type="submit" value="게시하기" />
+                {mention && <input type="submit" value="답글" />}
+                {!mention && <input type="submit" value="게시하기" />}
                 {attachment && (
                     <div>
                         <img src={attachment} width="50px" height="50px" />

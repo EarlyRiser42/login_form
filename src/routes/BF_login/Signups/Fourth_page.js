@@ -50,7 +50,8 @@ const Fourth_page = ({ onNext, onPrev, user_data, page, setPage, setModals }) =>
             userUid: userObj.uid,
             following: [],
             follower: [],
-            likes: []
+            likes: [],
+            mentions: [],
         };
 
         /* mentions (later)

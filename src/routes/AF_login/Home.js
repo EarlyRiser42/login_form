@@ -9,7 +9,7 @@ const Home = ({ userObj }) => {
     useEffect(() => {
         dbService
             .collection("tweets")
-            .orderBy("createdAt", "desc")
+            .orderBy("toDBAt", "desc")
             .onSnapshot((snapshot) => {
                 const tweetArray = snapshot.docs.map((doc) => ({
                     id: doc.id,

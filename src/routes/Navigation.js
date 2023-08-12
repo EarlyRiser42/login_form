@@ -39,7 +39,7 @@ const Navigation = ({userObj, setIsLoggedIn}) => {
                 <Link to={`/${userObj.uid}`}>프로필</Link>
             </div>
             <div>
-                <Link to="/write" state={{background: location}}><button>게시하기</button></Link>
+                <Link to="/compose/tweet" state={{background: location}}><button>게시하기</button></Link>
                 <button onClick={onLogOutClick}>Log Out</button>
             </div>
             <div>
