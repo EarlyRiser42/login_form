@@ -136,7 +136,7 @@ const TweetForm = ({userObj, writeObj, isOwner }) => {
                 retweeted: true, // 리트윗으로 작성됐는지
                 retweet_id:  userObj.uid,
                 retweet_cnt: cnt+1,
-                likes: writeObj.likes,
+                like_cnt: writeObj.like_cnt,
                 attachmentUrl: writeObj.attachmentUrl
             };
             await dbService.collection("tweets").add(tweetObj);
