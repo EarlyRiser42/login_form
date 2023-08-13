@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { dbService, storageService } from "fbase";
-import { doc, getDoc } from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, onSnapshot, query, where, updateDoc} from "firebase/firestore";
 import {Link, useLocation} from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
 
 const TweetForm = ({userObj, writeObj, isOwner }) => {
     // for modal
@@ -15,7 +14,7 @@ const TweetForm = ({userObj, writeObj, isOwner }) => {
 
     // like, retweet
     const [like, setLike] = useState(false);
-    const [retweet, setRetweet] = useState(writeObj.retweeted);
+    const [retweet, setRetweet] = useState(writeObj.retweeted || writeObj.retweet);
     const [retweet_cnt, setRetweet_cnt] = useState(writeObj.retweet_cnt);
     const retweeted = writeObj.retweeted;
 
@@ -42,22 +41,45 @@ const TweetForm = ({userObj, writeObj, isOwner }) => {
         }
     };
 
+    // tweet 작성자 정보 가져오는 함수
     useEffect(() => {
         // 컴포넌트가 마운트될 때 writeObj.creatorId를 이용하여 getId를 호출하고 결과를 상태에 저장합니다
         getWriterInfo(writeObj.creatorId);
     }, [writeObj]);
 
+   // retweet 된 게시물을 삭제했을 때 원래 게시물의 리트윗 개수를 줄이고, retweet변수 값을 false로 바꾸는 부분
+    useEffect( () => {
+        const q = query(collection(dbService, "tweets"), where("tweetId", "==", writeObj.tweetId), where("retweeted", "==", true));
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            const tweetArray = querySnapshot.docs;
+            if(retweet && tweetArray.length === 0){
+                setRetweet(false);
+                setRetweet_cnt(retweet_cnt-1);
+            }
+        });
+
+        // 컴포넌트 언마운트 시 리스너 해제
+        return () => unsubscribe();
+    },[retweet]);
+
+
     const Retweet = async () => {
         if(!retweet){
             const docRef = doc(dbService, "tweets", writeObj.id);
-            const cnt = (await getDoc(docRef)).data().retweet;
+            await updateDoc(docRef, {
+                retweet: true
+            });
+
+            const cnt = (await getDoc(docRef)).data().retweet_cnt;
+
             const tweetObj = {
                 tweetId: writeObj.tweetId,
                 text: writeObj.text,
                 createdAt: writeObj.createdAt,
                 creatorId: writeObj.creatorId,
                 toDBAt: Date.now(),
-                retweeted: true,
+                retweet: false, // 다른 사람이 리트윗 했는지
+                retweeted: true, // 리트윗으로 작성됐는지
                 retweet_id:  userObj.uid,
                 retweet_cnt: cnt+1,
                 likes: writeObj.likes,
@@ -68,7 +90,6 @@ const TweetForm = ({userObj, writeObj, isOwner }) => {
             // retweet 개수 모두 증가
             const tweetsRef = dbService.collection("tweets");
             const querySnapshot = await tweetsRef.where("tweetId", "==", writeObj.tweetId).get();
-
             const batch = dbService.batch();
 
             querySnapshot.forEach((doc) => {
@@ -78,16 +99,62 @@ const TweetForm = ({userObj, writeObj, isOwner }) => {
                 });
             });
 
+            setRetweet_cnt(retweet_cnt+1);
             setRetweet(true);
         }
         else{
+            // 리트윗한 트윗 삭제
+            dbService.collection('tweets')
+                .where('retweeted', '==', true)
+                .where('retweet_id', '==', userObj.uid)
+                .get()
+                .then((querySnapshot) => {
+                    // 찾은 문서들을 순회하면서 삭제합니다.
+                    querySnapshot.forEach((doc) => {
+                        // 문서 삭제
+                        dbService.collection('tweets').doc(doc.id).delete()
+                            .then(() => {
+                                console.log(`Document with ID ${doc.id} successfully deleted.`);
+                            })
+                            .catch((error) => {
+                                console.error(`Error deleting document: ${error}`);
+                            });
+                    });
+                })
+                .catch((error) => {
+                    console.error(`Error getting documents: ${error}`);
+                });
+
+            // 원래 트윗 retweet false로 변경
+            dbService.collection('tweets')
+                .where("tweetId", "==", writeObj.tweetId)
+                .where("creatorId", "==", writeObj.creatorId)
+                .get()
+                .then(async (querySnapshot) => {
+                    for (const doc of querySnapshot.docs) {
+                        const docRef = dbService.collection('tweets').doc(doc.id);
+                        await updateDoc(docRef, { retweet: false });
+                    }
+                })
+                .catch((error) => {
+                    console.error(`Error getting documents: ${error}`);
+                });
+
+            // retweet 개수 모두 감소
             const tweetsRef = dbService.collection("tweets");
-            const querySnapshot = await tweetsRef
-                .where("retweeted", "==", true)
-                .where("retweet_id", "==", userObj.uid)
-            console.log(querySnapshot.docs)
-            const doc = querySnapshot.docs[0];
-            await tweetsRef.doc(doc.id).delete();
+            const querySnapshot = await tweetsRef.where("tweetId", "==", writeObj.tweetId).get();
+            const cnt = querySnapshot.docs[0].get('retweet_cnt');
+            const batch = dbService.batch();
+
+            querySnapshot.forEach((doc) => {
+                const tweetRef = tweetsRef.doc(doc.id);
+                batch.update(tweetRef, {
+                    retweet: cnt-1,
+                });
+            });
+
+            // 원래 트윗 변수값 변경
+            setRetweet_cnt(retweet_cnt-1);
             setRetweet(false);
         }
     };

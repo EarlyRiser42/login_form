@@ -22,7 +22,9 @@ const WriteTweet = ({ userObj, mention }) => {
             createdAt: Date.now(),
             creatorId: userObj.uid,
             toDBAt: Date.now(),
+            retweet: false,
             retweeted: false,
+            retweet_id:  userObj.uid,
             retweet_cnt: 0,
             likes: 0,
             attachmentUrl: attachmentUrl
@@ -31,6 +33,7 @@ const WriteTweet = ({ userObj, mention }) => {
         setTweet("");
         setAttachment("");
     };
+
     const onChange = (event) => {
         const {
             target: { value },
