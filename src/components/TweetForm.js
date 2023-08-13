@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { dbService, storageService } from "fbase";
-import {collection, doc, getDoc, getDocs, onSnapshot, query, where, updateDoc} from "firebase/firestore";
+import {collection, doc, getDoc, arrayUnion, arrayRemove, onSnapshot, query, where, updateDoc} from "firebase/firestore";
 import {Link, useLocation} from "react-router-dom";
 
 const TweetForm = ({userObj, writeObj, isOwner }) => {
@@ -14,6 +14,7 @@ const TweetForm = ({userObj, writeObj, isOwner }) => {
 
     // like, retweet
     const [like, setLike] = useState(false);
+    const [like_cnt, setLike_cnt] = useState(writeObj.like_cnt);
     const [retweet, setRetweet] = useState(writeObj.retweeted || writeObj.retweet);
     const [retweet_cnt, setRetweet_cnt] = useState(writeObj.retweet_cnt);
     const retweeted = writeObj.retweeted;
@@ -62,8 +63,61 @@ const TweetForm = ({userObj, writeObj, isOwner }) => {
         return () => unsubscribe();
     },[retweet]);
 
+    const onLike = async () => {
+        if(like){
+            const profileRef = doc(dbService, "profile", userObj.uid);
+            // 프로필에 좋아한 트윗 id 삭제
+            await updateDoc(profileRef, {
+                likes: arrayRemove(writeObj.tweetId)
+            });
 
-    const Retweet = async () => {
+            // tweet의 like cnt 감소
+            dbService.collection('tweets')
+                .where("tweetId", "==", writeObj.tweetId)
+                .get()
+                .then(async (querySnapshot) => {
+                    for (const doc of querySnapshot.docs) {
+                        const docRef = dbService.collection('tweets').doc(doc.id);
+                        const docData = (await getDoc(docRef)).data();
+                        const likeCount = docData.like_cnt;
+                        await updateDoc(docRef, { like_cnt: likeCount-1 });
+                    }
+                })
+                .catch((error) => {
+                    console.error(`Error getting documents: ${error}`);
+                });
+            setLike(false);
+            setLike_cnt(like_cnt-1);
+        }
+        else{
+            const profileRef = doc(dbService, "profile", userObj.uid);
+            // 프로필에 좋아한 트윗 id 추가
+            await updateDoc(profileRef, {
+                likes: arrayUnion(writeObj.tweetId)
+            });
+
+            // tweet의 like cnt 증가
+            dbService.collection('tweets')
+                .where("tweetId", "==", writeObj.tweetId)
+                .get()
+                .then(async (querySnapshot) => {
+                    for (const doc of querySnapshot.docs) {
+                        const docRef = dbService.collection('tweets').doc(doc.id);
+                        const docData = (await getDoc(docRef)).data();
+                        const likeCount = docData.like_cnt;
+                        await updateDoc(docRef, { like_cnt: likeCount+1 });
+                    }
+                })
+                .catch((error) => {
+                    console.error(`Error getting documents: ${error}`);
+                });
+
+            setLike(true);
+            setLike_cnt(like_cnt+1);
+        }
+    };
+
+    const onRetweet = async () => {
         if(!retweet){
             const docRef = doc(dbService, "tweets", writeObj.id);
             await updateDoc(docRef, {
@@ -206,11 +260,12 @@ const TweetForm = ({userObj, writeObj, isOwner }) => {
                 </div>
                 <div>
                     <Link to={`/compose/tweet`} state={{background: location, writeObj:writeObj}}><img src={"/img/mention.png"} alt={"mention"} style={{width: "18.75px", height: "18.75px"}}/></Link>
-                    {retweet && <img onClick={Retweet} src={"/img/retweet_color.png"} alt={"retweet"} style={{width: "18.75px", height: "18.75px"}}/>}
-                    {!retweet && <img onClick={Retweet} src={"/img/retweet.png"} alt={"retweet"} style={{width: "18.75px", height: "18.75px"}}/>}
+                    {retweet && <img onClick={onRetweet} src={"/img/retweet_color.png"} alt={"retweet"} style={{width: "18.75px", height: "18.75px"}}/>}
+                    {!retweet && <img onClick={onRetweet} src={"/img/retweet.png"} alt={"retweet"} style={{width: "18.75px", height: "18.75px"}}/>}
                     {retweet_cnt > 0 && <span>{retweet_cnt}</span>}
-                    {like && <img src={"/img/like_color.png"} alt={"like"} style={{width: "18.75px", height: "18.75px"}}/>}
-                    {!like && <img src={"/img/like.png"} alt={"like"} style={{width: "18.75px", height: "18.75px"}}/>}
+                    {like && <img onClick={onLike} src={"/img/like_color.png"} alt={"like"} style={{width: "18.75px", height: "18.75px"}}/>}
+                    {!like && <img onClick={onLike} src={"/img/like.png"} alt={"like"} style={{width: "18.75px", height: "18.75px"}}/>}
+                    {like_cnt > 0 && <span>{like_cnt}</span>}
                     <img src={"/img/share.png"} alt={"share"} style={{width: "18.75px", height: "18.75px"}}/>
                 </div>
             </div>

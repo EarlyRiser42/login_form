@@ -26,7 +26,7 @@ const WriteTweet = ({ userObj, mention }) => {
             retweeted: false,
             retweet_id:  userObj.uid,
             retweet_cnt: 0,
-            likes: 0,
+            like_cnt: 0,
             attachmentUrl: attachmentUrl
         };
         await dbService.collection("tweets").add(tweetObj);
