@@ -3,7 +3,7 @@ import { dbService, storageService } from "fbase";
 import {collection, doc, getDoc, arrayUnion, arrayRemove, onSnapshot, query, where, updateDoc} from "firebase/firestore";
 import {Link, useLocation} from "react-router-dom";
 
-const TweetForm = ({userObj, writeObj, isOwner }) => {
+const TweetForm = ({userObj, writeObj, isOwner, setTweetPath }) => {
     // for modal
     const location = useLocation();
 
@@ -44,6 +44,12 @@ const TweetForm = ({userObj, writeObj, isOwner }) => {
             console.log("No such document! failed to load tweet writer id");
         }
     };
+
+    useEffect(() => {
+        // navigation 렌더링 위한 경로 설정
+        setTweetPath(writeObj.tweetId)
+    }, []);
+
 
     // tweet 작성자 정보 가져오는 함수
     useEffect(() => {
@@ -229,6 +235,11 @@ const TweetForm = ({userObj, writeObj, isOwner }) => {
         }
     };
 
+    const onShare = async () => {
+        const url = window.location.href;
+        await navigator.clipboard.writeText(url);
+    };
+
     const elapsedTime = (date) => {
         const start = new Date(date);
         const end = new Date();
@@ -282,7 +293,7 @@ const TweetForm = ({userObj, writeObj, isOwner }) => {
                     {like && <img onClick={onLike} src={"/img/like_color.png"} alt={"like"} style={{width: "18.75px", height: "18.75px"}}/>}
                     {!like && <img onClick={onLike} src={"/img/like.png"} alt={"like"} style={{width: "18.75px", height: "18.75px"}}/>}
                     {like_cnt > 0 && <span>{like_cnt}</span>}
-                    <img src={"/img/share.png"} alt={"share"} style={{width: "18.75px", height: "18.75px"}}/>
+                    <img onClick={onShare} src={"/img/share.png"} alt={"share"} style={{width: "18.75px", height: "18.75px"}}/>
                 </div>
             </div>
         </div>
