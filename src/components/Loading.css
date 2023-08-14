@@ -1,0 +1,56 @@
+:root {
+    --background-color-body: #f2f2f2; /* 변수 정의 */
+    --color-a: #549EEA;
+}
+
+#loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 32;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--background-color-body);
+    animation: hideLoadingScreen 0.3s linear forwards;
+    animation-delay: 0.7s;
+}
+
+@keyframes hideLoadingScreen {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+#loading-circle {
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+    border: 0.3rem solid var(--color-a);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    animation: loadingCircle 1s ease-in-out infinite;
+}
+
+@keyframes loadingCircle {
+    from {
+        transform: none;
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#loading-empty {
+    position: absolute;
+    background-color: var(--background-color-body);
+    width: 1rem;
+    height: 2rem;
+    top: -1rem;
+}

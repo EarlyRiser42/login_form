@@ -16,6 +16,7 @@ const Information = ({ userObj }) => {
 
     // Auth에 있지않은, DB에 담겨있는 값 -> Auth에 있는 값은 App.js의 userobj로 확인
     const [backgroundiamge, setBackgroundimage] = useState('');
+    console.log(backgroundiamge)
     const [id, setId] = useState('');
     const [intro, setIntro] = useState('');
     const [SignupAt, setSignupAt] = useState('');

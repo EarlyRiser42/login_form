@@ -3,7 +3,7 @@ import { dbService, storageService } from "fbase";
 import {collection, doc, getDoc, arrayUnion, arrayRemove, onSnapshot, query, where, updateDoc} from "firebase/firestore";
 import {Link, useLocation} from "react-router-dom";
 
-const TweetForm = ({userObj, writeObj, isOwner, setTweetPath }) => {
+const TweetForm = ({userObj, writeObj, isOwner}) => {
     // for modal
     const location = useLocation();
 
@@ -44,12 +44,6 @@ const TweetForm = ({userObj, writeObj, isOwner, setTweetPath }) => {
             console.log("No such document! failed to load tweet writer id");
         }
     };
-
-    useEffect(() => {
-        // navigation 렌더링 위한 경로 설정
-        setTweetPath(writeObj.tweetId)
-    }, []);
-
 
     // tweet 작성자 정보 가져오는 함수
     useEffect(() => {

@@ -50,7 +50,6 @@ const Home = ({ userObj, setTweetPath }) => {
                                 userObj={userObj}
                                 writeObj={tweet}
                                 isOwner={tweet.creatorId === userObj.uid && tweet.retweet_id === userObj.uid}
-                                setTweetPath={setTweetPath}
                             />
                     </div>
                 ))}

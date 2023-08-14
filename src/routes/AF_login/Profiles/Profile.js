@@ -1,11 +1,26 @@
 import React, {useEffect, useState} from "react";
 import {authService, dbService} from "fbase";
-import {useParams, Link, useLocation} from "react-router-dom";
+import {useParams, Link, useLocation, useNavigate} from "react-router-dom";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import Information from "./Information";
 import TweetForm from "../../../components/TweetForm";
-const Profile = ({userObj}) => {
+const Profile = ({userObj, setTweetPath}) => {
     const [tweets, setTweets] = useState([]);
+    const navigate = useNavigate()
+
+    const handleTweetClick = (event, tweetId) => {
+        // 이벤트 버블링을 막기 위해 해당 이벤트가 이미지 엘리먼트에서 발생한 경우에는 핸들러를 처리하지 않음
+        if (event.target.tagName.toLowerCase() === "img" || event.target.closest("img")) {
+            return;
+        }
+
+        // 이동할 경로 설정
+        const newPath = `/${userObj.uid}/${tweetId}`;
+
+        // 경로 변경, url 이동
+        setTweetPath(newPath);
+        navigate(newPath);
+    };
 
     useEffect( () => {
         const q = query(collection(dbService, "tweets"), where("creatorId", "==", userObj.uid));
@@ -42,12 +57,18 @@ const Profile = ({userObj}) => {
           </div>
           <div style={{ marginTop: 30 }}>
               {tweets.map((tweet) => (
-                  <TweetForm
+                  <div
                       key={tweet.id}
-                      userObj={userObj}
-                      writeObj={tweet}
-                      isOwner={tweet.creatorId === userObj.uid}
-                  />
+                      onClick={(event) => handleTweetClick(event, tweet.tweetId)}
+                      style={{ cursor: "pointer" }}
+                  >
+                      <TweetForm
+                          key={tweet.id}
+                          userObj={userObj}
+                          writeObj={tweet}
+                          isOwner={tweet.creatorId === userObj.uid && tweet.retweet_id === userObj.uid}
+                      />
+                  </div>
               ))}
           </div>
       </div>

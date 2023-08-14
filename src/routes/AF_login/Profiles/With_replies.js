@@ -4,7 +4,7 @@ import {useParams, Link, useLocation} from "react-router-dom";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import Information from "./Information";
 import TweetForm from "../../../components/TweetForm";
-const With_replies = ({userObj}) => {
+const With_replies = ({userObj, setTweetPath}) => {
     const [tweets, setTweets] = useState([]);
 
     useEffect( () => {
