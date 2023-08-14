@@ -36,6 +36,9 @@ const TweetForm = ({userObj, writeObj, isOwner }) => {
             setId(docSnap.data().id);
             setDisplayName(docSnap.data().displayName);
             setPhotoURL(docSnap.data().photoURL);
+            if(docSnap.data().likes.indexOf(writeObj.tweetId) !== -1){
+                setLike(true);
+            }
         } else {
             // docSnap.data() will be undefined in this case
             console.log("No such document! failed to load tweet writer id");
@@ -71,6 +74,12 @@ const TweetForm = ({userObj, writeObj, isOwner }) => {
                 likes: arrayRemove(writeObj.tweetId)
             });
 
+            const tweetRef = doc(dbService, "tweets", writeObj.id);
+            // 트윗에 내 uid 삭제
+            await updateDoc(tweetRef, {
+                like_id: arrayRemove(userObj.uid)
+            });
+
             // tweet의 like cnt 감소
             dbService.collection('tweets')
                 .where("tweetId", "==", writeObj.tweetId)
@@ -94,6 +103,12 @@ const TweetForm = ({userObj, writeObj, isOwner }) => {
             // 프로필에 좋아한 트윗 id 추가
             await updateDoc(profileRef, {
                 likes: arrayUnion(writeObj.tweetId)
+            });
+
+            const tweetRef = doc(dbService, "tweets", writeObj.id);
+            // 트윗에 내 uid 삭제
+            await updateDoc(tweetRef, {
+                like_id: arrayUnion(userObj.uid)
             });
 
             // tweet의 like cnt 증가
@@ -136,6 +151,7 @@ const TweetForm = ({userObj, writeObj, isOwner }) => {
                 retweeted: true, // 리트윗으로 작성됐는지
                 retweet_id:  userObj.uid,
                 retweet_cnt: cnt+1,
+                like_id : [],
                 like_cnt: writeObj.like_cnt,
                 attachmentUrl: writeObj.attachmentUrl
             };

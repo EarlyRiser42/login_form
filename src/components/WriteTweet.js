@@ -26,6 +26,7 @@ const WriteTweet = ({ userObj, mention }) => {
             retweeted: false,
             retweet_id:  userObj.uid,
             retweet_cnt: 0,
+            like_id: [],
             like_cnt: 0,
             attachmentUrl: attachmentUrl
         };
