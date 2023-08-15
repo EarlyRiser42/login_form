@@ -12,7 +12,9 @@ const TweetForm = ({userObj, writeObj, isOwner}) => {
     const [displayName, setDisplayName] = useState('');
     const [photoURL, setPhotoURL] = useState('');
 
-    // like, retweet
+    // like, retweet, mention
+    const [mentions, setMentions] = useState([]);
+    const [mention_cnt, setMention_cnt] = useState(0);
     const [like, setLike] = useState(false);
     const [like_cnt, setLike_cnt] = useState(writeObj.like_cnt);
     const [retweet, setRetweet] = useState(writeObj.retweeted || writeObj.retweet);
@@ -50,6 +52,25 @@ const TweetForm = ({userObj, writeObj, isOwner}) => {
         // 컴포넌트가 마운트될 때 writeObj.creatorId를 이용하여 getId를 호출하고 결과를 상태에 저장합니다
         getWriterInfo(writeObj.creatorId);
     }, [writeObj]);
+
+    // 멘션 갯수 count
+    useEffect( () => {
+        dbService.collection('mentions')
+            .where('mentionTo', '==', writeObj.tweetId)
+            .get()
+            .then((querySnapshot) => {
+                const documents = [];
+                querySnapshot.forEach((doc) => {
+                    documents.push({ id: doc.id, data: doc.data() });
+                });
+                setMentions(documents);
+                setMention_cnt(querySnapshot.size);
+            })
+            .catch((error) => {
+                console.error('Error getting mention documents:', error);
+            });
+    },[]);
+
 
    // retweet 된 게시물을 삭제했을 때 원래 게시물의 리트윗 개수를 줄이고, retweet변수 값을 false로 바꾸는 부분
     useEffect( () => {
@@ -280,7 +301,8 @@ const TweetForm = ({userObj, writeObj, isOwner}) => {
                     )}
                 </div>
                 <div>
-                    <Link to={`/compose/tweet`} state={{background: location, writeObj:writeObj}}><img src={"/img/mention.png"} alt={"mention"} style={{width: "18.75px", height: "18.75px"}}/></Link>
+                    <Link to={`/compose/mention`} state={{background: location, writeObj:writeObj}}><img src={"/img/mention.png"} alt={"mention"} style={{width: "18.75px", height: "18.75px"}}/></Link>
+                    {mention_cnt > 0 && <span>{mention_cnt}</span>}
                     {retweet && <img onClick={onRetweet} src={"/img/retweet_color.png"} alt={"retweet"} style={{width: "18.75px", height: "18.75px"}}/>}
                     {!retweet && <img onClick={onRetweet} src={"/img/retweet.png"} alt={"retweet"} style={{width: "18.75px", height: "18.75px"}}/>}
                     {retweet_cnt > 0 && <span>{retweet_cnt}</span>}

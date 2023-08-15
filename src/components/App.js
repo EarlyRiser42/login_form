@@ -12,9 +12,11 @@ import Media from "../routes/AF_login/Profiles/Media";
 import Likes from "../routes/AF_login/Profiles/Likes";
 import Error_page from "../routes/Error_page";
 import PW_reset from "../routes/BF_login/PW_resets/Pw_rest";
-import Tweet from "../routes/AF_login/Tweet";
-import Mention from "../routes/AF_login/Mention";
+import WriteMentionModal from "../routes/AF_login/WriteMentionModal";
+import TweetPage from "../routes/AF_login/TweetPage";
 import Loading from "./Loading";
+import WriteTweetModal from "../routes/AF_login/WriteTweetModal";
+
 
 function App() {
     const [userObj, setUserObj] = useState({displayName: '', uid: '', photoURL: ''});
@@ -30,7 +32,7 @@ function App() {
 
     // navigation 표시 유무
     const [tweetPath, setTweetPath] = useState('');
-    const navi_path = ['/', '/mention', '/:profile', '/compose/tweet', `/${userObj.uid}`, `${tweetPath}`, `/${userObj.uid}/media`, `/${userObj.uid}/likes`, `/${userObj.uid}/with_replies`];
+    const navi_path = ['/', '/mention', '/:profile', '/compose/tweet', '/compose/mention' ,`/${userObj.uid}`, `${tweetPath}`, `/${userObj.uid}/media`, `/${userObj.uid}/likes`, `/${userObj.uid}/with_replies`];
 
     // 로그인 여부 확인하기 위한 로딩창
     const [loading, setLoading] = useState(true);
@@ -47,10 +49,13 @@ function App() {
                 });
                 console.log('logged in')
                 setIsLoggedIn(true);
+                setLoading(false);
             } else {
                 setUserObj(null);
+                setLoading(false);
             }
         });
+
     }, []);
 
     const refreshUser = () => {
@@ -76,8 +81,9 @@ function App() {
                         <Route path="/:profile/with_replies" element={<With_replies userObj={userObj} refreshUser={refreshUser} setTweetPath={setTweetPath}/>}/>
                         <Route path="/:profile/media" element={<Media userObj={userObj} refreshUser={refreshUser} setTweetPath={setTweetPath}/>}/>
                         <Route path="/:profile/likes" element={<Likes userObj={userObj} refreshUser={refreshUser} setTweetPath={setTweetPath}/>}/>
-                        <Route path="/:profile/:tweetPath" element={<Mention userObj={userObj} refreshUser={refreshUser} />}/>
-                        <Route path="/compose/tweet" element={<Tweet userObj={userObj} modals={true}/>} />
+                        <Route path="/:profile/:tweetPath" element={<TweetPage userObj={userObj} refreshUser={refreshUser} />}/>
+                        <Route path="/compose/tweet" element={<WriteTweetModal userObj={userObj} modals={true}/>} />
+                        <Route path="/compose/mention" element={<WriteMentionModal userObj={userObj} modals={true}/>} />
                         <Route path="/*" element={<Error_page/>} />
                     </Routes>
                     {background && (
@@ -87,8 +93,9 @@ function App() {
                             <Route path="/:profile/with_replies" element={<With_replies userObj={userObj} refreshUser={refreshUser} setTweetPath={setTweetPath}/>}/>
                             <Route path="/:profile/media" element={<Media userObj={userObj} refreshUser={refreshUser} setTweetPath={setTweetPath}/>}/>
                             <Route path="/:profile/likes" element={<Likes userObj={userObj} refreshUser={refreshUser} setTweetPath={setTweetPath}/>}/>
-                            <Route path="/:profile/:tweetPath" element={<Mention userObj={userObj} refreshUser={refreshUser} />}/>
-                            <Route path="/compose/tweet" element={<Tweet userObj={userObj} modals={true}/>} />
+                            <Route path="/:profile/:tweetPath" element={<TweetPage userObj={userObj} refreshUser={refreshUser} />}/>
+                            <Route path="/compose/tweet" element={<WriteTweetModal userObj={userObj} modals={true}/>} />
+                            <Route path="/compose/mention" element={<WriteMentionModal userObj={userObj} modals={true}/>} />
                             <Route path="/*" element={<Error_page/>} />
                         </Routes>
                     )}

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { storageService, dbService } from "fbase";
+import {useNavigate} from "react-router-dom";
 
-const WriteTweet = ({ userObj }) => {
+const WriteMention = ({ userObj, writeObj }) => {
     const [tweet, setTweet] = useState("");
     const [attachment, setAttachment] = useState("");
+    const navigate = useNavigate();
 
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -13,11 +15,12 @@ const WriteTweet = ({ userObj }) => {
         if (attachment !== "") {
             const attachmentRef = storageService
                 .ref()
-                .child(`tweets/${uuid}`);
+                .child(`mentions/${uuid}`);
             const response = await attachmentRef.putString(attachment, "data_url");
             attachmentUrl = await response.ref.getDownloadURL();
         }
         const tweetObj = {
+            mentionTo: writeObj.tweetId,
             tweetId: uuid,
             text: tweet,
             createdAt: Date.now(),
@@ -31,10 +34,11 @@ const WriteTweet = ({ userObj }) => {
             like_cnt: 0,
             attachmentUrl: attachmentUrl
         };
-        await dbService.collection("tweets").add(tweetObj);
+        await dbService.collection("mentions").add(tweetObj);
 
         setTweet("");
         setAttachment("");
+        navigate(-1);
     };
 
     const onChange = (event) => {
@@ -43,21 +47,20 @@ const WriteTweet = ({ userObj }) => {
         } = event;
         setTweet(value);
     };
-
     const onFileChange = (event) => {
         const {
             target: { files },
         } = event;
         const theFile = files[0]
-        const reader = new FileReader();
-        reader.onloadend = (finishedEvent) => {
+        const readers = new FileReader();
+
+        readers.onloadend = (finishedEvent) => {
             const {
                 currentTarget: { result },
             } = finishedEvent;
             setAttachment(result);
         };
-        reader.readAsDataURL(theFile);
-
+        readers.readAsDataURL(theFile);
     };
 
     const onClearAttachment = () => setAttachment(null);
@@ -72,18 +75,18 @@ const WriteTweet = ({ userObj }) => {
                     value={tweet}
                     onChange={onChange}
                     type="text"
-                    placeholder="무슨 일이 일어나고 있나요?"
+                    placeholder="답글을 게시하세요"
                     maxLength={120}
                 />
-                <label htmlFor="fileInput" style={{ cursor: 'pointer' }}>
+                <label htmlFor="fileInputs" style={{ cursor: 'pointer' }}>
                     <img
                         src="/img/tweet_add_photo.png"
                         alt="이미지 추가"
                         style={{ width: '20px', height: '20px' }} // 이미지 스타일을 정의
                     />
                 </label>
-                <input id="fileInput" type="file" accept="image/*" onChange={onFileChange} style={{display:"none"}}/>
-                <input type="submit" value="게시하기" />
+                <input id="fileInputs" type="file" accept="image/*" onChange={onFileChange} style={{display:"none"}}/>
+                <input type="submit" value="답글" />
                 {attachment && (
                     <div>
                         <img src={attachment} width="50px" height="50px" />
@@ -95,4 +98,4 @@ const WriteTweet = ({ userObj }) => {
 
     );
 };
-export default WriteTweet;
+export default WriteMention;

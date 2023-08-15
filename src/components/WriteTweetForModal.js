@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { storageService, dbService } from "fbase";
 
-const WriteTweet = ({ userObj }) => {
+const WriteTweetForModal = ({ userObj }) => {
     const [tweet, setTweet] = useState("");
     const [attachment, setAttachment] = useState("");
 
@@ -95,4 +95,4 @@ const WriteTweet = ({ userObj }) => {
 
     );
 };
-export default WriteTweet;
+export default WriteTweetForModal;

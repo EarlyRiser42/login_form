@@ -4,13 +4,11 @@ import WriteTweet from "../../components/WriteTweet";
 import TweetForm from "../../components/TweetForm";
 import {Link} from "react-router-dom";
 
-const Mention = () => {
-
-
+const TweetPage = () => {
     return (
         <div className="container">
-            <span>mention</span>
+            <span>tweet page</span>
         </div>
     );
 };
-export default Mention;
+export default TweetPage;

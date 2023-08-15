@@ -1,26 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import Modal from '../BF_login/Signups/Modal';
-import WriteTweet from "../../components/WriteTweet";
+import WriteMention from "../../components/WriteMention";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {doc, getDoc} from "firebase/firestore";
 import {dbService} from "../../fbase";
 
-const Tweet = ({userObj, modals}) => {
+const WriteMentionModal = ({userObj, modals}) => {
     const navigate = useNavigate();
 
     // for mention
-    const [mention, setMention] = useState(false);
     const location = useLocation();
     const writeObj = location.state.writeObj ? location.state.writeObj : null;
-
-    useEffect(() => {
-        if(writeObj){
-            setMention(true);
-        }
-        else{
-            setMention(false);
-        }
-    },[writeObj])
 
     // 트윗 작성자 displayName, id, photoURL from profile DB
     const [id, setId] = useState(""); // 상태로 id를 관리합니다
@@ -70,28 +60,27 @@ const Tweet = ({userObj, modals}) => {
                 <div>
                     <button onClick={() => navigate(-1)}>X</button>
                 </div>
-                {mention &&
+                <div>
+                    <div>
+                        <img src={photoURL} style={{ width: '40px', height: '40px' }}/>
+                    </div>
                     <div>
                         <div>
-                            <img src={photoURL} style={{ width: '40px', height: '40px' }}/>
+                            <span>{displayName}</span>
+                            <span>{id}</span>
+                            <span>{elapsedTime(writeObj.createdAt)}</span>
                         </div>
                         <div>
-                            <div>
-                                <span>{displayName}</span>
-                                <span>{id}</span>
-                                <span>{elapsedTime(writeObj.createdAt)}</span>
-                            </div>
-                            <div>
-                                <span>{writeObj.text}</span>
-                            </div>
+                            <span>{writeObj.text}</span>
                         </div>
-                    </div>}
-                <div className="write-modal">
-                    <WriteTweet userObj={userObj} mention={mention}/>
+                    </div>
+                </div>
+                <div>
+                    <WriteMention userObj={userObj} writeObj={writeObj} />
                 </div>
             </Modal>
         </div>
     );
 };
 
-export default Tweet
+export default WriteMentionModal

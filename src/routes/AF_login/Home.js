@@ -37,7 +37,7 @@ const Home = ({ userObj, setTweetPath }) => {
 
     return (
         <div className="container">
-            <WriteTweet userObj={userObj} />
+            <WriteTweet userObj={userObj} mention={false}/>
             <div style={{ marginTop: 30 }}>
                 {tweets.map((tweet) => (
                     <div
