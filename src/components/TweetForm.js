@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { dbService, storageService } from "fbase";
 import {collection, doc, getDoc, arrayUnion, arrayRemove, onSnapshot, query, where, updateDoc} from "firebase/firestore";
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 
 const TweetForm = ({userObj, writeObj, isOwner, tweetPage}) => {
     // for modal
     const location = useLocation();
-    console.log(writeObj)
-
+    const navigate = useNavigate();
     // 트윗 작성자 displayName, id, photoURL from profile DB
     const [id, setId] = useState(""); // 상태로 id를 관리합니다
     const [displayName, setDisplayName] = useState('');
@@ -28,6 +27,9 @@ const TweetForm = ({userObj, writeObj, isOwner, tweetPage}) => {
             if(writeObj.attachmentUrl){
                 await storageService.refFromURL(writeObj.attachmentUrl).delete();
             }
+        }
+        if(tweetPage){
+            navigate(-1);
         }
     };
 
@@ -317,11 +319,12 @@ const TweetForm = ({userObj, writeObj, isOwner, tweetPage}) => {
                 <div>
                     <span>{formatTimestamp(writeObj.createdAt)}</span>
                 </div>
-                {tweetPage &&
+                {tweetPage && (retweet_cnt > 0 || like_cnt > 0) && (
                     <div>
-                        <span>{retweet_cnt} 재게시</span>
-                        <span>{like_cnt} 마음에 들어요</span>
-                    </div>}
+                        {retweet_cnt > 0 && <span>{retweet_cnt} 재게시</span>}
+                        {like_cnt > 0 && <span>{like_cnt} 마음에 들어요</span>}
+                    </div>
+                )}
                 <div>
                     <Link to={`/compose/mention`} state={{background: location, writeObj:writeObj}}><img src={"/img/mention.png"} alt={"mention"} style={{width: "18.75px", height: "18.75px"}}/></Link>
                     {mention_cnt > 0 && !tweetPage && <span>{mention_cnt}</span>}
