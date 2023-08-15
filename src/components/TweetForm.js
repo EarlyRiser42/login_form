@@ -3,9 +3,10 @@ import { dbService, storageService } from "fbase";
 import {collection, doc, getDoc, arrayUnion, arrayRemove, onSnapshot, query, where, updateDoc} from "firebase/firestore";
 import {Link, useLocation} from "react-router-dom";
 
-const TweetForm = ({userObj, writeObj, isOwner}) => {
+const TweetForm = ({userObj, writeObj, isOwner, tweetPage}) => {
     // for modal
     const location = useLocation();
+    console.log(writeObj)
 
     // 트윗 작성자 displayName, id, photoURL from profile DB
     const [id, setId] = useState(""); // 상태로 id를 관리합니다
@@ -13,7 +14,6 @@ const TweetForm = ({userObj, writeObj, isOwner}) => {
     const [photoURL, setPhotoURL] = useState('');
 
     // like, retweet, mention
-    const [mentions, setMentions] = useState([]);
     const [mention_cnt, setMention_cnt] = useState(0);
     const [like, setLike] = useState(false);
     const [like_cnt, setLike_cnt] = useState(writeObj.like_cnt);
@@ -63,7 +63,6 @@ const TweetForm = ({userObj, writeObj, isOwner}) => {
                 querySnapshot.forEach((doc) => {
                     documents.push({ id: doc.id, data: doc.data() });
                 });
-                setMentions(documents);
                 setMention_cnt(querySnapshot.size);
             })
             .catch((error) => {
@@ -274,6 +273,21 @@ const TweetForm = ({userObj, writeObj, isOwner}) => {
         return `${start.toLocaleDateString()}`;
     };
 
+    const formatTimestamp = (timestamp) => {
+        const date = new Date(timestamp);
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        const day = date.getDate();
+        const month = date.getMonth() + 1; // 월은 0부터 시작하므로 1을 더해줍니다.
+        const year = date.getFullYear();
+
+        const ampm = hours >= 12 ? '오후' : '오전';
+        const formattedHours = hours % 12 || 12;
+        const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
+        return `${ampm} ${formattedHours}:${formattedMinutes} · ${year}년 ${month}월 ${day}일`;
+    }
+
     return (
         <div>
             {retweeted && <span>{displayName}님이 리트윗했습니다</span>}
@@ -284,7 +298,7 @@ const TweetForm = ({userObj, writeObj, isOwner}) => {
                 <div>
                     <span>{displayName}</span>
                     <span>{id}</span>
-                    <span>{elapsedTime(writeObj.createdAt)}</span>
+                    {!tweetPage && <span>{elapsedTime(writeObj.createdAt)}</span>}
                     {isOwner && (
                         <>
                             <img src={"/img/delete.png"} onClick={onDeleteClick} style={{ width: '15px', height: '20px' }}/>
@@ -301,14 +315,22 @@ const TweetForm = ({userObj, writeObj, isOwner}) => {
                     )}
                 </div>
                 <div>
+                    <span>{formatTimestamp(writeObj.createdAt)}</span>
+                </div>
+                {tweetPage &&
+                    <div>
+                        <span>{retweet_cnt} 재게시</span>
+                        <span>{like_cnt} 마음에 들어요</span>
+                    </div>}
+                <div>
                     <Link to={`/compose/mention`} state={{background: location, writeObj:writeObj}}><img src={"/img/mention.png"} alt={"mention"} style={{width: "18.75px", height: "18.75px"}}/></Link>
-                    {mention_cnt > 0 && <span>{mention_cnt}</span>}
+                    {mention_cnt > 0 && !tweetPage && <span>{mention_cnt}</span>}
                     {retweet && <img onClick={onRetweet} src={"/img/retweet_color.png"} alt={"retweet"} style={{width: "18.75px", height: "18.75px"}}/>}
                     {!retweet && <img onClick={onRetweet} src={"/img/retweet.png"} alt={"retweet"} style={{width: "18.75px", height: "18.75px"}}/>}
-                    {retweet_cnt > 0 && <span>{retweet_cnt}</span>}
+                    {retweet_cnt > 0 && !tweetPage && <span>{retweet_cnt}</span>}
                     {like && <img onClick={onLike} src={"/img/like_color.png"} alt={"like"} style={{width: "18.75px", height: "18.75px"}}/>}
                     {!like && <img onClick={onLike} src={"/img/like.png"} alt={"like"} style={{width: "18.75px", height: "18.75px"}}/>}
-                    {like_cnt > 0 && <span>{like_cnt}</span>}
+                    {like_cnt > 0 && !tweetPage && <span>{like_cnt}</span>}
                     <img onClick={onShare} src={"/img/share.png"} alt={"share"} style={{width: "18.75px", height: "18.75px"}}/>
                 </div>
             </div>

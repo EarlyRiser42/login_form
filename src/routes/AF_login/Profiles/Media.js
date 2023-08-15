@@ -50,8 +50,10 @@ const Media = ({userObj, setTweetPath}) => {
                 {tweets.map((tweet) => (
                     <TweetForm
                         key={tweet.id}
+                        userObj={userObj}
                         writeObj={tweet}
                         isOwner={tweet.creatorId === userObj.uid}
+                        tweetPage={false}
                     />
                 ))}
             </div>
