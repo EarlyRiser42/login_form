@@ -4,7 +4,7 @@ import {useParams, Link, useLocation} from "react-router-dom";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import Information from "./Information";
 import TweetForm from "../../../components/TweetForm";
-const Media = ({userObj, setTweetPath}) => {
+const Media = ({userObj}) => {
     const [tweets, setTweets] = useState([]);
 
     useEffect( () => {
@@ -12,7 +12,8 @@ const Media = ({userObj, setTweetPath}) => {
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             let tweetArray = [];
             querySnapshot.docs.map((doc) => {
-                    if(doc.attachmentUrl !== ''){
+                console.log(doc.data())
+                    if(doc.data().attachmentUrl !== ''){
                         tweetArray.push({
                             id: doc.id,
                             ...doc.data(),

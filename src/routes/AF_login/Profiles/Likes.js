@@ -5,7 +5,7 @@ import { collection, query, where, onSnapshot } from "firebase/firestore";
 import Information from "./Information";
 import TweetForm from "../../../components/TweetForm";
 
-const Likes = ({userObj, setTweetPath}) => {
+const Likes = ({userObj}) => {
     const [tweets, setTweets] = useState([]);
 
     useEffect( () => {

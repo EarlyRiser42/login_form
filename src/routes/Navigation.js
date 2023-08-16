@@ -36,7 +36,7 @@ const Navigation = ({userObj, setIsLoggedIn}) => {
         <nav>
             <div>
                 <Link to="/">홈</Link>
-                <Link to={`/${userObj.uid}`}>프로필</Link>
+                <Link to={`/profile/${userObj.uid}`}>프로필</Link>
             </div>
             <div>
                 <Link to="/compose/tweet" state={{background: location}}><button>게시하기</button></Link>

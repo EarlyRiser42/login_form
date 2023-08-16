@@ -31,7 +31,7 @@ const Fifth_page = ({onNext }) => {
         updateProfile(auth.currentUser, {
             photoURL: attachmentUrl
         }).then(() => {
-            // Profile updated!
+            console.log('Profile Photo updated to DB')
             // ...
         }).catch((error) => {
             // An error occurred

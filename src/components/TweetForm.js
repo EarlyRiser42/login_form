@@ -294,7 +294,9 @@ const TweetForm = ({userObj, writeObj, isOwner, tweetPage}) => {
         <div>
             {retweeted && <span>{displayName}님이 리트윗했습니다</span>}
             <div>
-                <img src={photoURL} style={{ width: '40px', height: '40px' }}/>
+                <Link to={`/${writeObj.creatorId}`}>
+                    <img src={photoURL} style={{ width: '40px', height: '40px' }}/>
+                </Link>
             </div>
             <div>
                 <div>
@@ -316,9 +318,11 @@ const TweetForm = ({userObj, writeObj, isOwner, tweetPage}) => {
                         <img src={writeObj.attachmentUrl} width="50px" height="50px" />
                     )}
                 </div>
-                <div>
-                    <span>{formatTimestamp(writeObj.createdAt)}</span>
-                </div>
+                {tweetPage &&
+                    <div>
+                        <span>{formatTimestamp(writeObj.createdAt)}</span>
+                    </div>
+                }
                 {tweetPage && (retweet_cnt > 0 || like_cnt > 0) && (
                     <div>
                         {retweet_cnt > 0 && <span>{retweet_cnt} 재게시</span>}

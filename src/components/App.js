@@ -10,12 +10,13 @@ import Profile from "../routes/AF_login/Profiles/Profile";
 import With_replies from "../routes/AF_login/Profiles/With_replies";
 import Media from "../routes/AF_login/Profiles/Media";
 import Likes from "../routes/AF_login/Profiles/Likes";
-import Error_page from "../routes/Error_page";
+import ErrorPage from "../routes/ErrorPage";
 import PW_reset from "../routes/BF_login/PW_resets/Pw_rest";
 import WriteMentionModal from "../routes/AF_login/WriteMentionModal";
 import TweetPage from "../routes/AF_login/TweetPage";
 import Loading from "./Loading";
 import WriteTweetModal from "../routes/AF_login/WriteTweetModal";
+import NoPage from "../routes/NoPage";
 
 
 function App() {
@@ -30,10 +31,6 @@ function App() {
     const location = useLocation();
     const background = location.state && location.state.background;
 
-    // navigation 표시 유무
-    const [tweetPath, setTweetPath] = useState('');
-    const navi_path = ['/', '/mention', '/:profile', '/compose/tweet', '/compose/mention' ,`/${userObj.uid}`, `${tweetPath}`, `/${userObj.uid}/media`, `/${userObj.uid}/likes`, `/${userObj.uid}/with_replies`];
-
     // 로그인 여부 확인하기 위한 로딩창
     const [loading, setLoading] = useState(true);
 
@@ -47,15 +44,12 @@ function App() {
                     photoURL: user.photoURL,
                     updateProfile: (args) => user.updateProfile(args),
                 });
-                console.log('logged in')
                 setIsLoggedIn(true);
-                setLoading(false);
             } else {
-                setUserObj(null);
-                setLoading(false);
+                setUserObj({displayName: '', uid: '', photoURL: ''});
             }
+            setLoading(false); // 여기로 이동
         });
-
     }, []);
 
     const refreshUser = () => {
@@ -74,29 +68,31 @@ function App() {
             {(isLoggedIn && !signing) ?
                 (
                 <>
-                    {navi_path.indexOf(location.pathname) !== -1 && <Navigation userObj={userObj} setIsLoggedIn={setIsLoggedIn} />}
+                    <Navigation userObj={userObj} setIsLoggedIn={setIsLoggedIn} />
                     <Routes location={background || location}>
-                        <Route path="/" element={<Home userObj={userObj} setTweetPath={setTweetPath}/>} />
-                        <Route path="/:profile" element={<Profile userObj={userObj} refreshUser={refreshUser} setTweetPath={setTweetPath}/>}/>
-                        <Route path="/:profile/with_replies" element={<With_replies userObj={userObj} refreshUser={refreshUser} setTweetPath={setTweetPath}/>}/>
-                        <Route path="/:profile/media" element={<Media userObj={userObj} refreshUser={refreshUser} setTweetPath={setTweetPath}/>}/>
-                        <Route path="/:profile/likes" element={<Likes userObj={userObj} refreshUser={refreshUser} setTweetPath={setTweetPath}/>}/>
-                        <Route path="/:profile/:tweetPath" element={<TweetPage userObj={userObj} refreshUser={refreshUser} />}/>
+                        <Route path="/" element={<Home userObj={userObj}/>} />
+                        <Route path="/profile/:profile" element={<Profile refreshUser={refreshUser}/>}/>
+                        <Route path="/profile/:profile/with_replies" element={<With_replies userObj={userObj} refreshUser={refreshUser} />}/>
+                        <Route path="/profile/:profile/media" element={<Media userObj={userObj} refreshUser={refreshUser} />}/>
+                        <Route path="/profile/:profile/likes" element={<Likes userObj={userObj} refreshUser={refreshUser} />}/>
+                        <Route path="/profile/:profile/:tweetPath" element={<TweetPage userObj={userObj} refreshUser={refreshUser} />}/>
                         <Route path="/compose/tweet" element={<WriteTweetModal userObj={userObj} modals={true}/>} />
                         <Route path="/compose/mention" element={<WriteMentionModal userObj={userObj} modals={true}/>} />
-                        <Route path="/*" element={<Error_page/>} />
+                        <Route path="/error" element={<ErrorPage/>} />
+                        <Route path="/*" element={<NoPage/>} />
                     </Routes>
                     {background && (
                         <Routes>
-                            <Route path="/" element={<Home userObj={userObj} setTweetPath={setTweetPath}/>} />
-                            <Route path="/:profile" element={<Profile userObj={userObj} refreshUser={refreshUser} setTweetPath={setTweetPath}/>}/>
-                            <Route path="/:profile/with_replies" element={<With_replies userObj={userObj} refreshUser={refreshUser} setTweetPath={setTweetPath}/>}/>
-                            <Route path="/:profile/media" element={<Media userObj={userObj} refreshUser={refreshUser} setTweetPath={setTweetPath}/>}/>
-                            <Route path="/:profile/likes" element={<Likes userObj={userObj} refreshUser={refreshUser} setTweetPath={setTweetPath}/>}/>
-                            <Route path="/:profile/:tweetPath" element={<TweetPage userObj={userObj} refreshUser={refreshUser} />}/>
+                            <Route path="/" element={<Home userObj={userObj}/>} />
+                            <Route path="/profile/:profile" element={<Profile refreshUser={refreshUser}/>}/>
+                            <Route path="/profile/:profile/with_replies" element={<With_replies userObj={userObj} refreshUser={refreshUser} />}/>
+                            <Route path="/profile/:profile/media" element={<Media userObj={userObj} refreshUser={refreshUser} />}/>
+                            <Route path="/profile/:profile/likes" element={<Likes userObj={userObj} refreshUser={refreshUser} />}/>
+                            <Route path="/profile/:profile/:tweetPath" element={<TweetPage userObj={userObj} refreshUser={refreshUser} />}/>
                             <Route path="/compose/tweet" element={<WriteTweetModal userObj={userObj} modals={true}/>} />
                             <Route path="/compose/mention" element={<WriteMentionModal userObj={userObj} modals={true}/>} />
-                            <Route path="/*" element={<Error_page/>} />
+                            <Route path="/error" element={<ErrorPage/>} />
+                            <Route path="/*" element={<NoPage/>} />
                         </Routes>
                     )}
                 </>

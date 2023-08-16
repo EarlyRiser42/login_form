@@ -48,7 +48,7 @@ const Fourth_page = ({ onNext, onPrev, user_data, page, setPage, setModals }) =>
             birthday: user_data.day,
             SignupAt: Date.now(),
             userUid: userObj.uid,
-            following: [],
+            following: ['DlMywOmW2pU3PtilMywBCnFffaC2'],
             follower: [],
             likes: [],
             mentions: [],
