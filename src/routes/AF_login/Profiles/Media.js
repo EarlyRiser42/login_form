@@ -4,6 +4,7 @@ import {useParams, Link, useLocation} from "react-router-dom";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import Information from "./Information";
 import TweetForm from "../../../components/TweetForm";
+import SearchBar from "../../../components/SearchBar";
 const Media = ({userObj}) => {
     const [tweets, setTweets] = useState([]);
 
@@ -58,6 +59,7 @@ const Media = ({userObj}) => {
                     />
                 ))}
             </div>
+            <SearchBar userObj={userObj}/>
         </div>
     );
 }

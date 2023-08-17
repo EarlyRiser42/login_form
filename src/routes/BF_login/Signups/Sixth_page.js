@@ -40,6 +40,7 @@ const Sixth_page = ({ user_data, setSigning}) => {
                         name="name"
                         type="text"
                         placeholder="사용자 아이디"
+                        maxLength={16}
                         value={name}
                         onChange={onChange}
                     />

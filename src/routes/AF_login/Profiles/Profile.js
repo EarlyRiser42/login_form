@@ -4,12 +4,13 @@ import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import Information from "./Information";
 import TweetForm from "../../../components/TweetForm";
+import SearchBar from "../../../components/SearchBar";
 
 const Profile = () => {
     const navigate = useNavigate();
     const params = useParams();
     const userUid = params.profile;
-    console.log(userUid)
+
     const [userObj, setUserObj] = useState({ displayName: "", uid: userUid, photoURL: "" });
     const [tweets, setTweets] = useState([]);
 
@@ -18,10 +19,8 @@ const Profile = () => {
         if (event.target.tagName.toLowerCase() === "img" || event.target.closest("img")) {
             return;
         }
-
         // 이동할 경로 설정
         const newPath = `/${userUid}/${tweetId}`;
-
         // 경로 변경, url 이동
         navigate(newPath);
     };
@@ -33,7 +32,6 @@ const Profile = () => {
                 setUserObj(doc.data());
             }
             else{
-                console.log('navigate')
                 navigate('/error');
             }
         };
@@ -64,16 +62,16 @@ const Profile = () => {
             </div>
             <div>
                 <div>
-                    <Link to={`/${userUid}`}><span>게시물</span></Link>
+                    <Link to={`/profile/${userUid}`}><span>게시물</span></Link>
                 </div>
                 <div>
-                    <Link to={`/${userUid}/with_replies`}><span>답글</span></Link>
+                    <Link to={`/profile/${userUid}/with_replies`}><span>답글</span></Link>
                 </div>
                 <div>
-                    <Link to={`/${userUid}/media`}><span>미디어</span></Link>
+                    <Link to={`/profile/${userUid}/media`}><span>미디어</span></Link>
                 </div>
                 <div>
-                    <Link to={`/${userUid}/likes`}><span>마음에 들어요</span></Link>
+                    <Link to={`/profile/${userUid}/likes`}><span>마음에 들어요</span></Link>
                 </div>
             </div>
             <div style={{ marginTop: 30 }}>
@@ -93,6 +91,7 @@ const Profile = () => {
                     </div>
                 ))}
             </div>
+            <SearchBar userObj={userObj}/>
         </div>
     );
 }

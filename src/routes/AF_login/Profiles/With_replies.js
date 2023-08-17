@@ -4,6 +4,7 @@ import {useParams, Link, useLocation} from "react-router-dom";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import Information from "./Information";
 import TweetForm from "../../../components/TweetForm";
+import SearchBar from "../../../components/SearchBar";
 const With_replies = ({userObj}) => {
     const [tweets, setTweets] = useState([]);
 
@@ -57,6 +58,7 @@ const With_replies = ({userObj}) => {
                     />
                 ))}
             </div>
+            <SearchBar userObj={userObj}/>
         </div>
     );
 }

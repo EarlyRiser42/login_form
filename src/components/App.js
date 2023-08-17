@@ -68,14 +68,14 @@ function App() {
             {(isLoggedIn && !signing) ?
                 (
                 <>
-                    <Navigation userObj={userObj} setIsLoggedIn={setIsLoggedIn} />
+                {location.pathname !== '/error' && <Navigation userObj={userObj} setIsLoggedIn={setIsLoggedIn} />}
                     <Routes location={background || location}>
                         <Route path="/" element={<Home userObj={userObj}/>} />
                         <Route path="/profile/:profile" element={<Profile refreshUser={refreshUser}/>}/>
                         <Route path="/profile/:profile/with_replies" element={<With_replies userObj={userObj} refreshUser={refreshUser} />}/>
                         <Route path="/profile/:profile/media" element={<Media userObj={userObj} refreshUser={refreshUser} />}/>
                         <Route path="/profile/:profile/likes" element={<Likes userObj={userObj} refreshUser={refreshUser} />}/>
-                        <Route path="/profile/:profile/:tweetPath" element={<TweetPage userObj={userObj} refreshUser={refreshUser} />}/>
+                        <Route path="/:profile/:tweetPath" element={<TweetPage userObj={userObj} refreshUser={refreshUser} />}/>
                         <Route path="/compose/tweet" element={<WriteTweetModal userObj={userObj} modals={true}/>} />
                         <Route path="/compose/mention" element={<WriteMentionModal userObj={userObj} modals={true}/>} />
                         <Route path="/error" element={<ErrorPage/>} />
@@ -88,7 +88,7 @@ function App() {
                             <Route path="/profile/:profile/with_replies" element={<With_replies userObj={userObj} refreshUser={refreshUser} />}/>
                             <Route path="/profile/:profile/media" element={<Media userObj={userObj} refreshUser={refreshUser} />}/>
                             <Route path="/profile/:profile/likes" element={<Likes userObj={userObj} refreshUser={refreshUser} />}/>
-                            <Route path="/profile/:profile/:tweetPath" element={<TweetPage userObj={userObj} refreshUser={refreshUser} />}/>
+                            <Route path="/:profile/:tweetPath" element={<TweetPage userObj={userObj} refreshUser={refreshUser} />}/>
                             <Route path="/compose/tweet" element={<WriteTweetModal userObj={userObj} modals={true}/>} />
                             <Route path="/compose/mention" element={<WriteMentionModal userObj={userObj} modals={true}/>} />
                             <Route path="/error" element={<ErrorPage/>} />

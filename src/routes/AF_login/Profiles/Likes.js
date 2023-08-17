@@ -4,28 +4,37 @@ import {useParams, Link, useLocation} from "react-router-dom";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import Information from "./Information";
 import TweetForm from "../../../components/TweetForm";
+import SearchBar from "../../../components/SearchBar";
 
 const Likes = ({userObj}) => {
     const [tweets, setTweets] = useState([]);
-
     useEffect( () => {
-        const q = query(collection(dbService, "tweets"), where("creatorId", "==", userObj.uid));
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            let tweetArray = [];
-            querySnapshot.docs.map((doc) => {
-                    if(doc.attachmentUrl !== ''){
-                        tweetArray.push({
-                            id: doc.id,
-                            ...doc.data(),
-                        });
-                    }
-                }
-            );
-            setTweets(tweetArray);
-        });
+        const fetchLikes = async () => {
+            try {
+                const profileRef = dbService.collection('profile').doc(userObj.uid);
+                const profileSnapshot = await profileRef.get();
 
-        // 컴포넌트 언마운트 시 리스너 해제
-        return () => unsubscribe();
+                if (profileSnapshot.exists) {
+                    const profileData = profileSnapshot.data();
+                    const likesData = profileData.likes || [];
+
+                    // Fetch matching tweets from 'tweets' collection
+                    const tweetDocs = await dbService.collection('tweets')
+                        .where('tweetId', 'in', likesData)
+                        .get();
+
+                    const likedTweetsData = tweetDocs.docs.map(doc => ({
+                        id: doc.id,
+                        ...doc.data(),
+                    }));
+                    setTweets(likedTweetsData);
+                }
+            } catch (error) {
+                console.error('Error fetching likes and tweets:', error);
+            }
+        };
+
+        fetchLikes();
     },[]);
 
     return(
@@ -58,6 +67,7 @@ const Likes = ({userObj}) => {
                     />
                 ))}
             </div>
+            <SearchBar userObj={userObj}/>
         </div>
     );
 }

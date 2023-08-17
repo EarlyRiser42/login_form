@@ -10,9 +10,9 @@ const Information = ({ userObj }) => {
     const location = useLocation();
     // 동적 라우팅
     const profile_id = useParams().profile;
+
     // 본인 계정인지 아닌지 확인
-    const [owner, setOwner] = useState(false);
-    const [following, setFollowing] = useState(true);
+    const owner = userObj.uid === profile_id;
 
     // Auth에 있지않은, DB에 담겨있는 값 -> Auth에 있는 값은 App.js의 userobj로 확인
     const [backgroundiamge, setBackgroundimage] = useState('');
@@ -23,6 +23,7 @@ const Information = ({ userObj }) => {
 
     // 팔로잉/ 언팔로잉 버튼
     const [isHovered, setIsHovered] = useState(false);
+    const [following, setFollowing] = useState(true);
     const [follow_cnt, setFollow_cnt] = useState(0);
     const [follower_cnt, setFollower_cnt] = useState(0);
     const handleMouseEnter = () => {
@@ -33,16 +34,6 @@ const Information = ({ userObj }) => {
     };
     const buttonText = isHovered ? '언팔로잉' : '팔로잉'; // 버튼 텍스트 선택
     const buttonStyle = isHovered ? 'button hovered' : 'button'; // 버튼 스타일 선택
-
-
-    useEffect(()=>{
-        if(userObj.uid === profile_id){
-            setOwner(true);
-        }
-        else{
-            setOwner(false);
-        }
-    }, []);
 
     useEffect( () => {
         const auth = getAuth();

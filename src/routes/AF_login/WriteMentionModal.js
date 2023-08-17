@@ -32,7 +32,7 @@ const WriteMentionModal = ({userObj, modals}) => {
 
     useEffect(() => {
         // 컴포넌트가 마운트될 때 writeObj.creatorId를 이용하여 getId를 호출하고 결과를 상태에 저장합니다
-        getWriterInfo(userObj.uid);
+        getWriterInfo(writeObj.creatorId);
     }, [userObj]); // writeObj가 변경될 때마다 호출합니다
 
     const elapsedTime = (date) => {

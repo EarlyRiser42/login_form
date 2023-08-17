@@ -9,6 +9,8 @@ const Navigation = ({userObj, setIsLoggedIn}) => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const [displayName, setDisplayName] = useState(userObj.displayName);
+    const [pfp, setPfp] = useState(userObj.photoURL);
     const [id, setId] = useState('');
     const onLogOutClick = () => {
         authService.signOut();
@@ -25,6 +27,8 @@ const Navigation = ({userObj, setIsLoggedIn}) => {
             if (docSnap.exists()) {
                 // 데이터베이스의 값이 변경될 때마다 새로운 값을 가져와서 id를 업데이트
                 setId(docSnap.data().id);
+                setPfp(docSnap.data().photoURL);
+                setDisplayName(docSnap.data().displayName);
             }
         });
 
@@ -43,9 +47,9 @@ const Navigation = ({userObj, setIsLoggedIn}) => {
                 <button onClick={onLogOutClick}>Log Out</button>
             </div>
             <div>
-                <span>{userObj.displayName}</span>
+                <span>{displayName}</span>
                 <span>{id}</span>
-                <img src={userObj.photoURL} width="50px" height="50px"/>
+                <img src={pfp} width="50px" height="50px"/>
             </div>
         </nav>
     )

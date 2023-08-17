@@ -1,7 +1,6 @@
 import React from 'react';
 import Modal from '../BF_login/Signups/Modal';
 import {useNavigate} from "react-router-dom";
-
 import WriteTweetForModal from "../../components/WriteTweetForModal";
 
 const WriteTweetModal = ({userObj, modals}) => {

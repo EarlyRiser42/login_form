@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { dbService } from "fbase";
 import TweetForm from "../../components/TweetForm";
 import {Link, useParams} from "react-router-dom";
+import SearchBar from "../../components/SearchBar";
 
 const TweetPage = ({userObj}) => {
     const parm = useParams();
@@ -67,6 +68,7 @@ const TweetPage = ({userObj}) => {
                     />
                 ))}
             </div>
+            <SearchBar userObj={userObj}/>
         </div>
     );
 };

@@ -3,8 +3,9 @@ import { dbService } from "fbase";
 import WriteTweet from "../../components/WriteTweet";
 import TweetForm from "../../components/TweetForm";
 import {Link, useNavigate, useLocation} from "react-router-dom";
+import SearchBar from "../../components/SearchBar";
 
-const Home = ({ userObj, setTweetPath }) => {
+const Home = ({ userObj}) => {
     const [tweets, setTweets] = useState([]);
     const navigate = useNavigate()
     const locationState = useLocation().state;
@@ -17,7 +18,6 @@ const Home = ({ userObj, setTweetPath }) => {
             dbService.collection('profile').doc(userObj.uid).get().then((doc) => {
                 if (doc.exists) {
                     const followingList = doc.data().following;
-
                     // tweets 컬렉션에서 가져온 데이터를 필터링
                     dbService
                         .collection('tweets')
@@ -59,7 +59,6 @@ const Home = ({ userObj, setTweetPath }) => {
         const newPath = `/${userObj.uid}/${tweetId}`;
 
         // 경로 변경, url 이동
-        setTweetPath(newPath);
         navigate(newPath);
     };
 
@@ -116,6 +115,7 @@ const Home = ({ userObj, setTweetPath }) => {
                     ))}
                 </div>
             }
+            <SearchBar userObj={userObj}/>
         </div>
     );
 };

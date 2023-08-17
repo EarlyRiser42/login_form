@@ -1,10 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { storageService, dbService } from "fbase";
+import {getAuth} from "firebase/auth";
+import {doc, onSnapshot} from "firebase/firestore";
 
 const WriteTweet = ({ userObj }) => {
+
     const [tweet, setTweet] = useState("");
     const [attachment, setAttachment] = useState("");
+    const [pfp, setPfp] = useState(userObj.photoURL);
+
+    useEffect( () => {
+        const auth = getAuth();
+        const docRef = doc(dbService, "profile", auth.currentUser.uid);
+
+        // Firestore 리스너 등록
+        const unsubscribe = onSnapshot(docRef, (docSnap) => {
+            if (docSnap.exists()) {
+                setPfp(docSnap.data().photoURL);
+            }
+        });
+
+        // 컴포넌트 언마운트 시 리스너 해제
+        return () => unsubscribe();
+    },[]);
 
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -26,6 +45,7 @@ const WriteTweet = ({ userObj }) => {
             retweet: false,
             retweeted: false,
             retweet_id:  userObj.uid,
+            retweeted_from: null,
             retweet_cnt: 0,
             like_id: [],
             like_cnt: 0,
@@ -65,7 +85,7 @@ const WriteTweet = ({ userObj }) => {
     return (
         <div>
             <div>
-                <img src={userObj.photoURL} width="50px" height="50px"/>
+                <img src={pfp} width="50px" height="50px"/>
             </div>
             <form onSubmit={onSubmit}>
                 <input

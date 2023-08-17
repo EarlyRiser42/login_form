@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { dbService, storageService } from "fbase";
 import {collection, doc, getDoc, arrayUnion, arrayRemove, onSnapshot, query, where, updateDoc} from "firebase/firestore";
 import {Link, useLocation, useNavigate} from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 const TweetForm = ({userObj, writeObj, isOwner, tweetPage}) => {
     // for modal
@@ -11,6 +12,8 @@ const TweetForm = ({userObj, writeObj, isOwner, tweetPage}) => {
     const [id, setId] = useState(""); // 상태로 id를 관리합니다
     const [displayName, setDisplayName] = useState('');
     const [photoURL, setPhotoURL] = useState('');
+    // 리트윗 한사람 정보
+    const [retweetName, setRetweetName] = useState('');
 
     // like, retweet, mention
     const [mention_cnt, setMention_cnt] = useState(0);
@@ -49,10 +52,21 @@ const TweetForm = ({userObj, writeObj, isOwner, tweetPage}) => {
         }
     };
 
+    const getRetweetName = async () => {
+        const docRef = doc(dbService, "profile", writeObj.retweet_id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            setRetweetName(docSnap.data().displayName);
+        } else {
+            // docSnap.data() will be undefined in this case
+            console.log("No such document! failed to load tweet writer id");
+        }
+    }
     // tweet 작성자 정보 가져오는 함수
     useEffect(() => {
         // 컴포넌트가 마운트될 때 writeObj.creatorId를 이용하여 getId를 호출하고 결과를 상태에 저장합니다
         getWriterInfo(writeObj.creatorId);
+        getRetweetName();
     }, [writeObj]);
 
     // 멘션 갯수 count
@@ -81,6 +95,7 @@ const TweetForm = ({userObj, writeObj, isOwner, tweetPage}) => {
             if(retweet && tweetArray.length === 0){
                 setRetweet(false);
                 setRetweet_cnt(retweet_cnt-1);
+                console.log('working')
             }
         });
 
@@ -164,7 +179,7 @@ const TweetForm = ({userObj, writeObj, isOwner, tweetPage}) => {
             const cnt = (await getDoc(docRef)).data().retweet_cnt;
 
             const tweetObj = {
-                tweetId: writeObj.tweetId,
+                tweetId: uuidv4(),
                 text: writeObj.text,
                 createdAt: writeObj.createdAt,
                 creatorId: writeObj.creatorId,
@@ -172,8 +187,9 @@ const TweetForm = ({userObj, writeObj, isOwner, tweetPage}) => {
                 retweet: false, // 다른 사람이 리트윗 했는지
                 retweeted: true, // 리트윗으로 작성됐는지
                 retweet_id:  userObj.uid,
+                retweeted_from : writeObj.tweetId, // 원 게시글 tweetId
                 retweet_cnt: cnt+1,
-                like_id : [],
+                like_id : writeObj.like_id,
                 like_cnt: writeObj.like_cnt,
                 attachmentUrl: writeObj.attachmentUrl
             };
@@ -181,15 +197,18 @@ const TweetForm = ({userObj, writeObj, isOwner, tweetPage}) => {
 
             // retweet 개수 모두 증가
             const tweetsRef = dbService.collection("tweets");
-            const querySnapshot = await tweetsRef.where("tweetId", "==", writeObj.tweetId).get();
-            const batch = dbService.batch();
-
-            querySnapshot.forEach((doc) => {
-                const tweetRef = tweetsRef.doc(doc.id);
-                batch.update(tweetRef, {
-                    retweet: cnt+1,
+            const querySnapshot = await tweetsRef.where("retweeted_from", "==", writeObj.tweetId).get();
+            if (!querySnapshot.empty) {
+                querySnapshot.forEach(async (doc) => {
+                    const tweetRef = tweetsRef.doc(doc.id);
+                    // 기존 리트윗 개수를 가져와서 1을 더한 값을 업데이트합니다.
+                    const currentRetweetCount = doc.data().retweet_cnt || 0; // 기존 리트윗 개수 또는 0으로 초기화
+                    const updatedRetweetCount = currentRetweetCount + 1;
+                    await updateDoc(tweetRef, {
+                        retweet_cnt: updatedRetweetCount, // 'retweet_cnt' 필드로 업데이트
+                    });
                 });
-            });
+            }
 
             setRetweet_cnt(retweet_cnt+1);
             setRetweet(true);
@@ -234,16 +253,21 @@ const TweetForm = ({userObj, writeObj, isOwner, tweetPage}) => {
 
             // retweet 개수 모두 감소
             const tweetsRef = dbService.collection("tweets");
-            const querySnapshot = await tweetsRef.where("tweetId", "==", writeObj.tweetId).get();
-            const cnt = querySnapshot.docs[0].get('retweet_cnt');
-            const batch = dbService.batch();
+            const querySnapshot = await tweetsRef.where("retweeted_from", "==", writeObj.tweetId).get();
 
-            querySnapshot.forEach((doc) => {
-                const tweetRef = tweetsRef.doc(doc.id);
-                batch.update(tweetRef, {
-                    retweet: cnt-1,
+            if (!querySnapshot.empty) {
+                querySnapshot.forEach(async (doc) => {
+                    const tweetRef = tweetsRef.doc(doc.id);
+
+                    // 기존 리트윗 개수를 가져와서 1을 더한 값을 업데이트합니다.
+                    const currentRetweetCount = doc.data().retweet_cnt || 0; // 기존 리트윗 개수 또는 0으로 초기화
+                    const updatedRetweetCount = currentRetweetCount - 1;
+
+                    await updateDoc(tweetRef, {
+                        retweet_cnt: updatedRetweetCount, // 'retweet_cnt' 필드로 업데이트
+                    });
                 });
-            });
+            }
 
             // 원래 트윗 변수값 변경
             setRetweet_cnt(retweet_cnt-1);
@@ -292,9 +316,9 @@ const TweetForm = ({userObj, writeObj, isOwner, tweetPage}) => {
 
     return (
         <div>
-            {retweeted && <span>{displayName}님이 리트윗했습니다</span>}
+            {retweeted && <span>{retweetName}님이 리트윗했습니다</span>}
             <div>
-                <Link to={`/${writeObj.creatorId}`}>
+                <Link to={`/profile/${writeObj.creatorId}`}>
                     <img src={photoURL} style={{ width: '40px', height: '40px' }}/>
                 </Link>
             </div>
