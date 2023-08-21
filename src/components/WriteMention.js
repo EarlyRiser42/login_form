@@ -38,19 +38,13 @@ const WriteMention = ({ userObj, writeObj }) => {
             attachmentUrl = await response.ref.getDownloadURL();
         }
         const tweetObj = {
-            mentionTo: writeObj.tweetId,
             tweetId: uuid,
             text: tweet,
             createdAt: Date.now(),
             creatorId: userObj.uid,
             toDBAt: Date.now(),
-            retweet: false,
-            retweeted: false,
-            retweet_id:  userObj.uid,
-            retweeted_from: null,
-            retweet_cnt: 0,
-            like_id: [],
-            like_cnt: 0,
+            retweetList: [], // 다른 사람이 리트윗 했는지
+            likeList: [],
             attachmentUrl: attachmentUrl
         };
         await dbService.collection("mentions").add(tweetObj);
