@@ -19,16 +19,17 @@ body, html {
     display: flex;
     justify-items: center;
     align-items: center;
+    margin-left: 5%;
 }
 
 .X_Logo_svg{
-    width: 310px;
-    height: 280px;
+    width: 350px;
+    height: 300px;
 }
 
 .auth_RightDiv {
     height: 72vh;
-
+    margin-left: 5%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -38,13 +39,13 @@ body, html {
 .auth_h14 {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-evenly;
     height: 22vh;
 }
 
 .auth_h1{
     font-weight: bold;
-    font-size: 4rem;
+    font-size: 4.0rem;
 }
 
 .auth_h4{
@@ -171,31 +172,106 @@ body, html {
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        overflow-y: auto;
     }
 
     .auth_LeftDiv {
-        width: 100%;
+        width: 80%;
         height: 10vh;
-        margin-left: 20%;
+        margin-left: 0;
         display: flex;
-        justify-items: center;
-        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
     }
 
     .auth_RightDiv {
-        width: 100%;
+        width: 80%;
         height: auto;
+        margin-left: 0;
         min-height: 700px;
-        margin-left: 20%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: stretch;
     }
 
     .auth_h14 {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        width: 80%;
+        width: 100%;
+        min-height: 250px;
         height: 22vh;
+    }
+
+    .authButtonDiv {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        margin-top: 5%;
+        min-height: 250px;
+    }
+
+    .authButton{
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 300px;
+        height: 40px;
+        padding: 10px 20px; /* 패딩 값은 이미지의 크기에 따라 조절해야 할 수 있습니다. */
+        border-radius: 25px; /* 둥근 모서리를 위해 */
+        border-width: thin;
+        background-color: white; /* 버튼의 배경색 */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
+        font-size: 16px; /* 글씨 크기 */
+        font-weight: 550; /* 글씨 두께 */
+        color: black; /* 글씨 색 */
+        cursor: pointer; /* 마우스 포인터 표시 */
+        text-decoration: none; /* 링크일 경우 밑줄 없애기 */
+    }
+
+    .authCreateAccountButton {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 300px;
+        height: 40px;
+        padding: 10px 20px; /* 패딩 값은 이미지의 크기에 따라 조절해야 할 수 있습니다. */
+        border-radius: 25px; /* 둥근 모서리를 위해 */
+        border: none;
+        background-color: #4A99E9; /* 버튼의 배경색 */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
+        font-size: 16px; /* 글씨 크기 */
+        font-weight: 550; /* 글씨 두께 */
+        color: white; /* 글씨 색 */
+        cursor: pointer; /* 마우스 포인터 표시 */
+        text-decoration: none; /* 링크일 경우 밑줄 없애기 */
+    }
+
+    .authLoginButton {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 300px;
+        height: 40px;
+        padding: 10px 20px; /* 패딩 값은 이미지의 크기에 따라 조절해야 할 수 있습니다. */
+        border-radius: 25px; /* 둥근 모서리를 위해 */
+        border-width: thin;
+        background-color: white; /* 버튼의 배경색 */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
+        font-size: 16px; /* 글씨 크기 */
+        font-weight: 550; /* 글씨 두께 */
+        color: #4A99E9; /* 글씨 색 */
+        cursor: pointer; /* 마우스 포인터 표시 */
+        text-decoration: none; /* 링크일 경우 밑줄 없애기 */
+    }
+
+    .authLoginDiv {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        margin-top: 5%;
+        min-height: 50px;
     }
 
     .X_Logo_svg{
@@ -205,11 +281,20 @@ body, html {
 }
 
 @media (max-width: 480px){
+    .auth_Div {
+        width: 100vw;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+
+    }
+
     .auth_LeftDiv {
-        width: 100%;
+        width: 80%;
         height: 10vh;
         margin-top: 10%;
-        margin-left: 20%;
         display: flex;
         justify-items: center;
         align-items: center;
@@ -218,10 +303,9 @@ body, html {
     .auth_RightDiv {
         width: 100%;
         height: auto;
-        margin-left: 20%;
         display: flex;
         justify-content: flex-start;
-        align-items: flex-start;
+        align-items: center;
     }
 
     .auth_h14 {
@@ -249,7 +333,7 @@ body, html {
         flex-direction: column;
         justify-content: space-between;
         height: 100%;
-        margin-top: 5%;
+        margin-top: 10%;
         min-height: 220px;
     }
 
