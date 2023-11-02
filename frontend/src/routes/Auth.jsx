@@ -3,9 +3,21 @@ import { Link, useLocation } from 'react-router-dom';
 import { authService, firebaseInstance } from '../fbase';
 import '../style/Auth.css';
 
-const Auth = ({ setSigning, setModals }) => {
+const Auth = () => {
   // modal 뒷배경
   const location = useLocation();
+
+  const AuthButton = ({ name, onClick, logo, text }) => (
+    <button className={'authButton'} name={name} onClick={onClick}>
+      {text}
+      <img
+        src={logo}
+        alt={`${name} logo`}
+        style={{ width: '20px', height: '20px', marginLeft: '10px' }}
+      />
+    </button>
+  );
+
   const onSocialClick = async (event) => {
     const {
       target: { name },
@@ -39,30 +51,18 @@ const Auth = ({ setSigning, setModals }) => {
           </span>
         </div>
         <div className={'authButtonDiv'}>
-          <button
-            className={'authButton'}
+          <AuthButton
             name="google"
             onClick={onSocialClick}
-          >
-            Google 계정으로 가입하기
-            <img
-              src="/google_logo.svg"
-              alt="google logo"
-              style={{ width: '20px', height: '20px', marginLeft: '10px' }}
-            />
-          </button>
-          <button
-            className={'authButton'}
+            logo="/google_logo.svg"
+            text="Google 계정으로 가입하기"
+          />
+          <AuthButton
             name="github"
             onClick={onSocialClick}
-          >
-            Github으로 가입하기
-            <img
-              src="/github_logo.svg"
-              alt="github logo"
-              style={{ width: '20px', height: '20px', marginLeft: '10px' }}
-            />
-          </button>
+            logo="/github_logo.svg"
+            text="Github으로 가입하기"
+          />
           <div>
             <div className={'line'}>
               <span style={{ fontWeight: 'normal', color: 'black' }}>또는</span>
