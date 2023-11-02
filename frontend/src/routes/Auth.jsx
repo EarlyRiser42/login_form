@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { authService, firebaseInstance } from '../fbase';
+import '../style/Auth.css';
 
 const Auth = ({ setSigning, setModals }) => {
   // modal 뒷배경
@@ -19,19 +20,71 @@ const Auth = ({ setSigning, setModals }) => {
   };
 
   return (
-    <div>
-      <Link to={'/signup'} state={{ background: location }}>
-        <button>계정 만들기</button>
-      </Link>
-      <Link to={'/login'} state={{ background: location }}>
-        <button>로그인</button>
-      </Link>
-      <button name="google" onClick={onSocialClick}>
-        Google 계정으로 가입하기
-      </button>
-      <button name="github" onClick={onSocialClick}>
-        Github으로 가입하기
-      </button>
+    <div className={'auth_Div'}>
+      <div className={'auth_LeftDiv'}>
+        <img
+          src="/X_logo.svg"
+          alt="X logo"
+          className={'X_Logo_svg'}
+          style={{}}
+        />
+      </div>
+      <div className={'auth_RightDiv'}>
+        <div className={'auth_h14'}>
+          <span style={{ fontWeight: 'bold', fontSize: '4rem' }}>
+            지금 일어나고 있는 일
+          </span>
+          <span style={{ fontWeight: 'bold', fontSize: '2rem' }}>
+            지금 가입하세요.
+          </span>
+        </div>
+        <div className={'authButtonDiv'}>
+          <button
+            className={'authButton'}
+            name="google"
+            onClick={onSocialClick}
+          >
+            Google 계정으로 가입하기
+            <img
+              src="/google_logo.svg"
+              alt="google logo"
+              style={{ width: '20px', height: '20px', marginLeft: '10px' }}
+            />
+          </button>
+          <button
+            className={'authButton'}
+            name="github"
+            onClick={onSocialClick}
+          >
+            Github으로 가입하기
+            <img
+              src="/github_logo.svg"
+              alt="github logo"
+              style={{ width: '20px', height: '20px', marginLeft: '10px' }}
+            />
+          </button>
+          <div>
+            <div className={'line'}>
+              <span style={{ fontWeight: 'normal', color: 'black' }}>또는</span>
+            </div>
+          </div>
+          <Link to={'/signup'} state={{ background: location }}>
+            <button className={'authCreateAccountButton'}>계정 만들기</button>
+          </Link>
+          <span style={{ fontWeight: 'lighter', fontSize: '0.7rem' }}>
+            가입하시려면 쿠키 사용을 포함해 이용약관과 개인정보 처리{<br />}
+            방침에 동의해야 합니다.
+          </span>
+        </div>
+        <div className={'authLoginDiv'}>
+          <span style={{ fontWeight: 'bolder', fontSize: '1rem' }}>
+            이미 트위터에 가입하셨나요?
+          </span>
+          <Link to={'/login'} state={{ background: location }}>
+            <button className={'authLoginButton'}>로그인</button>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };
