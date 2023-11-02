@@ -12,6 +12,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // for modal background
+  const location = useLocation();
   const background = location.state && location.state.background;
 
   return (
@@ -32,7 +33,7 @@ function App() {
             <Route path="/*" element={<Navigate to="/" />} />
           </Routes>
           {background && (
-            <Routes location={background || location}>
+            <Routes>
               <Route path="/" element={<Auth />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/login" element={<Login />} />
