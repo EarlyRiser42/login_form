@@ -8,7 +8,7 @@ import Signup from './routes/Signup/Signup.jsx';
 import Login from './routes/Login/Login.jsx';
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // for modal background

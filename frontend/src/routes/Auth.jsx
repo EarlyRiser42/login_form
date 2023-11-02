@@ -34,21 +34,12 @@ const Auth = () => {
   return (
     <div className={'auth_Div'}>
       <div className={'auth_LeftDiv'}>
-        <img
-          src="/X_logo.svg"
-          alt="X logo"
-          className={'X_Logo_svg'}
-          style={{}}
-        />
+        <img src="/X_logo.svg" alt="X logo" className={'X_Logo_svg'} />
       </div>
       <div className={'auth_RightDiv'}>
         <div className={'auth_h14'}>
-          <span style={{ fontWeight: 'bold', fontSize: '4rem' }}>
-            지금 일어나고 있는 일
-          </span>
-          <span style={{ fontWeight: 'bold', fontSize: '2rem' }}>
-            지금 가입하세요.
-          </span>
+          <span className={'auth_h1'}>지금 일어나고 있는 일</span>
+          <span className={'auth_h4'}>지금 가입하세요.</span>
         </div>
         <div className={'authButtonDiv'}>
           <AuthButton
