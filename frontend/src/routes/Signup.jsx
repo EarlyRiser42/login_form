@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import Modal from '../../components/Modal';
+import React, { useState, useEffect } from 'react';
+import Modal from '../components/Modal.jsx';
 
-const Login = ({ modals }) => {
+const Signup = () => {
   // 유저 정보 전체
   const [user_data, setUser_data] = useState([]);
   // 페이지 현재 상태
@@ -12,13 +12,19 @@ const Login = ({ modals }) => {
     setPage(page + 1);
   };
 
+  const handlePrevStep = () => {
+    setPage(page - 1);
+  };
+
+  const handleDone = () => {
+    setPage(page + 1);
+  };
+
   return (
     <div>
-      <Modal>
-        <div className="login-modal"></div>
-      </Modal>
+      <Modal></Modal>
     </div>
   );
 };
 
-export default Login;
+export default Signup;

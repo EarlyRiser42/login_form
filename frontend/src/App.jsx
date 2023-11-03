@@ -4,8 +4,8 @@ import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import Loading from './components/Loading.jsx';
 import Home from './routes/Home.jsx';
 import Auth from './routes/Auth.jsx';
-import Signup from './routes/Signup/Signup.jsx';
-import Login from './routes/Login/Login.jsx';
+import Signup from './routes/Signup.jsx';
+import Login from './routes/Login.jsx';
 
 function App() {
   const [loading, setLoading] = useState(false);

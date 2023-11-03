@@ -9,10 +9,17 @@
     align-items: center;
 }
 
-
 .modal {
-    width: 550px;
-    height: 600px;
+    width: 590px;
+    height: 650px;
     background-color: white;
-    border-radius: 5px;
+    border-radius: 20px;
+}
+
+@media (max-width: 700px) {
+    .modal {
+        width: 700px;
+        height: 100vh;
+        border-radius: 0px;
+    }
 }
