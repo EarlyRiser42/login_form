@@ -136,7 +136,7 @@ const FirstPage = ({ onNext }) => {
 
       <div className={'Loginh4Div'}>
         <span className={'Loginh4'}>계정이 없으신가요?</span>
-        <Link to={'/signup'}>
+        <Link className={'LoginSignupLink'} to={'/signup'}>
           <span className={'LoginSignupLink'}>가입하기</span>
         </Link>
       </div>
