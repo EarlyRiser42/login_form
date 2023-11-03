@@ -125,6 +125,9 @@
     text-decoration: none; /* 링크일 경우 밑줄 없애기 */
 }
 
+.LoginPasswordResetButton:hover{
+    background-color: #E7E7E8;
+}
 .Loginh4Div{
     width: 50%;
     margin-bottom: 10%;
