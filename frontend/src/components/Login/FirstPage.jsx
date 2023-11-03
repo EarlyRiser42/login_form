@@ -140,10 +140,6 @@ const FirstPage = ({ onNext }) => {
           <span className={'LoginSignupLink'}>가입하기</span>
         </Link>
       </div>
-
-      <div>
-        {error && <span>죄송합니다. 해당 계정을 찾을 수 없습니다.</span>}
-      </div>
     </div>
   );
 };
