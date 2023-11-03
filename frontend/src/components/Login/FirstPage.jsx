@@ -1,26 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import {
-  fetchSignInMethodsForEmail,
-  getAuth,
-  sendPasswordResetEmail,
-} from 'firebase/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import { authService, firebaseInstance } from '../../fbase';
 import '../../style/LoginFirstPage.css';
 
 const FirstPage = ({ onNext }) => {
   const [email, setEmail] = useState('');
-  const [error, setError] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setError(false);
-    }, 3000); // 5초 후에 에러 메시지를 숨김
-
-    // 컴포넌트가 unmount 될 때 타이머를 클리어하여 메모리 누수 방지
-    return () => clearTimeout(timer);
-  }, []);
 
   const AuthButton = ({ name, onClick, logo, text }) => (
     <button className={'authButton'} name={name} onClick={onClick}>
