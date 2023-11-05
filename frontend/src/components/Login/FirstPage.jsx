@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authService, firebaseInstance } from '../../fbase';
+import { useRecoilState } from 'recoil';
+import { errorState } from '../../recoil/recoil.jsx';
+import { useIsUserExist } from '../../hooks/useIsUserExist.js';
 import '../../style/LoginFirstPage.css';
 
 const FirstPage = ({ onNext }) => {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
+  const [error, setError] = useRecoilState(errorState);
 
   const AuthButton = ({ name, onClick, logo, text }) => (
     <button className={'authButton'} name={name} onClick={onClick}>
@@ -17,6 +21,8 @@ const FirstPage = ({ onNext }) => {
       />
     </button>
   );
+
+  const { isLoading, error, data } = useIsUserExist(email);
 
   const onSocialClick = async (event) => {
     const {
@@ -30,26 +36,6 @@ const FirstPage = ({ onNext }) => {
     }
     await authService.signInWithPopup(provider);
     navigate('/');
-  };
-
-  const handleNext = async () => {
-    const auth = getAuth();
-    await fetchSignInMethodsForEmail(auth, email)
-      .then((result) => {
-        if (result.length === 1) {
-          setError(false);
-          onNext({ email });
-        } else {
-          setError(true);
-        }
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        console.log(errorMessage);
-        setError(true);
-        // ..
-      });
-    // Step1 페이지에서 입력한 데이터를 저장하고 다음 페이지로 이동
   };
 
   const EmailChange = async (event) => {
@@ -108,12 +94,18 @@ const FirstPage = ({ onNext }) => {
           />
         </div>
         <div>
-          <button className={'LoginNextButton'} onClick={handleNext}>
+          <button
+            className={'LoginNextButton'}
+            onClick={() => isUserExist(email)}
+          >
             다음
           </button>
         </div>
         <div>
-          <button className={'LoginPasswordResetButton'} onClick={handleNext}>
+          <button
+            className={'LoginPasswordResetButton'}
+            onClick={() => setError('구현중인 기능입니다.')}
+          >
             비밀번호를 잊으셨나요?
           </button>
         </div>

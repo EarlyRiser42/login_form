@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
 
 const SecondPage = ({ user_data }) => {
   const [password, setPassword] = useState('');
