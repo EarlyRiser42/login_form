@@ -3,13 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { authService, firebaseInstance } from '../../fbase';
 import { useRecoilState } from 'recoil';
 import { errorState } from '../../recoil/recoil.jsx';
-import { useIsUserExist } from '../../hooks/useIsUserExist.js';
+import axios from 'axios';
 import '../../style/LoginFirstPage.css';
 
 const FirstPage = ({ onNext }) => {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
-  const [error, setError] = useRecoilState(errorState);
+  const [recoilError, setRecoilError] = useRecoilState(errorState);
 
   const AuthButton = ({ name, onClick, logo, text }) => (
     <button className={'authButton'} name={name} onClick={onClick}>
@@ -22,7 +22,38 @@ const FirstPage = ({ onNext }) => {
     </button>
   );
 
-  const { isLoading, error, data } = useIsUserExist(email);
+  const onClick = async (value) => {
+    const isEmail = value.includes('@');
+    const queryParam = isEmail ? `email=${value}` : `id=${value}`;
+    const url = `http://localhost:3000/api/checkEmailOrId?${queryParam}`;
+
+    try {
+      const response = await axios.get(url);
+
+      if (response.status === 200 && response.data && response.data.exists) {
+        onNext(value);
+      }
+      if (response.status === 200 && response.data && !response.data.exists) {
+        setRecoilError('죄송합니다. 해당 계정을 찾을 수 없습니다.');
+      }
+    } catch (error) {
+      if (error.response) {
+        // 서버에서 응답이 올 경우
+        switch (error.response.status) {
+          case 400:
+            setRecoilError('이메일 혹은 아이디를 제공해주세요.');
+            break;
+          case 500:
+          default:
+            setRecoilError('서버 오류가 발생했습니다.');
+            break;
+        }
+      } else {
+        // 서버에서 응답이 오지 않는 경우
+        setRecoilError('요청에 문제가 발생했습니다. 다시 시도해 주세요.');
+      }
+    }
+  };
 
   const onSocialClick = async (event) => {
     const {
@@ -96,7 +127,8 @@ const FirstPage = ({ onNext }) => {
         <div>
           <button
             className={'LoginNextButton'}
-            onClick={() => isUserExist(email)}
+            onClick={() => onClick(email)}
+            disabled={!email}
           >
             다음
           </button>
@@ -104,7 +136,7 @@ const FirstPage = ({ onNext }) => {
         <div>
           <button
             className={'LoginPasswordResetButton'}
-            onClick={() => setError('구현중인 기능입니다.')}
+            onClick={() => setRecoilError('구현중인 기능입니다.')}
           >
             비밀번호를 잊으셨나요?
           </button>
