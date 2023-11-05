@@ -192,17 +192,29 @@ a {
         height: 100%;
     }
 
-
     .Loginh1Div{
         margin-top: -10%;
-        margin-right: 30%;
+        margin-right: 25%;
         width: 100%;
         display: flex;
-        justify-content: center
+        justify-content: center;
+        align-items: center;
+    }
+
+    .LoginButtonDiv{
+        width: 100%;
+        height: auto;
+        min-height: 350px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        margin-top: -30%;
     }
 
     .Loginh4Div{
         width: 100%;
+        margin-top: -10%;
         margin-bottom: 10%;
         height: auto;
         display: flex;
