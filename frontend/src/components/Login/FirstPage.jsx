@@ -31,7 +31,7 @@ const FirstPage = ({ onNext }) => {
       const response = await axios.get(url);
 
       if (response.status === 200 && response.data && response.data.exists) {
-        onNext(value);
+        onNext({ email: value });
       }
       if (response.status === 200 && response.data && !response.data.exists) {
         setRecoilError('죄송합니다. 해당 계정을 찾을 수 없습니다.');

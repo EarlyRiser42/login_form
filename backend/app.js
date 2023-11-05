@@ -3,12 +3,19 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-
+const cors = require("cors");
 const apiRouter = require("./routes/api");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 
 var app = express();
+
+// CORS 설
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  }),
+);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

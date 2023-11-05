@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
-import { useQuery } from 'react-query';
+import { Link, useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { errorState } from '../../recoil/recoil.jsx';
+import axios from 'axios';
+import '../../style/LoginSecondPage.css';
 
 const SecondPage = ({ user_data }) => {
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(false);
+  const [recoilError, setRecoilError] = useRecoilState(errorState);
 
   const navigate = useNavigate();
 
@@ -13,32 +15,10 @@ const SecondPage = ({ user_data }) => {
   const [isShowPwChecked, setShowPwChecked] = useState(false);
   const passwordRef = useRef(null);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setError(false);
-    }, 3000); // 5초 후에 에러 메시지를 숨김
-
-    // 컴포넌트가 unmount 될 때 타이머를 클리어하여 메모리 누수 방지
-    return () => clearTimeout(timer);
-  }, []);
-
   const onClick = async (event) => {
     event.preventDefault();
-    const auth = getAuth();
-    signInWithEmailAndPassword(auth, user_data.email, password)
-      .then((userCredential) => {
-        // logged in
-        const user = userCredential.user;
-        console.log(user);
-        // ...
-        navigate('/');
-      })
-      .catch((error) => {
-        setError(true);
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorMessage);
-      });
+    navigate('/');
+    setRecoilError('잘못된 비밀번호입니다.');
   };
 
   const handleShowPwChecked = async () => {
@@ -61,9 +41,41 @@ const SecondPage = ({ user_data }) => {
   };
 
   return (
-    <div>
+    <div className={'LoginModal2'}>
+      <div className={'LoginLogoDiv2'}>
+        <div className={'LoginCloseButtonDiv'}>
+          <Link to={'/'}>
+            <button className={'LoginCloseButton'}>
+              <img
+                className={'LoginCloseImg'}
+                src="/close.svg"
+                alt="close button"
+              />
+            </button>
+          </Link>
+        </div>
+        <img className={'LoginXLogo'} src="/X_logo.svg" alt="X logo" />
+      </div>
+      <div className={'Loginh1Div_2'}>
+        <span className={'Loginh1_2'}>비밀번호를 입력하세요</span>
+      </div>
       <div>
+        <div className={'LoginDisabledInputDiv'}>
+          <input
+            className={'LoginDisabledInput'}
+            name="email"
+            type="text"
+            placeholder={user_data.email}
+            maxLength={16}
+            required
+            value={user_data.email}
+            disabled={true}
+          />
+        </div>
+      </div>
+      <div className={'LoginPasswordInputDiv'}>
         <input
+          className={'LoginPasswordInput'}
           name="password"
           type="password"
           placeholder="비밀번호"
@@ -73,17 +85,35 @@ const SecondPage = ({ user_data }) => {
           ref={passwordRef}
           onChange={onChange}
         />
-        <button onClick={handleShowPwChecked}>
+        <button
+          className={'TogglePasswordVisibility'}
+          onClick={handleShowPwChecked}
+        >
           {!isShowPwChecked && (
-            <img src={'/img/show.png'} alt={'비밀번호 보기'} height={30} />
+            <img
+              src={'/show.png'}
+              alt={'비밀번호 보기'}
+              width={'25px'}
+              height={'25px'}
+            />
           )}
           {isShowPwChecked && (
-            <img src={'/img/hide.png'} alt={'비밀번호 숨기기'} height={30} />
+            <img src={'/hide.png'} alt={'비밀번호 숨기기'} height={30} />
           )}
         </button>
       </div>
-      <button onClick={onClick}>로그인</button>
-      <div>{error && <span>잘못된 비밀번호입니다.</span>}</div>
+      <button
+        className={password ? 'LoginDoneButtonBlack' : 'LoginDoneButtonGray'}
+        onClick={onClick}
+      >
+        로그인
+      </button>
+      <div className={'Loginh4Div2'}>
+        <span className={'Loginh42'}>계정이 없으신가요?</span>
+        <Link className={'LoginSignupLink'} to={'/signup'}>
+          <span className={'LoginSignupLink'}>가입하기</span>
+        </Link>
+      </div>
     </div>
   );
 };

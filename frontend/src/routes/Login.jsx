@@ -3,7 +3,7 @@ import Modal from '../components/Modal.jsx';
 import FirstPage from '../components/Login/FirstPage.jsx';
 import SecondPage from '../components/Login/SecondPage.jsx';
 
-const Login = ({ modals }) => {
+const Login = () => {
   // 유저 정보 전체
   const [user_data, setUser_data] = useState([]);
   // 페이지 현재 상태

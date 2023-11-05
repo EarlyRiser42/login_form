@@ -28,12 +28,6 @@ router.get("/checkEmailOrId", async (req, res) => {
     const db = getFirestore();
     const { email, id } = req.query;
 
-    if (!email && !id) {
-      return res
-        .status(400)
-        .send({ error: "이메일 혹은 아이디를 제공해주세요." });
-    }
-
     let query;
     if (email) {
       query = db.collection("profile").where("email", "==", email);
@@ -43,20 +37,23 @@ router.get("/checkEmailOrId", async (req, res) => {
 
     const querySnapshot = await query.get();
     if (querySnapshot.empty) {
-      return res.status(404).send({
-        error: "해당 이메일 혹은 아이디로 등록된 사용자가 없습니다.",
+      return res.status(200).send({
+        exists: false,
+        message: "죄송합니다. 해당 계정을 찾을 수 없습니다.",
+      });
+    } else {
+      const userData = querySnapshot.docs.map((doc) => {
+        return {
+          uuid: doc.id,
+          ...doc.data(),
+        };
+      });
+
+      return res.status(200).send({
+        exists: true,
+        data: userData,
       });
     }
-
-    // 데이터를 가져와서 반환합니다.
-    const userData = querySnapshot.docs.map((doc) => {
-      return {
-        uuid: doc.id,
-        ...doc.data(),
-      };
-    });
-
-    res.json(userData);
   } catch (error) {
     console.log(error);
     res.status(500).send({ error: "서버 오류가 발생했습니다." });
