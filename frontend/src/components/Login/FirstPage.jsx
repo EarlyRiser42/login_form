@@ -39,15 +39,7 @@ const FirstPage = ({ onNext }) => {
     } catch (error) {
       if (error.response) {
         // 서버에서 응답이 올 경우
-        switch (error.response.status) {
-          case 400:
-            setRecoilError('이메일 혹은 아이디를 제공해주세요.');
-            break;
-          case 500:
-          default:
-            setRecoilError('서버 오류가 발생했습니다.');
-            break;
-        }
+        setRecoilError('서버 오류가 발생했습니다.');
       } else {
         // 서버에서 응답이 오지 않는 경우
         setRecoilError('요청에 문제가 발생했습니다. 다시 시도해 주세요.');
@@ -125,11 +117,7 @@ const FirstPage = ({ onNext }) => {
           />
         </div>
         <div>
-          <button
-            className={'LoginNextButton'}
-            onClick={() => onClick(email)}
-            disabled={!email}
-          >
+          <button className={'LoginNextButton'} onClick={() => onClick(email)}>
             다음
           </button>
         </div>
