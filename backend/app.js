@@ -8,7 +8,7 @@ const checkEmailOrIdRouter = require("./api/checkEmailOrId");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var loginRouter = require("./api/login");
-var refreshLoginRouter = require("./api/refreshLogin");
+var validateTokenRouter = require("./api/validateToken");
 
 var app = express();
 
@@ -33,7 +33,7 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/api", checkEmailOrIdRouter);
 app.use("/api", loginRouter);
-app.use("/api", refreshLoginRouter);
+app.use("/api", validateTokenRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

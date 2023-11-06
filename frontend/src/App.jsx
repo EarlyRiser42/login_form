@@ -1,20 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
-import { loginState } from './util/recoil.jsx';
+import { loadingState, loginState } from './util/recoil.jsx';
 import Loading from './components/Loading.jsx';
 import Home from './routes/Home.jsx';
 import Auth from './routes/Auth.jsx';
 import Signup from './routes/Signup.jsx';
 import Login from './routes/Login.jsx';
+import { getCookie } from './util/cookie.jsx';
+import { useValidateToken } from './hooks/hooks.jsx';
 
 function App() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useRecoilState(loadingState);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
 
   // for modal background
   const location = useLocation();
   const background = location.state && location.state.background;
+
+  const validateTokenMutation = useValidateToken();
+
+  // 지속적인 로그인을 위하여 accessToken과 refreshTokenId 활용
+  useEffect(() => {
+    const accessToken = getCookie('accessToken');
+    const refreshTokenId = getCookie('refreshTokenId');
+    if (accessToken) {
+      validateTokenMutation.mutate({ accessToken, refreshTokenId });
+    }
+  }, []);
 
   return (
     <div>

@@ -13,7 +13,7 @@ export const useLogin = () => {
   return useMutation(
     async (queryParam) => {
       const response = await axios.post(
-        'http://localhost:3000/api/login',
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/login`,
         queryParam,
       );
       if (response.status !== 200) {
@@ -52,6 +52,38 @@ export const useLogin = () => {
         } else {
           setRecoilError('서버 오류가 발생했습니다.');
         }
+      },
+    },
+  );
+};
+
+export const useValidateToken = () => {
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
+  const navigate = useNavigate();
+
+  return useMutation(
+    async ({ accessToken, refreshTokenId }) => {
+      const response = await axios.post(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/validateToken`,
+        {
+          accessToken,
+          refreshTokenId,
+        },
+      );
+
+      if (response.status !== 200) {
+        throw new Error(response.data);
+      }
+
+      return response.data;
+    },
+    {
+      onSuccess: (data) => {
+        setIsLoggedIn(true);
+        navigate('/');
+      },
+      onError: (error) => {
+        console.log(error);
       },
     },
   );

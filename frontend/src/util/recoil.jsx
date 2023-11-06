@@ -10,3 +10,8 @@ export const loginState = atom({
   key: 'loginState',
   default: false,
 });
+
+export const loadingState = atom({
+  key: 'loadingState',
+  default: false,
+});
