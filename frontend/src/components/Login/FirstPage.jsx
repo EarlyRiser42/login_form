@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authService, firebaseInstance } from '../../fbase';
 import { useRecoilState } from 'recoil';
-import { errorState } from '../../util/recoil.jsx';
+import { errorState, loginState } from '../../util/recoil.jsx';
 import axios from 'axios';
 import '../../style/LoginFirstPage.css';
 
@@ -10,6 +10,7 @@ const FirstPage = ({ onNext }) => {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
   const [recoilError, setRecoilError] = useRecoilState(errorState);
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
 
   const AuthButton = ({ name, onClick, logo, text }) => (
     <button className={'authButton'} name={name} onClick={onClick}>
@@ -58,6 +59,7 @@ const FirstPage = ({ onNext }) => {
       provider = new firebaseInstance.auth.GithubAuthProvider();
     }
     await authService.signInWithPopup(provider);
+    setIsLoggedIn(true);
     navigate('/');
   };
 

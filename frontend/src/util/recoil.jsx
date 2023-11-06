@@ -13,5 +13,10 @@ export const loginState = atom({
 
 export const loadingState = atom({
   key: 'loadingState',
-  default: true,
+  default: false,
+});
+
+export const userObjState = atom({
+  key: 'userObjState',
+  default: { displayName: '', uid: '', photoURL: '' },
 });
