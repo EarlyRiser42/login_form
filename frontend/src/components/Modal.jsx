@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import '../style/Modal.css';
-import { errorState } from '../recoil/recoil.jsx';
+import { errorState } from '../util/recoil.jsx';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 const Modal = ({ children }) => {

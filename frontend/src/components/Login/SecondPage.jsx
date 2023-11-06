@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { errorState, loginState } from '../../recoil/recoil.jsx';
+import { errorState, loginState } from '../../util/recoil.jsx';
 import axios from 'axios';
 import '../../style/LoginSecondPage.css';
+import { setCookie } from '../../util/cookie.jsx';
 
 const SecondPage = ({ user_data }) => {
   const [password, setPassword] = useState('');
@@ -35,6 +36,26 @@ const SecondPage = ({ user_data }) => {
       );
 
       if (response.status === 200) {
+        const currentDateTime = new Date();
+        // accessToken 만료시간 30분
+        const accessTokenExpiry = new Date(currentDateTime);
+        accessTokenExpiry.setMinutes(currentDateTime.getMinutes() + 30);
+        // refreshToken 만료시간 1시간
+        const refreshTokenExpiry = new Date(currentDateTime);
+        refreshTokenExpiry.setHours(currentDateTime.getHours() + 1);
+
+        setCookie('accessToken', response.data.accessToken, {
+          path: '/',
+          secure: false,
+          expires: accessTokenExpiry,
+        });
+
+        setCookie('refreshTokenId', response.data.refreshTokenId, {
+          path: '/',
+          secure: false,
+          expires: refreshTokenExpiry,
+        });
+
         setIsLoggedIn(true);
         navigate('/');
       } else {
@@ -48,6 +69,7 @@ const SecondPage = ({ user_data }) => {
           setRecoilError('서버 오류가 발생했습니다.');
         }
       } else {
+        console.log(error);
         setRecoilError('요청에 문제가 발생했습니다. 다시 시도해 주세요.');
       }
     }

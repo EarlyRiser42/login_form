@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
-import { loginState } from './recoil/recoil';
+import { loginState } from './util/recoil.jsx';
 import Loading from './components/Loading.jsx';
 import Home from './routes/Home.jsx';
 import Auth from './routes/Auth.jsx';

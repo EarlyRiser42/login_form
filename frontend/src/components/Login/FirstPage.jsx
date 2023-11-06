@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authService, firebaseInstance } from '../../fbase';
 import { useRecoilState } from 'recoil';
-import { errorState } from '../../recoil/recoil.jsx';
+import { errorState } from '../../util/recoil.jsx';
 import axios from 'axios';
 import '../../style/LoginFirstPage.css';
 

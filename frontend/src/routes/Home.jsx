@@ -3,6 +3,6 @@ import { dbService } from '../fbase';
 import { Link, useLocation } from 'react-router-dom';
 
 const Home = ({ userObj }) => {
-  return <div className="container"></div>;
+  return <div className="container">Home</div>;
 };
 export default Home;
