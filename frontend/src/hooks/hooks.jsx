@@ -2,14 +2,17 @@ import { useMutation } from 'react-query';
 import axios from 'axios';
 import { setCookie } from '../util/cookie.jsx';
 import { useRecoilState } from 'recoil';
-import { errorState, loginState } from '../util/recoil.jsx';
+import { errorState, loadingState, loginState } from '../util/recoil.jsx';
 import { useNavigate } from 'react-router-dom';
 
 export const useLogin = () => {
   // 전역 변수 recoil
+  const [loading, setLoading] = useRecoilState(loadingState);
   const [recoilError, setRecoilError] = useRecoilState(errorState);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
+
   const navigate = useNavigate();
+
   return useMutation(
     async (queryParam) => {
       const response = await axios.post(
@@ -58,6 +61,8 @@ export const useLogin = () => {
 };
 
 export const useValidateToken = () => {
+  // 전역 변수 recoil
+  const [loading, setLoading] = useRecoilState(loadingState);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
   const navigate = useNavigate();
 
@@ -79,8 +84,10 @@ export const useValidateToken = () => {
     },
     {
       onSuccess: (data) => {
+        setLoading(true);
         setIsLoggedIn(true);
         navigate('/');
+        setLoading(false);
       },
       onError: (error) => {
         console.log(error);
