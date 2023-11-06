@@ -1,22 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { errorState, loginState } from '../../util/recoil.jsx';
-import axios from 'axios';
 import '../../style/LoginSecondPage.css';
-import { setCookie } from '../../util/cookie.jsx';
+import { useLogin } from '../../hooks/useLogin.js';
 
 const SecondPage = ({ user_data }) => {
   const [password, setPassword] = useState('');
-  // 전역 변수 recoil
-  const [recoilError, setRecoilError] = useRecoilState(errorState);
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
-
-  const navigate = useNavigate();
 
   // 비밀번호 보이기 안보이기
   const [isShowPwChecked, setShowPwChecked] = useState(false);
   const passwordRef = useRef(null);
+
+  // 로그인 api 전역 관리
+  const loginMutation = useLogin();
 
   const onClick = async (value) => {
     const isEmail = user_data.email.includes('@');
@@ -29,50 +24,7 @@ const SecondPage = ({ user_data }) => {
       queryParam.id = user_data.email;
     }
 
-    try {
-      const response = await axios.post(
-        'http://localhost:3000/api/login',
-        queryParam,
-      );
-
-      if (response.status === 200) {
-        const currentDateTime = new Date();
-        // accessToken 만료시간 30분
-        const accessTokenExpiry = new Date(currentDateTime);
-        accessTokenExpiry.setMinutes(currentDateTime.getMinutes() + 30);
-        // refreshToken 만료시간 1시간
-        const refreshTokenExpiry = new Date(currentDateTime);
-        refreshTokenExpiry.setHours(currentDateTime.getHours() + 1);
-
-        setCookie('accessToken', response.data.accessToken, {
-          path: '/',
-          secure: false,
-          expires: accessTokenExpiry,
-        });
-
-        setCookie('refreshTokenId', response.data.refreshTokenId, {
-          path: '/',
-          secure: false,
-          expires: refreshTokenExpiry,
-        });
-
-        setIsLoggedIn(true);
-        navigate('/');
-      } else {
-        setRecoilError('서버 오류가 발생했습니다.');
-      }
-    } catch (error) {
-      if (error.response) {
-        if (error.response.status === 401) {
-          setRecoilError('잘못된 비밀번호입니다.');
-        } else {
-          setRecoilError('서버 오류가 발생했습니다.');
-        }
-      } else {
-        console.log(error);
-        setRecoilError('요청에 문제가 발생했습니다. 다시 시도해 주세요.');
-      }
-    }
+    loginMutation.mutate(queryParam);
   };
 
   const handleShowPwChecked = async () => {
