@@ -1,6 +1,6 @@
 const { getFirestore } = require("firebase-admin/firestore");
 const { initializeApp, getApps, cert } = require("firebase-admin/app");
-const firebaseKey = require("../firebasekey.json");
+const firebaseKey = require("../firebaseKey.json");
 var express = require("express");
 var router = express.Router();
 
@@ -8,18 +8,7 @@ const apps = getApps();
 
 if (!apps.length) {
   initializeApp({
-    credential: cert({
-      type: firebaseKey.type,
-      project_id: firebaseKey.project_id,
-      private_key_id: firebaseKey.private_key_id,
-      private_key: firebaseKey.private_key,
-      client_email: firebaseKey.client_email,
-      client_id: firebaseKey.client_id,
-      auth_uri: firebaseKey.auth_uri,
-      token_uri: firebaseKey.token_uri,
-      auth_provider_x509_cert_url: firebaseKey.auth_provider_x509_cert_url,
-      client_x509_cert_url: firebaseKey.client_x509_cert_url,
-    }),
+    credential: cert(firebaseKey),
   });
 }
 
@@ -30,9 +19,9 @@ router.get("/checkEmailOrId", async (req, res) => {
 
     let query;
     if (email) {
-      query = db.collection("profile").where("email", "==", email);
+      query = db.collection("users").where("email", "==", email);
     } else {
-      query = db.collection("profile").where("id", "==", id);
+      query = db.collection("users").where("id", "==", id);
     }
 
     const querySnapshot = await query.get();

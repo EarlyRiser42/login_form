@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { authService } from './fbase';
 import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
-import { atom } from 'recoil';
+import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
+import { loginState } from './recoil/recoil';
 import Loading from './components/Loading.jsx';
 import Home from './routes/Home.jsx';
 import Auth from './routes/Auth.jsx';
@@ -10,17 +10,11 @@ import Login from './routes/Login.jsx';
 
 function App() {
   const [loading, setLoading] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
 
   // for modal background
   const location = useLocation();
   const background = location.state && location.state.background;
-
-  // 전역 변수 관리 recoil
-  const errorState = atom({
-    key: 'errorState', // unique ID (with respect to other atoms/selectors)
-    default: '', // default value (aka initial value)
-  });
 
   return (
     <div>

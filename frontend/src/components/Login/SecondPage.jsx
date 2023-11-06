@@ -1,13 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { errorState } from '../../recoil/recoil.jsx';
+import { errorState, loginState } from '../../recoil/recoil.jsx';
 import axios from 'axios';
 import '../../style/LoginSecondPage.css';
 
 const SecondPage = ({ user_data }) => {
   const [password, setPassword] = useState('');
+  // 전역 변수 recoil
   const [recoilError, setRecoilError] = useRecoilState(errorState);
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
 
   const navigate = useNavigate();
 
@@ -15,10 +17,40 @@ const SecondPage = ({ user_data }) => {
   const [isShowPwChecked, setShowPwChecked] = useState(false);
   const passwordRef = useRef(null);
 
-  const onClick = async (event) => {
-    event.preventDefault();
-    navigate('/');
-    setRecoilError('잘못된 비밀번호입니다.');
+  const onClick = async (value) => {
+    const isEmail = user_data.email.includes('@');
+    const queryParam = {
+      password: value,
+    };
+    if (isEmail) {
+      queryParam.email = user_data.email;
+    } else {
+      queryParam.id = user_data.email;
+    }
+
+    try {
+      const response = await axios.post(
+        'http://localhost:3000/api/login',
+        queryParam,
+      );
+
+      if (response.status === 200) {
+        setIsLoggedIn(true);
+        navigate('/');
+      } else {
+        setRecoilError('서버 오류가 발생했습니다.');
+      }
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401) {
+          setRecoilError('잘못된 비밀번호입니다.');
+        } else {
+          setRecoilError('서버 오류가 발생했습니다.');
+        }
+      } else {
+        setRecoilError('요청에 문제가 발생했습니다. 다시 시도해 주세요.');
+      }
+    }
   };
 
   const handleShowPwChecked = async () => {
@@ -104,7 +136,7 @@ const SecondPage = ({ user_data }) => {
       </div>
       <button
         className={password ? 'LoginDoneButtonBlack' : 'LoginDoneButtonGray'}
-        onClick={onClick}
+        onClick={() => onClick(password)}
       >
         로그인
       </button>
