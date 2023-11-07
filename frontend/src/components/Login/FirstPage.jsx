@@ -59,7 +59,7 @@ const FirstPage = ({ onNext }) => {
       provider = new firebaseInstance.auth.GithubAuthProvider();
     }
     await authService.signInWithPopup(provider);
-    setIsLoggedIn(true);
+    setIsLoggedIn({ login: true, social: true });
     navigate('/');
   };
 

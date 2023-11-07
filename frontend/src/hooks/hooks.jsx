@@ -46,7 +46,7 @@ export const useLogin = () => {
           expires: refreshTokenExpiry,
         });
 
-        setIsLoggedIn(true);
+        setIsLoggedIn({ login: true, social: false });
         navigate('/');
       },
       onError: (error) => {
@@ -85,7 +85,7 @@ export const useValidateToken = () => {
     {
       onSuccess: (data) => {
         setLoading(true);
-        setIsLoggedIn(true);
+        setIsLoggedIn({ login: true, social: false });
         navigate('/');
         setLoading(false);
       },

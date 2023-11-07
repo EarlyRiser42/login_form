@@ -10,6 +10,7 @@ import Login from './routes/Login.jsx';
 import { getCookie } from './util/cookie.jsx';
 import { useValidateToken } from './hooks/hooks.jsx';
 import { authService } from './fbase';
+import Navigation from './routes/Navigation.jsx';
 
 function App() {
   const [loading, setLoading] = useRecoilState(loadingState);
@@ -41,7 +42,7 @@ function App() {
           uid: user.uid,
           photoURL: user.photoURL,
         });
-        setIsLoggedIn(true);
+        setIsLoggedIn({ login: true, social: true });
       } else {
         setUserObj({ displayName: '', uid: '', photoURL: '' });
       }
@@ -52,8 +53,9 @@ function App() {
   return (
     <div>
       {loading && <Loading />}
-      {isLoggedIn ? (
+      {isLoggedIn.login ? (
         <>
+          <Navigation />
           <Routes>
             <Route path="/" element={<Home />} />
           </Routes>

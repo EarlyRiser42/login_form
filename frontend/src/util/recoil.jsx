@@ -8,7 +8,7 @@ export const errorState = atom({
 
 export const loginState = atom({
   key: 'loginState',
-  default: false,
+  default: { login: false, social: false },
 });
 
 export const loadingState = atom({
