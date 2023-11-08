@@ -1,0 +1,170 @@
+.SignupFirstPageDiv{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.SignupCloseButtonDiv{
+    margin-left: 2%;
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.SignupCloseButton {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    width: 90%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.SignupCloseButton:hover {
+    background-color: #E7E7E8;
+}
+
+.SignupCloseImg{
+    width: 20px;
+    height: 20px;
+}
+
+.SignupCloseh3Div{
+    margin-left: 5%;
+}
+
+.SignupFirstPageMiddleDiv{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.SignupFirstPageMiddleh1Div{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.SignupFirstPageMiddleh1Div h1{
+    width: 75%;
+}
+
+.SignupFirstPageMiddleDiv input{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 70%;
+    height: 30px;
+    margin-top: 15px;
+    padding: 10px 20px; /* 패딩 값은 이미지의 크기에 따라 조절해야 할 수 있습니다. */
+    border: 1px solid #ccc; /* 테두리 설정 */
+    background-color: white; /* 버튼의 배경색 */
+    font-size: 16px; /* 글씨 크기 */
+    border-radius: 5px;
+    color: black; /* 글씨 색 */
+    cursor: pointer; /* 마우스 포인터 표시 */
+    text-decoration: none; /* 링크일 경우 밑줄 없애기 */
+}
+
+.SignupFirstPageMiddleDiv span{
+    width: 75%;
+}
+
+.SignupFirstPageMiddleh4{
+    margin-top: 30px;
+    font-weight:  550;
+    font-size: 1rem;
+}
+
+.SignupFirstPageMiddleh5{
+    margin-top: 5px;
+    font-weight:  450;
+    font-size: 0.8rem;
+}
+
+.SignupFirstPageMiddleSelectDiv{
+    width: 80%;
+}
+
+.SignupFirstPageMiddleSelectDiv {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.SignupFirstPageMiddleSelectDiv select {
+    font-weight: normal;
+    font-size: 1.1rem;
+    height: 60px;
+    margin: 0 10px; /* 선택 상자 사이의 여백 */
+    padding: 10px; /* 내부 여백 */
+    border: 1px solid #ccc; /* 테두리 설정 */
+    border-radius: 4px; /* 테두리 둥글게 */
+    appearance: none; /* 기본 디자인 제거 */
+    -webkit-appearance: none; /* 크롬, 사파리 대응 */
+    -moz-appearance: none; /* 파이어폭스 대응 */
+    background: url('../../public/arrow-down.svg') no-repeat 87% 50%; /* 화살표 아이콘 적용 */
+    background-size: 15px; /* 배경 이미지 크기 조정 */
+    cursor: pointer; /* 마우스 오버 시 커서 변경 */
+}
+
+
+.select-year{
+    flex: 2;
+}
+
+.select-month{
+    flex: 3;
+}
+
+.select-day{
+    flex: 1.5;
+}
+
+.SignupFirstPageMiddleButtonDiv{
+    width: 100%;
+}
+
+.SignNextButtonBlack{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    height: 50px;
+    min-height: 50px;
+    border-radius: 25px; /* 둥근 모서리를 위해 */
+    border: none;
+    background-color: black; /* 버튼의 배경색 */
+    font-size: 16px; /* 글씨 크기 */
+    font-weight: 550; /* 글씨 두께 */
+    color: white; /* 글씨 색 */
+    cursor: pointer; /* 마우스 포인터 표시 */
+    margin-top: 100px;
+    margin-bottom: 10px;
+    margin-left: 50px;
+}
+
+.SignNextButtonGray {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    height: 50px;
+    min-height: 50px;
+    border-radius: 25px; /* 둥근 모서리를 위해 */
+    border: none;
+    background-color: #86898C; /* 버튼의 배경색 */
+    font-size: 16px; /* 글씨 크기 */
+    font-weight: 550; /* 글씨 두께 */
+    color: white; /* 글씨 색 */
+    cursor: pointer; /* 마우스 포인터 표시 */
+    margin-top: 100px;
+    margin-bottom: 10px;
+    margin-left: 50px;
+}

@@ -76,7 +76,7 @@ body, html {
     height: 40px;
     padding: 10px 20px; /* 패딩 값은 이미지의 크기에 따라 조절해야 할 수 있습니다. */
     border-radius: 25px; /* 둥근 모서리를 위해 */
-    border-width: thin;
+    border: 1px solid #ccc; /* 테두리 설정 */
     background-color: white; /* 버튼의 배경색 */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
     font-size: 16px; /* 글씨 크기 */

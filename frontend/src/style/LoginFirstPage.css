@@ -46,7 +46,6 @@
 .LoginCloseImg{
     width: 20px;
     height: 20px;
-
 }
 
 .LoginXLogo{
@@ -83,7 +82,7 @@
     width: 255px;
     height: 20px;
     padding: 10px 20px; /* 패딩 값은 이미지의 크기에 따라 조절해야 할 수 있습니다. */
-    border-width: thin;
+    border: 1px solid #ccc; /* 테두리 설정 */
     background-color: white; /* 버튼의 배경색 */
     font-size: 16px; /* 글씨 크기 */
     color: black; /* 글씨 색 */
@@ -99,7 +98,7 @@
     height: 40px;
     padding: 10px 20px; /* 패딩 값은 이미지의 크기에 따라 조절해야 할 수 있습니다. */
     border-radius: 25px; /* 둥근 모서리를 위해 */
-    border-width: thin;
+    border: 1px solid #ccc; /* 테두리 설정 */
     background-color: black; /* 버튼의 배경색 */
     font-size: 16px; /* 글씨 크기 */
     font-weight: 550; /* 글씨 두께 */
@@ -116,7 +115,7 @@
     height: 40px;
     padding: 10px 20px; /* 패딩 값은 이미지의 크기에 따라 조절해야 할 수 있습니다. */
     border-radius: 25px; /* 둥근 모서리를 위해 */
-    border-width: thin;
+    border: 1px solid #ccc; /* 테두리 설정 */
     background-color: white; /* 버튼의 배경색 */
     font-size: 16px; /* 글씨 크기 */
     font-weight: 550; /* 글씨 두께 */

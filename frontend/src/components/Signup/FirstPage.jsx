@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { fetchSignInMethodsForEmail, getAuth } from 'firebase/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { errorState, ModalOpenState } from '../../util/recoil.jsx';
 import axios from 'axios';
+import '../../style/SignupFirstPage.css';
 
 const FirstPage = ({ onNext, user_data }) => {
   // 유저 정보(출생년도)
@@ -77,28 +77,16 @@ const FirstPage = ({ onNext, user_data }) => {
       target: { value },
     } = event;
     setEmail(value);
-    const auth = getAuth();
-    await fetchSignInMethodsForEmail(auth, value)
-      .then((result) => {
-        setIsregisterd(result.length);
-        setError(0);
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        console.log(errorMessage);
-        setError(1);
-        // ..
-      });
   };
 
   const toNextPage = async (value) => {
     const isEmail = value.includes('@');
     const queryParam = isEmail ? `email=${value}` : `id=${value}`;
     const url = `http://localhost:3000/api/checkEmailOrId?${queryParam}`;
-
+    console.log(value);
     try {
       const response = await axios.get(url);
-
+      console.log(response);
       if (response.status === 200 && response.data && response.data.exists) {
         setRecoilError('이미 등록된 이메일입니다.');
       }
@@ -118,7 +106,11 @@ const FirstPage = ({ onNext, user_data }) => {
 
   const SelectYear = (props) => {
     return (
-      <select defaultValue={year} onChange={(e) => setYear(e.target.value)}>
+      <select
+        className="select-year"
+        defaultValue={year}
+        onChange={(e) => setYear(e.target.value)}
+      >
         <option value="" disabled>
           년
         </option>
@@ -133,7 +125,11 @@ const FirstPage = ({ onNext, user_data }) => {
 
   const SelectMonth = (props) => {
     return (
-      <select defaultValue={month} onChange={(e) => setMonth(e.target.value)}>
+      <select
+        className="select-month"
+        defaultValue={month}
+        onChange={(e) => setMonth(e.target.value)}
+      >
         <option value="" disabled>
           월
         </option>
@@ -148,7 +144,11 @@ const FirstPage = ({ onNext, user_data }) => {
 
   const SelectDay = (props) => {
     return (
-      <select defaultValue={day} onChange={(e) => setDay(e.target.value)}>
+      <select
+        className="select-day"
+        defaultValue={day}
+        onChange={(e) => setDay(e.target.value)}
+      >
         <option value="" disabled>
           일
         </option>
@@ -162,7 +162,7 @@ const FirstPage = ({ onNext, user_data }) => {
   };
 
   return (
-    <div>
+    <div className={'SignupFirstPageDiv'}>
       <div className={'SignupCloseButtonDiv'}>
         <div>
           <Link to={'/'}>
@@ -180,48 +180,70 @@ const FirstPage = ({ onNext, user_data }) => {
             </button>
           </Link>
         </div>
-        <div>
+        <div className={'SignupCloseh3Div'}>
           <h3>4단계 중 1단계</h3>
         </div>
       </div>
-      <div>
-        <div>
+      <div className={'SignupFirstPageMiddleDiv'}>
+        <div className={'SignupFirstPageMiddleh1Div'}>
           <h1>계정을 생성하세요</h1>
         </div>
-        <form>
-          <input
-            name="name"
-            type="text"
-            placeholder="이름"
-            required
-            value={name}
-            onChange={NameChange}
-          />
-          <input
-            name="email"
-            type="text"
-            placeholder="이메일"
-            required
-            value={email}
-            onChange={EmailChange}
-          />
-          <span>생년월일</span>
-          <span>
-            이 정보는 공개적으로 표시되지 않습니다. 비즈니스, 반려동물 등 계정
-            주제에 상관없이 나의 연령을 확인하세요.
-          </span>
+        <input
+          name="name"
+          type="text"
+          placeholder="이름"
+          required
+          value={name}
+          onChange={NameChange}
+        />
+        <input
+          name="email"
+          type="text"
+          placeholder="이메일"
+          required
+          value={email}
+          onChange={EmailChange}
+        />
+        <span className={'SignupFirstPageMiddleh4'}>생년월일</span>
+        <span className={'SignupFirstPageMiddleh5'}>
+          이 정보는 공개적으로 표시되지 않습니다. 비즈니스, 반려동물 등 계정
+          주제에 상관없이 나의 연령을 확인하세요.
+        </span>
+        <div className={'SignupFirstPageMiddleSelectDiv'}>
           <SelectMonth options={months}></SelectMonth>
           <SelectDay options={days}></SelectDay>
           <SelectYear options={years}></SelectYear>
-        </form>
+        </div>
       </div>
-
-      <button
-        disabled={!(!recoilError && !email.length && !name.length)}
-        onClick={toNextPage}
-      >
-        다음
-      </button>
+      <div className={'SignupFirstPageMiddleButtonDiv'}>
+        <button
+          disabled={
+            !(
+              email.length > 0 &&
+              name.length > 0 &&
+              year !== '' &&
+              month !== '' &&
+              day !== '' &&
+              recoilError === ''
+            )
+          }
+          onClick={() => {
+            toNextPage(email);
+          }}
+          className={
+            email.length > 0 &&
+            name.length > 0 &&
+            year !== '' &&
+            month !== '' &&
+            day !== '' &&
+            recoilError === ''
+              ? 'SignNextButtonBlack'
+              : 'SignNextButtonGray'
+          }
+        >
+          다음
+        </button>
+      </div>
     </div>
   );
 };
