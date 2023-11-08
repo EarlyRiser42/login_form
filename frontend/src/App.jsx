@@ -10,7 +10,6 @@ import Login from './routes/Login.jsx';
 import { getCookie } from './util/cookie.jsx';
 import { useValidateToken } from './hooks/hooks.jsx';
 import { authService } from './fbase';
-import Navigation from './routes/Navigation.jsx';
 
 function App() {
   const [loading, setLoading] = useRecoilState(loadingState);
@@ -55,7 +54,6 @@ function App() {
       {loading && <Loading />}
       {isLoggedIn.login ? (
         <>
-          <Navigation />
           <Routes>
             <Route path="/" element={<Home />} />
           </Routes>

@@ -1,0 +1,11 @@
+.HomeDiv{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+.HomeRightDiv{
+    width: 55vw;
+    margin-right: 20vw;
+    height: 100vh;
+}
