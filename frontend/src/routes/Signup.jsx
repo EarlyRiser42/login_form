@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Modal from '../components/Modal.jsx';
+import FirstPage from '../components/Signup/FirstPage.jsx';
 
 const Signup = () => {
   // 유저 정보 전체
@@ -22,9 +23,44 @@ const Signup = () => {
 
   return (
     <div>
-      <Modal></Modal>
+      <Modal>
+        {page === 1 && (
+          <FirstPage onNext={handleNextStep} user_data={user_data} />
+        )}
+      </Modal>
     </div>
   );
 };
-
+/*
+        {page === 2 && (
+          <Second_page
+            onNext={handleNextStep}
+            onPrev={handlePrevStep}
+            user_data={user_data}
+          />
+        )}
+        {page === 3 && (
+          <Third_page
+            onNext={handleNextStep}
+            onPrev={handlePrevStep}
+            user_data={user_data}
+          />
+        )}
+        {page === 4 && (
+          <Fourth_page
+            onNext={handleDone}
+            onPrev={handlePrevStep}
+            user_data={user_data}
+            page={page}
+            setPage={setPage}
+            setModals={setModals}
+          />
+        )}
+        {page === 5 && (
+          <Fifth_page onNext={handleNextStep} user_data={user_data} />
+        )}
+        {page === 6 && (
+          <Sixth_page user_data={user_data} setSigning={setSigning} />
+        )}
+ */
 export default Signup;
