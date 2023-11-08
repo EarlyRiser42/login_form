@@ -83,10 +83,9 @@ const FirstPage = ({ onNext, user_data }) => {
     const isEmail = value.includes('@');
     const queryParam = isEmail ? `email=${value}` : `id=${value}`;
     const url = `http://localhost:3000/api/checkEmailOrId?${queryParam}`;
-    console.log(value);
     try {
       const response = await axios.get(url);
-      console.log(response);
+
       if (response.status === 200 && response.data && response.data.exists) {
         setRecoilError('이미 등록된 이메일입니다.');
       }
