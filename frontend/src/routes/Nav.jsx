@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { authService, dbService } from '../fbase';
 import { useRecoilState } from 'recoil';
 import { loginState, userObjState } from '../util/recoil.jsx';
+import { deleteCookie } from '../util/cookie.jsx';
 import '../style/Nav.css';
 
 const Nav = () => {
@@ -19,6 +20,8 @@ const Nav = () => {
       authService.signOut();
     }
     setIsLoggedIn({ login: false, social: false });
+    deleteCookie('accessToken');
+    deleteCookie('refreshTokenId');
     navigate('/');
   };
 

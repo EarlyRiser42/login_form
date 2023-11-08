@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../../style/LoginSecondPage.css';
-import { useLogin } from '../../hooks/hooks.jsx';
+import { useLogin } from '../../hooks/useLogin';
 
 const SecondPage = ({ user_data }) => {
   const [password, setPassword] = useState('');

@@ -8,7 +8,7 @@ import Auth from './routes/Auth.jsx';
 import Signup from './routes/Signup.jsx';
 import Login from './routes/Login.jsx';
 import { getCookie } from './util/cookie.jsx';
-import { useValidateToken } from './hooks/hooks.jsx';
+import { useValidateToken } from './hooks/useValidateToken.jsx';
 import { authService } from './fbase';
 
 function App() {
