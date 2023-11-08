@@ -3,6 +3,14 @@ body, html {
     padding: 0;
 }
 
+.auth_Div_withModal{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
 
 .auth_Div {
     width: 100vw;
@@ -165,6 +173,15 @@ body, html {
 }
 /* 화면 너비가 1000px 이하일 때 적용될 스타일 */
 @media (max-width: 1000px) {
+    .auth_Div_withModal{
+        width: 100vw;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
     .auth_Div {
         width: 100vw;
         height: auto;
@@ -281,14 +298,23 @@ body, html {
 }
 
 @media (max-width: 480px){
-    .auth_Div {
+    .auth_Div_withModal{
         width: 100vw;
-        height: auto;
+        height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
+        overflow: hidden;
+    }
 
+    .auth_Div {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
     }
 
     .auth_LeftDiv {
@@ -313,7 +339,7 @@ body, html {
         flex-direction: column;
         justify-content: space-between;
         width: 80%;
-        margin-top: 10%;
+        margin-top: 5%;
         height: 22vh;
         min-height: 170px;
     }
@@ -331,9 +357,9 @@ body, html {
     .authButtonDiv {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        height: 100%;
-        margin-top: 10%;
+        justify-content: space-evenly;
+        height: 40%;
+        margin-top: 5%;
         min-height: 220px;
     }
 

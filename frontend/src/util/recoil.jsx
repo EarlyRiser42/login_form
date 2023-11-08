@@ -16,6 +16,11 @@ export const loadingState = atom({
   default: false,
 });
 
+export const ModalOpenState = atom({
+  key: 'ModalOpenState',
+  default: false,
+});
+
 export const userObjState = atom({
   key: 'userObjState',
   default: {

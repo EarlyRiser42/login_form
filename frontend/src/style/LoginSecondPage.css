@@ -17,6 +17,15 @@
     margin-bottom: 6%;
 }
 
+.Loginh1Div_2{
+    margin-bottom: 7%;
+}
+
+.Loginh1_2{
+    font-weight: bold;
+    font-size: 2rem;
+}
+
 .LoginDisabledInputDiv {
     position: relative;
     width: 100%;
@@ -38,15 +47,6 @@
     margin-bottom: 10px;
     text-indent: 8px;
     font-size: 17px;
-}
-
-.Loginh1Div_2{
-    margin-bottom: 7%;
-}
-
-.Loginh1_2{
-    font-weight: bold;
-    font-size: 2rem;
 }
 
 
@@ -126,4 +126,88 @@
     height: auto;
     margin-top: 5px;
     margin-right: 150px;
+}
+
+@media (max-width: 480px) {
+    .LoginModal2{
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .Loginh1Div_2{
+        margin-top: 5%;
+        margin-bottom: 7%;
+    }
+
+    .Loginh1_2{
+        font-weight: bold;
+        font-size: 1.8rem;
+    }
+
+    .LoginDisabledInputDiv {
+        position: relative;
+        width: 100%;
+        min-width: 350px;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5%;
+        border-radius: 25px;
+    }
+
+    .LoginPasswordInputDiv {
+        position: relative;
+        width: 100%;
+        max-width: 350px;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5%;
+        border-radius: 5px;
+    }
+
+    .LoginDoneButtonBlack{
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 350px;
+        height: 50px;
+        min-height: 50px;
+        border-radius: 25px; /* 둥근 모서리를 위해 */
+        border: none;
+        background-color: black; /* 버튼의 배경색 */
+        font-size: 16px; /* 글씨 크기 */
+        font-weight: 550; /* 글씨 두께 */
+        color: white; /* 글씨 색 */
+        cursor: pointer; /* 마우스 포인터 표시 */
+        margin-top: 230px;
+        margin-bottom: 10px;
+    }
+
+    .LoginDoneButtonGray {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 350px;
+        height: 50px;
+        min-height: 50px;
+        border-radius: 25px; /* 둥근 모서리를 위해 */
+        border: none;
+        background-color: #86898C; /* 버튼의 배경색 */
+        font-size: 16px; /* 글씨 크기 */
+        font-weight: 550; /* 글씨 두께 */
+        color: white; /* 글씨 색 */
+        cursor: pointer; /* 마우스 포인터 표시 */
+        margin-top: 230px;
+        margin-bottom: 10px;
+    }
+
+    .Loginh4Div2{
+        width: 80%;
+        height: auto;
+        margin-top: 5px;
+        margin-right: 40px;
+    }
 }

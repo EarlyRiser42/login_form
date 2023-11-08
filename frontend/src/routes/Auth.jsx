@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { authService, firebaseInstance } from '../fbase';
 import '../style/Auth.css';
+import { useRecoilState } from 'recoil';
+import { ModalOpenState } from '../util/recoil.jsx';
 
 const Auth = () => {
   // modal 뒷배경
   const location = useLocation();
+  const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
+
+  useEffect(() => {
+    setIsModalOpen(false);
+  }, []);
 
   const AuthButton = ({ name, onClick, logo, text }) => (
     <button className={'authButton'} name={name} onClick={onClick}>
@@ -32,7 +39,7 @@ const Auth = () => {
   };
 
   return (
-    <div className={'auth_Div'}>
+    <div className={isModalOpen ? 'auth_Div_withModal' : 'auth_Div'}>
       <div className={'auth_LeftDiv'}>
         <img src="/X_logo.svg" alt="X logo" className={'X_Logo_svg'} />
       </div>
@@ -72,7 +79,14 @@ const Auth = () => {
             이미 트위터에 가입하셨나요?
           </span>
           <Link to={'/login'} state={{ background: location }}>
-            <button className={'authLoginButton'}>로그인</button>
+            <button
+              className={'authLoginButton'}
+              onClick={() => {
+                setIsModalOpen(true);
+              }}
+            >
+              로그인
+            </button>
           </Link>
         </div>
       </div>

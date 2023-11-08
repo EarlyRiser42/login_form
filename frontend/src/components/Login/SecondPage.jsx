@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../../style/LoginSecondPage.css';
 import { useLogin } from '../../hooks/useLogin';
+import { useRecoilState } from 'recoil';
+import { ModalOpenState } from '../../util/recoil.jsx';
 
 const SecondPage = ({ user_data }) => {
   const [password, setPassword] = useState('');
@@ -12,6 +14,8 @@ const SecondPage = ({ user_data }) => {
 
   // 로그인 api 전역 관리
   const loginMutation = useLogin();
+  // 전역 상태 recoil
+  const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
 
   const onClick = async (value) => {
     const isEmail = user_data.email.includes('@');
@@ -51,7 +55,12 @@ const SecondPage = ({ user_data }) => {
       <div className={'LoginLogoDiv2'}>
         <div className={'LoginCloseButtonDiv'}>
           <Link to={'/'}>
-            <button className={'LoginCloseButton'}>
+            <button
+              className={'LoginCloseButton'}
+              onClick={() => {
+                setIsModalOpen(false);
+              }}
+            >
               <img
                 className={'LoginCloseImg'}
                 src="/close.svg"
