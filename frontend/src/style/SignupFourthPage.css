@@ -1,0 +1,56 @@
+.SignupFourthPageh1Div{
+    margin-left: 10%;
+    margin-top: 5%;
+}
+
+.SignupLastInputDiv{
+    position: relative;
+    width: 80%;
+    max-width: 450px;
+    margin-top: 5%;
+    margin-left: 10%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5%;
+    border-radius: 5px;
+}
+
+
+.SignupLastInput {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    text-indent: 8px;
+    font-size: 17px;
+}
+
+.SignupLastInputDiv img {
+    position: absolute;
+    top: 50%; /* Center the checkmark vertically */
+    right: 10px; /* Distance from the right border of the container */
+    transform: translateY(-50%); /* Additional centering for the checkmark */
+    height: 20px; /* Assuming you want the checkmark to be 20px in height */
+    width: auto; /* Keep the aspect ratio of the checkmark */
+}
+
+
+.SignupFourthPageButtonBlack{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    height: 50px;
+    min-height: 50px;
+    border-radius: 25px; /* 둥근 모서리를 위해 */
+    border: none;
+    background-color: black; /* 버튼의 배경색 */
+    font-size: 16px; /* 글씨 크기 */
+    font-weight: 550; /* 글씨 두께 */
+    color: white; /* 글씨 색 */
+    cursor: pointer; /* 마우스 포인터 표시 */
+    margin-top: 100px;
+    margin-bottom: 10px;
+    margin-left: 50px;
+}
