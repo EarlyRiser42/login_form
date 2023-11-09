@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Modal from '../components/Modal.jsx';
 import FirstPage from '../components/Signup/FirstPage.jsx';
 import SecondPage from '../components/Signup/SecondPage.jsx';
+import ThirdPage from '../components/Signup/ThirdPage.jsx';
 
 const Signup = () => {
   // 유저 정보 전체
   const [user_data, setUser_data] = useState([]);
   // 페이지 현재 상태
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(3);
 
   const handleNextStep = (data) => {
     setUser_data({ ...user_data, ...data });
@@ -35,19 +36,20 @@ const Signup = () => {
             user_data={user_data}
           />
         )}
+        {page === 3 && (
+          <ThirdPage
+            onNext={handleNextStep}
+            onPrev={handlePrevStep}
+            user_data={user_data}
+          />
+        )}
       </Modal>
     </div>
   );
 };
 /*
 
-        {page === 3 && (
-          <Third_page
-            onNext={handleNextStep}
-            onPrev={handlePrevStep}
-            user_data={user_data}
-          />
-        )}
+
         {page === 4 && (
           <Fourth_page
             onNext={handleDone}
