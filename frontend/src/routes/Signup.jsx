@@ -7,7 +7,7 @@ const Signup = () => {
   // 유저 정보 전체
   const [user_data, setUser_data] = useState([]);
   // 페이지 현재 상태
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(2);
 
   const handleNextStep = (data) => {
     setUser_data({ ...user_data, ...data });

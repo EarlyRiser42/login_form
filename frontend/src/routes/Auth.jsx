@@ -70,7 +70,9 @@ const Auth = () => {
             <button className={'authCreateAccountButton'}>계정 만들기</button>
           </Link>
           <span style={{ fontWeight: 'lighter', fontSize: '0.7rem' }}>
-            가입하시려면 쿠키 사용을 포함해 이용약관과 개인정보 처리{<br />}
+            가입하시려면 <span>쿠키 사용</span>을 포함해{' '}
+            <span>이용약관과 개인정보 처리</span>
+            {<br />}
             방침에 동의해야 합니다.
           </span>
         </div>

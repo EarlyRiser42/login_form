@@ -68,6 +68,10 @@ body, html {
     height: 30vh;
 }
 
+.authButtonDiv span span{
+    color: #1D9BF0;
+}
+
 .authButton{
     display: inline-flex;
     align-items: center;

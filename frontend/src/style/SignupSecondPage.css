@@ -84,7 +84,7 @@
     display: inline-block;
     width: 20px;
     height: 20px;
-    background-color: #56aaff;
+    background-color: #1D9BF0;
     border-radius: 4px;
     position: relative;
 }
@@ -106,8 +106,13 @@
     width: 75%;
 }
 
+.SignupSecondPageMiddleDiv span span{
+    color: #1D9BF0;
+}
+
 .SignupsECONDPageButtonDiv {
-    margin-top: 10%;
+    margin-top: 5%;
+    margin-left: 3%;
     width: 100%;
 }
 
