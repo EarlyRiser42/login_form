@@ -1,0 +1,83 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-img {
+    width: 200px;
+    height: 200px;
+    background-size: cover;
+    border-radius: 50%; /* Makes the image round */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; /* Needed for the positioning of the overlay icon */
+}
+
+.add-photo-icon-Div {
+    width: 50px; /* Size of the circle */
+    height: 50px; /* Size of the circle */
+    margin-top: 10px;
+    margin-left: 5px;
+    background-color: rgba(153, 153, 153, 0.7);
+    border-radius: 50%; /* Makes the div round */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-photo-icon {
+    width: 30px; /* Size of the circle */
+    height: 30px; /* Size of the circle */
+    cursor: pointer; /* Changes the cursor to indicate the icon is clickable */
+}
+
+.close-icon{
+    width: 30px; /* Size of the circle */
+    height: 30px; /* Size of the circle */
+    cursor: pointer; /* Changes the cursor to indicate the icon is clickable */
+}
+
+.file-input {
+    display: none; /* Hides the file input */
+}
+
+.SignupNextButtonBlack{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    height: 50px;
+    min-height: 50px;
+    border-radius: 25px; /* 둥근 모서리를 위해 */
+    border: none;
+    background-color: black; /* 버튼의 배경색 */
+    font-size: 16px; /* 글씨 크기 */
+    font-weight: 550; /* 글씨 두께 */
+    color: white; /* 글씨 색 */
+    cursor: pointer; /* 마우스 포인터 표시 */
+    margin-top: 100px;
+    margin-bottom: 10px;
+    margin-left: 50px;
+}
+
+.SignupNextButtonWhite {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    height: 50px;
+    min-height: 50px;
+    border-radius: 25px; /* 둥근 모서리를 위해 */
+    border-width: thin;
+    background-color: White; /* 버튼의 배경색 */
+    font-size: 16px; /* 글씨 크기 */
+    font-weight: 550; /* 글씨 두께 */
+    color: black; /* 글씨 색 */
+    cursor: pointer; /* 마우스 포인터 표시 */
+    margin-top: 100px;
+    margin-bottom: 10px;
+    margin-left: 50px;
+}

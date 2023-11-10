@@ -4,6 +4,7 @@ import FirstPage from '../components/Signup/FirstPage.jsx';
 import SecondPage from '../components/Signup/SecondPage.jsx';
 import ThirdPage from '../components/Signup/ThirdPage.jsx';
 import FourthPage from '../components/Signup/FourthPage.jsx';
+import FifthPage from '../components/Signup/FifthPage.jsx';
 
 const Signup = ({ setSigning }) => {
   // 유저 정보 전체
@@ -53,6 +54,9 @@ const Signup = ({ setSigning }) => {
             setPage={setPage}
           />
         )}
+        {page === 5 && (
+          <FifthPage onNext={handleNextStep} user_data={user_data} />
+        )}
       </Modal>
     </div>
   );
@@ -61,9 +65,7 @@ const Signup = ({ setSigning }) => {
 
 
 
-        {page === 5 && (
-          <Fifth_page onNext={handleNextStep} user_data={user_data} />
-        )}
+
         {page === 6 && (
           <Sixth_page user_data={user_data} setSigning={setSigning} />
         )}
