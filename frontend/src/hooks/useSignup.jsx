@@ -1,12 +1,19 @@
 import { useMutation } from 'react-query';
 import axios from 'axios';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { errorState, loginState } from '../util/recoil';
+import {
+  errorState,
+  loginState,
+  ModalBackgroundGrayState,
+} from '../util/recoil';
 import { setCookie } from '../util/cookie.jsx'; // Adjust the path to your actual recoil state
 
 export const useSignUp = () => {
   // 전역 상태 recoil
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
+  const [modalBackground, setModalBackground] = useRecoilState(
+    ModalBackgroundGrayState,
+  );
   const setError = useSetRecoilState(errorState);
 
   return useMutation(
@@ -44,6 +51,7 @@ export const useSignUp = () => {
           expires: refreshTokenExpiry,
         });
         setIsLoggedIn({ login: true, social: false });
+        setModalBackground(true);
       },
       onError: (error) => {
         setError(

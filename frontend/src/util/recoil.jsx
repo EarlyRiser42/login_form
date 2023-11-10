@@ -21,6 +21,11 @@ export const ModalOpenState = atom({
   default: false,
 });
 
+export const ModalBackgroundGrayState = atom({
+  key: 'ModalBackgroundGrayState',
+  default: false,
+});
+
 export const userObjState = atom({
   key: 'userObjState',
   default: {

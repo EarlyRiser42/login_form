@@ -5,11 +5,11 @@ import SecondPage from '../components/Signup/SecondPage.jsx';
 import ThirdPage from '../components/Signup/ThirdPage.jsx';
 import FourthPage from '../components/Signup/FourthPage.jsx';
 
-const Signup = () => {
+const Signup = ({ setSigning }) => {
   // 유저 정보 전체
   const [user_data, setUser_data] = useState([]);
   // 페이지 현재 상태
-  const [page, setPage] = useState(4);
+  const [page, setPage] = useState(5);
 
   const handleNextStep = (data) => {
     setUser_data({ ...user_data, ...data });

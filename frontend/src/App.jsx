@@ -20,6 +20,9 @@ function App() {
   const location = useLocation();
   const background = location.state && location.state.background;
 
+  // 회원가입 중
+  const [signing, setSigning] = useState(false);
+
   const validateTokenMutation = useValidateToken();
 
   // 지속적 로그인
@@ -31,7 +34,7 @@ function App() {
     if (accessToken) {
       validateTokenMutation.mutate({ accessToken, refreshTokenId });
     }
-    // social login했을때 로그인 유
+    // social login했을때 로그인 유지
     authService.onAuthStateChanged((user) => {
       if (user) {
         console.log('user: ', user.email);
@@ -48,11 +51,12 @@ function App() {
       setLoading(false);
     });
   }, []);
-
+  console.log('login', isLoggedIn.login);
+  console.log('signing', signing);
   return (
     <div>
       {loading && <Loading />}
-      {isLoggedIn.login ? (
+      {isLoggedIn.login && !signing ? (
         <>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -61,15 +65,21 @@ function App() {
       ) : (
         <>
           <Routes location={background || location}>
-            <Route path="/" element={<Auth />} />
-            <Route path="/signup" element={<Signup />} />
+            <Route path="/" element={<Auth setSigning={setSigning} />} />
+            <Route
+              path="/signup"
+              element={<Signup setSigning={setSigning} />}
+            />
             <Route path="/login" element={<Login />} />
             <Route path="/*" element={<Navigate to="/" />} />
           </Routes>
           {background && (
             <Routes>
-              <Route path="/" element={<Auth />} />
-              <Route path="/signup" element={<Signup />} />
+              <Route path="/" element={<Auth setSigning={setSigning} />} />
+              <Route
+                path="/signup"
+                element={<Signup setSigning={setSigning} />}
+              />
               <Route path="/login" element={<Login />} />
               <Route path="/*" element={<Navigate to="/" />} />
             </Routes>

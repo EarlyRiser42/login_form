@@ -5,7 +5,7 @@ import '../style/Auth.css';
 import { useRecoilState } from 'recoil';
 import { ModalOpenState } from '../util/recoil.jsx';
 
-const Auth = () => {
+const Auth = ({ setSigning }) => {
   // modal 뒷배경
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
@@ -67,7 +67,15 @@ const Auth = () => {
             </div>
           </div>
           <Link to={'/signup'} state={{ background: location }}>
-            <button className={'authCreateAccountButton'}>계정 만들기</button>
+            <button
+              className={'authCreateAccountButton'}
+              onClick={() => {
+                setIsModalOpen(true);
+                setSigning(true);
+              }}
+            >
+              계정 만들기
+            </button>
           </Link>
           <span style={{ fontWeight: 'lighter', fontSize: '0.7rem' }}>
             가입하시려면 <span>쿠키 사용</span>을 포함해{' '}
@@ -85,6 +93,7 @@ const Auth = () => {
               className={'authLoginButton'}
               onClick={() => {
                 setIsModalOpen(true);
+                setSigning(true);
               }}
             >
               로그인
