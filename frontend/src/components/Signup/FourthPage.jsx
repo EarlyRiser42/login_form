@@ -1,18 +1,29 @@
 import React from 'react';
-import { dbService } from '../../fbase';
-import { doc, setDoc, collection } from 'firebase/firestore';
+import { v4 as uuidv4 } from 'uuid';
+import { useSignUp } from '../../hooks/useSignup.jsx';
 import '../../style/SignupFourthPage.css';
 
 const FourthPage = ({ onNext, onPrev, user_data, page, setPage }) => {
+  // react query hooks
+  const signUp = useSignUp();
   const handlePrev = () => {
     onPrev();
   };
 
   const Signup = async () => {
-    onNext();
-  };
+    const uid = uuidv4(); // Generate the UUID on the frontend
+    const userId = `${user_data.email.slice(
+      0,
+      user_data.email.indexOf('@'),
+    )}${Math.floor(Math.random() * 1000)}`;
 
-  const Profile_toDB = async (userObj, user_data) => {
+    const userObj = {
+      id: userId,
+      email: user_data.email,
+      password: user_data.password,
+      uid: uid,
+    };
+
     const profileObj = {
       id: `${user_data.email.slice(
         0,
@@ -27,20 +38,21 @@ const FourthPage = ({ onNext, onPrev, user_data, page, setPage }) => {
       birthmonth: user_data.month,
       birthday: user_data.day,
       SignupAt: Date.now(),
-      uid: userObj.uid,
+      uid: uid,
       following: ['DlMywOmW2pU3PtilMywBCnFffaC2'],
       follower: [],
       likes: [],
       mentions: [],
     };
 
-    /* mentions (later)
-        const docRef = doc(collection(dbService, 'profile', userObj.uid, 'following'));
-        await setDoc(docRef, []);
-        */
-
-    // for profile info
-    await setDoc(doc(dbService, 'profile', userObj.uid), profileObj);
+    try {
+      const signUpResult = await signUp.mutateAsync({ userObj, profileObj });
+      if (signUpResult) {
+        onNext();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onClick = (event) => {
