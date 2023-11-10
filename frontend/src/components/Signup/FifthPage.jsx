@@ -26,11 +26,10 @@ const FifthPage = ({ onNext }) => {
   };
 
   return (
-    <div>
-      <div>
+    <div className={'SignupFifthPageDiv'}>
+      <div className={'SignupFifthPageLogoDiv'}>
         <img className={'LoginXLogo'} src="/X_logo.svg" alt="X logo" />
       </div>
-
       <div>
         <h1>프로필 사진 선택하기</h1>
         <h4>마음에 드는 셀카 사진이 있나요? 지금 업로드하세요.</h4>
@@ -105,7 +104,7 @@ const FifthPage = ({ onNext }) => {
           </div>
         )}
       </div>
-      <div>
+      <div className={'SignupFifthPageButtonDiv'}>
         {!photo && (
           <button
             className={'SignupNextButtonWhite'}

@@ -1,3 +1,17 @@
+.SignupFifthPageDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.SignupFifthPageLogoDiv{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -44,6 +58,10 @@
     display: none; /* Hides the file input */
 }
 
+.SignupFifthPageButtonDiv{
+    width: 100%;
+}
+
 .SignupNextButtonBlack{
     display: inline-flex;
     align-items: center;
@@ -59,8 +77,8 @@
     color: white; /* 글씨 색 */
     cursor: pointer; /* 마우스 포인터 표시 */
     margin-top: 100px;
-    margin-bottom: 10px;
-    margin-left: 50px;
+    margin-bottom: 50px;
+    margin-left: 60px;
 }
 
 .SignupNextButtonWhite {
@@ -78,6 +96,6 @@
     color: black; /* 글씨 색 */
     cursor: pointer; /* 마우스 포인터 표시 */
     margin-top: 100px;
-    margin-bottom: 10px;
-    margin-left: 50px;
+    margin-bottom: 50px;
+    margin-left: 60px;
 }
