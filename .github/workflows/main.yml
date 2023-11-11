@@ -9,23 +9,24 @@ jobs:
   install-and-build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        directory: ['frontend', 'backend']
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Use Node.js 18.7.0
+      - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '18.7.0'
+          node-version: '18.18.2' # 이 부분을 올바른 Node.js 버전으로 수정하세요
           cache: 'npm'
 
-      - name: Install dependencies for ${{ matrix.directory }}
+      - name: Install dependencies for backend
         run: |
-          cd ${{ matrix.directory }}
+          cd backend
+          npm install
+
+      - name: Install dependencies for frontend
+        run: |
+          cd frontend
           npm install
 
       - name: Build ${{ matrix.project }} (if build script is present)
