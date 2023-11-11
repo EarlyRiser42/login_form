@@ -1,0 +1,88 @@
+.SignupSixthPageDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.SignupSixthPageUpperDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: auto;
+    min-height: 300px;
+}
+
+.SignupSixthPageSpanDiv{
+    margin-top: -10px;
+    margin-bottom: 30px;
+    width: 70%;
+}
+
+.SignupSixthPageSpanDiv h1{
+    font-size: 2.1rem;
+    letter-spacing: -3px;
+}
+
+
+
+.inputcontainer {
+    font-family: Arial, sans-serif; /* Use a common sans-serif font */
+    max-width: 550px;
+    width: 70%;
+    height: 60px;
+    border: 1px solid #ddd; /* Add a light grey border */
+    border-radius: 5px; /* Round the corners of the border */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow to give a lifted look */
+    background: white; /* Use a light grey background */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start; /* Align items vertically */
+}
+
+.inputcontainer span{
+    font-size: 0.8rem;
+    color: gray;
+    margin-top: 5px;
+    margin-left: 5px;
+    padding: 0px;
+}
+
+.inputcontainer div{
+    width: 100%; /* Set a fixed width for the container */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inputcontainer img {
+    margin-right: 1px; /* Add space between the image and the input */
+}
+
+.inputcontainer span{
+    margin-left: 10px;
+}
+
+.inputcontainer input {
+    width: 100%; /* Set a fixed width for the container */
+    border: none;
+    border-radius: 3px; /* Slightly round the corners of the input */
+    flex-grow: 1; /* Allow the input to grow and fill the space */
+    font-size: 1.1rem;
+}
+
+.inputcontainer input:focus {
+    outline: none; /* Remove the default focus outline */
+    border-color: #007bff; /* Highlight the input with a blue border when focused */
+}
+
+.greencheck {
+    width: 15px;
+    height: 15px;
+    padding-right: 10px;
+}
+
