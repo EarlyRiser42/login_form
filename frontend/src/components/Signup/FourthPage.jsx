@@ -48,7 +48,7 @@ const FourthPage = ({ onNext, onPrev, user_data, page, setPage }) => {
     try {
       const signUpResult = await signUp.mutateAsync({ userObj, profileObj });
       if (signUpResult) {
-        onNext(uid);
+        onNext({ uid });
       }
     } catch (error) {
       console.log(error);

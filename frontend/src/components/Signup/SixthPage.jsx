@@ -4,6 +4,7 @@ import useUpdateProfile from '../../hooks/useUpdateProfile';
 import '../../style/Signup/SignupSixthPage.css';
 
 const SixthPage = ({ user_data, setSigning }) => {
+  console.log(user_data);
   // react query
   const updateProfile = useUpdateProfile();
 
@@ -29,9 +30,11 @@ const SixthPage = ({ user_data, setSigning }) => {
           photo: user_data.photo,
           name: name,
         });
-      } catch (error) {
-      } finally {
         console.log('프로필 업데이트 완료.');
+        setSigning(false);
+      } catch (error) {
+        console.error(error);
+      } finally {
         setSigning(false);
       }
     } else {

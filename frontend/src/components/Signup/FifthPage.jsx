@@ -15,14 +15,9 @@ const FifthPage = ({ onNext }) => {
       target: { files },
     } = event;
     const theFile = files[0];
-    const reader = new FileReader();
-    reader.onloadend = (finishedEvent) => {
-      const {
-        currentTarget: { result },
-      } = finishedEvent;
-      setPhoto(result);
-    };
-    reader.readAsDataURL(theFile);
+    if (theFile) {
+      setPhoto(theFile); // 파일 객체를 상태에 저장
+    }
   };
 
   return (

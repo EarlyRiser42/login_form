@@ -22,10 +22,6 @@ const Signup = ({ setSigning }) => {
     setPage(page - 1);
   };
 
-  const handleDone = () => {
-    setPage(page + 1);
-  };
-
   return (
     <div>
       <Modal>
@@ -48,7 +44,7 @@ const Signup = ({ setSigning }) => {
         )}
         {page === 4 && (
           <FourthPage
-            onNext={handleDone}
+            onNext={handleNextStep}
             onPrev={handlePrevStep}
             user_data={user_data}
             page={page}

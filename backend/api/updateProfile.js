@@ -1,6 +1,5 @@
 import express from "express";
 import { getFirestore } from "firebase-admin/firestore";
-import firebaseKey from "../firebaseKey.json" assert { type: "json" };
 import multer from "multer";
 import {
   getStorage,
@@ -22,12 +21,13 @@ const storage = getStorage();
 const upload = multer({ storage: multer.memoryStorage() });
 
 router.post("/updateProfile", upload.single("photo"), async (req, res) => {
-  // multer 미들웨어 사용
   try {
     const { uid, name } = req.body;
+    if (!req.file) {
+      return res.status(400).send({ error: "파일이 포함되어 있지 않습니다." });
+    }
 
     const storageRef = ref(storage, `pfp/${uid}`);
-
     const metadata = {
       contentType: req.file.mimetype,
     };
