@@ -1,9 +1,11 @@
-const { getFirestore } = require("firebase-admin/firestore");
-const { initializeApp, getApps, cert } = require("firebase-admin/app");
-const jwt = require("jsonwebtoken");
-const firebaseKey = require("../firebaseKey.json");
-const express = require("express");
-require("dotenv").config();
+import { getFirestore } from "firebase-admin/firestore";
+import { initializeApp, getApps, cert } from "firebase-admin/app";
+import jwt from "jsonwebtoken";
+import firebaseKey from "../firebaseKey.json" assert { type: "json" };
+import express from "express";
+import dotenv from "dotenv";
+dotenv.config();
+
 const router = express.Router();
 
 const apps = getApps();
@@ -60,4 +62,4 @@ router.post("/validateToken", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

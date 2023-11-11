@@ -1,44 +1,57 @@
-const express = require("express");
-const { getFirestore } = require("firebase-admin/firestore");
-const { getStorage } = require("firebase-admin/storage");
-const { v4: uuidv4 } = require("uuid");
-const { initializeApp, getApps, cert } = require("firebase-admin/app");
-const firebaseKey = require("../firebaseKey.json");
+import express from "express";
+import { getFirestore } from "firebase-admin/firestore";
+import firebaseKey from "../firebaseKey.json" assert { type: "json" };
+import multer from "multer";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+import { initializeApp } from "firebase/app";
+import config from "../config/firebase.config.js";
 
 // Firebase 초기화
-const apps = getApps();
-if (!apps.length) {
-  initializeApp({
-    credential: cert(firebaseKey),
-    storageBucket: "YOUR_FIREBASE_STORAGE_BUCKET", // Firebase 스토리지 버킷 URL
-  });
-}
+initializeApp(config.firebaseConfig);
 
 const router = express.Router();
 const db = getFirestore();
 const storage = getStorage();
 
-router.post("/updateProfile", async (req, res) => {
-  try {
-    const { uid, photo, name } = req.body;
-    const attachmentRef = storage.bucket().file(`pfp/${uuidv4()}`);
-    await attachmentRef.save(Buffer.from(photo, "base64"), {
-      metadata: {
-        contentType: "image/png",
-      },
-    });
+// multer 설정
+const upload = multer({ storage: multer.memoryStorage() });
 
-    const attachmentUrl = await attachmentRef.publicUrl();
+router.post("/updateProfile", upload.single("photo"), async (req, res) => {
+  // multer 미들웨어 사용
+  try {
+    const { uid, name } = req.body;
+
+    const storageRef = ref(storage, `pfp/${uid}`);
+
+    const metadata = {
+      contentType: req.file.mimetype,
+    };
+
+    const snapshot = await uploadBytesResumable(
+      storageRef,
+      req.file.buffer,
+      metadata,
+    );
+
+    const downloadURL = await getDownloadURL(snapshot.ref);
+
     await db.doc(`profile/${uid}`).update({
       id: name,
-      photoURL: attachmentUrl,
+      photoURL: downloadURL,
     });
 
-    res.status(200).send({ message: "프로필 업데이트 성공" });
+    res
+      .status(200)
+      .send({ message: "프로필 업데이트 성공", photoURL: downloadURL });
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: "서버 오류가 발생했습니다." });
   }
 });
 
-module.exports = router;
+export default router;

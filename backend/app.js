@@ -1,35 +1,41 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
-const cors = require("cors");
-const checkEmailOrIdRouter = require("./api/checkEmailOrId");
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
-var loginRouter = require("./api/login");
-var validateTokenRouter = require("./api/validateToken");
-var signupRouter = require("./api/signup");
-var updateProfileRouter = require("./api/updateProfile");
+import createError from "http-errors";
+import express from "express";
+import path from "path";
+import cookieParser from "cookie-parser";
+import logger from "morgan";
+import cors from "cors";
+import bodyParser from "body-parser";
+
+import indexRouter from "./routes/index.js";
+import usersRouter from "./routes/users.js";
+import checkEmailOrIdRouter from "./api/checkEmailOrId.js";
+import loginRouter from "./api/login.js";
+import validateTokenRouter from "./api/validateToken.js";
+import signupRouter from "./api/signup.js";
+import updateProfileRouter from "./api/updateProfile.js";
 
 var app = express();
 
-// CORS 설
+// CORS 설정
 app.use(
   cors({
     origin: "http://localhost:5173",
   }),
 );
 
+// 최대 크기를 50mb로 설정
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+
 // view engine setup
-app.set("views", path.join(__dirname, "views"));
+app.set("views", path.join(path.resolve(), "views"));
 app.set("view engine", "jade");
 
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(path.resolve(), "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
@@ -55,4 +61,4 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-module.exports = app;
+export default app;

@@ -22,8 +22,6 @@ const SixthPage = ({ user_data, setSigning }) => {
   };
 
   const onClick = async () => {
-    console.log(user_data.photo);
-    console.log(initial !== name);
     if (initial !== name || user_data.photo) {
       try {
         await updateProfile.mutateAsync({

@@ -1,10 +1,11 @@
-const { getFirestore } = require("firebase-admin/firestore");
-const { initializeApp, getApps, cert } = require("firebase-admin/app");
-const firebaseKey = require("../firebaseKey.json");
-const express = require("express");
-const bodyParser = require("body-parser");
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
+import { getFirestore } from "firebase-admin/firestore";
+import { initializeApp, getApps, cert } from "firebase-admin/app";
+import firebaseKey from "../firebaseKey.json" assert { type: "json" };
+import express from "express";
+import bodyParser from "body-parser";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
 // Initialize Firebase Admin SDK
 if (!getApps().length) {
@@ -23,8 +24,7 @@ const REFRESH_SECRET = process.env.REFRESH_SECRET;
 
 app.post("/signup", async (req, res) => {
   // 유저 id, password db 업로드
-  const userObj = req.body.userObj;
-  const profileObj = req.body.profileObj;
+  const { userObj, profileObj } = req.body;
   const accessToken = jwt.sign({ userId: userObj.id }, JWT_SECRET, {
     expiresIn: "30m",
   });
@@ -53,4 +53,4 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-module.exports = app;
+export default app;

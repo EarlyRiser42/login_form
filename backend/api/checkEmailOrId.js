@@ -1,8 +1,10 @@
-const { getFirestore } = require("firebase-admin/firestore");
-const { initializeApp, getApps, cert } = require("firebase-admin/app");
-const firebaseKey = require("../firebaseKey.json");
-var express = require("express");
-var router = express.Router();
+import { getFirestore } from "firebase-admin/firestore";
+import { initializeApp, getApps, cert } from "firebase-admin/app";
+import firebaseKey from "../firebaseKey.json" assert { type: "json" };
+
+import express from "express";
+
+const router = express.Router();
 
 const apps = getApps();
 
@@ -49,4 +51,4 @@ router.get("/checkEmailOrId", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
