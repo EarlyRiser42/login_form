@@ -7,7 +7,7 @@
 - 스타일링: CSS
 - 빌드: Vite
 - CI/CD: GitHub Actions
-- 서버: Express
+- 배포: Netlify
 
 ## 커밋 컨벤션:
 - feat (feature): 새로운 기능 추가
@@ -24,8 +24,12 @@
 - EsLint: Airbnb Style Guid
 - Prettier: 작은 따옴표, 세미콜론 사용, 들여쓰기 2칸, 한줄에 최대 100줄
 
-## CI/CD:
+## 배포: CI/CD
 ### Github Action 사용:
-Continuous Integration : Dev의 에러가 없을 경우 Main으로 자동 통합
+Continuous Integration : Dev의 에러가 없을 경우 Master로 자동 통합
+
+### Netlify 사용
+
+Continuous Delivery : Master 브랜치 자동 배포
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/671e2d79-6b33-4131-ad49-88105ca04129/deploy-status)](https://app.netlify.com/sites/twitter42/deploys)
