@@ -32,10 +32,10 @@ app.post("/signup", async (req, res) => {
 
   try {
     // Firestore에 사용자 데이터 추가
-    const userDocRef = await db.collection("users").add(userObj);
+    await db.collection("users").doc(userObj.uid).set(userObj);
 
     // Firestore에 프로필 생성
-    const profileDocRef = await db.collection("profile").add(profileObj);
+    await db.collection("profile").doc(userObj.uid).set(profileObj);
 
     // Firestore에 refreshTokenId 추가
     const refreshTokenDoc = await db

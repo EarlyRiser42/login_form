@@ -40,10 +40,13 @@ router.post("/updateProfile", upload.single("photo"), async (req, res) => {
 
     const downloadURL = await getDownloadURL(snapshot.ref);
 
-    await db.doc(`profile/${uid}`).update({
-      id: name,
-      photoURL: downloadURL,
-    });
+    await db.collection("profile").doc(uid).set(
+      {
+        id: name,
+        photoURL: downloadURL,
+      },
+      { merge: true },
+    );
 
     res
       .status(200)
