@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getAuth } from 'firebase/auth';
-import { dbService } from '../../fbase';
-import '../../style/SignupSixthPage.css';
+import useUpdateProfile from '../../hooks/useUpdateProfile';
+import '../../style/Signup/SignupSixthPage.css';
 
-const SixthPage = ({ setSigning }) => {
-  const user_data = { email: '122312@gmail.com' };
-  const [name, setName] = useState(
-    `${user_data.email.slice(0, user_data.email.indexOf('@'))}${Math.floor(
-      Math.random() * 1000,
-    )}`,
-  );
+const SixthPage = ({ user_data, setSigning }) => {
+  // react query
+  const updateProfile = useUpdateProfile();
+
   const initial = `${user_data.email.slice(
     0,
     user_data.email.indexOf('@'),
   )}${Math.floor(Math.random() * 1000)}`;
+
+  const [name, setName] = useState(initial);
+
   const onChange = (event) => {
     const {
       target: { value },
@@ -22,18 +21,24 @@ const SixthPage = ({ setSigning }) => {
     setName(value);
   };
 
-  const UpdateProfile = async () => {
-    const auth = getAuth();
-    const userObj = auth.currentUser;
-    const profileObj = {
-      id: name,
-    };
-    await dbService.doc(`profile/${userObj.uid}`).update(profileObj);
-  };
-
-  const onClick = () => {
-    UpdateProfile();
-    setSigning(false);
+  const onClick = async () => {
+    console.log(user_data.photo);
+    console.log(initial !== name);
+    if (initial !== name || user_data.photo) {
+      try {
+        await updateProfile.mutateAsync({
+          uid: user_data.uid,
+          photo: user_data.photo,
+          name: name,
+        });
+      } catch (error) {
+      } finally {
+        console.log('프로필 업데이트 완료.');
+        setSigning(false);
+      }
+    } else {
+      setSigning(false);
+    }
   };
 
   return (

@@ -10,6 +10,7 @@ var usersRouter = require("./routes/users");
 var loginRouter = require("./api/login");
 var validateTokenRouter = require("./api/validateToken");
 var signupRouter = require("./api/signup");
+var updateProfileRouter = require("./api/updateProfile");
 
 var app = express();
 
@@ -36,6 +37,7 @@ app.use("/api", checkEmailOrIdRouter);
 app.use("/api", loginRouter);
 app.use("/api", validateTokenRouter);
 app.use("/api", signupRouter);
+app.use("/api", updateProfileRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

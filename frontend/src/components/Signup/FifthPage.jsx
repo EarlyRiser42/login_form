@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import '../../style/SignupFifthPage.css';
+import '../../style/Signup/SignupFifthPage.css';
 
 const FifthPage = ({ onNext }) => {
   const [photo, setPhoto] = useState('');

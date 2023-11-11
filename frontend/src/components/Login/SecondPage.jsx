@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import '../../style/LoginSecondPage.css';
+import '../../style/Login/LoginSecondPage.css';
 import { useLogin } from '../../hooks/useLogin';
 import { useRecoilState } from 'recoil';
 import { ModalOpenState } from '../../util/recoil.jsx';

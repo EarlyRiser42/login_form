@@ -18,7 +18,7 @@
 .SignupSixthPageSpanDiv{
     margin-top: -10px;
     margin-bottom: 30px;
-    width: 70%;
+    width: 75%;
 }
 
 .SignupSixthPageSpanDiv h1{
@@ -31,7 +31,7 @@
 .inputcontainer {
     font-family: Arial, sans-serif; /* Use a common sans-serif font */
     max-width: 550px;
-    width: 70%;
+    width: 75%;
     height: 60px;
     border: 1px solid #ddd; /* Add a light grey border */
     border-radius: 5px; /* Round the corners of the border */

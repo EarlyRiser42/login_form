@@ -4,7 +4,7 @@ import { authService, firebaseInstance } from '../../fbase';
 import { useRecoilState } from 'recoil';
 import { errorState, loginState, ModalOpenState } from '../../util/recoil.jsx';
 import axios from 'axios';
-import '../../style/LoginFirstPage.css';
+import '../../style/Login/LoginFirstPage.css';
 
 const FirstPage = ({ onNext }) => {
   const [email, setEmail] = useState('');

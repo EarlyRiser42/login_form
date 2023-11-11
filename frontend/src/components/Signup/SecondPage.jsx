@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../../style/SignupSecondPage.css';
+import '../../style/Signup/SignupSecondPage.css';
 
 const SecondPage = ({ onNext, onPrev, user_data }) => {
   // 유저 정보(이름, 개인정보)

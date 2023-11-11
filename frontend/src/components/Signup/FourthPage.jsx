@@ -1,7 +1,7 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useSignUp } from '../../hooks/useSignup.jsx';
-import '../../style/SignupFourthPage.css';
+import '../../style/Signup/SignupFourthPage.css';
 
 const FourthPage = ({ onNext, onPrev, user_data, page, setPage }) => {
   // react query hooks
@@ -48,7 +48,7 @@ const FourthPage = ({ onNext, onPrev, user_data, page, setPage }) => {
     try {
       const signUpResult = await signUp.mutateAsync({ userObj, profileObj });
       if (signUpResult) {
-        onNext();
+        onNext(uid);
       }
     } catch (error) {
       console.log(error);

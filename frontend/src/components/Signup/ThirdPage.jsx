@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import '../../style/SignupThirdPage.css';
+import '../../style/Signup/SignupThirdPage.css';
 
 const ThirdPage = ({ onNext, onPrev, user_data }) => {
   const [password, setPassword] = useState('');

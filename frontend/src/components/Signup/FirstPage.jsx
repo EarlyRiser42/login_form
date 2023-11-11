@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { errorState, ModalOpenState } from '../../util/recoil.jsx';
 import axios from 'axios';
-import '../../style/SignupFirstPage.css';
+import '../../style/Signup/SignupFirstPage.css';
 
 const FirstPage = ({ onNext, user_data }) => {
   // 유저 정보(출생년도)
