@@ -8,9 +8,6 @@ on:
 jobs:
   install-and-build:
     runs-on: ubuntu-latest
-    env:
-      frontend: ./frontend
-      backend: ./backend
 
     strategy:
       matrix:
@@ -20,20 +17,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Node.js for backend
+      - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '18.18.2'
           cache: 'npm'
-          working-directory: ${{ env.backend }}
 
-      - name: Install dependencies for backend
+      - name: Install dependencies
         run: npm install
-        working-directory: ${{ env.backend }}
-
-      - name: Install dependencies for frontend
-        run: npm install
-        working-directory: ${{ env.frontend }}
 
       - name: Build ${{ matrix.project }} (if build script is present)
         run: |
