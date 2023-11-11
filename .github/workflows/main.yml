@@ -6,27 +6,26 @@ on:
       - devs
 
 jobs:
-  build:
+  install-and-build:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [18.18.2]
-        project: [frontend, backend]
+        directory: ['frontend', 'backend']
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 18.7.0
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '18.7.0'
           cache: 'npm'
 
-      - name: Install dependencies for ${{ matrix.project }}
+      - name: Install dependencies for ${{ matrix.directory }}
         run: |
-          cd ${{ matrix.project }}
+          cd ${{ matrix.directory }}
           npm install
 
       - name: Build ${{ matrix.project }} (if build script is present)
