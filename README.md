@@ -27,3 +27,5 @@
 ## CI/CD:
 ### Github Action 사용:
 Continuous Integration : Dev의 에러가 없을 경우 Main으로 자동 통합
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/671e2d79-6b33-4131-ad49-88105ca04129/deploy-status)](https://app.netlify.com/sites/twitter42/deploys)
