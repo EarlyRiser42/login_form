@@ -9,30 +9,45 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [18.18.2]
+        project: [frontend, backend]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Use Node.js 18.7.0
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
-          node-version: '18.18.2'
+          node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install dependencies for ${{ matrix.project }}
+        run: |
+          cd ${{ matrix.project }}
+          npm install
+
+      - name: Build ${{ matrix.project }} (if build script is present)
+        run: |
+          cd ${{ matrix.project }}
+          if [ -f package.json ]; then
+            if grep -q '"build":' package.json; then
+              npm run build
+            fi
+          fi
 
       - name: Config Github Setting
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
 
-      - name: Push to main
-        if: success()
+      - name: Push to main (if this step is necessary)
+        if: success() && github.ref == 'refs/heads/devs'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: main
           force: true
           atomic: true
-
