@@ -2,12 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import '../../style/Signup/SignupFifthPage.css';
 
 const FifthPage = ({ onNext }) => {
-  const [photo, setPhoto] = useState('');
-
+  const [fileObject, setFileObject] = useState('');
+  const [pfp, setPfp] = useState('');
   const fileRef = useRef(null);
   const handleNext = () => {
     // Step1 페이지에서 입력한 데이터를 저장하고 다음 페이지로 이동
-    onNext({ photo });
+    onNext({ fileObject });
   };
 
   const onFileChange = (event) => {
@@ -16,7 +16,15 @@ const FifthPage = ({ onNext }) => {
     } = event;
     const theFile = files[0];
     if (theFile) {
-      setPhoto(theFile); // 파일 객체를 상태에 저장
+      setFileObject(theFile); // 파일 객체를 상태에 저장
+      const reader = new FileReader();
+      reader.onloadend = (finishedEvent) => {
+        const {
+          currentTarget: { result },
+        } = finishedEvent;
+        setPfp(result);
+      };
+      reader.readAsDataURL(theFile);
     }
   };
 
@@ -30,7 +38,7 @@ const FifthPage = ({ onNext }) => {
         <h4>마음에 드는 셀카 사진이 있나요? 지금 업로드하세요.</h4>
       </div>
       <div>
-        {!photo && (
+        {!pfp && (
           <div className="container">
             <div
               className="profile-img"
@@ -60,12 +68,12 @@ const FifthPage = ({ onNext }) => {
           </div>
         )}
 
-        {photo && (
+        {pfp && (
           <div className="container">
             <div
               className="profile-img"
               style={{
-                backgroundImage: `url(${photo})`,
+                backgroundImage: `url(${pfp})`,
                 backgroundPosition: 'center center',
                 backgroundRepeat: 'no-repeat',
               }}
@@ -82,7 +90,7 @@ const FifthPage = ({ onNext }) => {
               <div className="add-photo-icon-Div">
                 <img
                   onClick={() => {
-                    setPhoto('');
+                    setPfp('');
                   }}
                   className="close-icon"
                   src={'/close.svg'}
@@ -100,7 +108,7 @@ const FifthPage = ({ onNext }) => {
         )}
       </div>
       <div className={'SignupFifthPageButtonDiv'}>
-        {!photo && (
+        {!pfp && (
           <button
             className={'SignupNextButtonWhite'}
             onClick={() => {
@@ -110,7 +118,7 @@ const FifthPage = ({ onNext }) => {
             지금은 넘어가기
           </button>
         )}
-        {photo && (
+        {pfp && (
           <button className={'SignupNextButtonBlack'} onClick={handleNext}>
             다음
           </button>

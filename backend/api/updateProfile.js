@@ -20,7 +20,7 @@ const storage = getStorage();
 // multer 설정
 const upload = multer({ storage: multer.memoryStorage() });
 
-router.post("/updateProfile", upload.single("photo"), async (req, res) => {
+router.post("/updateProfile", upload.single("fileObject"), async (req, res) => {
   try {
     const { uid, name } = req.body;
     if (!req.file) {

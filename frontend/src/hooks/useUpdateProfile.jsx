@@ -7,7 +7,7 @@ const useUpdateProfile = () =>
     const formData = new FormData();
     formData.append('uid', userData.uid);
     formData.append('name', userData.name);
-    formData.append('photo', userData.photo); // 파일 객체 추가
+    formData.append('fileObject', userData.fileObject); // 파일 객체 추가
 
     axios.post(
       `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/updateProfile`,
