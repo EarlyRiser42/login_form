@@ -1,11 +1,9 @@
-import { initializeApp, getApps, cert } from "firebase-admin/app";
-import { getFirestore } from "firebase-admin/firestore";
-import jwt from "jsonwebtoken";
+import { initializeApp, getApps, cert } from 'firebase-admin/app';
+import { getFirestore } from 'firebase-admin/firestore';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const JWT_SECRET = process.env.JWT_SECRET;
-const REFRESH_SECRET = process.env.REFRESH_SECRET;
-
-// Firebase 관련 초기화 및 설정
 const firebaseConfig = {
     type: "service_account",
     project_id: process.env.VITE_REACT_APP_PROJECT_ID,
@@ -27,23 +25,27 @@ if (!getApps().length) {
     });
 }
 
-exports.handler = async (event, context) => {
-    // POST 요청만 허용
-    if (event.httpMethod !== "POST") {
-        return { statusCode: 405, body: "Method Not Allowed" };
+const JWT_SECRET = process.env.VITE_REACT_APP_JWT_SECRET;
+const REFRESH_SECRET = process.env.VITE_REACT_APP_REFRESH_SECRET;
+
+// Netlify 함수 정의
+export async function handler(event, context) {
+    // POST 요청이 아닐 경우 처리하지 않음
+    if (event.httpMethod !== 'POST') {
+        return { statusCode: 405, body: 'Method Not Allowed' };
     }
 
     try {
         const db = getFirestore();
-        const { email, id, password } = JSON.parse(event.body);
+        const body = JSON.parse(event.body);
+        const { email, id, password } = body;
 
+        let query;
         let user;
-        let query = db.collection("users");
-
         if (email) {
-            query = query.where("email", "==", email);
+            query = db.collection('users').where('email', '==', email);
         } else {
-            query = query.where("id", "==", id);
+            query = db.collection('users').where('id', '==', id);
         }
 
         const snapshot = await query.get();
@@ -53,20 +55,13 @@ exports.handler = async (event, context) => {
         }
 
         if (!user || user.password !== password) {
-            return {
-                statusCode: 401,
-                body: JSON.stringify("잘못된 비밀번호입니다."),
-            };
+            return { statusCode: 401, body: '잘못된 비밀번호입니다.' };
         }
 
-        const accessToken = jwt.sign({ userId: user.id }, JWT_SECRET, {
-            expiresIn: "30m",
-        });
+        const accessToken = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '30m' });
         const refreshToken = jwt.sign({ userId: user.id }, REFRESH_SECRET);
 
-        const refreshTokenDoc = await db
-            .collection("refreshTokens")
-            .add({ token: refreshToken });
+        const refreshTokenDoc = await db.collection('refreshTokens').add({ token: refreshToken });
 
         return {
             statusCode: 200,
@@ -74,12 +69,11 @@ exports.handler = async (event, context) => {
                 accessToken: accessToken,
                 refreshTokenId: refreshTokenDoc.id,
             }),
+            headers: { 'Content-Type': 'application/json' }
         };
+
     } catch (error) {
         console.error(error);
-        return {
-            statusCode: 500,
-            body: JSON.stringify("서버 오류가 발생했습니다."),
-        };
+        return { statusCode: 500, body: '서버 오류가 발생했습니다.' };
     }
-};
+}

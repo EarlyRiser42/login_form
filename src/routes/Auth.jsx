@@ -93,7 +93,6 @@ const Auth = ({ setSigning }) => {
               className={'authLoginButton'}
               onClick={() => {
                 setIsModalOpen(true);
-                setSigning(true);
               }}
             >
               로그인

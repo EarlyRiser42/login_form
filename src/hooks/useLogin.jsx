@@ -16,7 +16,7 @@ export const useLogin = () => {
   return useMutation(
     async (queryParam) => {
       const response = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/login`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/login`,
         queryParam,
       );
       if (response.status !== 200) {

@@ -24,12 +24,13 @@ if (!getApps().length) {
     });
 }
 
-export default async (event, context) => {
+export async function handler(event, context) {
     try {
         // Firestore 데이터베이스 접근
         const db = getFirestore();
-        const email = 'email'
-        const id = event.queryStringParameters?.id
+
+        // event.body를 JSON으로 파싱
+        const { email, id } = JSON.parse(event.body);
 
         let query;
         if (email) {
@@ -41,23 +42,35 @@ export default async (event, context) => {
         // 사용자 데이터 조회
         const querySnapshot = await query.get();
         if (querySnapshot.empty) {
-            return new Response(JSON.stringify({
-                exists: false,
-                message: '죄송합니다. 해당 계정을 찾을 수 없습니다.',
-            }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+            return {
+                statusCode: 200,
+                body: JSON.stringify({
+                    exists: false,
+                    message: '죄송합니다. 해당 계정을 찾을 수 없습니다.',
+                }),
+                headers: { 'Content-Type': 'application/json' }
+            };
         } else {
             const userData = querySnapshot.docs.map(doc => ({
                 uuid: doc.id,
                 ...doc.data(),
             }));
 
-            return new Response(JSON.stringify({
-                exists: true,
-                data: userData,
-            }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+            return {
+                statusCode: 200,
+                body: JSON.stringify({
+                    exists: true,
+                    data: userData,
+                }),
+                headers: { 'Content-Type': 'application/json' }
+            };
         }
     } catch (error) {
-        console.log(error)
-        return new Response(JSON.stringify({ error: '서버 오류가 발생했습니다.' }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+        console.log(error);
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ error: '서버 오류가 발생했습니다.' }),
+            headers: { 'Content-Type': 'application/json' }
+        };
     }
 };

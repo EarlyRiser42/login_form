@@ -51,8 +51,7 @@ function App() {
       setLoading(false);
     });
   }, []);
-  console.log('login', isLoggedIn.login);
-  console.log('signing', signing);
+
   return (
     <div>
       {loading && <Loading />}
