@@ -10,7 +10,7 @@ const useUpdateProfile = () =>
     formData.append('attachmentUrl', userData.attachmentUrl); // 파일 객체 추가
 
     axios.post(
-      `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/updateProfile`,
+      `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/updateProfile`,
       formData,
       {
         headers: {

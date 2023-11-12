@@ -19,7 +19,7 @@ export const useSignUp = () => {
   return useMutation(
     async ({ userObj, profileObj }) => {
       const response = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/signup`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/signUp`,
         { userObj: userObj, profileObj: profileObj },
       );
       if (response.status !== 200) {

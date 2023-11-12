@@ -13,7 +13,7 @@ export const useValidateToken = () => {
   return useMutation(
     async ({ accessToken, refreshTokenId }) => {
       const response = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/validateToken`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/validateToken`,
         {
           accessToken,
           refreshTokenId,

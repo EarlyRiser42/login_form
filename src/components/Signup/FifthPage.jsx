@@ -3,7 +3,6 @@ import { storageService} from "../../fbase";
 import '../../style/Signup/SignupFifthPage.css';
 
 const FifthPage = ({ onNext }) => {
-  const [fileObject, setFileObject] = useState('');
   const [pfp, setPfp] = useState('');
   const fileRef = useRef(null);
   const handleNext = async () => {
