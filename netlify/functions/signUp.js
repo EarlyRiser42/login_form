@@ -25,8 +25,8 @@ if (!getApps().length) {
     });
 }
 
-const JWT_SECRET = process.env.JWT_SECRET;
-const REFRESH_SECRET = process.env.REFRESH_SECRET;
+const JWT_SECRET = process.env.VITE_REACT_APP_JWT_SECRET;
+const REFRESH_SECRET = process.env.VITE_REACT_APP_REFRESH_SECRET;
 
 // Netlify 함수 정의
 export async function handler(event, context) {

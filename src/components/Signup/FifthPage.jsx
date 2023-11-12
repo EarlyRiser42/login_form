@@ -2,18 +2,18 @@ import React, { useState, useRef, useEffect } from 'react';
 import { storageService} from "../../fbase";
 import '../../style/Signup/SignupFifthPage.css';
 
-const FifthPage = ({ onNext }) => {
+const FifthPage = ({user_data, onNext }) => {
   const [pfp, setPfp] = useState('');
   const fileRef = useRef(null);
   const handleNext = async () => {
-      // pfp to storage service
-      let pfpURL = "";
-      const attachmentRef = storageService
-          .ref()
-          .child(`pfp/${uuidv4()}`);
-      const response = await attachmentRef.putString(pfp, "data_url");
-      pfpURL = await response.ref.getDownloadURL();
-    onNext({ pfpURL });
+  // pfp to storage service
+  let pfpURL = "";
+  const attachmentRef = storageService
+      .ref()
+      .child(`pfp/${user_data.uid}`);
+  const response = await attachmentRef.putString(pfp, "data_url");
+  pfpURL = await response.ref.getDownloadURL();
+  onNext({ pfpURL });
   };
 
     const onFileChange = (event) => {

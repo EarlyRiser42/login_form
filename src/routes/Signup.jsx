@@ -52,7 +52,7 @@ const Signup = ({ setSigning }) => {
           />
         )}
         {page === 5 && (
-          <FifthPage onNext={handleNextStep} user_data={user_data} />
+          <FifthPage user_data={user_data} onNext={handleNextStep}  />
         )}
         {page === 6 && (
           <SixthPage user_data={user_data} setSigning={setSigning} />

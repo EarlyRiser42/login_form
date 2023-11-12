@@ -22,11 +22,11 @@ const SixthPage = ({ user_data, setSigning }) => {
   };
 
   const onClick = async () => {
-    if (initial !== name || user_data.fileObject) {
+    if (initial !== name || user_data.pfpURL) {
       try {
         await updateProfile.mutateAsync({
           uid: user_data.uid,
-          fileObject: user_data.fileObject,
+          pfpURL: user_data.pfpURL,
           name: name,
         });
         console.log('프로필 업데이트 완료.');

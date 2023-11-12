@@ -18,8 +18,8 @@ const firebaseConfig = {
     universe_domain: process.env.VITE_REACT_APP_UNIVERSE_DOMAIN
 };
 
-const JWT_SECRET = process.env.JWT_SECRET;
-const REFRESH_SECRET = process.env.REFRESH_SECRET;
+const JWT_SECRET = process.env.VITE_REACT_APP_JWT_SECRET;
+const REFRESH_SECRET = process.env.VITE_REACT_APP_REFRESH_SECRET;
 
 // Firebase Admin SDK 초기화
 if (!getApps().length) {
