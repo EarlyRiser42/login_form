@@ -1,32 +1,36 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { storageService} from "../../fbase";
 import '../../style/Signup/SignupFifthPage.css';
 
 const FifthPage = ({ onNext }) => {
   const [fileObject, setFileObject] = useState('');
   const [pfp, setPfp] = useState('');
   const fileRef = useRef(null);
-  const handleNext = () => {
-    // Step1 페이지에서 입력한 데이터를 저장하고 다음 페이지로 이동
-    onNext({ fileObject });
+  const handleNext = async () => {
+      // pfp to storage service
+      let pfpURL = "";
+      const attachmentRef = storageService
+          .ref()
+          .child(`pfp/${uuidv4()}`);
+      const response = await attachmentRef.putString(pfp, "data_url");
+      pfpURL = await response.ref.getDownloadURL();
+    onNext({ pfpURL });
   };
 
-  const onFileChange = (event) => {
-    const {
-      target: { files },
-    } = event;
-    const theFile = files[0];
-    if (theFile) {
-      setFileObject(theFile); // 파일 객체를 상태에 저장
-      const reader = new FileReader();
-      reader.onloadend = (finishedEvent) => {
+    const onFileChange = (event) => {
         const {
-          currentTarget: { result },
-        } = finishedEvent;
-        setPfp(result);
-      };
-      reader.readAsDataURL(theFile);
-    }
-  };
+            target: { files },
+        } = event;
+        const theFile = files[0];
+        const reader = new FileReader();
+        reader.onloadend = (finishedEvent) => {
+            const {
+                currentTarget: { result },
+            } = finishedEvent;
+            setPfp(result);
+        };
+        reader.readAsDataURL(theFile);
+    };
 
   return (
     <div className={'SignupFifthPageDiv'}>

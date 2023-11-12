@@ -32,19 +32,19 @@ export async function handler(event, context) {
     }
 
     try {
-        const { uid, name, photoURL } = JSON.parse(event.body);
+        const { uid, name, pfpURL } = JSON.parse(event.body);
 
         await db.collection('profile').doc(uid).set(
             {
                 id: name,
-                photoURL: photoURL,
+                pfpURL: pfpURL,
             },
             { merge: true },
         );
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ message: '프로필 업데이트 성공', photoURL: photoURL }),
+            body: JSON.stringify({ message: '프로필 업데이트 성공', pfpURL: pfpURL }),
             headers: { 'Content-Type': 'application/json' }
         };
     } catch (error) {

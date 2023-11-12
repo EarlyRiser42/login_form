@@ -4,7 +4,6 @@ import useUpdateProfile from '../../hooks/useUpdateProfile';
 import '../../style/Signup/SignupSixthPage.css';
 
 const SixthPage = ({ user_data, setSigning }) => {
-  console.log(user_data);
   // react query
   const updateProfile = useUpdateProfile();
 
