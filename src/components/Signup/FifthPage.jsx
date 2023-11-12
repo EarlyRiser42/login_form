@@ -3,17 +3,18 @@ import { storageService} from "../../fbase";
 import '../../style/Signup/SignupFifthPage.css';
 
 const FifthPage = ({user_data, onNext }) => {
-  const [pfp, setPfp] = useState('');
+  const [photo, setphoto] = useState('');
   const fileRef = useRef(null);
+
   const handleNext = async () => {
   // pfp to storage service
-  let pfpURL = "";
+  let photoURL = "";
   const attachmentRef = storageService
       .ref()
       .child(`pfp/${user_data.uid}`);
-  const response = await attachmentRef.putString(pfp, "data_url");
-  pfpURL = await response.ref.getDownloadURL();
-  onNext({ pfpURL });
+  const response = await attachmentRef.putString(photo, "data_url");
+      photoURL = await response.ref.getDownloadURL();
+  onNext({ photoURL });
   };
 
     const onFileChange = (event) => {
@@ -26,7 +27,7 @@ const FifthPage = ({user_data, onNext }) => {
             const {
                 currentTarget: { result },
             } = finishedEvent;
-            setPfp(result);
+            setphoto(result);
         };
         reader.readAsDataURL(theFile);
     };
@@ -41,7 +42,7 @@ const FifthPage = ({user_data, onNext }) => {
         <h4>마음에 드는 셀카 사진이 있나요? 지금 업로드하세요.</h4>
       </div>
       <div>
-        {!pfp && (
+        {!photo && (
           <div className="container">
             <div
               className="profile-img"
@@ -71,12 +72,12 @@ const FifthPage = ({user_data, onNext }) => {
           </div>
         )}
 
-        {pfp && (
+        {photo && (
           <div className="container">
             <div
               className="profile-img"
               style={{
-                backgroundImage: `url(${pfp})`,
+                backgroundImage: `url(${photo})`,
                 backgroundPosition: 'center center',
                 backgroundRepeat: 'no-repeat',
               }}
@@ -93,7 +94,7 @@ const FifthPage = ({user_data, onNext }) => {
               <div className="add-photo-icon-Div">
                 <img
                   onClick={() => {
-                    setPfp('');
+                      setphoto('');
                   }}
                   className="close-icon"
                   src={'/close.svg'}
@@ -111,7 +112,7 @@ const FifthPage = ({user_data, onNext }) => {
         )}
       </div>
       <div className={'SignupFifthPageButtonDiv'}>
-        {!pfp && (
+        {!photo && (
           <button
             className={'SignupNextButtonWhite'}
             onClick={() => {
@@ -121,7 +122,7 @@ const FifthPage = ({user_data, onNext }) => {
             지금은 넘어가기
           </button>
         )}
-        {pfp && (
+        {photo && (
           <button className={'SignupNextButtonBlack'} onClick={handleNext}>
             다음
           </button>
