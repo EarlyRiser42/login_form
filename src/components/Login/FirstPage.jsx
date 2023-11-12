@@ -27,7 +27,7 @@ const FirstPage = ({ onNext }) => {
   const onClick = async (value) => {
     const isEmail = value.includes('@');
     const queryParam = isEmail ? `email=${value}` : `id=${value}`;
-    const url = `http://localhost:3000/api/checkEmailOrId?${queryParam}`;
+    const url = `/.netlify/functions/checkEmailOrId?${queryParam}`;
 
     try {
       const response = await axios.get(url);
