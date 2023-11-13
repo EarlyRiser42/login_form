@@ -30,7 +30,7 @@ const Nav = () => {
     return (
       <StyledNavHomeIcon>
         <Link to={linkTo}>
-          <img src={imgSrc} alt={imgAlt} width="30px" height="30px" />
+          <img src={imgSrc} alt={imgAlt} />
           <span>{linkText}</span>
         </Link>
       </StyledNavHomeIcon>
@@ -52,7 +52,9 @@ const Nav = () => {
           <div>
             <Link to={linkTo} state={state}>
               <button className="NavPostButton">{buttonText}</button>
-              <img className="NavPostImg" src={imgSrc} alt={imgAlt} />
+              <div className={'NavPostImgDiv'}>
+                <img className="NavPostImg" src={imgSrc} alt={imgAlt} />
+              </div>
             </Link>
           </div>
         ) : (
@@ -60,7 +62,9 @@ const Nav = () => {
             <button className="NavLogoutButton" onClick={onClick}>
               {buttonText}
             </button>
-            <img className="NavLogoutImg" src={imgSrc} alt={imgAlt} />
+            <div className={'NavLogoutImgDiv'} onClick={onClick}>
+              <img className="NavLogoutImg" src={imgSrc} alt={imgAlt} />
+            </div>
           </div>
         )}
       </StyledNavButtonDiv>
@@ -70,9 +74,12 @@ const Nav = () => {
   return (
     <nav className={'NavDiv'}>
       <div className={'NavLinkDiv'}>
-        <div className={'NavLogoDiv'}>
-          <img className={'NavXLogo'} src="/X_logo.svg" alt="X logo" />
-        </div>
+        <NavIconDiv
+          imgSrc={'./X_logo.svg'}
+          imgAlt={'LinkToHome'}
+          linkTo={'/'}
+          linkText={''}
+        />
         <NavIconDiv
           imgSrc={'./home.png'}
           imgAlt={'LinkToHome'}
@@ -135,6 +142,11 @@ const StyledNavHomeIcon = styled.div`
     background-color: #e7e7e8;
   }
 
+  img {
+    width: 30px;
+    height: 30px;
+  }
+
   a,
   a:visited,
   a:hover,
@@ -151,6 +163,36 @@ const StyledNavHomeIcon = styled.div`
 
   a span {
     margin-left: 30px;
+  }
+
+  @media (max-width: 1280px) {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    img {
+    }
+
+    a,
+    a:visited,
+    a:hover,
+    a:active {
+      margin-left: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: normal;
+      font-size: 1.2rem;
+      color: black;
+      text-decoration: none;
+    }
+
+    a span {
+      display: none;
+    }
+  }
+
+  @media (max-width: 500px) {
   }
 `;
 
@@ -207,10 +249,31 @@ const StyledNavButtonDiv = styled.div`
       display: none;
     }
 
+    div div {
+      border-radius: 50px;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .NavPostImgDiv {
+      background-color: #1d9bf0;
+    }
+
+    .NavLogoutImgDiv {
+      background-color: white;
+    }
+
+    .NavLogoutImgDiv:hover {
+      background-color: #e7e7e8;
+    }
+
     .NavPostImg {
       display: flex;
-      width: 60px;
-      height: 60px;
+      width: 60%;
+      height: 60%;
     }
 
     .NavLogoutButton {
@@ -219,8 +282,8 @@ const StyledNavButtonDiv = styled.div`
 
     .NavLogoutImg {
       display: flex;
-      width: 40px;
-      height: 40px;
+      width: 60%;
+      height: 60%;
     }
   }
 

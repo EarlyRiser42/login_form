@@ -15,175 +15,11 @@
     align-items: flex-start;
 }
 
-.NavLogoDiv{
-    margin-top: 20px;
-    width: 100%;
-}
-
-.NavXLogo{
-    margin-left: 40px;
-    width: 30px;
-    height: 25px;
-}
-
-.NavHomeIcon{
-    display: inline-flex;
-    align-items: center;
-    justify-content: flex-start;
-    margin-top: 20px;
-    width: 100%;
-    height: 40px;
-    border-radius: 40px; /* 둥근 모서리를 위해 */
-    border: none;
-    background-color: white; /* 버튼의 배경색 */
-    font-size: 16px; /* 글씨 크기 */
-    font-weight: 550; /* 글씨 두께 */
-    color: black; /* 글씨 색 */
-    cursor: pointer; /* 마우스 포인터 표시 */
-    text-decoration: none; /* 링크일 경우 밑줄 없애기 */
-}
-
-.NavHomeIcon:hover {
-    background-color: #E7E7E8; /* 호버 시 색상 변경 */
-}
-
-.NavHomeIcon a,
-.NavHomeIcon a:visited,
-.NavHomeIcon a:hover,
-.NavHomeIcon a:active {
-    margin-left: 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: normal;
-    font-size: 1.2rem;
-    color: black; /* This will make the text color black */
-    text-decoration: none; /* This will remove the underline from the link */
-}
-
-.NavHomeIcon a span {
-    margin-left: 30px;
-}
-
-.NavProfileIcon{
-    display: inline-flex;
-    align-items: center;
-    justify-content: flex-start;
-    margin-top: 20px;
-    width: 100%;
-    height: 40px;
-    border-radius: 40px; /* 둥근 모서리를 위해 */
-    border: none;
-    background-color: white; /* 버튼의 배경색 */
-    font-size: 16px; /* 글씨 크기 */
-    font-weight: 550; /* 글씨 두께 */
-    color: black; /* 글씨 색 */
-    cursor: pointer; /* 마우스 포인터 표시 */
-    text-decoration: none; /* 링크일 경우 밑줄 없애기 */
-}
-
-.NavProfileIcon:hover {
-    background-color: #E7E7E8; /* 호버 시 색상 변경 */
-}
-
-.NavProfileIcon a,
-.NavProfileIcon a:visited,
-.NavProfileIcon a:hover,
-.NavProfileIcon a:active {
-    margin-left: 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: normal;
-    font-size: 1.2rem;
-    color: black; /* This will make the text color black */
-    text-decoration: none; /* This will remove the underline from the link */
-}
-
-.NavProfileIcon a span {
-    margin-left: 30px;
-}
-
-.NavPostButtonDiv{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.NavPostButtonDiv a {
-    width: 80%;
-}
-
-.NavPostImg{
-    display: none;
-}
-
-.NavPostButton {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-    width: 100%;
-    height: 40px;
-    padding: 10px 20px; /* 패딩 값은 이미지의 크기에 따라 조절해야 할 수 있습니다. */
-    border-radius: 25px; /* 둥근 모서리를 위해 */
-    border: none;
-    background-color: #4A99E9; /* 버튼의 배경색 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
-    font-size: 16px; /* 글씨 크기 */
-    font-weight: 550; /* 글씨 두께 */
-    color: white; /* 글씨 색 */
-    cursor: pointer; /* 마우스 포인터 표시 */
-    text-decoration: none; /* 링크일 경우 밑줄 없애기 */
-}
-
-.NavPostButton:hover {
-    background-color: #198CD8; /* 호버 시 색상 변경 */
-}
-
-.NavLogoutButtonDiv{
-    width: 100%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-
-.NavLogoutButton{
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-    width: 80%;
-    height: 40px;
-    padding: 10px 20px; /* 패딩 값은 이미지의 크기에 따라 조절해야 할 수 있습니다. */
-    border-radius: 25px; /* 둥근 모서리를 위해 */
-    border: none;
-    background-color: white; /* 버튼의 배경색 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
-    font-size: 16px; /* 글씨 크기 */
-    font-weight: 550; /* 글씨 두께 */
-    color: black; /* 글씨 색 */
-    cursor: pointer; /* 마우스 포인터 표시 */
-    text-decoration: none; /* 링크일 경우 밑줄 없애기 */
-}
-
-.NavLogoutButton:hover {
-    background-color:  #E7E7E8; /* 호버 시 색상 변경 */
-}
-
-.NavLogoutImg{
-    display: none;
-}
-
 .NavUserObjDiv{
     display: flex;
     flex-direction: row;
     width: 180px;
     height: 10vh;
-    margin-top: 40px;
-    padding: 10px 20px; /* 패딩 값은 이미지의 크기에 따라 조절해야 할 수 있습니다. */
     border-radius: 40px; /* 둥근 모서리를 위해 */
 }
 
@@ -213,25 +49,28 @@
 
 
 @media (max-width: 1280px){
-    .NavPostButton{
+    .NavDiv{
+        margin-left: 10vw;
+        width: 5vw;
+        min-width: 50px;
+    }
+
+    .NavLinkDiv{
+        width: 100%;
+    }
+
+    .NavUserObjDiv{
+        display: flex;
+        flex-direction: row;
+        width: 5vw;
+        height: 10vh;
+        border-radius: 40px; /* 둥근 모서리를 위해 */
+    }
+
+    .NavUserObjInfo span{
         display: none;
     }
 
-    .NavPostImg{
-        display: flex;
-        width: 60px;
-        height: 60px;
-    }
-
-    .NavLogoutButton{
-        display: none;
-    }
-
-    .NavLogoutImg{
-        display: flex;
-        width: 40px;
-        height: 40px;
-    }
 }
 
 @media (max-width: 500px){}
