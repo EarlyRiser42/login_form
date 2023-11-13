@@ -59,8 +59,8 @@ export async function handler(event, context) {
       return { statusCode: 401, body: '잘못된 비밀번호입니다.' };
     }
 
-    const accessToken = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '30m' });
-    const refreshToken = jwt.sign({ userId: user.id }, REFRESH_SECRET);
+    const accessToken = jwt.sign({ userId: user.id, userPassword: user.password }, JWT_SECRET, { expiresIn: '30m' });
+    const refreshToken = jwt.sign({ userId: user.id, userPassword: user.password }, REFRESH_SECRET);
 
     const refreshTokenDoc = await db.collection('refreshTokens').add({ token: refreshToken });
 

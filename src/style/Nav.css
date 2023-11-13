@@ -115,6 +115,10 @@
     width: 80%;
 }
 
+.NavPostImg{
+    display: none;
+}
+
 .NavPostButton {
     display: inline-flex;
     align-items: center;
@@ -145,6 +149,7 @@
     justify-content: center;
 }
 
+
 .NavLogoutButton{
     display: inline-flex;
     align-items: center;
@@ -168,6 +173,10 @@
     background-color:  #E7E7E8; /* 호버 시 색상 변경 */
 }
 
+.NavLogoutImg{
+    display: none;
+}
+
 .NavUserObjDiv{
     display: flex;
     flex-direction: row;
@@ -188,7 +197,6 @@
 }
 
 
-
 .NavpfpDiv{
     margin-left: 10%;
 }
@@ -204,6 +212,26 @@
 }
 
 
-@media (max-width: 1200px){}
+@media (max-width: 1280px){
+    .NavPostButton{
+        display: none;
+    }
+
+    .NavPostImg{
+        display: flex;
+        width: 60px;
+        height: 60px;
+    }
+
+    .NavLogoutButton{
+        display: none;
+    }
+
+    .NavLogoutImg{
+        display: flex;
+        width: 40px;
+        height: 40px;
+    }
+}
 
 @media (max-width: 500px){}

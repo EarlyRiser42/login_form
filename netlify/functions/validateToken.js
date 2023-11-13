@@ -55,9 +55,9 @@ export async function handler(event, context) {
 
         try {
           const decodedToken = jwt.verify(refreshToken, REFRESH_SECRET);
-          const { userId } = decodedToken;
+          const { userId, userPassword } = decodedToken;
 
-          const newAccessToken = jwt.sign({ userId }, JWT_SECRET, { expiresIn: '30m' });
+          const newAccessToken = jwt.sign({ userId, userPassword }, JWT_SECRET, { expiresIn: '30m' });
 
           return {
             statusCode: 200,
