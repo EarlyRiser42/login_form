@@ -16,7 +16,7 @@ function App() {
   const [loading, setLoading] = useRecoilState(loadingState);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
   const [userObj, setUserObj] = useRecoilState(userObjState);
-
+  console.log(userObj);
   // for modal background
   const location = useLocation();
   const background = location.state && location.state.background;

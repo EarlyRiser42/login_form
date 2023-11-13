@@ -23,8 +23,7 @@ export const useGetProfile = () => {
     },
     {
       onSuccess: (data) => {
-        setUserObj({ ...data });
-        console.log(userObj);
+        setUserObj({ ...data.user });
       },
       onError: (error) => {
         setError(

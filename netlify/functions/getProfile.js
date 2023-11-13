@@ -21,7 +21,6 @@ const firebaseConfig = {
 };
 
 const JWT_SECRET = process.env.VITE_REACT_APP_JWT_SECRET;
-const REFRESH_SECRET = process.env.VITE_REACT_APP_REFRESH_SECRET;
 
 // Firebase Admin SDK 초기화
 if (!getApps().length) {
@@ -41,7 +40,11 @@ export async function handler(event, context) {
 
     try {
       // 액세스 토큰 검증
-      const { id, email, password } = jwt.verify(accessToken, JWT_SECRET);
+      const { userId: id, userEmail: email } = jwt.verify(
+        accessToken,
+        JWT_SECRET,
+      );
+
       const query = db.collection('users').where('email', '==', email);
       const snapshot = await query.get();
       let user;
@@ -56,6 +59,7 @@ export async function handler(event, context) {
         headers: { 'Content-Type': 'application/json' },
       };
     } catch (error) {
+      console.log(error);
       return {
         statusCode: 400,
         body: 'Invalid access token',

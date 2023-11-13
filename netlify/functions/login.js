@@ -14,7 +14,8 @@ const firebaseConfig = {
   client_id: process.env.VITE_REACT_APP_CLIENT_ID,
   auth_uri: process.env.VITE_REACT_APP_AUTH_URI,
   token_uri: process.env.VITE_REACT_APP_TOKEN_URI,
-  auth_provider_x509_cert_url: process.env.VITE_REACT_APP_AUTH_PROVIDER_X509_CERT_URL,
+  auth_provider_x509_cert_url:
+    process.env.VITE_REACT_APP_AUTH_PROVIDER_X509_CERT_URL,
   client_x509_cert_url: process.env.VITE_REACT_APP_CLIENT_X509_CERT_URL,
   universe_domain: process.env.VITE_REACT_APP_UNIVERSE_DOMAIN,
 };
@@ -59,10 +60,19 @@ export async function handler(event, context) {
       return { statusCode: 401, body: '잘못된 비밀번호입니다.' };
     }
 
-    const accessToken = jwt.sign({ userId: user.id, userPassword: user.password }, JWT_SECRET, { expiresIn: '30m' });
-    const refreshToken = jwt.sign({ userId: user.id, userPassword: user.password }, REFRESH_SECRET);
+    const accessToken = jwt.sign(
+      { userId: user.id, userEmail: user.email },
+      JWT_SECRET,
+      { expiresIn: '30m' },
+    );
+    const refreshToken = jwt.sign(
+      { userId: user.id, userEmail: user.email },
+      REFRESH_SECRET,
+    );
 
-    const refreshTokenDoc = await db.collection('refreshTokens').add({ token: refreshToken });
+    const refreshTokenDoc = await db
+      .collection('refreshTokens')
+      .add({ token: refreshToken });
 
     return {
       statusCode: 200,

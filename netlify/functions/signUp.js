@@ -40,10 +40,23 @@ export async function handler(event, context) {
     const db = getFirestore();
     const { userObj } = JSON.parse(event.body);
 
-    const accessToken = jwt.sign({ userId: userObj.id }, JWT_SECRET, {
-      expiresIn: '30m',
-    });
-    const refreshToken = jwt.sign({ userId: userObj.id }, REFRESH_SECRET);
+    const accessToken = jwt.sign(
+      {
+        userId: userObj.id,
+        userEmail: userObj.email,
+      },
+      JWT_SECRET,
+      {
+        expiresIn: '30m',
+      },
+    );
+    const refreshToken = jwt.sign(
+      {
+        userId: userObj.id,
+        userEmail: userObj.email,
+      },
+      REFRESH_SECRET,
+    );
 
     // Firestore에 사용자 데이터 추가
     await db.collection('users').doc(userObj.uid).set(userObj);
