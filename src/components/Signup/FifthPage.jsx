@@ -1,36 +1,34 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { storageService} from "../../fbase";
+import { storageService } from '../../fbase';
 import '../../style/Signup/SignupFifthPage.css';
 
-const FifthPage = ({user_data, onNext }) => {
+const FifthPage = ({ user_data, onNext }) => {
   const [photo, setphoto] = useState('');
   const fileRef = useRef(null);
 
   const handleNext = async () => {
-  // pfp to storage service
-  let photoURL = "";
-  const attachmentRef = storageService
-      .ref()
-      .child(`pfp/${user_data.uid}`);
-  const response = await attachmentRef.putString(photo, "data_url");
-      photoURL = await response.ref.getDownloadURL();
-  onNext({ photoURL });
+    // pfp to storage service
+    let photoURL = '';
+    const attachmentRef = storageService.ref().child(`pfp/${user_data.uid}`);
+    const response = await attachmentRef.putString(photo, 'data_url');
+    photoURL = await response.ref.getDownloadURL();
+    onNext({ photoURL });
   };
 
-    const onFileChange = (event) => {
-        const {
-            target: { files },
-        } = event;
-        const theFile = files[0];
-        const reader = new FileReader();
-        reader.onloadend = (finishedEvent) => {
-            const {
-                currentTarget: { result },
-            } = finishedEvent;
-            setphoto(result);
-        };
-        reader.readAsDataURL(theFile);
+  const onFileChange = (event) => {
+    const {
+      target: { files },
+    } = event;
+    const theFile = files[0];
+    const reader = new FileReader();
+    reader.onloadend = (finishedEvent) => {
+      const {
+        currentTarget: { result },
+      } = finishedEvent;
+      setphoto(result);
     };
+    reader.readAsDataURL(theFile);
+  };
 
   return (
     <div className={'SignupFifthPageDiv'}>
@@ -94,7 +92,7 @@ const FifthPage = ({user_data, onNext }) => {
               <div className="add-photo-icon-Div">
                 <img
                   onClick={() => {
-                      setphoto('');
+                    setphoto('');
                   }}
                   className="close-icon"
                   src={'/close.svg'}

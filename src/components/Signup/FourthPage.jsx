@@ -12,23 +12,14 @@ const FourthPage = ({ onNext, onPrev, user_data, page, setPage }) => {
 
   const Signup = async () => {
     const uid = uuidv4(); // Generate the UUID on the frontend
-    const userId = `${user_data.email.slice(
-      0,
-      user_data.email.indexOf('@'),
-    )}${Math.floor(Math.random() * 1000)}`;
 
     const userObj = {
-      id: userId,
-      email: user_data.email,
-      password: user_data.password,
-      uid: uid,
-    };
-
-    const profileObj = {
       id: `${user_data.email.slice(
         0,
         user_data.email.indexOf('@'),
       )}${Math.floor(Math.random() * 1000)}`,
+      email: user_data.email,
+      password: user_data.password,
       displayName: user_data.name,
       photoURL:
         'https://firebasestorage.googleapis.com/v0/b/loginform-6747a.appspot.com/o/pfp%2Fbasic.png?alt=media&token=d2b2f037-ee93-4fad-a09d-733332ec28fc',
@@ -46,7 +37,7 @@ const FourthPage = ({ onNext, onPrev, user_data, page, setPage }) => {
     };
 
     try {
-      const signUpResult = await signUp.mutateAsync({ userObj, profileObj });
+      const signUpResult = await signUp.mutateAsync({ userObj });
       if (signUpResult) {
         onNext({ uid });
       }

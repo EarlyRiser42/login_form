@@ -17,10 +17,10 @@ export const useSignUp = () => {
   const setError = useSetRecoilState(errorState);
 
   return useMutation(
-    async ({ userObj, profileObj }) => {
+    async ({ userObj }) => {
       const response = await axios.post(
         `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/signUp`,
-        { userObj: userObj, profileObj: profileObj },
+        { userObj: userObj },
       );
       if (response.status !== 200) {
         throw new Error(

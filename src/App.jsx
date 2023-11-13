@@ -10,7 +10,7 @@ import Login from './routes/Login.jsx';
 import { getCookie } from './util/cookie.jsx';
 import { useValidateToken } from './hooks/useValidateToken.jsx';
 import { authService } from './fbase';
-
+import { useGetProfile } from './hooks/useGetProfile.jsx';
 
 function App() {
   const [loading, setLoading] = useRecoilState(loadingState);
@@ -25,6 +25,15 @@ function App() {
   const [signing, setSigning] = useState(false);
 
   const validateTokenMutation = useValidateToken();
+  const getProfileMutation = useGetProfile();
+
+  // 회원 정보 불러오기
+  const refreshUser = () => {
+    const accessToken = getCookie('accessToken');
+    if (accessToken) {
+      getProfileMutation.mutate({ accessToken });
+    }
+  };
 
   // 지속적 로그인
   useEffect(() => {
@@ -33,6 +42,7 @@ function App() {
     const accessToken = getCookie('accessToken');
     const refreshTokenId = getCookie('refreshTokenId');
     if (accessToken) {
+      refreshUser();
       validateTokenMutation.mutate({ accessToken, refreshTokenId });
     }
     // social login했을때 로그인 유지

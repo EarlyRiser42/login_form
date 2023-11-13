@@ -1,5 +1,6 @@
 import { initializeApp, getApps, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
+import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -19,6 +20,9 @@ const firebaseConfig = {
   universe_domain: process.env.VITE_REACT_APP_UNIVERSE_DOMAIN,
 };
 
+const JWT_SECRET = process.env.VITE_REACT_APP_JWT_SECRET;
+const REFRESH_SECRET = process.env.VITE_REACT_APP_REFRESH_SECRET;
+
 // Firebase Admin SDK 초기화
 if (!getApps().length) {
   initializeApp({
@@ -26,35 +30,39 @@ if (!getApps().length) {
   });
 }
 
-const db = getFirestore();
-
 export async function handler(event, context) {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
   try {
-    const { uid, name, photoURL } = JSON.parse(event.body);
+    const db = getFirestore();
+    const { accessToken } = JSON.parse(event.body);
 
-    await db.collection('users').doc(uid).set(
-      {
-        id: name,
-        photoURL,
-      },
-      { merge: true },
-    );
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ message: '프로필 업데이트 성공', photoURL }),
-      headers: { 'Content-Type': 'application/json' },
-    };
+    try {
+      // 액세스 토큰 검증
+      const { id, email, password } = jwt.verify(accessToken, JWT_SECRET);
+      const query = db.collection('users').where('email', '==', email);
+      const snapshot = await query.get();
+      let user;
+      if (!snapshot.empty) {
+        user = snapshot.docs[0].data();
+      }
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          user,
+        }),
+        headers: { 'Content-Type': 'application/json' },
+      };
+    } catch (error) {
+      return {
+        statusCode: 400,
+        body: 'Invalid access token',
+      };
+    }
   } catch (error) {
     console.error(error);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: '서버 오류가 발생했습니다.' }),
-      headers: { 'Content-Type': 'application/json' },
-    };
+    return { statusCode: 500, body: '서버 오류가 발생했습니다.' };
   }
 }
