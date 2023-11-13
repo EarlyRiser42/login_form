@@ -20,18 +20,17 @@
     flex-direction: row;
     width: 180px;
     height: 10vh;
-    border-radius: 40px; /* 둥근 모서리를 위해 */
+    border-radius: 40px;
 }
 
 .NavUserObjDiv:hover {
-    background-color:  #E7E7E8; /* 호버 시 색상 변경 */
+    background-color:  #E7E7E8;
 }
 
 .NavUserObjInfo{
     display: flex;
     flex-direction: column;
 }
-
 
 .NavpfpDiv{
     margin-left: 10%;
@@ -47,6 +46,9 @@
     margin-left: 10%;
 }
 
+.NavUserObjInfoBold {
+    font-weight: bolder;
+}
 
 @media (max-width: 1280px){
     .NavDiv{
@@ -64,7 +66,7 @@
         flex-direction: row;
         width: 5vw;
         height: 10vh;
-        border-radius: 40px; /* 둥근 모서리를 위해 */
+        border-radius: 40px;
     }
 
     .NavUserObjInfo span{
@@ -73,4 +75,41 @@
 
 }
 
-@media (max-width: 500px){}
+@media (max-width: 500px){
+    .NavDiv{
+        margin-left: 0vw;
+        width: 55vw;
+        position: absolute;
+        z-index: 100;
+        background: white;
+    }
+
+    .NavLinkDiv {
+        height: 100vh;
+    }
+
+    .NavpfpDiv{
+        margin-left: 5%;
+    }
+
+    .NavUserObjDiv{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 15%;
+        border-radius: 40px;
+    }
+
+    .NavUserObjInfo{
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        margin-top: 5%;
+        margin-left: 5%;
+    }
+
+
+    .NavUserObjInfo span{
+        display: inline;
+    }
+}

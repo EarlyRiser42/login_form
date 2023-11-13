@@ -5,9 +5,10 @@ import { useRecoilState } from 'recoil';
 import { loginState, userObjState } from '../util/recoil.jsx';
 import { deleteCookie } from '../util/cookie.jsx';
 import styled from 'styled-components';
+import { useMediaQuery } from 'react-responsive';
 import '../style/Nav.css';
 
-const Nav = () => {
+const Nav = ({ isNavOpen }) => {
   // for modal
   const navigate = useNavigate();
   const location = useLocation();
@@ -71,54 +72,93 @@ const Nav = () => {
     );
   };
 
-  return (
-    <nav className={'NavDiv'}>
-      <div className={'NavLinkDiv'}>
-        <NavIconDiv
-          imgSrc={'./X_logo.svg'}
-          imgAlt={'LinkToHome'}
-          linkTo={'/'}
-          linkText={''}
-        />
-        <NavIconDiv
-          imgSrc={'./home.png'}
-          imgAlt={'LinkToHome'}
-          linkTo={'/'}
-          linkText={'홈'}
-        />
-        <NavIconDiv
-          imgSrc={'./user-profile.png'}
-          imgAlt={'LinkToUserProfile'}
-          linkTo={`/profile/${userObj.uid}`}
-          linkText={'프로필'}
-        />
-        <NavButton
-          type="post"
-          linkTo="/compose/tweet"
-          buttonText="게시하기"
-          imgSrc="./write_tweet.png"
-          imgAlt="writeTweet"
-          state={{ background: location }}
-        />
+  // 화면 너비 500px이하
+  const isMobile = useMediaQuery({ query: '(max-width: 500px)' });
 
-        <NavButton
-          type="logout"
-          onClick={onLogOutClick}
-          buttonText="Log Out"
-          imgSrc="./logout.svg"
-          imgAlt="Logout"
-        />
-      </div>
-      <div className={'NavUserObjDiv'}>
-        <div className={'NavpfpDiv'}>
-          <img className={'Navpfp'} src={userObj.photoURL} />
-        </div>
-        <div className={'NavUserObjInfo'}>
-          <span>{userObj.displayName}</span>
-          <span>{userObj.id}</span>
-        </div>
-      </div>
-    </nav>
+  return (
+    <>
+      {isMobile ? (
+        isNavOpen && (
+          <nav className={'NavDiv'}>
+            <div className={'NavLinkDiv'}>
+              <div className={'NavUserObjDiv'}>
+                <div className={'NavpfpDiv'}>
+                  <img className={'Navpfp'} src={userObj.photoURL} />
+                </div>
+                <div className={'NavUserObjInfo'}>
+                  <span className={'NavUserObjInfoBold'}>
+                    {userObj.displayName}
+                  </span>
+                  <span>{userObj.id}</span>
+                </div>
+              </div>
+              <NavIconDiv
+                imgSrc={'./home.png'}
+                imgAlt={'LinkToHome'}
+                linkTo={'/'}
+                linkText={'홈'}
+              />
+              <NavIconDiv
+                imgSrc={'./user-profile.png'}
+                imgAlt={'LinkToUserProfile'}
+                linkTo={`/profile/${userObj.uid}`}
+                linkText={'프로필'}
+              />
+            </div>
+          </nav>
+        )
+      ) : (
+        <nav className={'NavDiv'}>
+          <div className={'NavLinkDiv'}>
+            <NavIconDiv
+              imgSrc={'./X_logo.svg'}
+              imgAlt={'LinkToHome'}
+              linkTo={'/'}
+              linkText={''}
+            />
+            <NavIconDiv
+              imgSrc={'./home.png'}
+              imgAlt={'LinkToHome'}
+              linkTo={'/'}
+              linkText={'홈'}
+            />
+            <NavIconDiv
+              imgSrc={'./user-profile.png'}
+              imgAlt={'LinkToUserProfile'}
+              linkTo={`/profile/${userObj.uid}`}
+              linkText={'프로필'}
+            />
+            <NavButton
+              type="post"
+              linkTo="/compose/tweet"
+              buttonText="게시하기"
+              imgSrc="./write_tweet.png"
+              imgAlt="writeTweet"
+              state={{ background: location }}
+            />
+
+            <NavButton
+              type="logout"
+              onClick={onLogOutClick}
+              buttonText="Log Out"
+              imgSrc="./logout.svg"
+              imgAlt="Logout"
+            />
+          </div>
+          <div className={'NavUserObjDiv'}>
+            <div className={'NavpfpDiv'}>
+              <img className={'Navpfp'} src={userObj.photoURL} />
+            </div>
+            <div className={'NavUserObjInfo'}>
+              <span className={'NavUserObjInfoBold'}>
+                {userObj.displayName}
+              </span>
+              <span>{userObj.id}</span>
+            </div>
+          </div>
+        </nav>
+      )}
+    </>
   );
 };
 
@@ -193,6 +233,13 @@ const StyledNavHomeIcon = styled.div`
   }
 
   @media (max-width: 500px) {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    a span {
+      display: block;
+    }
   }
 `;
 
@@ -288,6 +335,21 @@ const StyledNavButtonDiv = styled.div`
   }
 
   @media (max-width: 500px) {
+    align-items: center;
+    justify-content: flex-start;
+
+    .NavPostButton {
+      display: none;
+    }
+
+    .NavPostImgDiv,
+    .NavLogoutImgDiv {
+      display: none;
+    }
+
+    .NavLogoutButton {
+      display: none;
+    }
   }
 `;
 export default Nav;

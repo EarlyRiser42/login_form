@@ -5,9 +5,10 @@ import Nav from './Nav.jsx';
 import '../style/Home.css';
 
 const Home = () => {
+  const [isNavOpen, setIsNavOpen] = useState(true);
   return (
     <div className="HomeDiv">
-      <Nav></Nav>
+      <Nav isNavOpen={isNavOpen}></Nav>
       <div className={'HomeRightDiv'}>Home</div>
     </div>
   );
