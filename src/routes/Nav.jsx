@@ -94,6 +94,16 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
                   </span>
                   <span>{userObj.id}</span>
                 </div>
+                <div className={'NavUserObjFollow'}>
+                  <span>
+                    <span>{userObj.following.length}</span>
+                    팔로우 중
+                  </span>
+                  <span>
+                    <span> {userObj.follower.length}</span>
+                    팔로워
+                  </span>
+                </div>
               </div>
               <NavIconDiv
                 imgSrc={'./home.png'}
@@ -117,14 +127,15 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
                 imgSrc={'./message.svg'}
                 imgAlt={'list'}
                 linkTo={`/list`}
-                linkText={'리스트'}
+                linkText={'메시지'}
               />
               <NavIconDiv
                 imgSrc={'./list.png'}
                 imgAlt={'message'}
                 linkTo={`/message`}
-                linkText={'메시지'}
+                linkText={'리스트'}
               />
+              <div className={'Navline'}></div>
             </div>
           </nav>
         )
@@ -159,13 +170,13 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               imgSrc={'./message.svg'}
               imgAlt={'list'}
               linkTo={`/list`}
-              linkText={'리스트'}
+              linkText={'메시지'}
             />
             <NavIconDiv
               imgSrc={'./list.png'}
               imgAlt={'message'}
               linkTo={`/message`}
-              linkText={'메시지'}
+              linkText={'리스트'}
             />
             <NavButton
               type="post"

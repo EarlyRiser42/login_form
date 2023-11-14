@@ -51,6 +51,8 @@ function App() {
           id: user.displayName,
           uid: user.uid,
           photoURL: user.photoURL,
+          following: ['DlMywOmW2pU3PtilMywBCnFffaC2'],
+          follower: [],
         });
         setIsLoggedIn({ login: true, social: true });
       } else {

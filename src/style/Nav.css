@@ -95,8 +95,10 @@
     .NavUserObjDiv{
         display: flex;
         flex-direction: column;
+        justify-content: space-around;
+        align-items: flex-start;
         width: 100%;
-        height: 15%;
+        height: 20%;
         border-radius: 40px;
     }
 
@@ -104,12 +106,42 @@
         display: flex;
         flex-direction: column;
         height: auto;
-        margin-top: 5%;
+        margin-top: 3%;
         margin-left: 5%;
     }
-
 
     .NavUserObjInfo span{
         display: inline;
     }
+
+    .NavUserObjFollow{
+        margin-top: 2%;
+        margin-left: 5%;
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+
+    .NavUserObjFollow span {
+        margin-right: 5px;
+        font-size: 0.8rem;
+    }
+
+    .NavUserObjFollow span span{
+        margin-right: 2px;
+        font-weight: bold;
+        font-size: 1rem;
+    }
+
+    .Navline {
+        content: "";
+        width: 95%;
+        margin-top: 20px;
+        background: rgba(0, 0, 0, 0.1);
+        height: 2px;
+        font-size: 0px;
+        line-height: 0px;
+    }
+
+
 }
