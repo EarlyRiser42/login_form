@@ -11,7 +11,8 @@ const firebaseConfig = {
   client_id: process.env.VITE_REACT_APP_CLIENT_ID,
   auth_uri: process.env.VITE_REACT_APP_AUTH_URI,
   token_uri: process.env.VITE_REACT_APP_TOKEN_URI,
-  auth_provider_x509_cert_url: process.env.VITE_REACT_APP_AUTH_PROVIDER_X509_CERT_URL,
+  auth_provider_x509_cert_url:
+    process.env.VITE_REACT_APP_AUTH_PROVIDER_X509_CERT_URL,
   client_x509_cert_url: process.env.VITE_REACT_APP_CLIENT_X509_CERT_URL,
   universe_domain: process.env.VITE_REACT_APP_UNIVERSE_DOMAIN,
 };

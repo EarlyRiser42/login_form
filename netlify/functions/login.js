@@ -41,7 +41,6 @@ export async function handler(event, context) {
     const db = getFirestore();
     const body = JSON.parse(event.body);
     const { email, id, password } = body;
-
     let query;
     let user;
     if (email) {
