@@ -13,16 +13,8 @@ const Home = () => {
   const [userObj, setUserObj] = useRecoilState(userObjState);
   const [isNavOpen, setIsNavOpen] = useState(false);
 
-  // 화면 너비 500px이하일 때만 hook 사용
-  const isMobile = useMediaQuery({ query: '(max-width: 500px)' });
-
-  useEffect(() => {
-    if (isMobile) {
-      // nav 열렸을 때 nav 바깥을 클릭하면 닫도록 설정
-      const navRef = useRef(null);
-      useOnClickOutside(navRef, () => setIsNavOpen(false));
-    }
-  }, [isMobile]);
+  const navRef = useRef(null);
+  useOnClickOutside(navRef, () => setIsNavOpen(false));
 
   return (
     <div className="HomeDiv">
