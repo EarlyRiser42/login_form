@@ -16,7 +16,7 @@ const Home = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   // 화면 너비 500px이하
-  const isTablet = useMediaQuery({ query: '(max-width: 1280px)' });
+  const isTablet = useMediaQuery({ query: '(max-width: 1000px)' });
 
   const navRef = useRef(null);
   useOnClickOutside(navRef, () => setIsNavOpen(false));

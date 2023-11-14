@@ -54,9 +54,8 @@
 
 @media (max-width: 1280px){
     .NavDiv{
-        margin-left: 10vw;
-        width: 5vw;
-        min-width: 50px;
+        margin-left: 6vw;
+        width: 10vw;
     }
 
     .NavLinkDiv{

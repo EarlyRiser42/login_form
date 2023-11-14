@@ -23,9 +23,7 @@
 
 @media (max-width: 1280px){
     .HomeRightDiv{
-        width: 60vw;
-        margin-left: 5vw;
-        margin-right: 20vw;
+        width: 50vw;
         height: 100vh;
     }
 }

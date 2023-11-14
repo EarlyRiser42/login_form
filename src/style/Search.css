@@ -11,7 +11,7 @@
 
 .SearchInputDiv{
     margin-top: 3%;
-    width: 80%;
+    width: 85%;
     height: 6%;
     background-color: #EFF3F4;
     border-radius: 50px;
@@ -33,4 +33,12 @@
     background-color: #EFF3F4;
     padding: 10px;
     flex-grow: 0.89; /* Take up the available space */
+}
+
+@media (max-width: 1280px){
+    .SearchDiv{
+        width: 34vw;  /* Home: 50vw, nav: 16vw = 66 */
+        margin-right: 0vw;
+    }
+
 }
