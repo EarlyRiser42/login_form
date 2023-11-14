@@ -30,10 +30,12 @@ const Nav = ({ isNavOpen }) => {
   const NavIconDiv = ({ imgSrc, imgAlt, linkTo, linkText }) => {
     return (
       <StyledNavHomeIcon>
-        <Link to={linkTo}>
-          <img src={imgSrc} alt={imgAlt} />
-          <span>{linkText}</span>
-        </Link>
+        <div>
+          <Link to={linkTo}>
+            <img src={imgSrc} alt={imgAlt} />
+            <span>{linkText}</span>
+          </Link>
+        </div>
       </StyledNavHomeIcon>
     );
   };
@@ -165,7 +167,7 @@ const Nav = ({ isNavOpen }) => {
 const StyledNavHomeIcon = styled.div`
   display: inline-flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   margin-top: 20px;
   width: 100%;
   height: 40px;
@@ -187,11 +189,15 @@ const StyledNavHomeIcon = styled.div`
     height: 30px;
   }
 
+  div {
+    width: 70%;
+    display: flex;
+  }
+
   a,
   a:visited,
   a:hover,
   a:active {
-    margin-left: 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -207,17 +213,19 @@ const StyledNavHomeIcon = styled.div`
 
   @media (max-width: 1280px) {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-end;
     align-items: center;
 
-    img {
+    div {
+      width: 70%;
+      display: flex;
     }
 
     a,
     a:visited,
     a:hover,
     a:active {
-      margin-left: 10px;
+      margin-left: 0px;
       display: flex;
       justify-content: space-between;
       align-items: center;
