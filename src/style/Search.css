@@ -1,0 +1,29 @@
+.SearchDiv{
+    width: 40vw;
+    height: 100vh;
+}
+
+.SearchInputDiv{
+    width: 80%;
+    height: 6%;
+    background-color: #EFF3F4;
+    border-radius: 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.SearchInputDiv img{
+    margin-left: 5%;
+    width: 15px;
+    height: 15px;
+}
+
+.SearchInputDiv input{
+    margin-left: 3%;
+    border: none; /* Remove default border */
+    outline: none; /* Remove focus outline */
+    background-color: #EFF3F4;
+    padding: 10px;
+    flex-grow: 0.89; /* Take up the available space */
+}

@@ -124,15 +124,15 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
                 linkText={'프로필'}
               />
               <NavIconDiv
-                imgSrc={'./message.svg'}
-                imgAlt={'list'}
-                linkTo={`/list`}
+                imgSrc={'./message.png'}
+                imgAlt={'message'}
+                linkTo={`/message`}
                 linkText={'메시지'}
               />
               <NavIconDiv
                 imgSrc={'./list.png'}
-                imgAlt={'message'}
-                linkTo={`/message`}
+                imgAlt={'list'}
+                linkTo={`/list`}
                 linkText={'리스트'}
               />
               <div className={'Navline'}></div>
@@ -167,15 +167,15 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               linkText={'프로필'}
             />
             <NavIconDiv
-              imgSrc={'./message.svg'}
-              imgAlt={'list'}
-              linkTo={`/list`}
+              imgSrc={'./message.png'}
+              imgAlt={'message'}
+              linkTo={`/message`}
               linkText={'메시지'}
             />
             <NavIconDiv
               imgSrc={'./list.png'}
-              imgAlt={'message'}
-              linkTo={`/message`}
+              imgAlt={'list'}
+              linkTo={`/list`}
               linkText={'리스트'}
             />
             <NavButton

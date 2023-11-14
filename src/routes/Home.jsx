@@ -7,6 +7,7 @@ import { userObjState } from '../util/recoil.jsx';
 import useOnClickOutside from '../hooks/useOnClickOutside.jsx';
 import '../style/Home.css';
 import { useMediaQuery } from 'react-responsive';
+import Search from './Search.jsx';
 
 const Home = () => {
   // 전역변수 recoil
@@ -18,7 +19,7 @@ const Home = () => {
 
   return (
     <div className={isNavOpen ? 'HomeDivNavOpen' : 'HomeDiv'}>
-      <Nav ref={navRef} isNavOpen={isNavOpen}></Nav>
+      <Nav ref={navRef} isNavOpen={isNavOpen} />
       <div className={'HomeImgDivForMobile'}>
         <img
           className={'HomeOpenNavImg'}
@@ -36,6 +37,7 @@ const Home = () => {
         />
       </div>
       <div className={'HomeRightDiv'}>Home</div>
+      <Search />
     </div>
   );
 };

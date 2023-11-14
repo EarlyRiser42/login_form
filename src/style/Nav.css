@@ -5,6 +5,7 @@
     width: 15vw;
     height: 100vh;
     justify-content: space-between;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .NavLinkDiv {
