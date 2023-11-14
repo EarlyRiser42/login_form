@@ -14,7 +14,8 @@ const firebaseConfig = {
   client_id: process.env.VITE_REACT_APP_CLIENT_ID,
   auth_uri: process.env.VITE_REACT_APP_AUTH_URI,
   token_uri: process.env.VITE_REACT_APP_TOKEN_URI,
-  auth_provider_x509_cert_url: process.env.VITE_REACT_APP_AUTH_PROVIDER_X509_CERT_URL,
+  auth_provider_x509_cert_url:
+    process.env.VITE_REACT_APP_AUTH_PROVIDER_X509_CERT_URL,
   client_x509_cert_url: process.env.VITE_REACT_APP_CLIENT_X509_CERT_URL,
   universe_domain: process.env.VITE_REACT_APP_UNIVERSE_DOMAIN,
 };
@@ -30,13 +31,9 @@ if (!getApps().length) {
 }
 
 export async function handler(event, context) {
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
-  }
-
   try {
     const db = getFirestore();
-    const { accessToken, refreshTokenId } = JSON.parse(event.body);
+    const { accessToken, refreshTokenId } = event.queryStringParameters;
 
     try {
       // 액세스 토큰 검증
@@ -45,7 +42,10 @@ export async function handler(event, context) {
     } catch (error) {
       // 액세스 토큰이 유효하지 않을 경우
       if (refreshTokenId) {
-        const refreshTokenRecord = await db.collection('refreshTokens').doc(refreshTokenId).get();
+        const refreshTokenRecord = await db
+          .collection('refreshTokens')
+          .doc(refreshTokenId)
+          .get();
 
         if (!refreshTokenRecord.exists) {
           return { statusCode: 400, body: 'Invalid refresh token' };
@@ -57,7 +57,11 @@ export async function handler(event, context) {
           const decodedToken = jwt.verify(refreshToken, REFRESH_SECRET);
           const { userId, userPassword } = decodedToken;
 
-          const newAccessToken = jwt.sign({ userId, userPassword }, JWT_SECRET, { expiresIn: '30m' });
+          const newAccessToken = jwt.sign(
+            { userId, userPassword },
+            JWT_SECRET,
+            { expiresIn: '30m' },
+          );
 
           return {
             statusCode: 200,
@@ -68,7 +72,10 @@ export async function handler(event, context) {
           return { statusCode: 400, body: 'Invalid refresh token' };
         }
       } else {
-        return { statusCode: 400, body: 'Invalid access token and no refresh token provided' };
+        return {
+          statusCode: 400,
+          body: 'Invalid access token and no refresh token provided',
+        };
       }
     }
   } catch (error) {

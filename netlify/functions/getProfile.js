@@ -47,6 +47,7 @@ export async function handler(event, context) {
       if (!snapshot.empty) {
         user = snapshot.docs[0].data();
       }
+
       return {
         statusCode: 200,
         body: JSON.stringify({
