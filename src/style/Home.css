@@ -1,6 +1,7 @@
 .HomeDiv{
     width: 100vw;
     height: 100vh;
+    margin-right: 0px;
     display: flex;
 }
 
@@ -12,8 +13,7 @@
 }
 
 .HomeRightDiv{
-    width: 55vw;
-    margin-right: 20vw;
+    width: 36vw;
     height: 100vh;
 }
 

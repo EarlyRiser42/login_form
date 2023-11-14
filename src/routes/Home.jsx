@@ -14,6 +14,9 @@ const Home = () => {
   const [userObj, setUserObj] = useRecoilState(userObjState);
   const [isNavOpen, setIsNavOpen] = useState(false);
 
+  // 화면 너비 500px이하
+  const isTablet = useMediaQuery({ query: '(max-width: 1280px)' });
+
   const navRef = useRef(null);
   useOnClickOutside(navRef, () => setIsNavOpen(false));
 
@@ -37,7 +40,7 @@ const Home = () => {
         />
       </div>
       <div className={'HomeRightDiv'}>Home</div>
-      <Search />
+      {!isTablet && <Search />}
     </div>
   );
 };

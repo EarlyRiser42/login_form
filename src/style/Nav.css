@@ -1,8 +1,8 @@
 .NavDiv{
     display: flex;
     flex-direction: column;
-    margin-left: 10vw;
-    width: 15vw;
+    margin-left: 11vw;
+    width: 17vw;
     height: 100vh;
     justify-content: space-between;
     border-right: 1px solid rgba(0, 0, 0, 0.1);
@@ -19,7 +19,8 @@
 .NavUserObjDiv{
     display: flex;
     flex-direction: row;
-    width: 180px;
+    align-items: center;
+    width: 100%;
     height: 10vh;
     border-radius: 40px;
 }
