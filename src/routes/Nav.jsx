@@ -87,6 +87,12 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               <div className={'NavUserObjDiv'}>
                 <div className={'NavpfpDiv'}>
                   <img className={'Navpfp'} src={userObj.photoURL} />
+                  <img
+                    className={'NavpfpLogoutImg'}
+                    onClick={onLogOutClick}
+                    src="./logout.svg"
+                    alt="Logout"
+                  />
                 </div>
                 <div className={'NavUserObjInfo'}>
                   <span className={'NavUserObjInfoBold'}>

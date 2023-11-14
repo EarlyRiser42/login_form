@@ -91,7 +91,21 @@
     }
 
     .NavpfpDiv{
+        margin-left: 0px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .Navpfp{
         margin-left: 5%;
+    }
+
+    .NavpfpLogoutImg{
+        width: 20px;
+        height: 20px;
+        margin-top: 2%;
+        margin-right: 5%;
     }
 
     .NavUserObjDiv{
