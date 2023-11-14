@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { authService, dbService } from '../fbase';
 import { useRecoilState } from 'recoil';
@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import { useMediaQuery } from 'react-responsive';
 import '../style/Nav.css';
 
-const Nav = ({ isNavOpen }) => {
+const Nav = forwardRef(({ isNavOpen }, ref) => {
   // for modal
   const navigate = useNavigate();
   const location = useLocation();
@@ -81,7 +81,7 @@ const Nav = ({ isNavOpen }) => {
     <>
       {isMobile ? (
         isNavOpen && (
-          <nav className={'NavDiv'}>
+          <nav className={'NavDiv'} ref={ref}>
             <div className={'NavLinkDiv'}>
               <div className={'NavUserObjDiv'}>
                 <div className={'NavpfpDiv'}>
@@ -95,8 +95,8 @@ const Nav = ({ isNavOpen }) => {
                 </div>
               </div>
               <NavIconDiv
-                imgSrc={'./home.png'}
-                imgAlt={'LinkToHome'}
+                imgSrc={'./home.svg'}
+                imgAlt={'Home'}
                 linkTo={'/'}
                 linkText={'홈'}
               />
@@ -114,19 +114,19 @@ const Nav = ({ isNavOpen }) => {
           <div className={'NavLinkDiv'}>
             <NavIconDiv
               imgSrc={'./X_logo.svg'}
-              imgAlt={'LinkToHome'}
+              imgAlt={'X_logo'}
               linkTo={'/'}
               linkText={''}
             />
             <NavIconDiv
-              imgSrc={'./home.png'}
-              imgAlt={'LinkToHome'}
+              imgSrc={'./home.svg'}
+              imgAlt={'Home'}
               linkTo={'/'}
               linkText={'홈'}
             />
             <NavIconDiv
               imgSrc={'./user-profile.png'}
-              imgAlt={'LinkToUserProfile'}
+              imgAlt={'Profile'}
               linkTo={`/profile/${userObj.uid}`}
               linkText={'프로필'}
             />
@@ -162,7 +162,7 @@ const Nav = ({ isNavOpen }) => {
       )}
     </>
   );
-};
+});
 
 const StyledNavHomeIcon = styled.div`
   display: inline-flex;
