@@ -78,7 +78,7 @@
 @media (max-width: 500px){
     .NavDiv{
         margin-left: 0vw;
-        width: 55vw;
+        width: 65vw;
         position: absolute;
         z-index: 100;
         background: white;

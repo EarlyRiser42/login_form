@@ -4,6 +4,13 @@
     display: flex;
 }
 
+.HomeDivNavOpen{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    background-color: gray;
+}
+
 .HomeRightDiv{
     width: 55vw;
     margin-right: 20vw;
@@ -24,6 +31,14 @@
 }
 
 @media (max-width: 500px){
+    .HomeDivNavOpen{
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        background-color: gray;
+    }
     .HomeDiv{
         width: 100vw;
         height: 100vh;
@@ -60,7 +75,9 @@
 
     .HomeOpenSetting{
         border-radius: 50px;
-        width: 20px;
-        height: 20px;
+        width: 17px;
+        height: 17px;
+        margin-top: 10px;
+        margin-right: 20px;
     }
 }

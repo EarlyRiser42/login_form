@@ -17,7 +17,7 @@ const Home = () => {
   useOnClickOutside(navRef, () => setIsNavOpen(false));
 
   return (
-    <div className="HomeDiv">
+    <div className={isNavOpen ? 'HomeDivNavOpen' : 'HomeDiv'}>
       <Nav ref={navRef} isNavOpen={isNavOpen}></Nav>
       <div className={'HomeImgDivForMobile'}>
         <img

@@ -2,7 +2,7 @@ import React, { forwardRef, useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { authService, dbService } from '../fbase';
 import { useRecoilState } from 'recoil';
-import { loginState, userObjState } from '../util/recoil.jsx';
+import { errorState, loginState, userObjState } from '../util/recoil.jsx';
 import { deleteCookie } from '../util/cookie.jsx';
 import styled from 'styled-components';
 import { useMediaQuery } from 'react-responsive';
@@ -16,6 +16,7 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
   // 전역변수 recoil
   const [userObj, setUserObj] = useRecoilState(userObjState);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
+  const [recoilError, setRecoilError] = useRecoilState(errorState);
 
   const onLogOutClick = () => {
     if (isLoggedIn.social) {
@@ -95,16 +96,34 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
                 </div>
               </div>
               <NavIconDiv
-                imgSrc={'./home.svg'}
+                imgSrc={'./home.png'}
                 imgAlt={'Home'}
                 linkTo={'/'}
                 linkText={'홈'}
               />
               <NavIconDiv
+                imgSrc={'./search.png'}
+                imgAlt={'Search'}
+                linkTo={`/search`}
+                linkText={'검색'}
+              />
+              <NavIconDiv
                 imgSrc={'./user-profile.png'}
-                imgAlt={'LinkToUserProfile'}
+                imgAlt={'Profile'}
                 linkTo={`/profile/${userObj.uid}`}
                 linkText={'프로필'}
+              />
+              <NavIconDiv
+                imgSrc={'./message.svg'}
+                imgAlt={'list'}
+                linkTo={`/list`}
+                linkText={'리스트'}
+              />
+              <NavIconDiv
+                imgSrc={'./list.png'}
+                imgAlt={'message'}
+                linkTo={`/message`}
+                linkText={'메시지'}
               />
             </div>
           </nav>
@@ -119,16 +138,34 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               linkText={''}
             />
             <NavIconDiv
-              imgSrc={'./home.svg'}
+              imgSrc={'./home.png'}
               imgAlt={'Home'}
               linkTo={'/'}
               linkText={'홈'}
+            />
+            <NavIconDiv
+              imgSrc={'./search.png'}
+              imgAlt={'Search'}
+              linkTo={`/search`}
+              linkText={'검색'}
             />
             <NavIconDiv
               imgSrc={'./user-profile.png'}
               imgAlt={'Profile'}
               linkTo={`/profile/${userObj.uid}`}
               linkText={'프로필'}
+            />
+            <NavIconDiv
+              imgSrc={'./message.svg'}
+              imgAlt={'list'}
+              linkTo={`/list`}
+              linkText={'리스트'}
+            />
+            <NavIconDiv
+              imgSrc={'./list.png'}
+              imgAlt={'message'}
+              linkTo={`/message`}
+              linkText={'메시지'}
             />
             <NavButton
               type="post"
@@ -138,7 +175,6 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               imgAlt="writeTweet"
               state={{ background: location }}
             />
-
             <NavButton
               type="logout"
               onClick={onLogOutClick}
@@ -244,9 +280,13 @@ const StyledNavHomeIcon = styled.div`
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    img {
+      margin-left: 10px;
+    }
 
     a span {
       display: block;
+      font-weight: bolder;
     }
   }
 `;
