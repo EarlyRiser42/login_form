@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
-import { loadingState, loginState, userObjState } from './util/recoil.jsx';
+import {
+  errorState,
+  loadingState,
+  loginState,
+  userObjState,
+} from './util/recoil.jsx';
 import Loading from './components/Loading.jsx';
 import Home from './routes/Home.jsx';
 import Auth from './routes/Auth.jsx';
@@ -10,12 +15,14 @@ import Login from './routes/Login.jsx';
 import { getCookie } from './util/cookie.jsx';
 import { useValidateToken } from './hooks/useValidateToken.jsx';
 import { authService } from './fbase';
-import { useGetProfile } from './hooks/useGetProfile.jsx';
+import { useQuery } from 'react-query';
+import axios from 'axios';
 
 function App() {
   const [loading, setLoading] = useRecoilState(loadingState);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
   const [userObj, setUserObj] = useRecoilState(userObjState);
+  const [error, setError] = useRecoilState(errorState);
 
   // for modal background
   const location = useLocation();
@@ -25,15 +32,32 @@ function App() {
   const [signing, setSigning] = useState(false);
 
   const validateTokenMutation = useValidateToken();
-  const getProfileMutation = useGetProfile();
 
-  // 회원 정보 불러오기
-  const refreshUser = () => {
-    const accessToken = getCookie('accessToken');
-    if (accessToken) {
-      getProfileMutation.mutate({ accessToken });
+  const { data, isLoading, Error } = useQuery(
+    'getProfile',
+    () => {
+      return axios.get(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/getProfile`,
+        {
+          params: { accessToken: getCookie('accessToken') },
+        },
+      );
+    },
+    {
+      cacheTime: 1800000,
+      staleTime: 1800000,
+      retry: false,
+    },
+  );
+
+  useEffect(() => {
+    if (data) {
+      setUserObj({ ...data.data.user });
     }
-  };
+    if (error) {
+      setError(error);
+    }
+  }, [data, error]);
 
   // 지속적 로그인
   useEffect(() => {
@@ -41,7 +65,6 @@ function App() {
     const accessToken = getCookie('accessToken');
     const refreshTokenId = getCookie('refreshTokenId');
     if (accessToken) {
-      refreshUser();
       validateTokenMutation.mutate({ accessToken, refreshTokenId });
     }
     // social login했을때 로그인 유지

@@ -30,13 +30,9 @@ if (!getApps().length) {
 }
 
 export async function handler(event, context) {
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
-  }
-
   try {
     const db = getFirestore();
-    const { accessToken } = JSON.parse(event.body);
+    const { accessToken } = event.queryStringParameters;
 
     try {
       // 액세스 토큰 검증
