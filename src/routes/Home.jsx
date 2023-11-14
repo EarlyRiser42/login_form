@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { dbService } from '../fbase';
+import { authService, dbService } from '../fbase';
 import { Link, useLocation } from 'react-router-dom';
 import Nav from './Nav.jsx';
 import { useRecoilState } from 'recoil';
@@ -8,6 +8,7 @@ import useOnClickOutside from '../hooks/useOnClickOutside.jsx';
 import '../style/Home.css';
 import { useMediaQuery } from 'react-responsive';
 import Search from './Search.jsx';
+import { getCookie } from '../util/cookie.jsx';
 
 const Home = () => {
   // 전역변수 recoil

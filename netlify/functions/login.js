@@ -54,7 +54,7 @@ export async function handler(event, context) {
     if (!snapshot.empty) {
       user = snapshot.docs[0].data();
     }
-
+    console.log(user);
     if (!user || user.password !== password) {
       return { statusCode: 401, body: '잘못된 비밀번호입니다.' };
     }
@@ -78,6 +78,7 @@ export async function handler(event, context) {
       body: JSON.stringify({
         accessToken,
         refreshTokenId: refreshTokenDoc.id,
+        userObj: { ...user },
       }),
       headers: { 'Content-Type': 'application/json' },
     };

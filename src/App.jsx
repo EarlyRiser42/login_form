@@ -26,10 +26,6 @@ function App() {
 
   const navigate = useNavigate();
 
-  // cookies
-  const [accessToken, setAccessToken] = useState('');
-  const [refreshTokenId, setRefreshTokenId] = useState('');
-
   // for modal background
   const location = useLocation();
   const background = location.state && location.state.background;
@@ -38,10 +34,6 @@ function App() {
   const [signing, setSigning] = useState(false);
 
   useEffect(() => {
-    // 지속적인 로그인을 위하여 accessToken과 refreshTokenId 활용
-    setAccessToken(getCookie('accessToken'));
-    setRefreshTokenId(getCookie('refreshTokenId'));
-
     // social login했을때 로그인 유지
     authService.onAuthStateChanged((user) => {
       if (user) {
@@ -61,7 +53,7 @@ function App() {
     });
   }, []);
 
-  // 유저 정보 불러오기, accessToken이 쿠키에 있을때만
+  // 유저 프로필 정보 불러오기
   const {
     data: userData,
     isLoading: userDataLoading,
@@ -72,7 +64,7 @@ function App() {
       return axios.get(
         `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/getProfile`,
         {
-          params: { accessToken: accessToken },
+          params: { accessToken: getCookie('accessToken') },
         },
       );
     },
@@ -80,7 +72,6 @@ function App() {
       cacheTime: 60000 * 25, // 1분 * 25
       staleTime: 60000 * 25,
       retry: false,
-      enabled: !!accessToken,
     },
   );
 
@@ -95,7 +86,10 @@ function App() {
       return axios.get(
         `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/validateToken`,
         {
-          params: { accessToken: accessToken, refreshTokenId: refreshTokenId },
+          params: {
+            accessToken: getCookie('accessToken'),
+            refreshTokenId: getCookie('refreshTokenId'),
+          },
         },
       );
     },
@@ -103,9 +97,9 @@ function App() {
       cacheTime: 60000 * 30, // 1분 * 30
       staleTime: 60000 * 30,
       retry: false,
-      enabled: !!accessToken,
     },
   );
+
   // use query의 response가 변화할 때 실행
   useEffect(() => {
     if (userData) {
