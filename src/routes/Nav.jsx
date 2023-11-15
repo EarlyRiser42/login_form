@@ -63,12 +63,14 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
           </div>
         ) : (
           <div>
-            <button className="NavLogoutButton" onClick={onClick}>
-              {buttonText}
-            </button>
-            <div className={'NavLogoutImgDiv'} onClick={onClick}>
-              <img className="NavLogoutImg" src={imgSrc} alt={imgAlt} />
-            </div>
+            <Link to={linkTo} state={state}>
+              <button className="NavLogoutButton" onClick={onClick}>
+                {buttonText}
+              </button>
+              <div className={'NavLogoutImgDiv'} onClick={onClick}>
+                <img className="NavLogoutImg" src={imgSrc} alt={imgAlt} />
+              </div>
+            </Link>
           </div>
         )}
       </StyledNavButtonDiv>
@@ -194,6 +196,7 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
             />
             <NavButton
               type="logout"
+              linkTo="./"
               onClick={onLogOutClick}
               buttonText="Log Out"
               imgSrc="./logout.svg"
@@ -316,13 +319,20 @@ const StyledNavButtonDiv = styled.div`
   margin-top: 20px;
 
   div {
-    width: 80%;
+    width: 70%;
+    display: flex;
   }
+
+  a {
+    width: 100%;
+  }
+
   button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 95%;
+    width: 100%;
+    min-width: 170px;
     height: 50px;
     padding: 10px 20px;
     border-radius: 25px;
@@ -357,8 +367,17 @@ const StyledNavButtonDiv = styled.div`
   }
 
   @media (max-width: 1280px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     .NavPostButton {
       display: none;
+    }
+
+    div {
+      width: 60%;
+      display: flex;
     }
 
     div div {
