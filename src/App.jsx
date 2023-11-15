@@ -34,6 +34,28 @@ function App() {
   const [signing, setSigning] = useState(false);
 
   useEffect(() => {
+    // 새로 고침후 지속적 로그인
+    if (getCookie('accessToken')) {
+      axios
+        .get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/validateToken`, {
+          params: {
+            accessToken: getCookie('accessToken'),
+            refreshTokenId: getCookie('refreshTokenId'),
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            setIsLoggedIn({ login: true, social: false });
+          }
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 400) {
+            console.log('요효한 토큰이 아닙니다.');
+          } else {
+            console.log('서버 오류가 발생했습니다.');
+          }
+        });
+    }
     // social login했을때 로그인 유지
     authService.onAuthStateChanged((user) => {
       if (user) {
@@ -72,10 +94,11 @@ function App() {
       cacheTime: 60000 * 25, // 1분 * 25
       staleTime: 60000 * 25,
       retry: false,
+      enabled: !!isLoggedIn.login,
     },
   );
 
-  // 지속적 로그인
+  // 로그인 후에 지속적 로그인
   const {
     data: validLogin,
     isLoading: validLoading,
@@ -97,6 +120,7 @@ function App() {
       cacheTime: 60000 * 30, // 1분 * 30
       staleTime: 60000 * 30,
       retry: false,
+      enabled: !!isLoggedIn.login,
     },
   );
 
@@ -104,6 +128,7 @@ function App() {
   useEffect(() => {
     if (userData) {
       setUserObj({ ...userData.data.user });
+      setLoading(false);
     }
     if (userDataError) {
       console.log(userDataError);
@@ -117,7 +142,18 @@ function App() {
     if (validError) {
       console.log(validError);
     }
-  }, [userData, userDataError, validLogin, validError]);
+
+    if (userDataLoading || validLoading) {
+      setLoading(true);
+    }
+  }, [
+    userData,
+    userDataError,
+    validLogin,
+    validError,
+    userDataLoading,
+    validLoading,
+  ]);
 
   return (
     <div>
