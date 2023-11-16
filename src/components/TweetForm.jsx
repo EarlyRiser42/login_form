@@ -204,7 +204,7 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
         </Link>
         <UserInfo>
           <UerInfoInner>
-            <span>{writeObj.displayName}</span>
+            <span style={{ fontWeight: 'bold' }}>{writeObj.displayName}</span>
             <span>@{writeObj.id}</span>
             <span>{elapsedTime(writeObj.createdAt)}</span>
           </UerInfoInner>

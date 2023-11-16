@@ -91,6 +91,7 @@ const Home = () => {
         />
       </div>
       <div className={'HomeRightDiv'}>
+        <div></div>
         {!followingPage && (
           <div>
             {tweets.map((tweet) => (
