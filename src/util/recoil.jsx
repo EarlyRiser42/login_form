@@ -3,7 +3,7 @@ import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
 
 export const errorState = atom({
   key: 'errorState',
-  default: '', // initial value
+  default: '',
 });
 
 export const loginState = atom({
@@ -13,7 +13,7 @@ export const loginState = atom({
 
 export const loadingState = atom({
   key: 'loadingState',
-  default: true,
+  default: false,
 });
 
 export const ModalOpenState = atom({

@@ -21,6 +21,7 @@ import axios from 'axios';
 function App() {
   // 전역 변수 recoil
   const [loading, setLoading] = useRecoilState(loadingState);
+  const [isAuthChecked, setIsAuthChecked] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
   const [userObj, setUserObj] = useRecoilState(userObjState);
 
@@ -46,11 +47,13 @@ function App() {
         .then((response) => {
           if (response.status === 200) {
             setIsLoggedIn({ login: true, social: false });
+            setIsAuthChecked(true);
           }
         })
         .catch((error) => {
           if (error.response && error.response.status === 400) {
-            console.log('요효한 토큰이 아닙니다.');
+            console.log('유효한 토큰이 아닙니다.');
+            setIsAuthChecked(true);
           } else {
             console.log('서버 오류가 발생했습니다.');
           }
@@ -69,8 +72,10 @@ function App() {
           follower: [],
         });
         setIsLoggedIn({ login: true, social: true });
+        setIsAuthChecked(true);
       } else {
         setUserObj({ displayName: '', id: '', uid: '', photoURL: '' });
+        setIsAuthChecked(true);
       }
     });
   }, []);
@@ -128,23 +133,16 @@ function App() {
   useEffect(() => {
     if (userData) {
       setUserObj({ ...userData.data.user });
-      setLoading(false);
     }
     if (userDataError) {
       console.log(userDataError);
     }
     if (validLogin) {
-      setLoading(true);
       setIsLoggedIn({ login: true, social: false });
       navigate('/');
-      setLoading(false);
     }
     if (validError) {
       console.log(validError);
-    }
-
-    if (userDataLoading || validLoading) {
-      setLoading(true);
     }
   }, [
     userData,
@@ -157,7 +155,7 @@ function App() {
 
   return (
     <div>
-      {loading && <Loading />}
+      {(!isAuthChecked || (isAuthChecked && !isLoggedIn.login)) && <Loading />}
       {isLoggedIn.login && !signing ? (
         <>
           <Routes>
