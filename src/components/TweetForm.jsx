@@ -173,20 +173,26 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
     link,
   }) => {
     return (
-      <TweetActions onClick={onClick}>
-        <ActionImageContainer src={src} alt={alt} isLink={isLink} link={link} />
+      <TweetActions>
+        <ActionImageContainer
+          onClick={onClick}
+          src={src}
+          alt={alt}
+          isLink={isLink}
+          link={link}
+        />
         {isCount && count > 0 && <span>{count}</span>}
       </TweetActions>
     );
   };
 
-  const ActionImageContainer = ({ src, alt, isLink, link }) => {
+  const ActionImageContainer = ({ onClick, src, alt, isLink, link }) => {
     return isLink ? (
       <Link to={link}>
-        <ActionImage src={src} alt={alt} />
+        <ActionImage onClick={onClick} src={src} alt={alt} />
       </Link>
     ) : (
-      <ActionImage src={src} alt={alt} />
+      <ActionImage onClick={onClick} src={src} alt={alt} />
     );
   };
 
@@ -212,7 +218,11 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
         </UserInfo>
       </UpperContainer>
       <TweetText>{writeObj.text}</TweetText>
-      {writeObj.photoURL && <TweetImage src={writeObj.photoURL} alt="Tweet" />}
+      {writeObj.photoURL && (
+        <TweetImageContainer>
+          <TweetImage src={writeObj.photoURL} alt="Tweet" />
+        </TweetImageContainer>
+      )}
       <TweetActions>
         <ActionContainer
           src={'./mention.png'}
@@ -222,6 +232,7 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
           isCount={true}
           count={writeObj.mention_cnt}
         />
+        <ActionContainer src={'./retweet.png'} alt="Retweet" />
         <ActionContainer
           src={writeObj.like ? './like_color.png' : './like.png'}
           alt="Like"
@@ -229,7 +240,6 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
           isCount={true}
           count={writeObj.like_cnt}
         />
-        <ActionContainer src={'./retweet.png'} alt="Retweet" />
         <ActionContainer
           src={'./share.png'}
           alt="Share"
@@ -243,6 +253,7 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
 const Container = styled.div`
   width: 100%;
   height: auto;
+  margin-top: 10px;
 `;
 
 const UpperContainer = styled.div`
@@ -273,9 +284,18 @@ const TweetText = styled.div`
   min-height: 30px;
 `;
 
+const TweetImageContainer = styled.div`
+  width: 100%;
+  min-height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const TweetImage = styled.img`
-  width: 50px;
-  height: 50px;
+  width: 100px;
+  height: 100px;
+  border-radius: 30px;
 `;
 
 const TweetActions = styled.div`

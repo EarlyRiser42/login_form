@@ -28,6 +28,14 @@
     }
 }
 
+@media (max-width: 1000px){
+    .HomeRightDiv{
+        width: 84vw;
+        height: 100vh;
+    }
+}
+
+
 @media (max-width: 500px){
     .HomeDivNavOpen{
         width: 100vw;
