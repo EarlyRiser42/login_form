@@ -4,56 +4,62 @@ import { useRecoilState } from 'recoil';
 import { userObjState } from '../util/recoil.jsx';
 import useOnClickOutside from '../hooks/useOnClickOutside.jsx';
 import { useMediaQuery } from 'react-responsive';
-import { dbService } from '../fbase';
 import Search from './Search.jsx';
 import Nav from './Nav.jsx';
-import '../style/Home.css';
 import TweetForm from '../components/TweetForm.jsx';
 import WriteTweet from '../components/WriteTweet.jsx';
+import { useQuery } from 'react-query';
+import '../style/Home.css';
+import axios from 'axios';
 
 const Home = () => {
   // 전역변수 recoil
   const [userObj, setUserObj] = useRecoilState(userObjState);
   const [isNavOpen, setIsNavOpen] = useState(false);
 
-  const [followingPage, setFollowingPage] = useState(false);
   const [tweets, setTweets] = useState([]);
+  const [followingPage, setFollowingPage] = useState(false);
 
   const navRef = useRef(null);
   const navigate = useNavigate();
 
   useOnClickOutside(navRef, () => setIsNavOpen(false));
 
+  const {
+    data: fetchtweet,
+    isLoading: tweetsLoading,
+    error: tweetsError,
+  } = useQuery(
+    'getTweets',
+    () => {
+      const requestData = {
+        following: userObj.following, // 배열을 직접 본문에 넣음
+        userId: userObj.uid,
+        followingPage,
+      };
+
+      return axios
+        .post(
+          `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/getTweets`,
+          requestData,
+        )
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    {
+      cacheTime: 60000 * 25, // 캐시 유지 시간: 25분
+      staleTime: 60000 * 25, // 스테일 데이터 시간: 25분
+      retry: 3,
+      enabled: !!userObj.uid,
+    },
+  );
+
   useEffect(() => {
-    setTweets([]);
-    if (followingPage) {
-      // tweets 컬렉션에서 가져온 데이터를 필터링
-      dbService
-        .collection('tweets')
-        .where('creatorId', 'in', userObj.following) // following 배열에 포함된 경우만 가져오기
-        .orderBy('toDBAt', 'desc')
-        .onSnapshot((snapshot) => {
-          const tweetArray = snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-          setTweets(tweetArray);
-        });
-    } else {
-      dbService
-        .collection('tweets')
-        .orderBy('toDBAt', 'desc')
-        .onSnapshot((snapshot) => {
-          const tweetArray = snapshot.docs
-            .filter((doc) => doc.data().creatorId !== userObj.uid) // 조건을 만족하는 문서만 필터링
-            .map((doc) => ({
-              id: doc.id,
-              ...doc.data(),
-            }));
-          setTweets(tweetArray);
-        });
+    if (fetchtweet) {
+      setTweets(fetchtweet.data);
     }
-  }, [followingPage]);
+  }, [fetchtweet, tweetsError]);
 
   const handleTweetClick = (event, tweetId) => {
     // 이벤트 버블링을 막기 위해 해당 이벤트가 이미지 엘리먼트에서 발생한 경우에는 핸들러를 처리하지 않음

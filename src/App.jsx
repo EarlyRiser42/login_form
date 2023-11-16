@@ -20,7 +20,6 @@ import axios from 'axios';
 
 function App() {
   // 전역 변수 recoil
-  const [loading, setLoading] = useRecoilState(loadingState);
   const [isAuthChecked, setIsAuthChecked] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
   const [userObj, setUserObj] = useRecoilState(userObjState);
@@ -59,6 +58,7 @@ function App() {
           }
         });
     }
+
     // social login했을때 로그인 유지
     authService.onAuthStateChanged((user) => {
       if (user) {
@@ -74,7 +74,6 @@ function App() {
         setIsLoggedIn({ login: true, social: true });
         setIsAuthChecked(true);
       } else {
-        setUserObj({ displayName: '', id: '', uid: '', photoURL: '' });
         setIsAuthChecked(true);
       }
     });
