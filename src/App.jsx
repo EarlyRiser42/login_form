@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
 import { loadingState, loginState, userObjState } from './util/recoil.jsx';
-import Loading from './components/Loading.jsx';
+import LoadingX from './components/LoadingX.jsx';
 import Home from './routes/Home.jsx';
 import Auth from './routes/Auth.jsx';
 import Signup from './routes/Signup.jsx';
@@ -155,7 +155,7 @@ function App() {
 
   return (
     <div>
-      {(!isAuthChecked || (isAuthChecked && !isLoggedIn.login)) && <Loading />}
+      {(!isAuthChecked || (isAuthChecked && !isLoggedIn.login)) && <LoadingX />}
       {isLoggedIn.login && !signing ? (
         <>
           <Routes>
