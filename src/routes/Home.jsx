@@ -91,7 +91,24 @@ const Home = () => {
         />
       </div>
       <div className={'HomeRightDiv'}>
-        <div></div>
+        <div className={'HomeRightSwitchFollowDiv'}>
+          <div
+            onClick={() => {
+              setFollowingPage(false);
+            }}
+          >
+            <span className={followingPage ? 'notbold' : 'bold'}>추천</span>
+          </div>
+          <div
+            onClick={() => {
+              setFollowingPage(true);
+            }}
+          >
+            <span className={followingPage ? 'bold' : 'notbold'}>
+              팔로우 중
+            </span>
+          </div>
+        </div>
         {!followingPage && (
           <div>
             {tweets.map((tweet) => (

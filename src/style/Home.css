@@ -17,6 +17,33 @@
     height: 100vh;
 }
 
+.HomeRightSwitchFollowDiv{
+    display: flex;
+    flex-direction: row;
+}
+
+.HomeRightSwitchFollowDiv div{
+    width: 50%;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.HomeRightSwitchFollowDiv :hover{
+    background-color: #E7E7E8;
+    cursor: pointer;
+}
+
+.notbold{
+    font-weight: normal;
+}
+
+.bold{
+    font-weight: bold;
+}
+
 .HomeImgDivForMobile{
     display: none;
 }
