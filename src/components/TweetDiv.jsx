@@ -26,19 +26,15 @@ const TweetDiv = ({ followingPage }) => {
         followingPage,
       };
 
-      return axios
-        .post(
-          `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/getTweets`,
-          requestData,
-        )
-        .catch((error) => {
-          console.log(error);
-        });
+      return axios.post(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/getTweets`,
+        requestData,
+      );
     },
     {
       cacheTime: 60000 * 25, // 캐시 유지 시간: 25분
       staleTime: 60000 * 25, // 스테일 데이터 시간: 25분
-      retry: 3,
+      retry: false,
       enabled: !!userObj.uid,
       suspense: true,
     },
@@ -47,6 +43,9 @@ const TweetDiv = ({ followingPage }) => {
   useEffect(() => {
     if (fetchtweet) {
       setTweets(fetchtweet.data);
+    }
+    if (tweetsError) {
+      throw new Error('Error fetching tweets');
     }
   }, [fetchtweet, tweetsError]);
 

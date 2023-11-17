@@ -29,7 +29,7 @@ if (!getApps().length) {
 export async function handler(event) {
   const dbService = getFirestore();
   const { following, userId, followingPage } = JSON.parse(event.body);
-
+  return { statusCode: 500 };
   try {
     let query = '';
 

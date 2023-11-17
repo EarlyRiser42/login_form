@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef, Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { useRecoilState } from 'recoil';
 import { userObjState } from '../util/recoil.jsx';
 import useOnClickOutside from '../hooks/useOnClickOutside.jsx';
 import { useMediaQuery } from 'react-responsive';
+import { useQueryClient } from 'react-query';
 import Search from './Search.jsx';
 import Nav from '../components/Nav.jsx';
 import Loading from '../components/Loading.jsx';
 import TweetDiv from '../components/TweetDiv.jsx';
+import ErrorRetry from '../components/ErrorRretry';
 import '../style/Home.css';
 
 const Home = () => {
@@ -59,11 +62,27 @@ const Home = () => {
           </div>
         </div>
         {!followingPage && (
-          <Suspense fallback={<Loading forComponent={true} />}>
-            <TweetDiv followingPage={followingPage} />
-          </Suspense>
+          <ErrorBoundary
+            FallbackComponent={() => (
+              <ErrorRetry queryKey={['getTweets', followingPage]} />
+            )}
+          >
+            <Suspense fallback={<Loading forComponent={true} />}>
+              <TweetDiv followingPage={followingPage} />
+            </Suspense>
+          </ErrorBoundary>
         )}
-        {followingPage && <TweetDiv followingPage={followingPage} />}
+        {followingPage && (
+          <ErrorBoundary
+            FallbackComponent={() => (
+              <ErrorRetry queryKey={['getTweets', followingPage]} />
+            )}
+          >
+            <Suspense fallback={<Loading forComponent={true} />}>
+              <TweetDiv followingPage={followingPage} />
+            </Suspense>
+          </ErrorBoundary>
+        )}
       </div>
       {!useMediaQuery({ query: '(max-width: 1000px)' }) && <Search />}
     </div>
