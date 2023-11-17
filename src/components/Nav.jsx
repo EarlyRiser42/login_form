@@ -1,6 +1,6 @@
 import React, { forwardRef, useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { authService, dbService } from '../fbase';
+import { authService, dbService } from '../fbase.js';
 import { useRecoilState } from 'recoil';
 import { errorState, loginState, userObjState } from '../util/recoil.jsx';
 import { deleteCookie } from '../util/cookie.jsx';

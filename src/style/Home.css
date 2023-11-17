@@ -12,17 +12,17 @@
     background-color: gray;
 }
 
-.HomeRightDiv{
+.HomeMiddleDiv{
     width: 36vw;
     height: 100vh;
 }
 
-.HomeRightSwitchFollowDiv{
+.HomeMiddleSwitchFollowDiv{
     display: flex;
     flex-direction: row;
 }
 
-.HomeRightSwitchFollowDiv div{
+.HomeMiddleSwitchFollowDiv div{
     width: 50%;
     min-height: 50px;
     display: flex;
@@ -31,7 +31,7 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.HomeRightSwitchFollowDiv :hover{
+.HomeMiddleSwitchFollowDiv :hover{
     background-color: #E7E7E8;
     cursor: pointer;
 }
@@ -49,14 +49,14 @@
 }
 
 @media (max-width: 1280px){
-    .HomeRightDiv{
+    .HomeMiddleDiv{
         width: 50vw;
         height: 100vh;
     }
 }
 
 @media (max-width: 1000px){
-    .HomeRightDiv{
+    .HomeMiddleDiv{
         width: 84vw;
         height: 100vh;
     }
