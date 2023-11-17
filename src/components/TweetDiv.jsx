@@ -18,7 +18,7 @@ const TweetDiv = ({ followingPage }) => {
     isLoading: tweetsLoading,
     error: tweetsError,
   } = useQuery(
-    'getTweets',
+    ['getTweets', followingPage],
     () => {
       const requestData = {
         following: userObj.following, // 배열을 직접 본문에 넣음
