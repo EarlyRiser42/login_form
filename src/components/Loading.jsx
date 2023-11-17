@@ -3,9 +3,11 @@ import '../style/Loading.css';
 
 const Loading = ({ forComponent }) => {
   return forComponent ? (
-    <div className={'loading'} />
+    <div className={'loadingDiv'}>
+      <div className={'loading'} />
+    </div>
   ) : (
-    <div id="loadingX">
+    <div className="loadingX">
       <img src={'./X_logo.svg'} width={'80px'} height={'80px'} />
     </div>
   );
