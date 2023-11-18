@@ -2,6 +2,7 @@ import { initializeApp, getApps, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { createHash } from 'crypto';
 
 dotenv.config();
 
@@ -50,12 +51,14 @@ export async function handler(event, context) {
     }
 
     const snapshot = await query.get();
-
+    const hashedPassword = createHash('sha256')
+      .update(password + process.env.VITE_REACT_APP_LOGIN_HASH)
+      .digest('hex');
     if (!snapshot.empty) {
       user = snapshot.docs[0].data();
     }
-    console.log(user);
-    if (!user || user.password !== password) {
+
+    if (!user || user.password !== hashedPassword) {
       return { statusCode: 401, body: '잘못된 비밀번호입니다.' };
     }
 

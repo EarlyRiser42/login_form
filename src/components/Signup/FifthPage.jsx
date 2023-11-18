@@ -45,7 +45,7 @@ const FifthPage = ({ user_data, onNext }) => {
             <div
               className="profile-img"
               style={{
-                backgroundImage: `url(../../public/basic_profile.png)`,
+                backgroundImage: `url(/basic_profile.png)`,
                 backgroundPosition: 'center center',
                 backgroundRepeat: 'no-repeat',
               }}

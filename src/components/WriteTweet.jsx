@@ -5,24 +5,10 @@ import { getAuth } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
 
 const WriteTweet = ({ userObj }) => {
+  console.log(userObj);
   const [tweet, setTweet] = useState('');
   const [attachment, setAttachment] = useState('');
   const [pfp, setPfp] = useState(userObj.photoURL);
-
-  useEffect(() => {
-    const auth = getAuth();
-    const docRef = doc(dbService, 'profile', auth.currentUser.uid);
-
-    // Firestore 리스너 등록
-    const unsubscribe = onSnapshot(docRef, (docSnap) => {
-      if (docSnap.exists()) {
-        setPfp(docSnap.data().photoURL);
-      }
-    });
-
-    // 컴포넌트 언마운트 시 리스너 해제
-    return () => unsubscribe();
-  }, []);
 
   const onSubmit = async (event) => {
     event.preventDefault();

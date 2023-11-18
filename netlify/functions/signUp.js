@@ -1,7 +1,8 @@
 import { getFirestore } from 'firebase-admin/firestore';
-import { initializeApp, getApps, cert } from 'firebase-admin/app';
+import { cert, getApps, initializeApp } from 'firebase-admin/app';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { createHash } from 'crypto';
 
 dotenv.config();
 
@@ -39,6 +40,11 @@ export async function handler(event, context) {
   try {
     const db = getFirestore();
     const { userObj } = JSON.parse(event.body);
+
+    // 비밀번호를 SHA-256으로 해시
+    userObj.password = createHash('sha256')
+      .update(userObj.password + process.env.VITE_REACT_APP_LOGIN_HASH)
+      .digest('hex');
 
     const accessToken = jwt.sign(
       {

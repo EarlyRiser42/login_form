@@ -4,13 +4,13 @@ import { useRecoilState } from 'recoil';
 import { userObjState } from '../util/recoil.jsx';
 import useOnClickOutside from '../hooks/useOnClickOutside.jsx';
 import { useMediaQuery } from 'react-responsive';
-import { useQueryClient } from 'react-query';
 import Search from './Search.jsx';
 import Nav from '../components/Nav.jsx';
 import Loading from '../components/Loading.jsx';
 import TweetDiv from '../components/TweetDiv.jsx';
 import ErrorRetry from '../components/ErrorRretry';
 import '../style/Home.css';
+import WriteTweet from '../components/WriteTweet.jsx';
 
 const Home = () => {
   // 전역변수 recoil
@@ -61,6 +61,7 @@ const Home = () => {
             </span>
           </div>
         </div>
+        <WriteTweet userObj={userObj} />
         {!followingPage && (
           <ErrorBoundary
             FallbackComponent={() => (
@@ -89,5 +90,3 @@ const Home = () => {
   );
 };
 export default Home;
-
-//         <WriteTweet userObj={userObj} />
