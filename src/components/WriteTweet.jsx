@@ -3,12 +3,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { storageService, dbService } from '../fbase';
 import { getAuth } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
+import { useRecoilState } from 'recoil';
+import { profileImage } from '../util/recoil.jsx';
 
 const WriteTweet = ({ userObj }) => {
   console.log(userObj);
   const [tweet, setTweet] = useState('');
   const [attachment, setAttachment] = useState('');
-  const [pfp, setPfp] = useState(userObj.photoURL);
+  const [pfp, setPfp] = useRecoilState(profileImage);
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -74,7 +76,7 @@ const WriteTweet = ({ userObj }) => {
         />
         <label htmlFor="fileInput" style={{ cursor: 'pointer' }}>
           <img
-            src="./tweet_add_photo.png"
+            src="/tweet_add_photo.png"
             alt="이미지 추가"
             style={{ width: '20px', height: '20px' }} // 이미지 스타일을 정의
           />

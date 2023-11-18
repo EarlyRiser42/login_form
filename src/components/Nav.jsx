@@ -2,7 +2,12 @@ import React, { forwardRef, useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { authService, dbService } from '../fbase.js';
 import { useRecoilState } from 'recoil';
-import { errorState, loginState, userObjState } from '../util/recoil.jsx';
+import {
+  errorState,
+  loginState,
+  profileImage,
+  userObjState,
+} from '../util/recoil.jsx';
 import { deleteCookie } from '../util/cookie.jsx';
 import styled from 'styled-components';
 import { useMediaQuery } from 'react-responsive';
@@ -17,6 +22,7 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
   const [userObj, setUserObj] = useRecoilState(userObjState);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
   const [recoilError, setRecoilError] = useRecoilState(errorState);
+  const [pfp, setPfp] = useRecoilState(profileImage);
 
   const onLogOutClick = () => {
     if (isLoggedIn.social) {
@@ -88,7 +94,7 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
             <div className={'NavLinkDiv'}>
               <div className={'NavUserObjDiv'}>
                 <div className={'NavpfpDiv'}>
-                  <img className={'Navpfp'} src={userObj.photoURL} />
+                  <img className={'Navpfp'} src={pfp} />
                   <img
                     className={'NavpfpLogoutImg'}
                     onClick={onLogOutClick}
@@ -205,7 +211,7 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
           </div>
           <div className={'NavUserObjDiv'}>
             <div className={'NavpfpDiv'}>
-              <img className={'Navpfp'} src={userObj.photoURL} />
+              <img className={'Navpfp'} src={pfp} />
             </div>
             <div className={'NavUserObjInfo'}>
               <span className={'NavUserObjInfoBold'}>

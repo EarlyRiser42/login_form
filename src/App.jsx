@@ -11,6 +11,7 @@ import {
   isSigning,
   loadingState,
   loginState,
+  profileImage,
   userObjState,
 } from './util/recoil.jsx';
 import Loading from './components/Loading.jsx';
@@ -29,6 +30,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
   const [userObj, setUserObj] = useRecoilState(userObjState);
   const [signing, setSigning] = useRecoilState(isSigning);
+  const [pfp, setPfp] = useRecoilState(profileImage);
 
   // 지역 변수
   const [isAuthChecked, setIsAuthChecked] = useState(false);
@@ -138,6 +140,7 @@ function App() {
   useEffect(() => {
     if (userData) {
       setUserObj({ ...userData.data.user });
+      setPfp(userData.data.user.photoURL);
     }
     if (userDataError) {
       console.log(userDataError);
