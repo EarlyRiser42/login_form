@@ -12,7 +12,6 @@ import { useNavigate } from 'react-router-dom';
 
 export const useLogin = () => {
   // 전역 변수 recoil
-  const [loading, setLoading] = useRecoilState(loadingState);
   const [recoilError, setRecoilError] = useRecoilState(errorState);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
   const [userObj, setUserObj] = useRecoilState(userObjState);

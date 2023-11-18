@@ -2,8 +2,14 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import useUpdateProfile from '../../hooks/useUpdateProfile';
 import '../../style/Signup/SignupSixthPage.css';
+import { useRecoilState } from 'recoil';
+import { isSigning, loadingState } from '../../util/recoil.jsx';
 
-const SixthPage = ({ user_data, setSigning }) => {
+const SixthPage = ({ user_data }) => {
+  // 전역 변수 recoil
+  const [loading, setLoading] = useRecoilState(loadingState);
+  const [signing, setSigning] = useRecoilState(isSigning);
+
   // react query
   const updateProfile = useUpdateProfile();
 
@@ -21,8 +27,15 @@ const SixthPage = ({ user_data, setSigning }) => {
     setName(value);
   };
 
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
   const onClick = async () => {
     if (initial !== name || user_data.photoURL) {
+      console.log('프로필 업데이트 중.');
+      setLoading(true);
+      setSigning(false);
+      await sleep(2000);
+
       try {
         await updateProfile.mutateAsync({
           uid: user_data.uid,
@@ -30,11 +43,9 @@ const SixthPage = ({ user_data, setSigning }) => {
           name: name,
         });
         console.log('프로필 업데이트 완료.');
-        setSigning(false);
+        setLoading(false);
       } catch (error) {
         console.error(error);
-      } finally {
-        setSigning(false);
       }
     } else {
       setSigning(false);

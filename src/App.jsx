@@ -7,7 +7,12 @@ import {
   useNavigate,
 } from 'react-router-dom';
 import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
-import { loadingState, loginState, userObjState } from './util/recoil.jsx';
+import {
+  isSigning,
+  loadingState,
+  loginState,
+  userObjState,
+} from './util/recoil.jsx';
 import Loading from './components/Loading.jsx';
 import Home from './routes/Home.jsx';
 import Auth from './routes/Auth.jsx';
@@ -20,18 +25,19 @@ import axios from 'axios';
 
 function App() {
   // 전역 변수 recoil
-  const [isAuthChecked, setIsAuthChecked] = useState(false);
+  const [loading, setLoading] = useRecoilState(loadingState);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
   const [userObj, setUserObj] = useRecoilState(userObjState);
+  const [signing, setSigning] = useRecoilState(isSigning);
+
+  // 지역 변수
+  const [isAuthChecked, setIsAuthChecked] = useState(false);
 
   const navigate = useNavigate();
 
   // for modal background
   const location = useLocation();
   const background = location.state && location.state.background;
-
-  // 회원가입 중
-  const [signing, setSigning] = useState(false);
 
   useEffect(() => {
     // 새로 고침후 지속적 로그인
@@ -153,9 +159,10 @@ function App() {
     validLoading,
   ]);
 
+  // 로그인 후 새로고침 || 로그인 실패? || 회원가입 할 때(6번째 페이지)
   return (
     <div>
-      {(!isAuthChecked || (isAuthChecked && !isLoggedIn.login)) && (
+      {(!isAuthChecked || (isAuthChecked && !isLoggedIn.login) || loading) && (
         <Loading forComponent={false} />
       )}
       {isLoggedIn.login && !signing ? (
@@ -167,7 +174,7 @@ function App() {
       ) : (
         <>
           <Routes location={background || location}>
-            <Route path="/" element={<Auth setSigning={setSigning} />} />
+            <Route path="/" element={<Auth />} />
             <Route
               path="/signup"
               element={<Signup setSigning={setSigning} />}
@@ -177,7 +184,7 @@ function App() {
           </Routes>
           {background && (
             <Routes>
-              <Route path="/" element={<Auth setSigning={setSigning} />} />
+              <Route path="/" element={<Auth />} />
               <Route
                 path="/signup"
                 element={<Signup setSigning={setSigning} />}

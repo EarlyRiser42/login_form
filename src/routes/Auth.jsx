@@ -3,11 +3,14 @@ import { Link, useLocation } from 'react-router-dom';
 import { authService, firebaseInstance } from '../fbase';
 import '../style/Auth.css';
 import { useRecoilState } from 'recoil';
-import { ModalOpenState } from '../util/recoil.jsx';
+import { isSigning, ModalOpenState } from '../util/recoil.jsx';
 
-const Auth = ({ setSigning }) => {
+const Auth = () => {
   // modal 뒷배경
   const location = useLocation();
+
+  // 전역변수 recoil
+  const [signing, setSigning] = useRecoilState(isSigning);
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
 
   useEffect(() => {

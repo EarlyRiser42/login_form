@@ -11,6 +11,11 @@ export const loginState = atom({
   default: { login: false, social: false },
 });
 
+export const isSigning = atom({
+  key: 'signingState',
+  default: false,
+});
+
 export const loadingState = atom({
   key: 'loadingState',
   default: false,

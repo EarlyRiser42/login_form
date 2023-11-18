@@ -7,7 +7,7 @@ import FourthPage from '../components/Signup/FourthPage.jsx';
 import FifthPage from '../components/Signup/FifthPage.jsx';
 import SixthPage from '../components/Signup/SixthPage.jsx';
 
-const Signup = ({ setSigning }) => {
+const Signup = () => {
   // 유저 정보 전체
   const [user_data, setUser_data] = useState([]);
   // 페이지 현재 상태
@@ -52,11 +52,9 @@ const Signup = ({ setSigning }) => {
           />
         )}
         {page === 5 && (
-          <FifthPage user_data={user_data} onNext={handleNextStep}  />
+          <FifthPage user_data={user_data} onNext={handleNextStep} />
         )}
-        {page === 6 && (
-          <SixthPage user_data={user_data} setSigning={setSigning} />
-        )}
+        {page === 6 && <SixthPage user_data={user_data} />}
       </Modal>
     </div>
   );
