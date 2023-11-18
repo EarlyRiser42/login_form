@@ -2,6 +2,7 @@ import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useSignUp } from '../../hooks/useSignup.jsx';
 import '../../style/Signup/SignupFourthPage.css';
+import { sha256 } from 'crypto-hash';
 
 const FourthPage = ({ onNext, onPrev, user_data, page, setPage }) => {
   // react query hooks
@@ -13,13 +14,17 @@ const FourthPage = ({ onNext, onPrev, user_data, page, setPage }) => {
   const Signup = async () => {
     const uid = uuidv4(); // Generate the UUID on the frontend
 
+    const hashedPassword = await sha256(
+      user_data.password + `${import.meta.env.VITE_REACT_APP_FRONT_HASH}`,
+    );
+
     const userObj = {
       id: `${user_data.email.slice(
         0,
         user_data.email.indexOf('@'),
       )}${Math.floor(Math.random() * 1000)}`,
       email: user_data.email,
-      password: user_data.password,
+      password: hashedPassword,
       displayName: user_data.name,
       photoURL:
         'https://firebasestorage.googleapis.com/v0/b/loginform-6747a.appspot.com/o/pfp%2Fbasic.png?alt=media&token=d2b2f037-ee93-4fad-a09d-733332ec28fc',

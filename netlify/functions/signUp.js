@@ -43,7 +43,7 @@ export async function handler(event, context) {
 
     // 비밀번호를 SHA-256으로 해시
     userObj.password = createHash('sha256')
-      .update(userObj.password + process.env.VITE_REACT_APP_LOGIN_HASH)
+      .update(userObj.password + process.env.VITE_REACT_APP_BACK_HASH)
       .digest('hex');
 
     const accessToken = jwt.sign(

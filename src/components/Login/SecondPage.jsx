@@ -4,6 +4,7 @@ import { useLogin } from '../../hooks/useLogin';
 import { useRecoilState } from 'recoil';
 import { ModalOpenState } from '../../util/recoil.jsx';
 import '../../style/Login/LoginSecondPage.css';
+import { sha256 } from 'crypto-hash';
 
 const SecondPage = ({ user_data }) => {
   const [password, setPassword] = useState('');
@@ -19,8 +20,11 @@ const SecondPage = ({ user_data }) => {
 
   const onClick = async (value) => {
     const isEmail = user_data.email.includes('@');
+    const hashedPassword = await sha256(
+      value + `${import.meta.env.VITE_REACT_APP_FRONT_HASH}`,
+    );
     const queryParam = {
-      password: value,
+      password: hashedPassword,
     };
     if (isEmail) {
       queryParam.email = user_data.email;

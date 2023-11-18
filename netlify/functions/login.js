@@ -52,7 +52,7 @@ export async function handler(event, context) {
 
     const snapshot = await query.get();
     const hashedPassword = createHash('sha256')
-      .update(password + process.env.VITE_REACT_APP_LOGIN_HASH)
+      .update(password + process.env.VITE_REACT_APP_BACK_HASH)
       .digest('hex');
     if (!snapshot.empty) {
       user = snapshot.docs[0].data();
