@@ -98,7 +98,7 @@ function App() {
       cacheTime: 60000 * 25, // 1분 * 25
       staleTime: 60000 * 25,
       retry: false,
-      enabled: !!isLoggedIn.login,
+      enabled: !!isLoggedIn.login && !signing,
     },
   );
 
@@ -124,7 +124,7 @@ function App() {
       cacheTime: 60000 * 30, // 1분 * 30
       staleTime: 60000 * 30,
       retry: false,
-      enabled: !!isLoggedIn.login,
+      enabled: !!isLoggedIn.login && !signing,
     },
   );
 
@@ -138,6 +138,7 @@ function App() {
     }
     if (validLogin) {
       setIsLoggedIn({ login: true, social: false });
+      setIsAuthChecked(true);
       navigate('/');
     }
     if (validError) {
