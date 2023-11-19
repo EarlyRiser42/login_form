@@ -76,15 +76,22 @@ const WriteTweet = ({ userObj }) => {
         <ProfileImage src={pfp} />
       </LeftContainer>
       <RightContainer>
-        <TweetTextArea
-          name="tweet"
-          placeholder="무슨 일이 일어나고 있나요?"
-          rows="1"
-          required
-          value={tweet}
-          onChange={autoResize}
-          maxLength={140}
-        />
+        <TweetContainer>
+          <TweetTextArea
+            name="tweet"
+            placeholder="무슨 일이 일어나고 있나요?"
+            rows="1"
+            required
+            value={tweet}
+            onChange={autoResize}
+            maxLength={140}
+          />
+          <MentionGuideSpan>
+            <MentionGuideSpanImg src={'/earth.png'} />
+            모든 사람이 답글을 달 수 있습니다
+          </MentionGuideSpan>
+        </TweetContainer>
+
         {attachment && (
           <div>
             <PreviewImage src={attachment} />
@@ -135,6 +142,12 @@ const ProfileImage = styled.img`
   margin-bottom: 10px;
 `;
 
+const TweetContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+`;
+
 const TweetTextArea = styled.textarea`
   width: 92%;
   border: none;
@@ -143,7 +156,7 @@ const TweetTextArea = styled.textarea`
   padding-right: 10px;
   font-size: 19px;
   resize: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
   font-family:
     'Chirp',
     -apple-system,
@@ -161,6 +174,21 @@ const TweetTextArea = styled.textarea`
   }
 `;
 
+const MentionGuideSpan = styled.span`
+  margin-top: 10px;
+  margin-bottom: 15px;
+  font-weight: bolder;
+  font-size: 0.8rem;
+  color: #1da1f2;
+`;
+
+const MentionGuideSpanImg = styled.img`
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+  margin-right: 5px;
+`;
+
 const InnerContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -168,6 +196,7 @@ const InnerContainer = styled.div`
   align-items: center;
   width: 100%;
   max-height: 40px;
+  margin-top: 10px;
 `;
 
 const StyledLabel = styled.label`
@@ -183,7 +212,6 @@ const StyledInput = styled.input`
 `;
 
 const Image = styled.img`
-  margin-top: 10px;
   margin-right: 45%;
   width: 25px;
   height: 25px;
