@@ -198,54 +198,59 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
 
   return (
     <Container>
-      <UpperContainer>
+      <LeftContainer>
         <Link to={`/profile/${writeObj.creatorId}`}>
           <ProfileImage src={writeObj.photoURL} alt="Profile" />
         </Link>
-        <UserInfo>
-          <UerInfoInner>
-            <span style={{ fontWeight: 'bold' }}>{writeObj.displayName}</span>
-            <span>@{writeObj.id}</span>
-            <span>{elapsedTime(writeObj.createdAt)}</span>
-          </UerInfoInner>
-          {isOwner && (
-            <img
-              src={'./delete.png'}
-              alt="Delete"
-              onClick={() => onDeleteClick(writeObj.id)}
-            />
-          )}
-        </UserInfo>
-      </UpperContainer>
-      <TweetText>{writeObj.text}</TweetText>
-      {writeObj.photoURL && (
-        <TweetImageContainer>
-          <TweetImage src={writeObj.photoURL} alt="Tweet" />
-        </TweetImageContainer>
-      )}
-      <TweetActions>
-        <ActionContainer
-          src={'./mention.png'}
-          alt="Mention"
-          isLink={true}
-          link={`/compose/mention`}
-          isCount={true}
-          count={writeObj.mention_cnt}
-        />
-        <ActionContainer src={'./retweet.png'} alt="Retweet" />
-        <ActionContainer
-          src={writeObj.like ? './like_color.png' : './like.png'}
-          alt="Like"
-          onClick={() => onLike(writeObj.id)}
-          isCount={true}
-          count={writeObj.like_cnt}
-        />
-        <ActionContainer
-          src={'./share.png'}
-          alt="Share"
-          onClick={() => onShare(writeObj.id)}
-        />
-      </TweetActions>
+      </LeftContainer>
+      <RightContainer>
+        <UpperContainer>
+          <UserInfoContainer>
+            <UerInfoInner>
+              <span style={{ fontWeight: 'bold' }}>{writeObj.displayName}</span>
+              <span>@{writeObj.id}</span>
+              <span>{elapsedTime(writeObj.createdAt)}</span>
+            </UerInfoInner>
+            {isOwner && (
+              <img
+                src={'./delete.png'}
+                alt="Delete"
+                onClick={() => onDeleteClick(writeObj.id)}
+              />
+            )}
+          </UserInfoContainer>
+        </UpperContainer>
+        <TweetText>{writeObj.text}</TweetText>
+        {writeObj.photoURL && (
+          <TweetImageContainer>
+            <TweetImage src={writeObj.photoURL} alt="Tweet" />
+          </TweetImageContainer>
+        )}
+
+        <TweetActions>
+          <ActionContainer
+            src={'./mention.png'}
+            alt="Mention"
+            isLink={true}
+            link={`/compose/mention`}
+            isCount={true}
+            count={writeObj.mention_cnt}
+          />
+          <ActionContainer src={'./retweet.png'} alt="Retweet" />
+          <ActionContainer
+            src={writeObj.like ? './like_color.png' : './like.png'}
+            alt="Like"
+            onClick={() => onLike(writeObj.id)}
+            isCount={true}
+            count={writeObj.like_cnt}
+          />
+          <ActionContainer
+            src={'./share.png'}
+            alt="Share"
+            onClick={() => onShare(writeObj.id)}
+          />
+        </TweetActions>
+      </RightContainer>
     </Container>
   );
 };
@@ -254,6 +259,15 @@ const Container = styled.div`
   width: 100%;
   height: auto;
   margin-top: 10px;
+  display: flex;
+`;
+
+const LeftContainer = styled.div`
+  width: 15%;
+`;
+
+const RightContainer = styled.div`
+  width: 85%;
 `;
 
 const UpperContainer = styled.div`
@@ -266,9 +280,10 @@ const ProfileImage = styled.img`
   height: 40px;
 `;
 
-const UserInfo = styled.div`
+const UserInfoContainer = styled.div`
   display: flex;
   width: 100%;
+  height: 1%;
   justify-content: space-between;
 `;
 
@@ -282,6 +297,7 @@ const UerInfoInner = styled.div`
 
 const TweetText = styled.div`
   min-height: 30px;
+  width: 75%;
 `;
 
 const TweetImageContainer = styled.div`
@@ -301,7 +317,7 @@ const TweetImage = styled.img`
 const TweetActions = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
 `;
 
 const ActionImage = styled.img`

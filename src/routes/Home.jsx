@@ -61,7 +61,9 @@ const Home = () => {
             </span>
           </div>
         </div>
-        <WriteTweet userObj={userObj} />
+        {!useMediaQuery({ query: '(max-width: 500px)' }) && (
+          <WriteTweet userObj={userObj} />
+        )}
         {!followingPage && (
           <ErrorBoundary
             FallbackComponent={() => (

@@ -95,6 +95,11 @@
         height: 90vh;
     }
 
+    .HomeMiddleDiv{
+        width: 100vw;
+        height: 100vh;
+    }
+
     .HomeOpenNavImg{
         margin-left: 2%;
         border-radius: 50px;
