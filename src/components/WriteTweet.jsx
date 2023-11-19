@@ -136,13 +136,14 @@ const ProfileImage = styled.img`
 `;
 
 const TweetTextArea = styled.textarea`
-  width: 90%;
+  width: 92%;
   border: none;
   padding-top: 10px;
   padding-left: 10px;
   padding-right: 10px;
   font-size: 19px;
   resize: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   font-family:
     'Chirp',
     -apple-system,
@@ -218,6 +219,7 @@ const PreviewImage = styled.img`
   width: 100%;
   height: auto;
   margin-top: 10px;
+  margin-bottom: 10px;
   border-radius: 20px;
 `;
 
