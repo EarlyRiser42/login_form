@@ -42,6 +42,7 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
     // tweet의 이름, id, pfp 가져오는 코드
     const docRef = doc(dbService, 'users', writeObj.creatorId);
     const docSnap = await getDoc(docRef);
+    console.log(docSnap.data());
     if (docSnap.exists()) {
       setId(docSnap.data().id);
       setDisplayName(docSnap.data().displayName);
@@ -200,20 +201,20 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
     <Container>
       <LeftContainer>
         <Link to={`/profile/${writeObj.creatorId}`}>
-          <ProfileImage src={writeObj.photoURL} alt="Profile" />
+          <ProfileImage src={photoURL} alt="Profile" />
         </Link>
       </LeftContainer>
       <RightContainer>
         <UpperContainer>
           <UserInfoContainer>
             <UerInfoInner>
-              <span style={{ fontWeight: 'bold' }}>{writeObj.displayName}</span>
-              <span>@{writeObj.id}</span>
+              <span style={{ fontWeight: 'bold' }}>{displayName}</span>
+              <span>@{id}</span>
               <span>{elapsedTime(writeObj.createdAt)}</span>
             </UerInfoInner>
             {isOwner && (
               <img
-                src={'./delete.png'}
+                src={'./close.svg'}
                 alt="Delete"
                 style={{ width: '15px', height: '18px', marginRight: '20px' }}
                 onClick={() => onDeleteClick(writeObj.id)}
@@ -278,8 +279,10 @@ const UpperContainer = styled.div`
 `;
 
 const ProfileImage = styled.img`
+  margin-left: 20%;
   width: 40px;
   height: 40px;
+  border-radius: 50px;
 `;
 
 const UserInfoContainer = styled.div`
