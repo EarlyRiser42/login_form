@@ -215,6 +215,7 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
               <img
                 src={'./delete.png'}
                 alt="Delete"
+                style={{ width: '15px', height: '18px', marginRight: '20px' }}
                 onClick={() => onDeleteClick(writeObj.id)}
               />
             )}
@@ -260,6 +261,7 @@ const Container = styled.div`
   height: auto;
   margin-top: 10px;
   display: flex;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
 const LeftContainer = styled.div`
@@ -296,6 +298,7 @@ const UerInfoInner = styled.div`
 `;
 
 const TweetText = styled.div`
+  margin-top: 5px;
   min-height: 30px;
   width: 75%;
 `;
@@ -309,20 +312,21 @@ const TweetImageContainer = styled.div`
 `;
 
 const TweetImage = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 100%;
+  height: 100%;
   border-radius: 30px;
 `;
 
 const TweetActions = styled.div`
   width: 100%;
+  min-height: 30px;
   display: flex;
   justify-content: space-between;
 `;
 
 const ActionImage = styled.img`
-  width: 18.75px;
-  height: 18.75px;
+  width: 16.75px;
+  height: 15.75px;
   cursor: pointer;
 `;
 
