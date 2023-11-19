@@ -141,8 +141,20 @@ const TweetTextArea = styled.textarea`
   padding-top: 10px;
   padding-left: 10px;
   padding-right: 10px;
-  font-size: 16px;
+  font-size: 19px;
   resize: none;
+  font-family:
+    'Chirp',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Open Sans',
+    'Helvetica Neue',
+    sans-serif;
   &:focus {
     outline: none;
   }

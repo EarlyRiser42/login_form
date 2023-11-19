@@ -23,7 +23,7 @@ import { getCookie } from './util/cookie.jsx';
 import { authService } from './fbase';
 import { useQuery } from 'react-query';
 import axios from 'axios';
-
+import './App.css';
 function App() {
   // 전역 변수 recoil
   const [loading, setLoading] = useRecoilState(loadingState);
