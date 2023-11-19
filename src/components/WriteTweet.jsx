@@ -253,7 +253,7 @@ const PreviewImage = styled.img`
 
 const ClearImage = styled.img`
   position: absolute;
-  top: 14%; // Adjust as necessary for your layout
+  top: 19%; // Adjust as necessary for your layout
   right: 36%; // Adjust as necessary for your layout
   width: 30px;
   height: 30px;
