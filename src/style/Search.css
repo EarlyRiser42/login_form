@@ -1,7 +1,9 @@
 .SearchDiv{
+    position: sticky;
+    top: 0;
     width: 24vw;  /* Home: 36vw, nav: 28vw = 64 */
     margin-right: 12vw;
-    height: 100vh;
+    height: 99vh;
     border-left: 1px solid rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;

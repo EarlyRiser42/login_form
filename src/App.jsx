@@ -32,7 +32,7 @@ function App() {
   const [userObj, setUserObj] = useRecoilState(userObjState);
   const [signing, setSigning] = useRecoilState(isSigning);
   const [pfp, setPfp] = useRecoilState(profileImage);
-
+  console.log(userObj);
   // 지역 변수
   const [isAuthChecked, setIsAuthChecked] = useState(false);
 
@@ -67,6 +67,7 @@ function App() {
               });
             }
             setUserObj(user);
+            setPfp(user.photoURL);
             setIsLoggedIn({ login: true, social: false });
             setIsAuthChecked(true);
           }
@@ -131,7 +132,6 @@ function App() {
   // use query의 response가 변화할 때 실행
   useEffect(() => {
     if (validLogin) {
-      console.log(validLogin);
       const user = validLogin.data.user;
       if (validLogin.data.accessToken) {
         const currentDateTime = new Date();

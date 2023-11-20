@@ -1,9 +1,11 @@
 .NavDiv{
+    position: sticky;
+    top: 0;
     display: flex;
     flex-direction: column;
     margin-left: 11vw;
     width: 17vw;
-    height: 100vh;
+    height: 99vh;
     justify-content: space-between;
     border-right: 1px solid rgba(0, 0, 0, 0.1);
 }

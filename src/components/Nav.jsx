@@ -29,6 +29,7 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
       authService.signOut();
     }
     setIsLoggedIn({ login: false, social: false });
+    setUserObj({ displayName: '', uid: '', photoURL: '', id: '' });
     deleteCookie('accessToken');
     deleteCookie('refreshTokenId');
     navigate('/');
