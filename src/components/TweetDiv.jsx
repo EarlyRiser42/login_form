@@ -2,17 +2,23 @@ import TweetForm from './TweetForm.jsx';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { Tweets, userObjState } from '../util/recoil.jsx';
+import { ModalOpenState, Tweets, userObjState } from '../util/recoil.jsx';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 
 const TweetDiv = ({ followingPage }) => {
   // 전역변수 recoil
+  const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
   const [userObj, setUserObj] = useRecoilState(userObjState);
   const [tweets, setTweets] = useRecoilState(Tweets);
   // 지역변수
   const navigate = useNavigate();
 
+  if (isModalOpen) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = 'auto';
+  }
   const {
     data: fetchtweet,
     isLoading: tweetsLoading,

@@ -8,6 +8,13 @@ import styled from 'styled-components';
 const Login = () => {
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
 
+  useEffect(() => {
+    setIsModalOpen(true);
+    return () => {
+      setIsModalOpen(false);
+    };
+  }, []);
+
   return (
     <div>
       <Modal className={'writeTweetModal'}>

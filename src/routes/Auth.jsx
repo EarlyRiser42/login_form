@@ -10,7 +10,6 @@ const Auth = () => {
   const location = useLocation();
 
   // 전역변수 recoil
-  const [signing, setSigning] = useRecoilState(isSigning);
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
 
   useEffect(() => {
@@ -70,15 +69,7 @@ const Auth = () => {
             </div>
           </div>
           <Link to={'/signup'} state={{ background: location }}>
-            <button
-              className={'authCreateAccountButton'}
-              onClick={() => {
-                setIsModalOpen(true);
-                setSigning(true);
-              }}
-            >
-              계정 만들기
-            </button>
+            <button className={'authCreateAccountButton'}>계정 만들기</button>
           </Link>
           <span style={{ fontWeight: 'lighter', fontSize: '0.7rem' }}>
             가입하시려면 <span>쿠키 사용</span>을 포함해{' '}
@@ -92,14 +83,7 @@ const Auth = () => {
             이미 트위터에 가입하셨나요?
           </span>
           <Link to={'/login'} state={{ background: location }}>
-            <button
-              className={'authLoginButton'}
-              onClick={() => {
-                setIsModalOpen(true);
-              }}
-            >
-              로그인
-            </button>
+            <button className={'authLoginButton'}>로그인</button>
           </Link>
         </div>
       </div>

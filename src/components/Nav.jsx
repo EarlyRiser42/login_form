@@ -5,6 +5,7 @@ import { useRecoilState } from 'recoil';
 import {
   errorState,
   loginState,
+  ModalOpenState,
   profileImage,
   userObjState,
 } from '../util/recoil.jsx';
@@ -20,6 +21,7 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
 
   // 전역변수 recoil
   const [userObj, setUserObj] = useRecoilState(userObjState);
+  const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
   const [recoilError, setRecoilError] = useRecoilState(errorState);
   const [pfp, setPfp] = useRecoilState(profileImage);
@@ -66,7 +68,9 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
         {type === 'post' ? (
           <div>
             <Link to={linkTo} state={state}>
-              <button className="NavPostButton">{buttonText}</button>
+              <button className="NavPostButton" onClick={onClick}>
+                {buttonText}
+              </button>
               <div className={mobile ? 'NavPostImgDivMobile' : 'NavPostImgDiv'}>
                 <img className="NavPostImg" src={imgSrc} alt={imgAlt} />
               </div>
@@ -113,7 +117,7 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
                 <img
                   className={'NavpfpLogoutImg'}
                   onClick={onLogOutClick}
-                  src="./logout.svg"
+                  src="/logout.svg"
                   alt="Logout"
                 />
               </div>
@@ -211,9 +215,12 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               type="post"
               linkTo="/compose/tweet"
               buttonText="게시하기"
+              onClick={() => {
+                setIsModalOpen(true);
+              }}
               imgSrc="./write_tweet.png"
               imgAlt="writeTweet"
-              mobile="false"
+              mobile={false} // Note: Use boolean false instead of string "false"
               state={{ background: location }}
             />
             <NavButton
