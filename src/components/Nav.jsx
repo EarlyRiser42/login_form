@@ -30,6 +30,9 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
     }
     setIsLoggedIn({ login: false, social: false });
     setUserObj({ displayName: '', uid: '', photoURL: '', id: '' });
+    setPfp(
+      'https://firebasestorage.googleapis.com/v0/b/loginform-6747a.appspot.com/o/pfp%2Fbasic.png?alt=media&token=d2b2f037-ee93-4fad-a09d-733332ec28fc',
+    );
     deleteCookie('accessToken');
     deleteCookie('refreshTokenId');
     navigate('/');

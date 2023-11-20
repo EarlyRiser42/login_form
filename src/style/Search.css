@@ -1,9 +1,10 @@
 .SearchDiv{
-    position: sticky;
+    position: fixed;
     top: 0;
-    width: 24vw;  /* Home: 36vw, nav: 28vw = 64 */
+    width: 400px;  /* Home: 36vw, nav: 28vw = 64 */
+    margin-left: 67vw; /* Home: 36vw, nav: 28vw = 64 */
     margin-right: 12vw;
-    height: 99vh;
+    height: 100vh;
     border-left: 1px solid rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
@@ -39,8 +40,9 @@
 
 @media (max-width: 1280px){
     .SearchDiv{
-        width: 34vw;  /* Home: 50vw, nav: 16vw = 66 */
-        margin-right: 0vw;
-    }
+        margin-left: 62vw; /* Home: 36vw, nav: 28vw = 66 */
 
+        margin-right: 7vw;
+    }
 }
+

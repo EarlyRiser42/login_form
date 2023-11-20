@@ -1,11 +1,10 @@
 .NavDiv{
-    position: sticky;
-    top: 0;
+    position: fixed;
     display: flex;
     flex-direction: column;
     margin-left: 11vw;
     width: 17vw;
-    height: 99vh;
+    height: 100vh;
     justify-content: space-between;
     border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
@@ -58,6 +57,34 @@
 @media (max-width: 1280px){
     .NavDiv{
         margin-left: 6vw;
+        width: 10vw;
+    }
+
+    .NavLinkDiv{
+        width: 100%;
+    }
+
+    .NavUserObjDiv{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        width: 10vw;
+        height: 10vh;
+        border-radius: 40px;
+    }
+
+    .NavpfpDiv{
+        margin-left: 0px;
+    }
+
+    .NavUserObjInfo span{
+        display: none;
+    }
+}
+
+@media (max-width: 1000px){
+    .NavDiv{
+        margin-left: 9vw;
         width: 10vw;
     }
 

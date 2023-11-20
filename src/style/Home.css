@@ -3,6 +3,7 @@
     height: 100vh;
     margin-right: 0px;
     display: flex;
+
 }
 
 .HomeDivNavOpen{
@@ -13,8 +14,10 @@
 }
 
 .HomeMiddleDiv{
-    width: 36vw;
+    margin-left: 28vw; /* nav의 크기 */
+    width: 39vw;
     height: 100vh;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .HomeMiddleSwitchFollowDiv{
@@ -50,14 +53,17 @@
 
 @media (max-width: 1280px){
     .HomeMiddleDiv{
-        width: 50vw;
+        margin-left: 16vw; /* nav의 크기 */
+        width: 46vw;
         height: 100vh;
+
     }
 }
 
 @media (max-width: 1000px){
     .HomeMiddleDiv{
-        width: 84vw;
+        width: 600px;
+        margin-left: 19vw;
         height: 100vh;
     }
 }
@@ -82,10 +88,10 @@
 
     .HomeImgDivForMobile{
         display: flex;
-        height: 10vh;
+        height: 7vh;
         flex-direction: row;
         justify-content: space-between;
-        align-items: flex-start;
+        align-items: center;
     }
 
     .HomeRightDiv{
@@ -96,8 +102,9 @@
     }
 
     .HomeMiddleDiv{
+        margin-left: 0;
         width: 100vw;
-        height: 100vh;
+        height: 93vh;
     }
 
     .HomeOpenNavImg{

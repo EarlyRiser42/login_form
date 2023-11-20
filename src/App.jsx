@@ -32,7 +32,7 @@ function App() {
   const [userObj, setUserObj] = useRecoilState(userObjState);
   const [signing, setSigning] = useRecoilState(isSigning);
   const [pfp, setPfp] = useRecoilState(profileImage);
-  console.log(userObj);
+
   // 지역 변수
   const [isAuthChecked, setIsAuthChecked] = useState(false);
 
