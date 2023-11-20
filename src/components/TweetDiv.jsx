@@ -21,11 +21,10 @@ const TweetDiv = ({ followingPage }) => {
     ['getTweets', followingPage],
     () => {
       const requestData = {
-        following: userObj.following, // 배열을 직접 본문에 넣음
+        following: userObj.following,
         userId: userObj.uid,
         followingPage,
       };
-
       return axios.post(
         `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/getTweets`,
         requestData,
@@ -42,7 +41,6 @@ const TweetDiv = ({ followingPage }) => {
 
   useEffect(() => {
     if (fetchtweet) {
-      console.log(fetchtweet.data);
       setTweets(fetchtweet.data);
     }
     if (tweetsError) {

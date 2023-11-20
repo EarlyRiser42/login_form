@@ -34,14 +34,29 @@ export async function handler(event, context) {
   try {
     const db = getFirestore();
     const { accessToken, refreshTokenId } = event.queryStringParameters;
+    const { userEmail: email } = jwt.verify(accessToken, JWT_SECRET);
 
     try {
-      // 액세스 토큰 검증
+      // 액세스 토큰 검증, 유저 프로필 반환
       jwt.verify(accessToken, JWT_SECRET);
-      return { statusCode: 200, body: 'Valid access token' };
+      // 유저 프로필 가져오기
+      const query = db.collection('users').where('email', '==', email);
+      const snapshot = await query.get();
+      let user;
+      if (!snapshot.empty) {
+        user = snapshot.docs[0].data();
+      }
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          user,
+        }),
+        headers: { 'Content-Type': 'application/json' },
+      };
     } catch (error) {
       // 액세스 토큰이 유효하지 않을 경우
       if (refreshTokenId) {
+        // db에서 refreshtokenid로 refreshtoken 존재 확인
         const refreshTokenRecord = await db
           .collection('refreshTokens')
           .doc(refreshTokenId)
@@ -55,20 +70,25 @@ export async function handler(event, context) {
 
         try {
           const decodedToken = jwt.verify(refreshToken, REFRESH_SECRET);
-          const { userId, userPassword } = decodedToken;
-
-          const newAccessToken = jwt.sign(
-            { userId, userPassword },
-            JWT_SECRET,
-            { expiresIn: '30m' },
-          );
+          const { userId, userEmail } = decodedToken;
+          // 유저 프로필 가져오기
+          const query = db.collection('users').where('email', '==', email);
+          const snapshot = await query.get();
+          let user;
+          if (!snapshot.empty) {
+            user = snapshot.docs[0].data();
+          }
+          const newAccessToken = jwt.sign({ userId, userEmail }, JWT_SECRET, {
+            expiresIn: '30m',
+          });
 
           return {
             statusCode: 200,
-            body: JSON.stringify({ accessToken: newAccessToken }),
+            body: JSON.stringify({ accessToken: newAccessToken, user }),
             headers: { 'Content-Type': 'application/json' },
           };
         } catch (error) {
+          console.log(error);
           return { statusCode: 400, body: 'Invalid refresh token' };
         }
       } else {

@@ -7,7 +7,7 @@ import { profileImage, myTweets } from '../util/recoil.jsx';
 
 const WriteTweet = ({ userObj }) => {
   // 전역변수 recoil
-  const [tweets, setTweets] = useRecoilState(myTweets);
+  const [tweet, setTweet] = useRecoilState(myTweets);
   const [pfp, setPfp] = useRecoilState(profileImage);
 
   // 지역변수
@@ -33,7 +33,7 @@ const WriteTweet = ({ userObj }) => {
       attachmentUrl: attachmentUrl,
     };
     await dbService.collection('tweets').add(tweetObj);
-    setTweets([tweetObj, ...myTweets]);
+    setTweet([{ ...tweetObj, id: tweetObj.tweetId }, ...tweet]);
     setTweetText('');
     setAttachment('');
   };

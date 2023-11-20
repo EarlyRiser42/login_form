@@ -19,11 +19,12 @@ import Home from './routes/Home.jsx';
 import Auth from './routes/Auth.jsx';
 import Signup from './routes/Signup.jsx';
 import Login from './routes/Login.jsx';
-import { getCookie } from './util/cookie.jsx';
+import { getCookie, setCookie } from './util/cookie.jsx';
 import { authService } from './fbase';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import './App.css';
+
 function App() {
   // 전역 변수 recoil
   const [loading, setLoading] = useRecoilState(loadingState);
@@ -42,7 +43,7 @@ function App() {
   const background = location.state && location.state.background;
 
   useEffect(() => {
-    // 새로 고침후 지속적 로그인
+    // 새로 고침후 지속적 로그인, use query는 실행조건을 login이 돼있을때로 해놔서 login 상관없이 한번만 실행하는 useeffect 사용
     if (getCookie('accessToken')) {
       axios
         .get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/validateToken`, {
@@ -53,11 +54,25 @@ function App() {
         })
         .then((response) => {
           if (response.status === 200) {
+            const user = response.data.user;
+            if (response.data.accessToken) {
+              const currentDateTime = new Date();
+              const accessTokenExpiry = new Date(currentDateTime);
+              accessTokenExpiry.setMinutes(currentDateTime.getMinutes() + 30);
+
+              setCookie('accessToken', response.data.accessToken, {
+                path: '/',
+                secure: false,
+                expires: accessTokenExpiry,
+              });
+            }
+            setUserObj(user);
             setIsLoggedIn({ login: true, social: false });
             setIsAuthChecked(true);
           }
         })
         .catch((error) => {
+          console.log(error);
           if (error.response && error.response.status === 400) {
             console.log('유효한 토큰이 아닙니다.');
             setIsAuthChecked(true);
@@ -87,29 +102,6 @@ function App() {
     });
   }, []);
 
-  // 유저 프로필 정보 불러오기
-  const {
-    data: userData,
-    isLoading: userDataLoading,
-    error: userDataError,
-  } = useQuery(
-    'getProfile',
-    () => {
-      return axios.get(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/getProfile`,
-        {
-          params: { accessToken: getCookie('accessToken') },
-        },
-      );
-    },
-    {
-      cacheTime: 60000 * 25, // 1분 * 25
-      staleTime: 60000 * 25,
-      retry: false,
-      enabled: !!isLoggedIn.login && !signing,
-    },
-  );
-
   // 로그인 후에 지속적 로그인
   const {
     data: validLogin,
@@ -138,14 +130,21 @@ function App() {
 
   // use query의 response가 변화할 때 실행
   useEffect(() => {
-    if (userData) {
-      setUserObj({ ...userData.data.user });
-      setPfp(userData.data.user.photoURL);
-    }
-    if (userDataError) {
-      console.log(userDataError);
-    }
     if (validLogin) {
+      console.log(validLogin);
+      const user = validLogin.data.user;
+      if (validLogin.data.accessToken) {
+        const currentDateTime = new Date();
+        const accessTokenExpiry = new Date(currentDateTime);
+        accessTokenExpiry.setMinutes(currentDateTime.getMinutes() + 30);
+
+        setCookie('accessToken', validLogin.data.accessToken, {
+          path: '/',
+          secure: false,
+          expires: accessTokenExpiry,
+        });
+      }
+      setUserObj(user);
       setIsLoggedIn({ login: true, social: false });
       setIsAuthChecked(true);
       navigate('/');
@@ -153,14 +152,7 @@ function App() {
     if (validError) {
       console.log(validError);
     }
-  }, [
-    userData,
-    userDataError,
-    validLogin,
-    validError,
-    userDataLoading,
-    validLoading,
-  ]);
+  }, [validLogin, validError]);
 
   // 로그인 후 새로고침 || 로그인 실패? || 회원가입 할 때(6번째 페이지)
   return (

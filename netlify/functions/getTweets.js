@@ -27,9 +27,14 @@ if (!getApps().length) {
 }
 
 export async function handler(event) {
+  // POST 요청이 아닐 경우 처리하지 않음
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, body: 'Method Not Allowed' };
+  }
+
   const dbService = getFirestore();
   const { following, userId, followingPage } = JSON.parse(event.body);
-
+  console.log(following, userId, followingPage);
   try {
     let query = '';
 
