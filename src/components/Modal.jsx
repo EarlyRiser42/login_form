@@ -3,7 +3,7 @@ import '../style/Modal.css';
 import { errorState, ModalBackgroundGrayState } from '../util/recoil.jsx';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-const Modal = ({ children }) => {
+const Modal = ({ children, className }) => {
   const [error, setError] = useRecoilState(errorState);
   const [modalBackground, setModalBackground] = useRecoilState(
     ModalBackgroundGrayState,
@@ -18,7 +18,7 @@ const Modal = ({ children }) => {
   }, [error, setError]);
   return (
     <div className={modalBackground ? 'modalGrayDiv' : 'modalDiv'}>
-      <div className="modal">{children}</div>
+      <div className={className}>{children}</div>
       {error && <div className={'errorMessageDiv'}>{error}</div>}
     </div>
   );

@@ -24,6 +24,7 @@ import { authService } from './fbase';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import './App.css';
+import Tweet from './routes/Tweet.jsx';
 
 function App() {
   // 전역 변수 recoil
@@ -162,9 +163,16 @@ function App() {
       )}
       {isLoggedIn.login && !signing ? (
         <>
-          <Routes>
+          <Routes location={background || location}>
             <Route path="/" element={<Home />} />
+            <Route path="/compose/tweet" element={<Tweet />} />
           </Routes>
+          {background && (
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/compose/tweet" element={<Tweet />} />
+            </Routes>
+          )}
         </>
       ) : (
         <>

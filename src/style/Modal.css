@@ -22,9 +22,17 @@
     align-items: center;
 }
 
-.modal {
+.SignUpModal, .LoginModal {
     width: 590px;
     height: 650px;
+    background-color: white;
+    border-radius: 20px;
+}
+
+.writeTweetModal {
+    width: 590px;
+    height: 210px;
+    margin-bottom: 25%;
     background-color: white;
     border-radius: 20px;
 }
@@ -56,7 +64,13 @@
         align-items: center;
     }
 
-    .modal {
+    .SignUpModal, .LoginModal {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0px;
+    }
+
+    .writeTweetModal {
         width: 100vw;
         height: 100vh;
         border-radius: 0px;

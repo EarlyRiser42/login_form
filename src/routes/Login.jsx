@@ -16,7 +16,7 @@ const Login = () => {
 
   return (
     <div>
-      <Modal>
+      <Modal className={'LoginModal'}>
         <div className="login-modal">
           {page === 1 && <FirstPage onNext={handleNextStep} />}
           {page === 2 && <SecondPage user_data={user_data} />}

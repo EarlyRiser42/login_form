@@ -24,7 +24,7 @@ const Signup = () => {
 
   return (
     <div>
-      <Modal>
+      <Modal className={'SignUpModal'}>
         {page === 1 && (
           <FirstPage onNext={handleNextStep} user_data={user_data} />
         )}
