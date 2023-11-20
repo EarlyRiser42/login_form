@@ -59,6 +59,7 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
     imgSrc,
     imgAlt,
     state,
+    mobile,
   }) => {
     return (
       <StyledNavButtonDiv>
@@ -66,7 +67,7 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
           <div>
             <Link to={linkTo} state={state}>
               <button className="NavPostButton">{buttonText}</button>
-              <div className={'NavPostImgDiv'}>
+              <div className={mobile ? 'NavPostImgDivMobile' : 'NavPostImgDiv'}>
                 <img className="NavPostImg" src={imgSrc} alt={imgAlt} />
               </div>
             </Link>
@@ -92,72 +93,82 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
 
   return (
     <>
-      {isMobile ? (
-        isNavOpen && (
-          <nav className={`NavDiv ${isNavOpen ? 'NavDivOpen' : ''}`} ref={ref}>
-            <div className={'NavLinkDiv'}>
-              <div className={'NavUserObjDiv'}>
-                <div className={'NavpfpDiv'}>
-                  <img className={'Navpfp'} src={pfp} />
-                  <img
-                    className={'NavpfpLogoutImg'}
-                    onClick={onLogOutClick}
-                    src="./logout.svg"
-                    alt="Logout"
-                  />
-                </div>
-                <div className={'NavUserObjInfo'}>
-                  <span className={'NavUserObjInfoBold'}>
-                    {userObj.displayName}
-                  </span>
-                  <span>{userObj.id}</span>
-                </div>
-                <div className={'NavUserObjFollow'}>
-                  <span>
-                    <span>{userObj.following.length}</span>
-                    팔로우 중
-                  </span>
-                  <span>
-                    <span> {userObj.follower.length}</span>
-                    팔로워
-                  </span>
-                </div>
+      {isMobile && (
+        <NavButton
+          type="post"
+          linkTo="/compose/tweet"
+          buttonText="게시하기"
+          imgSrc="./write_tweet.png"
+          imgAlt="writeTweet"
+          mobile="true"
+          state={{ background: location }}
+        />
+      )}
+      {isMobile && isNavOpen && (
+        <nav className={`NavDiv ${isNavOpen ? 'NavDivOpen' : ''}`} ref={ref}>
+          <div className={'NavLinkDiv'}>
+            <div className={'NavUserObjDiv'}>
+              <div className={'NavpfpDiv'}>
+                <img className={'Navpfp'} src={pfp} />
+                <img
+                  className={'NavpfpLogoutImg'}
+                  onClick={onLogOutClick}
+                  src="./logout.svg"
+                  alt="Logout"
+                />
               </div>
-              <NavIconDiv
-                imgSrc={'./home.png'}
-                imgAlt={'Home'}
-                linkTo={'/'}
-                linkText={'홈'}
-              />
-              <NavIconDiv
-                imgSrc={'./search.png'}
-                imgAlt={'Search'}
-                linkTo={`/search`}
-                linkText={'검색'}
-              />
-              <NavIconDiv
-                imgSrc={'./user-profile.png'}
-                imgAlt={'Profile'}
-                linkTo={`/profile/${userObj.uid}`}
-                linkText={'프로필'}
-              />
-              <NavIconDiv
-                imgSrc={'./message.png'}
-                imgAlt={'message'}
-                linkTo={`/message`}
-                linkText={'메시지'}
-              />
-              <NavIconDiv
-                imgSrc={'./list.png'}
-                imgAlt={'list'}
-                linkTo={`/list`}
-                linkText={'리스트'}
-              />
-              <div className={'Navline'}></div>
+              <div className={'NavUserObjInfo'}>
+                <span className={'NavUserObjInfoBold'}>
+                  {userObj.displayName}
+                </span>
+                <span>{userObj.id}</span>
+              </div>
+              <div className={'NavUserObjFollow'}>
+                <span>
+                  <span>{userObj.following.length}</span>
+                  팔로우 중
+                </span>
+                <span>
+                  <span> {userObj.follower.length}</span>
+                  팔로워
+                </span>
+              </div>
             </div>
-          </nav>
-        )
-      ) : (
+            <NavIconDiv
+              imgSrc={'./home.png'}
+              imgAlt={'Home'}
+              linkTo={'/'}
+              linkText={'홈'}
+            />
+            <NavIconDiv
+              imgSrc={'./search.png'}
+              imgAlt={'Search'}
+              linkTo={`/search`}
+              linkText={'검색'}
+            />
+            <NavIconDiv
+              imgSrc={'./user-profile.png'}
+              imgAlt={'Profile'}
+              linkTo={`/profile/${userObj.uid}`}
+              linkText={'프로필'}
+            />
+            <NavIconDiv
+              imgSrc={'./message.png'}
+              imgAlt={'message'}
+              linkTo={`/message`}
+              linkText={'메시지'}
+            />
+            <NavIconDiv
+              imgSrc={'./list.png'}
+              imgAlt={'list'}
+              linkTo={`/list`}
+              linkText={'리스트'}
+            />
+            <div className={'Navline'}></div>
+          </div>
+        </nav>
+      )}
+      {!isMobile && (
         <nav className={'NavDiv'}>
           <div className={'NavLinkDiv'}>
             <NavIconDiv
@@ -202,6 +213,7 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               buttonText="게시하기"
               imgSrc="./write_tweet.png"
               imgAlt="writeTweet"
+              mobile="false"
               state={{ background: location }}
             />
             <NavButton
@@ -210,6 +222,7 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               onClick={onLogOutClick}
               buttonText="Log Out"
               imgSrc="./logout.svg"
+              mobile="false"
               imgAlt="Logout"
             />
           </div>
@@ -399,10 +412,6 @@ const StyledNavButtonDiv = styled.div`
       align-items: center;
     }
 
-    .NavPostImgDiv {
-      background-color: #1d9bf0;
-    }
-
     .NavLogoutImgDiv {
       background-color: white;
     }
@@ -434,6 +443,16 @@ const StyledNavButtonDiv = styled.div`
 
     .NavPostButton {
       display: none;
+    }
+
+    .NavPostImgDivMobile {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      bottom: 10%;
+      left: 82%;
+      background-color: #4a99e9;
     }
 
     .NavPostImgDiv,
