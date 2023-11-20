@@ -3,20 +3,16 @@ import { v4 as uuidv4 } from 'uuid';
 import { storageService, dbService } from '../fbase';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
-import { profileImage } from '../util/recoil.jsx';
+import { profileImage, myTweets } from '../util/recoil.jsx';
 
 const WriteTweet = ({ userObj }) => {
-  console.log(userObj);
-  const [tweet, setTweet] = useState('');
-  const [attachment, setAttachment] = useState('');
+  // 전역변수 recoil
+  const [tweets, setTweets] = useRecoilState(myTweets);
   const [pfp, setPfp] = useRecoilState(profileImage);
 
-  const textareaRef = useRef(null);
-
-  const handleTextChange = (e) => {
-    const value = e.target.value;
-    setTweet(value); // 내용 업데이트
-  };
+  // 지역변수
+  const [tweetText, setTweetText] = useState('');
+  const [attachment, setAttachment] = useState('');
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -29,7 +25,7 @@ const WriteTweet = ({ userObj }) => {
     }
     const tweetObj = {
       tweetId: uuid,
-      text: tweet,
+      text: tweetText,
       createdAt: Date.now(),
       creatorId: userObj.uid,
       toDBAt: Date.now(),
@@ -37,14 +33,14 @@ const WriteTweet = ({ userObj }) => {
       attachmentUrl: attachmentUrl,
     };
     await dbService.collection('tweets').add(tweetObj);
-
-    setTweet('');
+    setTweets([tweetObj, ...myTweets]);
+    setTweetText('');
     setAttachment('');
   };
 
   const autoResize = (event) => {
     const textarea = event.target;
-    setTweet(textarea.value); // This will update the tweet state with the textarea value
+    setTweetText(textarea.value); // This will update the tweet state with the textarea value
 
     // Reset the height to shrink in case of text deletion
     textarea.style.height = 'auto';
@@ -82,7 +78,7 @@ const WriteTweet = ({ userObj }) => {
             placeholder="무슨 일이 일어나고 있나요?"
             rows="1"
             required
-            value={tweet}
+            value={tweetText}
             onChange={autoResize}
             maxLength={140}
           />
@@ -108,7 +104,7 @@ const WriteTweet = ({ userObj }) => {
             accept="image/*"
             onChange={onFileChange}
           />
-          <SubmitButton type="submit" disabled={!tweet.trim()}>
+          <SubmitButton type="submit" disabled={!tweetText.trim()}>
             게시하기
           </SubmitButton>
         </InnerContainer>

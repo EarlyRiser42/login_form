@@ -9,8 +9,12 @@ import {
 } from 'firebase/firestore';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
+import { Tweets } from '../util/recoil.jsx';
 
 const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
+  const [tweets, setTweets] = useRecoilState(Tweets);
+
   // for modal
   const location = useLocation();
   const navigate = useNavigate();
@@ -29,6 +33,7 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
     const ok = window.confirm('Are you sure you want to delete this write?');
     if (ok) {
       await dbService.doc(`tweets/${writeObj.id}`).delete();
+      setTweets(tweets.filter((tweet) => tweet.tweetId !== writeObj.tweetId));
       if (writeObj.photoURL) {
         await storageService.refFromURL(writeObj.photoURL).delete();
       }
@@ -42,7 +47,7 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
     // tweet의 이름, id, pfp 가져오는 코드
     const docRef = doc(dbService, 'users', writeObj.creatorId);
     const docSnap = await getDoc(docRef);
-    console.log(docSnap.data());
+
     if (docSnap.exists()) {
       setId(docSnap.data().id);
       setDisplayName(docSnap.data().displayName);
