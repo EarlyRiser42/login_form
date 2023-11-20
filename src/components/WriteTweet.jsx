@@ -30,6 +30,7 @@ const WriteTweet = ({ userObj }) => {
       creatorId: userObj.uid,
       toDBAt: Date.now(),
       likeList: [],
+      MentionList: [],
       attachmentUrl: attachmentUrl,
     };
     await dbService.collection('tweets').add(tweetObj);

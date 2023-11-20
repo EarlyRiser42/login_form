@@ -94,7 +94,7 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
     <>
       {isMobile ? (
         isNavOpen && (
-          <nav className={'NavDiv'} ref={ref}>
+          <nav className={`NavDiv ${isNavOpen ? 'NavDivOpen' : ''}`} ref={ref}>
             <div className={'NavLinkDiv'}>
               <div className={'NavUserObjDiv'}>
                 <div className={'NavpfpDiv'}>

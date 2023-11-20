@@ -25,8 +25,8 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
   const [photoURL, setPhotoURL] = useState('');
 
   // like, mention
-  const [mention_cnt, setMention_cnt] = useState(0);
-  const [like, setLike] = useState(writeObj.likeList.length !== 0);
+  const [mention_cnt, setMention_cnt] = useState(writeObj.MentionList.length);
+  const [like, setLike] = useState(writeObj.likeList.includes(userObj.uid));
   const [like_cnt, setLike_cnt] = useState(writeObj.likeList.length);
 
   const onDeleteClick = async () => {
@@ -89,25 +89,9 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
       const tweetRef = doc(dbService, 'tweets', writeObj.id);
       // 트윗에 내 uid 삭제
       await updateDoc(tweetRef, {
-        like_id: arrayRemove(userObj.uid),
+        likeList: arrayRemove(userObj.uid),
       });
 
-      // tweet의 like cnt 감소
-      dbService
-        .collection('tweets')
-        .where('tweetId', '==', writeObj.tweetId)
-        .get()
-        .then(async (querySnapshot) => {
-          for (const doc of querySnapshot.docs) {
-            const docRef = dbService.collection('tweets').doc(doc.id);
-            const docData = (await getDoc(docRef)).data();
-            const likeCount = docData.like_cnt;
-            await updateDoc(docRef, { like_cnt: likeCount - 1 });
-          }
-        })
-        .catch((error) => {
-          console.error(`Error getting documents: ${error}`);
-        });
       setLike(false);
       setLike_cnt(like_cnt - 1);
     } else {
@@ -120,25 +104,8 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
       const tweetRef = doc(dbService, 'tweets', writeObj.id);
       // 트윗에 내 uid 삭제
       await updateDoc(tweetRef, {
-        like_id: arrayUnion(userObj.uid),
+        likeList: arrayUnion(userObj.uid),
       });
-
-      // tweet의 like cnt 증가
-      dbService
-        .collection('tweets')
-        .where('tweetId', '==', writeObj.tweetId)
-        .get()
-        .then(async (querySnapshot) => {
-          for (const doc of querySnapshot.docs) {
-            const docRef = dbService.collection('tweets').doc(doc.id);
-            const docData = (await getDoc(docRef)).data();
-            const likeCount = docData.like_cnt;
-            await updateDoc(docRef, { like_cnt: likeCount + 1 });
-          }
-        })
-        .catch((error) => {
-          console.error(`Error getting documents: ${error}`);
-        });
 
       setLike(true);
       setLike_cnt(like_cnt + 1);
@@ -241,15 +208,15 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
             isLink={true}
             link={`/compose/mention`}
             isCount={true}
-            count={writeObj.mention_cnt}
+            count={mention_cnt}
           />
           <ActionContainer src={'./retweet.png'} alt="Retweet" />
           <ActionContainer
-            src={writeObj.like ? './like_color.png' : './like.png'}
+            src={like ? './like_color.png' : './like.png'}
             alt="Like"
             onClick={() => onLike(writeObj.id)}
             isCount={true}
-            count={writeObj.like_cnt}
+            count={like_cnt}
           />
           <ActionContainer
             src={'./share.png'}
@@ -329,12 +296,14 @@ const TweetActions = styled.div`
   width: 100%;
   min-height: 30px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  align-items: center;
 `;
 
 const ActionImage = styled.img`
   width: 16.75px;
   height: 15.75px;
+  margin-right: 5px;
   cursor: pointer;
 `;
 
