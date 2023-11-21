@@ -45,21 +45,21 @@
     width: 400px;
     height: 30px;
     position: fixed;
+    margin-top: 610px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     color: white;
     background-color: #1D9BF0;
-    margin-top: 610px;
     border-radius: 5px;
 }
 
 @media (max-width: 700px) {
     .modalDiv {
         width: 100vw;
-        height: 100vh;
-        position: fixed;
+        height: auto;
+        position: absolute;
         top: 0;
         left: 0;
         background-color: white;
@@ -85,6 +85,8 @@
         font-size: 0.8rem;
         width: 350px;
         height: 30px;
+        position: fixed;
+        margin-top: 610px;
         min-height: 33px;
         display: flex;
         flex-direction: column;
@@ -96,10 +98,32 @@
 }
 
 @media (max-width: 480px) {
+    .modalDiv {
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        z-index: 100;
+    }
+
+    .SignUpModal, .LoginModal {
+        width: 100vw;
+        height: 90vh;
+        border-radius: 0px;
+    }
+
     .errorMessageDiv{
         font-size: 0.8rem;
-        width: 300px;
+        width: 100%;
         height: 35px;
+        position: fixed;
+        margin-top: 570px;
         min-width: 250px;
         min-height: 35px;
         margin-bottom: 5px;

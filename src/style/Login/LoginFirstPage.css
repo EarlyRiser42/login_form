@@ -228,3 +228,83 @@ a {
         cursor: pointer;
     }
 }
+
+@media (max-width: 480px) {
+    .login-modal{
+        width: 100vw;
+        height: 90vh;
+    }
+
+    .LoginModal{
+        width: 100vw;
+        height: 90vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .LoginCloseButtonDiv{
+        margin-left: 4%;
+        margin-right: 37%;
+        margin-top: 0%;
+        height: 100%;
+    }
+
+    .LoginXLogo{
+        width: 30px;
+        height: 25px;
+        margin-top: 0%;
+    }
+
+    .LoginLogoDiv{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 2%;
+    }
+
+    .LoginCloseButtonDiv{
+        width: 7%;
+        height: 100%;
+    }
+
+    .Loginh1Div{
+        margin-top: -10%;
+        margin-right: 25%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .LoginButtonDiv{
+        width: 100%;
+        height: auto;
+        min-height: 350px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        margin-top: -30%;
+    }
+
+    .Loginh4Div{
+        width: 100%;
+        margin-top: -10%;
+        margin-bottom: 10%;
+        height: auto;
+        display: flex;
+        justify-content: center;
+    }
+
+    .LoginSignupLink{
+        margin-left: 5%;
+        min-width: 70px;
+        text-decoration: none; /* 밑줄 제거 */
+        color: #4A99E9;           /* 글씨색을 파란색으로 */
+        cursor: pointer;
+    }
+}

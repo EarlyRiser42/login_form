@@ -131,7 +131,7 @@
 @media (max-width: 480px) {
     .LoginModal2{
         width: 100vw;
-        height: 100vh;
+        height: 90vh;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -205,7 +205,7 @@
     }
 
     .Loginh4Div2{
-        width: 80%;
+        width: 70%;
         height: auto;
         margin-top: 5px;
         margin-right: 40px;
