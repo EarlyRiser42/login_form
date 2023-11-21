@@ -18,8 +18,10 @@ const Modal = ({ children, className }) => {
   }, [error, setError]);
   return (
     <div className={modalBackground ? 'modalGrayDiv' : 'modalDiv'}>
-      <div className={className}>{children}</div>
-      {error && <div className={'errorMessageDiv'}>{error}</div>}
+      <div className={className}>
+        {children}
+        {<div className={'errorMessageDiv'}>{error}</div>}
+      </div>
     </div>
   );
 };
