@@ -59,7 +59,7 @@
     .modalDiv {
         width: 100vw;
         height: auto;
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         background-color: white;
@@ -86,7 +86,6 @@
         width: 350px;
         height: 30px;
         position: fixed;
-        margin-top: 610px;
         min-height: 33px;
         display: flex;
         flex-direction: column;
@@ -101,7 +100,7 @@
     .modalDiv {
         width: 100vw;
         height: 100vh;
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         background-color: white;
@@ -125,7 +124,6 @@
         position: fixed;
         min-width: 250px;
         min-height: 35px;
-        margin-bottom: 5px;
         display: flex;
         flex-direction: column;
         justify-content: center;
