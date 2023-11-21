@@ -12,15 +12,6 @@ const Auth = () => {
   // 전역변수 recoil
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
 
-  // 모달 창 열릴시 부모 요소 스크롤 차단
-  useEffect(() => {
-    if (isModalOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-  }, [isModalOpen]);
-
   const AuthButton = ({ name, onClick, logo, text }) => (
     <button className={'authButton'} name={name} onClick={onClick}>
       {text}
