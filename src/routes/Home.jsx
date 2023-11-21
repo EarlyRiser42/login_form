@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useRecoilState } from 'recoil';
-import { userObjState } from '../util/recoil.jsx';
+import { ModalOpenState, userObjState } from '../util/recoil.jsx';
 import useOnClickOutside from '../hooks/useOnClickOutside.jsx';
 import { useMediaQuery } from 'react-responsive';
 import Search from './Search.jsx';
@@ -16,12 +16,21 @@ const Home = () => {
   // 전역변수 recoil
   const [userObj, setUserObj] = useRecoilState(userObjState);
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
 
   const [followingPage, setFollowingPage] = useState(false);
 
   const navRef = useRef(null);
-
   useOnClickOutside(navRef, () => setIsNavOpen(false));
+
+  // 모달 창 열릴시 부모 요소 스크롤 차단
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [isModalOpen]);
 
   return (
     <div className={isNavOpen ? 'HomeDivNavOpen' : 'HomeDiv'}>

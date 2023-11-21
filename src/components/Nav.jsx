@@ -427,6 +427,10 @@ const StyledNavButtonDiv = styled.div`
       background-color: #e7e7e8;
     }
 
+    .NavPostImgDiv {
+      background-color: #4a99e9;
+    }
+
     .NavPostImg {
       display: flex;
       width: 60%;

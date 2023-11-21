@@ -8,17 +8,12 @@ import axios from 'axios';
 
 const TweetDiv = ({ followingPage }) => {
   // 전역변수 recoil
-  const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
+
   const [userObj, setUserObj] = useRecoilState(userObjState);
   const [tweets, setTweets] = useRecoilState(Tweets);
   // 지역변수
   const navigate = useNavigate();
 
-  if (isModalOpen) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = 'auto';
-  }
   const {
     data: fetchtweet,
     isLoading: tweetsLoading,
