@@ -461,8 +461,8 @@ const StyledNavButtonDiv = styled.div`
       justify-content: center;
       align-items: center;
       position: fixed;
-      bottom: 10%;
-      left: 82%;
+      bottom: 3%;
+      right: 3%;
       background-color: #4a99e9;
     }
 

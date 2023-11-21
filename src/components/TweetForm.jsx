@@ -194,36 +194,38 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
             )}
           </UserInfoContainer>
         </UpperContainer>
-        <TweetText>{writeObj.text}</TweetText>
-        {writeObj.photoURL && (
-          <TweetImageContainer>
-            <TweetImage src={writeObj.photoURL} alt="Tweet" />
-          </TweetImageContainer>
-        )}
+        <DownContainer>
+          <TweetText>{writeObj.text}</TweetText>
+          {writeObj.photoURL && (
+            <TweetImageContainer>
+              <TweetImage src={writeObj.photoURL} alt="Tweet" />
+            </TweetImageContainer>
+          )}
 
-        <TweetActions>
-          <ActionContainer
-            src={'./mention.png'}
-            alt="Mention"
-            isLink={true}
-            link={`/compose/mention`}
-            isCount={true}
-            count={mention_cnt}
-          />
-          <ActionContainer src={'./retweet.png'} alt="Retweet" />
-          <ActionContainer
-            src={like ? './like_color.png' : './like.png'}
-            alt="Like"
-            onClick={() => onLike(writeObj.id)}
-            isCount={true}
-            count={like_cnt}
-          />
-          <ActionContainer
-            src={'./share.png'}
-            alt="Share"
-            onClick={() => onShare(writeObj.id)}
-          />
-        </TweetActions>
+          <TweetActions>
+            <ActionContainer
+              src={'./mention.png'}
+              alt="Mention"
+              isLink={true}
+              link={`/compose/mention`}
+              isCount={true}
+              count={mention_cnt}
+            />
+            <ActionContainer src={'./retweet.png'} alt="Retweet" />
+            <ActionContainer
+              src={like ? './like_color.png' : './like.png'}
+              alt="Like"
+              onClick={() => onLike(writeObj.id)}
+              isCount={true}
+              count={like_cnt}
+            />
+            <ActionContainer
+              src={'./share.png'}
+              alt="Share"
+              onClick={() => onShare(writeObj.id)}
+            />
+          </TweetActions>
+        </DownContainer>
       </RightContainer>
     </Container>
   );
@@ -234,21 +236,24 @@ const Container = styled.div`
   height: auto;
   margin-top: 10px;
   display: flex;
+  justify-content: space-between;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
 const LeftContainer = styled.div`
-  width: 15%;
+  width: 20%;
 `;
 
 const RightContainer = styled.div`
-  width: 85%;
+  width: 80%;
 `;
 
 const UpperContainer = styled.div`
   display: flex;
   justify-content: flex-start;
 `;
+
+const DownContainer = styled.div``;
 
 const ProfileImage = styled.img`
   margin-left: 20%;
