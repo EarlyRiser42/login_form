@@ -102,7 +102,7 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
           type="post"
           linkTo="/compose/tweet"
           buttonText="게시하기"
-          imgSrc="./write_tweet.png"
+          imgSrc="/write_tweet.svg"
           imgAlt="writeTweet"
           mobile="true"
           state={{ background: location }}
@@ -139,31 +139,31 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               </div>
             </div>
             <NavIconDiv
-              imgSrc={'./home.png'}
+              imgSrc={'./home.svg'}
               imgAlt={'Home'}
               linkTo={'/'}
               linkText={'홈'}
             />
             <NavIconDiv
-              imgSrc={'./search.png'}
+              imgSrc={'./search.svg'}
               imgAlt={'Search'}
               linkTo={`/search`}
               linkText={'검색'}
             />
             <NavIconDiv
-              imgSrc={'./user-profile.png'}
+              imgSrc={'./user_profile.svg'}
               imgAlt={'Profile'}
               linkTo={`/profile/${userObj.uid}`}
               linkText={'프로필'}
             />
             <NavIconDiv
-              imgSrc={'./message.png'}
+              imgSrc={'./message.svg'}
               imgAlt={'message'}
               linkTo={`/message`}
               linkText={'메시지'}
             />
             <NavIconDiv
-              imgSrc={'./list.png'}
+              imgSrc={'./list.svg'}
               imgAlt={'list'}
               linkTo={`/list`}
               linkText={'리스트'}
@@ -182,31 +182,31 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               linkText={''}
             />
             <NavIconDiv
-              imgSrc={'./home.png'}
+              imgSrc={'./home.svg'}
               imgAlt={'Home'}
               linkTo={'/'}
               linkText={'홈'}
             />
             <NavIconDiv
-              imgSrc={'./search.png'}
+              imgSrc={'./search.svg'}
               imgAlt={'Search'}
               linkTo={`/search`}
               linkText={'검색'}
             />
             <NavIconDiv
-              imgSrc={'./user-profile.png'}
+              imgSrc={'./user_profile.svg'}
               imgAlt={'Profile'}
               linkTo={`/profile/${userObj.uid}`}
               linkText={'프로필'}
             />
             <NavIconDiv
-              imgSrc={'./message.png'}
+              imgSrc={'./message.svg'}
               imgAlt={'message'}
               linkTo={`/message`}
               linkText={'메시지'}
             />
             <NavIconDiv
-              imgSrc={'./list.png'}
+              imgSrc={'./list.svg'}
               imgAlt={'list'}
               linkTo={`/list`}
               linkText={'리스트'}
@@ -218,7 +218,7 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               onClick={() => {
                 setIsModalOpen(true);
               }}
-              imgSrc="./write_tweet.png"
+              imgSrc="./write_tweet.svg"
               imgAlt="writeTweet"
               mobile={false} // Note: Use boolean false instead of string "false"
               state={{ background: location }}
@@ -330,6 +330,8 @@ const StyledNavHomeIcon = styled.div`
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    width: 98%;
+    margin-left: 2%;
     img {
       margin-left: 10px;
     }

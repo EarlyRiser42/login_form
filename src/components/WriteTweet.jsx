@@ -84,7 +84,7 @@ const WriteTweet = ({ userObj }) => {
             maxLength={140}
           />
           <MentionGuideSpan>
-            <MentionGuideSpanImg src={'/earth.png'} />
+            <MentionGuideSpanImg src={'/earth.svg'} />
             모든 사람이 답글을 달 수 있습니다
           </MentionGuideSpan>
         </TweetContainer>
@@ -92,12 +92,17 @@ const WriteTweet = ({ userObj }) => {
         {attachment && (
           <ImageContainer>
             <PreviewImage src={attachment} />
-            <ClearImage onClick={onClearAttachment} src={'/close_cross.png'} />
+            <ClearImageDiv>
+              <ClearImage
+                onClick={onClearAttachment}
+                src={'/close_cross.svg'}
+              />
+            </ClearImageDiv>
           </ImageContainer>
         )}
         <InnerContainer>
           <StyledLabel htmlFor="fileInput">
-            <Image src="/tweet_add_photo.png" alt="이미지 추가" />
+            <Image src="/tweet_add_photo.svg" alt="이미지 추가" />
           </StyledLabel>
           <StyledInput
             id="fileInput"
@@ -177,6 +182,8 @@ const MentionGuideSpan = styled.span`
   font-weight: bolder;
   font-size: 0.8rem;
   color: #1da1f2;
+  display: flex;
+  align-items: center;
 `;
 
 const MentionGuideSpanImg = styled.img`
@@ -255,17 +262,22 @@ const PreviewImage = styled.img`
   border-radius: 20px;
 `;
 
-const ClearImage = styled.img`
+const ClearImageDiv = styled.div`
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 20px;
+  right: 10px;
   width: 30px;
   height: 30px;
+  border-radius: 60px;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ClearImage = styled.img`
   border: none;
-  padding: 5px 10px;
-  border-radius: 10px;
   cursor: pointer;
-  margin-top: 10px;
 `;
 
 export default WriteTweet;

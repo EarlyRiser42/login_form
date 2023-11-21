@@ -13,7 +13,7 @@ const Search = () => {
   return (
     <div className={'SearchDiv'}>
       <div className={'SearchInputDiv'}>
-        <img src={'./search.png'} alt={'search'} />
+        <img src={'./search.svg'} alt={'search'} />
         <input
           className={'SearchInput'}
           name="검색"

@@ -71,7 +71,7 @@ const FourthPage = ({ onNext, onPrev, user_data, page, setPage }) => {
           <button className={'SignupPrevButton'} onClick={handlePrev}>
             <img
               className={'SignupPrevImg'}
-              src="/left-arrow.png"
+              src="/left_arrow.svg"
               alt="close button"
             />
           </button>
@@ -93,7 +93,7 @@ const FourthPage = ({ onNext, onPrev, user_data, page, setPage }) => {
           onClick={onClick}
           onChange={onClick}
         />
-        <img src={'/greencheck.png'} alt={'greencheck'} width={20} />
+        <img src={'/greencheck.svg'} alt={'greencheck'} width={20} />
       </div>
       <div className={'SignupLastInputDiv'}>
         <input
@@ -105,7 +105,7 @@ const FourthPage = ({ onNext, onPrev, user_data, page, setPage }) => {
           onClick={onClick}
           onChange={onClick}
         />
-        <img src={'/greencheck.png'} alt={'greencheck'} width={20} />
+        <img src={'/greencheck.svg'} alt={'greencheck'} width={20} />
       </div>
       <div className={'SignupLastInputDiv'}>
         <input
@@ -117,7 +117,7 @@ const FourthPage = ({ onNext, onPrev, user_data, page, setPage }) => {
           onClick={onClick}
           onChange={onClick}
         />
-        <img src={'/greencheck.png'} alt={'greencheck'} width={20} />
+        <img src={'/greencheck.svg'} alt={'greencheck'} width={20} />
       </div>
       <button className={'SignupFourthPageButtonBlack'} onClick={Signup}>
         가입

@@ -52,7 +52,7 @@ const FifthPage = ({ user_data, onNext }) => {
             >
               <div className="add-photo-icon-Div">
                 <img
-                  src="/add-photo.svg"
+                  src="/add_photo.svg"
                   className="add-photo-icon"
                   onClick={() => {
                     fileRef.current.click();
@@ -82,7 +82,7 @@ const FifthPage = ({ user_data, onNext }) => {
             >
               <div className="add-photo-icon-Div">
                 <img
-                  src="/add-photo.svg"
+                  src="/add_photo.svg"
                   className="add-photo-icon"
                   onClick={() => {
                     fileRef.current.click();
@@ -95,7 +95,7 @@ const FifthPage = ({ user_data, onNext }) => {
                     setphoto('');
                   }}
                   className="close-icon"
-                  src={'/close.svg'}
+                  src={'/close_white.svg'}
                 />
               </div>
             </div>

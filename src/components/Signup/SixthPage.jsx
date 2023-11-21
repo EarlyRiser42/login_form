@@ -67,8 +67,8 @@ const SixthPage = ({ user_data }) => {
         </div>
         <div className="inputcontainer">
           <span>사용자 아이디</span>
-          <div>
-            <img src="/email.png" alt="@" width="20" />
+          <div className={'inputDownContainer'}>
+            <img src="/email.svg" alt="@" width="20" />
             <input
               name="name"
               type="text"
@@ -79,7 +79,7 @@ const SixthPage = ({ user_data }) => {
               onChange={onChange}
             />
             <img
-              src="/greencheck.png"
+              src="/greencheck.svg"
               alt="greencheck"
               className="greencheck"
               width="20"

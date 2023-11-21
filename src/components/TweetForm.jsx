@@ -204,23 +204,23 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
 
           <TweetActions>
             <ActionContainer
-              src={'./mention.png'}
+              src={'./mention.svg'}
               alt="Mention"
               isLink={true}
               link={`/compose/mention`}
               isCount={true}
               count={mention_cnt}
             />
-            <ActionContainer src={'./retweet.png'} alt="Retweet" />
+            <ActionContainer src={'./retweet.svg'} alt="Retweet" />
             <ActionContainer
-              src={like ? './like_color.png' : './like.png'}
+              src={like ? './like_color.svg' : './like.svg'}
               alt="Like"
               onClick={() => onLike(writeObj.id)}
               isCount={true}
               count={like_cnt}
             />
             <ActionContainer
-              src={'./share.png'}
+              src={'./share.svg'}
               alt="Share"
               onClick={() => onShare(writeObj.id)}
             />
@@ -241,11 +241,11 @@ const Container = styled.div`
 `;
 
 const LeftContainer = styled.div`
-  width: 20%;
+  width: 17%;
 `;
 
 const RightContainer = styled.div`
-  width: 80%;
+  width: 83%;
 `;
 
 const UpperContainer = styled.div`
@@ -306,8 +306,8 @@ const TweetActions = styled.div`
 `;
 
 const ActionImage = styled.img`
-  width: 16.75px;
-  height: 15.75px;
+  width: 18.75px;
+  height: 18.75px;
   margin-right: 5px;
   cursor: pointer;
 `;

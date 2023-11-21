@@ -49,7 +49,7 @@ const ThirdPage = ({ onNext, onPrev, user_data }) => {
           <button className={'SignupPrevButton'} onClick={handlePrev}>
             <img
               className={'SignupPrevImg'}
-              src="/left-arrow.png"
+              src="/left_arrow.svg"
               alt="close button"
             />
           </button>
@@ -79,14 +79,19 @@ const ThirdPage = ({ onNext, onPrev, user_data }) => {
           >
             {!isShowPwChecked && (
               <img
-                src={'/show.png'}
+                src={'/show.svg'}
                 alt={'비밀번호 보기'}
                 width={'25px'}
                 height={'25px'}
               />
             )}
             {isShowPwChecked && (
-              <img src={'/hide.png'} alt={'비밀번호 숨기기'} height={30} />
+              <img
+                src={'/hide.svg'}
+                alt={'비밀번호 숨기기'}
+                width={'25px'}
+                height={'25px'}
+              />
             )}
           </button>
         </div>

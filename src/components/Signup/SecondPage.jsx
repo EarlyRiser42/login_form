@@ -32,7 +32,7 @@ const SecondPage = ({ onNext, onPrev, user_data }) => {
           <button className={'SignupPrevButton'} onClick={handlePrev}>
             <img
               className={'SignupPrevImg'}
-              src="/left-arrow.png"
+              src="/left_arrow.svg"
               alt="close button"
             />
           </button>

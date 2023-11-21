@@ -147,7 +147,9 @@
         flex-direction: column;
         justify-content: space-around;
         align-items: flex-start;
-        width: 100%;
+        width: 98%;
+        margin-left: 2%;
+        margin-top: 2%;
         height: 20%;
         border-radius: 40px;
     }
