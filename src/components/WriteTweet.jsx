@@ -90,10 +90,10 @@ const WriteTweet = ({ userObj }) => {
         </TweetContainer>
 
         {attachment && (
-          <div>
+          <ImageContainer>
             <PreviewImage src={attachment} />
             <ClearImage onClick={onClearAttachment} src={'/close_cross.png'} />
-          </div>
+          </ImageContainer>
         )}
         <InnerContainer>
           <StyledLabel htmlFor="fileInput">
@@ -240,6 +240,13 @@ const SubmitButton = styled.button`
   }
 `;
 
+const ImageContainer = styled.div`
+  position: relative;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+`;
+
 const PreviewImage = styled.img`
   width: 100%;
   height: auto;
@@ -250,8 +257,8 @@ const PreviewImage = styled.img`
 
 const ClearImage = styled.img`
   position: absolute;
-  top: 19%; // Adjust as necessary for your layout
-  right: 36%; // Adjust as necessary for your layout
+  top: 8px;
+  right: 8px;
   width: 30px;
   height: 30px;
   border: none;
