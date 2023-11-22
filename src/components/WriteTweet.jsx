@@ -69,7 +69,6 @@ const WriteTweet = ({ userObj }) => {
   return (
     <TweetForm onSubmit={onSubmit}>
       <LeftContainer>
-        {' '}
         <ProfileImage src={pfp} />
       </LeftContainer>
       <RightContainer>

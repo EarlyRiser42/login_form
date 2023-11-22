@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Modal from '../components/Modal.jsx';
 import WriteTweet from '../components/WriteTweet.jsx';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { ModalOpenState } from '../util/recoil.jsx';
 import styled from 'styled-components';
 const WriteTweetPage = () => {
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsModalOpen(true);
@@ -20,15 +22,15 @@ const WriteTweetPage = () => {
       <Modal className={'writeTweetModal'}>
         <div className="writeTweet-modal">
           <WriteTweetCloseButtonDiv>
-            <Link to={'/'}>
-              <WriteTweetCloseButton
-                onClick={() => {
-                  setIsModalOpen(false);
-                }}
-              >
-                <WriteTweetCloseImg src="/close.svg" alt="close button" />
-              </WriteTweetCloseButton>
-            </Link>
+            <WriteTweetCloseButton
+              onClick={() => {
+                setIsModalOpen(false);
+                navigate(-1);
+              }}
+            >
+              <WriteTweetCloseImg src="/close.svg" alt="close button" />
+            </WriteTweetCloseButton>
+
             <span>초안</span>
           </WriteTweetCloseButtonDiv>
           <WriteTweet />
@@ -59,7 +61,7 @@ const WriteTweetCloseButton = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
-  width: 90%;
+  width: 5%;
   height: 100%;
   border-radius: 50%;
   display: flex;
