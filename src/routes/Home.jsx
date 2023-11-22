@@ -9,7 +9,7 @@ import Nav from '../components/Nav.jsx';
 import Loading from '../components/Loading.jsx';
 import TweetsContainer from '../components/TweetsContainer.jsx';
 import ErrorRetry from '../components/ErrorRetry.jsx';
-import '../style/Home.css';
+import styled from 'styled-components';
 import WriteTweet from '../components/WriteTweet.jsx';
 
 const Home = () => {
@@ -33,9 +33,9 @@ const Home = () => {
   }, [isModalOpen]);
 
   return (
-    <div className={isNavOpen ? 'HomeDivNavOpen' : 'HomeDiv'}>
+    <HomeDiv isNavOpen={isNavOpen}>
       <Nav ref={navRef} isNavOpen={isNavOpen} />
-      <div className={'HomeImgDivForMobile'}>
+      <HomeImgDivForMobile>
         <img
           className={'HomeOpenNavImg'}
           src={userObj.photoURL}
@@ -50,26 +50,24 @@ const Home = () => {
           src={'./setting.svg'}
           alt={'OpenSetting'}
         />
-      </div>
-      <div className={'HomeMiddleDiv'}>
-        <div className={'HomeMiddleSwitchFollowDiv'}>
-          <div
-            onClick={() => {
-              setFollowingPage(false);
-            }}
-          >
-            <span className={followingPage ? 'notbold' : 'bold'}>추천</span>
+      </HomeImgDivForMobile>
+      <HomeMiddleDiv>
+        <HomeMiddleSwitchFollowDiv>
+          <div onClick={() => setFollowingPage(false)}>
+            {followingPage ? (
+              <NormalText>추천</NormalText>
+            ) : (
+              <BoldText>추천</BoldText>
+            )}
           </div>
-          <div
-            onClick={() => {
-              setFollowingPage(true);
-            }}
-          >
-            <span className={followingPage ? 'bold' : 'notbold'}>
-              팔로우 중
-            </span>
+          <div onClick={() => setFollowingPage(true)}>
+            {followingPage ? (
+              <BoldText>팔로우 중</BoldText>
+            ) : (
+              <NormalText>팔로우 중</NormalText>
+            )}
           </div>
-        </div>
+        </HomeMiddleSwitchFollowDiv>
         {!useMediaQuery({ query: '(max-width: 500px)' }) && (
           <WriteTweet userObj={userObj} />
         )}
@@ -95,9 +93,99 @@ const Home = () => {
             </Suspense>
           </ErrorBoundary>
         )}
-      </div>
+      </HomeMiddleDiv>
+
       {!useMediaQuery({ query: '(max-width: 1000px)' }) && <Search />}
-    </div>
+    </HomeDiv>
   );
 };
+
+const HomeDiv = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  background-color: ${(props) => (props.isNavOpen ? 'gray' : 'transparent')};
+`;
+
+const HomeMiddleDiv = styled.div`
+  margin-left: 28vw; /* nav의 크기 */
+  width: 39vw;
+  height: 100vh;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 1280px) {
+    margin-left: 16vw;
+    width: 46vw;
+  }
+
+  @media (max-width: 1000px) {
+    width: 600px;
+    margin-left: 19vw;
+  }
+
+  @media (max-width: 500px) {
+    margin-left: 0;
+    width: 100vw;
+  }
+`;
+
+const HomeMiddleSwitchFollowDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  div {
+    width: 50%;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      background-color: #e7e7e8;
+      cursor: pointer;
+    }
+  }
+`;
+
+const BoldText = styled.span`
+  font-weight: bold;
+`;
+
+const NormalText = styled.span`
+  font-weight: normal;
+`;
+
+const HomeImgDivForMobile = styled.div`
+  display: none;
+
+  @media (max-width: 500px) {
+    display: flex;
+    height: 5vh;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .HomeOpenNavImg {
+    margin-left: 2%;
+    border-radius: 50px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .HomeX_logo {
+    width: 25px;
+    height: 25px;
+  }
+
+  .HomeOpenSetting {
+    border-radius: 50px;
+    width: 20px;
+    height: 20px;
+    margin-top: 10px;
+    margin-right: 20px;
+  }
+`;
+
 export default Home;

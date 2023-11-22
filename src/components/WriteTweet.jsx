@@ -129,11 +129,11 @@ const TweetForm = styled.form`
 `;
 
 const LeftContainer = styled.div`
-  width: 13%;
+  width: 12%;
 `;
 
 const RightContainer = styled.div`
-  width: 87%;
+  width: 88%;
 `;
 
 const ProfileImage = styled.img`
@@ -150,7 +150,7 @@ const TweetContainer = styled.div`
 `;
 
 const TweetTextArea = styled.textarea`
-  width: 92%;
+  width: 100%;
   border: none;
   padding-top: 10px;
   padding-left: 10px;
@@ -188,7 +188,7 @@ const MentionGuideSpan = styled.span`
 const MentionGuideSpanImg = styled.img`
   width: 15px;
   height: 15px;
-  margin-left: 5px;
+  margin-left: 10px;
   margin-right: 5px;
 `;
 
