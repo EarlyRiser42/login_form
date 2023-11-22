@@ -3,12 +3,20 @@ import { v4 as uuidv4 } from 'uuid';
 import { storageService, dbService } from '../fbase';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
-import { profileImage, myTweets } from '../util/recoil.jsx';
+import {
+  profileImage,
+  myTweets,
+  userObjState,
+  ModalOpenState,
+} from '../util/recoil.jsx';
+import { useLocation } from 'react-router-dom';
 
-const WriteTweet = ({ userObj }) => {
+const WriteTweet = () => {
   // 전역변수 recoil
+  const [userObj, setUserObj] = useRecoilState(userObjState);
   const [tweet, setTweet] = useRecoilState(myTweets);
   const [pfp, setPfp] = useRecoilState(profileImage);
+  const location = useLocation();
 
   // 지역변수
   const [tweetText, setTweetText] = useState('');
@@ -23,6 +31,7 @@ const WriteTweet = ({ userObj }) => {
       const response = await attachmentRef.putString(attachment, 'data_url');
       attachmentUrl = await response.ref.getDownloadURL();
     }
+
     const tweetObj = {
       tweetId: uuid,
       text: tweetText,
@@ -64,6 +73,21 @@ const WriteTweet = ({ userObj }) => {
     reader.readAsDataURL(theFile);
   };
 
+  const onFileChange2 = (event) => {
+    const {
+      target: { files },
+    } = event;
+    const theFile = files[0];
+    const reader2 = new FileReader();
+    reader2.onloadend = (finishedEvent) => {
+      const {
+        currentTarget: { result },
+      } = finishedEvent;
+      setAttachment(result);
+    };
+    reader2.readAsDataURL(theFile);
+  };
+
   const onClearAttachment = () => setAttachment(null);
 
   return (
@@ -99,20 +123,38 @@ const WriteTweet = ({ userObj }) => {
             </ClearImageDiv>
           </ImageContainer>
         )}
-        <InnerContainer>
-          <StyledLabel htmlFor="fileInput">
-            <Image src="/tweet_add_photo.svg" alt="이미지 추가" />
-          </StyledLabel>
-          <StyledInput
-            id="fileInput"
-            type="file"
-            accept="image/*"
-            onChange={onFileChange}
-          />
-          <SubmitButton type="submit" disabled={!tweetText.trim()}>
-            게시하기
-          </SubmitButton>
-        </InnerContainer>
+        {!location.state && (
+          <InnerContainer>
+            <StyledLabel htmlFor="fileInput">
+              <Image src="/tweet_add_photo.svg" alt="이미지 추가" />
+            </StyledLabel>
+            <StyledInput
+              id="fileInput"
+              type="file"
+              accept="image/*"
+              onChange={onFileChange}
+            />
+            <SubmitButton type="submit" disabled={!tweetText.trim()}>
+              게시하기
+            </SubmitButton>
+          </InnerContainer>
+        )}
+        {!!location.state && (
+          <InnerContainer>
+            <StyledLabel htmlFor="fileInput2">
+              <Image src="/tweet_add_photo.svg" alt="이미지 추가" />
+            </StyledLabel>
+            <StyledInput
+              id="fileInput2"
+              type="file"
+              accept="image/*"
+              onChange={onFileChange2}
+            />
+            <SubmitButton type="submit" disabled={!tweetText.trim()}>
+              게시하기
+            </SubmitButton>
+          </InnerContainer>
+        )}
       </RightContainer>
     </TweetForm>
   );

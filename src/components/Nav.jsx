@@ -14,7 +14,7 @@ import styled from 'styled-components';
 import { useMediaQuery } from 'react-responsive';
 import '../style/Nav.css';
 
-const Nav = forwardRef(({ isNavOpen }, ref) => {
+const Nav = forwardRef(({ isnavopen }, ref) => {
   // for modal
   const navigate = useNavigate();
   const location = useLocation();
@@ -108,8 +108,8 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
           state={{ background: location }}
         />
       )}
-      {isMobile && isNavOpen && (
-        <nav className={`NavDiv ${isNavOpen ? 'NavDivOpen' : ''}`} ref={ref}>
+      {isMobile && isnavopen && (
+        <nav className={`NavDiv ${isnavopen ? 'NavDivOpen' : ''}`} ref={ref}>
           <div className={'NavLinkDiv'}>
             <div className={'NavUserObjDiv'}>
               <div className={'NavpfpDiv'}>

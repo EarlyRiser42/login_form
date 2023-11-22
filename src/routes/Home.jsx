@@ -15,7 +15,7 @@ import WriteTweet from '../components/WriteTweet.jsx';
 const Home = () => {
   // 전역변수 recoil
   const [userObj, setUserObj] = useRecoilState(userObjState);
-  const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isnavopen, setIsNavOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
 
   const [followingPage, setFollowingPage] = useState(false);
@@ -33,8 +33,8 @@ const Home = () => {
   }, [isModalOpen]);
 
   return (
-    <HomeDiv isNavOpen={isNavOpen}>
-      <Nav ref={navRef} isNavOpen={isNavOpen} />
+    <HomeDiv isnavopen={isnavopen}>
+      <Nav ref={navRef} isnavopen={isnavopen} />
       <HomeImgDivForMobile>
         <img
           className={'HomeOpenNavImg'}
@@ -109,7 +109,7 @@ export const HomeDiv = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    background-color: ${(props) => (props.isNavOpen ? 'gray' : 'transparent')};
+    background-color: ${(props) => (props.isnavopen ? 'gray' : 'transparent')};
   }
 `;
 

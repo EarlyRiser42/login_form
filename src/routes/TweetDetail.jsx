@@ -18,16 +18,20 @@ import {
   TweetTextArea,
   Image,
 } from '../components/WriteTweet.jsx';
+import { useRecoilState } from 'recoil';
+import { userObjState } from '../util/recoil.jsx';
 
-const TweetPage = ({ userObj }) => {
+const TweetDetail = () => {
   const parm = useParams();
   const tweetId = parm.tweetPath;
   const { state } = useLocation();
   const writeObj = state.tweet;
 
-  const [isNavOpen, setIsNavOpen] = useState(false);
+  // 전역변수 recoil
+  const [userObj, setUserObj] = useRecoilState(userObjState);
 
   // 지역변수
+  const [isnavopen, setIsNavOpen] = useState(false);
   const [attachment, setAttachment] = useState('');
   const [mentionText, setMentionText] = useState('');
 
@@ -61,19 +65,19 @@ const TweetPage = ({ userObj }) => {
     textarea.style.height = `${textarea.scrollHeight}px`;
   };
 
-  const onFileChange2 = (event) => {
+  const onFileChange = (event) => {
     const {
       target: { files },
     } = event;
     const theFile = files[0];
-    const reader2 = new FileReader();
-    reader2.onloadend = (finishedEvent) => {
+    const reader = new FileReader();
+    reader.onloadend = (finishedEvent) => {
       const {
         currentTarget: { result },
       } = finishedEvent;
       setAttachment(result);
     };
-    reader2.readAsDataURL(theFile);
+    reader.readAsDataURL(theFile);
   };
 
   const onClearAttachment = () => setAttachment(null);
@@ -144,7 +148,7 @@ const TweetPage = ({ userObj }) => {
                 id="fileInput"
                 type="file"
                 accept="image/*"
-                onChange={onFileChange2}
+                onChange={onFileChange}
               />
               <SubmitButton type="submit" disabled={!mentionText.trim()}>
                 답글
@@ -227,4 +231,4 @@ const ButtonContainer = styled.div`
   width: 100%;
 `;
 
-export default TweetPage;
+export default TweetDetail;

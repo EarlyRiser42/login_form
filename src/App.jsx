@@ -24,8 +24,8 @@ import { authService } from './fbase';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import './App.css';
-import WriteTweetPage from './routes/WriteTweetPage.jsx';
-import TweetPage from './routes/TweetPage.jsx';
+import Tweet from './routes/Tweet.jsx';
+import TweetDetail from './routes/TweetDetail.jsx';
 
 function App() {
   // 전역 변수 recoil
@@ -168,13 +168,13 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route
               path="/:profile/:tweetPath"
-              element={<TweetPage userObj={userObj} />}
+              element={<TweetDetail userObj={userObj} />}
             />
-            <Route path="/compose/tweet" element={<WriteTweetPage />} />
+            <Route path="/compose/tweet" element={<Tweet />} />
           </Routes>
           {background && (
             <Routes>
-              <Route path="/compose/tweet" element={<WriteTweetPage />} />
+              <Route path="/compose/tweet" element={<Tweet />} />
             </Routes>
           )}
         </>

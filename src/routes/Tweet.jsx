@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Modal from '../components/Modal.jsx';
-import WriteTweet from '../components/WriteTweet.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { ModalOpenState } from '../util/recoil.jsx';
 import styled from 'styled-components';
-const WriteTweetPage = () => {
+import WriteTweet from '../components/WriteTweet.jsx';
+const Tweet = () => {
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
 
   const navigate = useNavigate();
@@ -30,7 +30,6 @@ const WriteTweetPage = () => {
             >
               <WriteTweetCloseImg src="/close.svg" alt="close button" />
             </WriteTweetCloseButton>
-
             <span>초안</span>
           </WriteTweetCloseButtonDiv>
           <WriteTweet />
@@ -74,4 +73,4 @@ const WriteTweetCloseImg = styled.img`
   width: 20px;
   height: 20px;
 `;
-export default WriteTweetPage;
+export default Tweet;
