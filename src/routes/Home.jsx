@@ -94,20 +94,26 @@ const Home = () => {
           </ErrorBoundary>
         )}
       </HomeMiddleDiv>
-
       {!useMediaQuery({ query: '(max-width: 1000px)' }) && <Search />}
     </HomeDiv>
   );
 };
 
-const HomeDiv = styled.div`
+export const HomeDiv = styled.div`
   width: 100vw;
   height: 100vh;
   display: flex;
-  background-color: ${(props) => (props.isNavOpen ? 'gray' : 'transparent')};
+  @media (max-width: 500px) {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: ${(props) => (props.isNavOpen ? 'gray' : 'transparent')};
+  }
 `;
 
-const HomeMiddleDiv = styled.div`
+export const HomeMiddleDiv = styled.div`
   margin-left: 28vw; /* nav의 크기 */
   width: 39vw;
   height: 100vh;
@@ -126,6 +132,7 @@ const HomeMiddleDiv = styled.div`
   @media (max-width: 500px) {
     margin-left: 0;
     width: 100vw;
+    height: 95vh;
   }
 `;
 
@@ -156,9 +163,8 @@ const NormalText = styled.span`
   font-weight: normal;
 `;
 
-const HomeImgDivForMobile = styled.div`
+export const HomeImgDivForMobile = styled.div`
   display: none;
-
   @media (max-width: 500px) {
     display: flex;
     height: 5vh;

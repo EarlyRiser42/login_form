@@ -149,8 +149,8 @@ const TweetContainer = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
-const TweetTextArea = styled.textarea`
-  width: 100%;
+export const TweetTextArea = styled.textarea`
+  width: 95%;
   border: none;
   padding-top: 10px;
   padding-left: 10px;
@@ -202,7 +202,7 @@ const InnerContainer = styled.div`
   margin-top: 10px;
 `;
 
-const StyledLabel = styled.label`
+export const StyledLabel = styled.label`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -210,17 +210,17 @@ const StyledLabel = styled.label`
   width: 15%;
 `;
 
-const StyledInput = styled.input`
+export const StyledInput = styled.input`
   display: none;
 `;
 
-const Image = styled.img`
+export const Image = styled.img`
   margin-right: 45%;
   width: 20px;
   height: 20px;
 `;
 
-const SubmitButton = styled.button`
+export const SubmitButton = styled.button`
   background-color: #1da1f2;
   color: #fff;
   border: none;
@@ -229,9 +229,8 @@ const SubmitButton = styled.button`
   cursor: pointer;
   font-weight: bold;
   font-size: 1rem;
-  width: 22%;
-  min-width: 110px;
-  max-height: 35px;
+  width: auto;
+  min-height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -246,14 +245,14 @@ const SubmitButton = styled.button`
   }
 `;
 
-const ImageContainer = styled.div`
+export const ImageContainer = styled.div`
   position: relative;
   width: 100%;
   margin-top: 10px;
   margin-bottom: 10px;
 `;
 
-const PreviewImage = styled.img`
+export const PreviewImage = styled.img`
   width: 100%;
   height: auto;
   margin-top: 10px;
@@ -261,7 +260,7 @@ const PreviewImage = styled.img`
   border-radius: 20px;
 `;
 
-const ClearImageDiv = styled.div`
+export const ClearImageDiv = styled.div`
   position: absolute;
   top: 20px;
   right: 10px;
@@ -274,7 +273,7 @@ const ClearImageDiv = styled.div`
   align-items: center;
 `;
 
-const ClearImage = styled.img`
+export const ClearImage = styled.img`
   border: none;
   cursor: pointer;
 `;

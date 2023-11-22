@@ -5,12 +5,27 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Search from './Search';
 import Nav from '../components/Nav.jsx';
 import styled from 'styled-components';
+import { HomeDiv, HomeImgDivForMobile, HomeMiddleDiv } from './Home.jsx';
+import { useMediaQuery } from 'react-responsive';
+import {
+  ClearImage,
+  ClearImageDiv,
+  ImageContainer,
+  PreviewImage,
+  StyledInput,
+  StyledLabel,
+  SubmitButton,
+  TweetTextArea,
+  Image,
+} from '../components/WriteTweet.jsx';
 
 const TweetPage = ({ userObj }) => {
   const parm = useParams();
   const tweetId = parm.tweetPath;
   const { state } = useLocation();
   const writeObj = state.tweet;
+
+  const [isNavOpen, setIsNavOpen] = useState(false);
 
   // 지역변수
   const [attachment, setAttachment] = useState('');
@@ -46,27 +61,43 @@ const TweetPage = ({ userObj }) => {
     textarea.style.height = `${textarea.scrollHeight}px`;
   };
 
-  const onFileChange = (event) => {
+  const onFileChange2 = (event) => {
     const {
       target: { files },
     } = event;
     const theFile = files[0];
-    const reader = new FileReader();
-    reader.onloadend = (finishedEvent) => {
+    const reader2 = new FileReader();
+    reader2.onloadend = (finishedEvent) => {
       const {
         currentTarget: { result },
       } = finishedEvent;
       setAttachment(result);
     };
-    reader.readAsDataURL(theFile);
+    reader2.readAsDataURL(theFile);
   };
 
   const onClearAttachment = () => setAttachment(null);
 
   return (
-    <TweetPageContainer>
+    <HomeDiv>
       <Nav />
-      <TweetContainer>
+      <HomeImgDivForMobile>
+        <img
+          className={'HomeOpenNavImg'}
+          src={userObj.photoURL}
+          alt={'OpenNav'}
+          onClick={() => {
+            setIsNavOpen(true);
+          }}
+        />
+        <img className={'HomeX_logo'} src={'./X_logo.svg'} alt={'X_logo'} />
+        <img
+          className={'HomeOpenSetting'}
+          src={'./setting.svg'}
+          alt={'OpenSetting'}
+        />
+      </HomeImgDivForMobile>
+      <HomeMiddleDiv>
         <NavContainer>
           <img
             src={'./left_arrow.svg'}
@@ -113,7 +144,7 @@ const TweetPage = ({ userObj }) => {
                 id="fileInput"
                 type="file"
                 accept="image/*"
-                onChange={onFileChange}
+                onChange={onFileChange2}
               />
               <SubmitButton type="submit" disabled={!mentionText.trim()}>
                 답글
@@ -121,7 +152,7 @@ const TweetPage = ({ userObj }) => {
             </ButtonContainer>
           </MyMentionInnerContainer>
         </MyMentionContainer>
-      </TweetContainer>
+      </HomeMiddleDiv>
       <div>
         {mentions.map((mention) => (
           <TweetForm
@@ -132,25 +163,14 @@ const TweetPage = ({ userObj }) => {
           />
         ))}
       </div>
-      <Search />
-    </TweetPageContainer>
+      {!useMediaQuery({ query: '(max-width: 1000px)' }) && <Search />}
+    </HomeDiv>
   );
 };
 
-const TweetPageContainer = styled.div`
-  width: 100vw;
-  height: 100vh;
-`;
-
-const TweetContainer = styled.div`
-  width: 39vw;
-  height: 15vh;
-  margin-left: 28vw;
-`;
-
 const NavContainer = styled.div`
   width: 100%;
-  height: 50%;
+  height: 10%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -199,29 +219,6 @@ const MyMentionInnerContainer = styled.div`
   margin-top: 10px;
 `;
 
-const TweetTextArea = styled.textarea`
-  width: 100%;
-  border: none;
-  padding-left: 10px;
-  font-size: 19px;
-  resize: none;
-  font-family:
-    'Chirp',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    'Open Sans',
-    'Helvetica Neue',
-    sans-serif;
-  &:focus {
-    outline: none;
-  }
-`;
-
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -229,81 +226,4 @@ const ButtonContainer = styled.div`
   width: 100%;
 `;
 
-const StyledLabel = styled.label`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  cursor: pointer;
-  width: 10%;
-`;
-
-const StyledInput = styled.input`
-  display: none;
-`;
-
-const Image = styled.img`
-  margin-left: 10%;
-  width: 20px;
-  height: 20px;
-`;
-
-const SubmitButton = styled.button`
-  background-color: #1da1f2;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 1rem;
-  width: 17%;
-  margin-right: 2%;
-  min-width: 40px;
-  max-height: 33px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  &:hover {
-    background-color: ${(props) => (props.disabled ? '#aaa' : '#1991db')};
-  }
-
-  &:disabled {
-    background-color: #99cdf8;
-    cursor: not-allowed;
-  }
-`;
-
-const ImageContainer = styled.div`
-  position: relative;
-  width: 100%;
-  margin-top: 10px;
-  margin-bottom: 10px;
-`;
-
-const PreviewImage = styled.img`
-  width: 100%;
-  height: auto;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border-radius: 20px;
-`;
-
-const ClearImageDiv = styled.div`
-  position: absolute;
-  top: 20px;
-  right: 10px;
-  width: 30px;
-  height: 30px;
-  border-radius: 60px;
-  background-color: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const ClearImage = styled.img`
-  border: none;
-  cursor: pointer;
-`;
 export default TweetPage;
