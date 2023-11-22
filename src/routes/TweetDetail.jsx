@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { dbService } from '../fbase';
 import TweetForm from '../components/TweetForm';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import Search from './Search';
+import Explore from './Explore.jsx';
 import Nav from '../components/Nav.jsx';
 import styled from 'styled-components';
 import { HomeDiv, HomeImgDivForMobile, HomeMiddleDiv } from './Home.jsx';
@@ -167,7 +167,7 @@ const TweetDetail = () => {
           />
         ))}
       </div>
-      {!useMediaQuery({ query: '(max-width: 1000px)' }) && <Search />}
+      {!useMediaQuery({ query: '(max-width: 1000px)' }) && <Explore />}
     </HomeDiv>
   );
 };

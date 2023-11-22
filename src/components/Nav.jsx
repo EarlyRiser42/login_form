@@ -41,11 +41,15 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
   };
 
   const NavIconDiv = ({ imgSrc, imgAlt, linkTo, linkText }) => {
+    const isCurrentLocation = location.pathname === linkTo;
     return (
       <StyledNavHomeIcon>
         <div>
           <Link to={linkTo}>
-            <img src={imgSrc} alt={imgAlt} />
+            {!isCurrentLocation && <img src={imgSrc + '.svg'} alt={imgAlt} />}
+            {isCurrentLocation && (
+              <img src={imgSrc + '_dark.svg'} alt={imgAlt} />
+            )}
             <span>{linkText}</span>
           </Link>
         </div>
@@ -139,31 +143,31 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               </div>
             </div>
             <NavIconDiv
-              imgSrc={'./home.svg'}
-              imgAlt={'Home'}
+              imgSrc={'./home'}
+              imgAlt={'home'}
               linkTo={'/'}
               linkText={'홈'}
             />
             <NavIconDiv
-              imgSrc={'./search.svg'}
-              imgAlt={'Search'}
-              linkTo={`/search`}
+              imgSrc={'./explore'}
+              imgAlt={'explore'}
+              linkTo={`/explore`}
               linkText={'검색'}
             />
             <NavIconDiv
-              imgSrc={'./user_profile.svg'}
-              imgAlt={'Profile'}
+              imgSrc={'/profile'}
+              imgAlt={'profile'}
               linkTo={`/profile/${userObj.uid}`}
               linkText={'프로필'}
             />
             <NavIconDiv
-              imgSrc={'./message.svg'}
+              imgSrc={'./message'}
               imgAlt={'message'}
               linkTo={`/message`}
               linkText={'메시지'}
             />
             <NavIconDiv
-              imgSrc={'./bookmark.svg'}
+              imgSrc={'./bookmark'}
               imgAlt={'bookmark'}
               linkTo={`/bookmark`}
               linkText={'북마크'}
@@ -175,38 +179,33 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
       {!isMobile && (
         <nav className={'NavDiv'}>
           <div className={'NavLinkDiv'}>
+            <NavIconDiv imgSrc={'./X_logo'} imgAlt={'X_logo'} />
             <NavIconDiv
-              imgSrc={'./X_logo.svg'}
-              imgAlt={'X_logo'}
-              linkTo={'/'}
-              linkText={''}
-            />
-            <NavIconDiv
-              imgSrc={'./home.svg'}
-              imgAlt={'Home'}
+              imgSrc={'./home'}
+              imgAlt={'home'}
               linkTo={'/'}
               linkText={'홈'}
             />
             <NavIconDiv
-              imgSrc={'./search.svg'}
-              imgAlt={'Search'}
+              imgSrc={'./explore'}
+              imgAlt={'search'}
               linkTo={`/search`}
               linkText={'검색'}
             />
             <NavIconDiv
-              imgSrc={'./user_profile.svg'}
-              imgAlt={'Profile'}
+              imgSrc={'./profile'}
+              imgAlt={'profile'}
               linkTo={`/profile/${userObj.uid}`}
               linkText={'프로필'}
             />
             <NavIconDiv
-              imgSrc={'./message.svg'}
+              imgSrc={'./message'}
               imgAlt={'message'}
               linkTo={`/message`}
               linkText={'메시지'}
             />
             <NavIconDiv
-              imgSrc={'./bookmark.svg'}
+              imgSrc={'./bookmark'}
               imgAlt={'bookmark'}
               linkTo={`/bookmark`}
               linkText={'북마크'}

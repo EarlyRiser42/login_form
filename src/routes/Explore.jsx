@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../style/Search.css';
-const Search = () => {
+const Explore = () => {
   const [searchWord, setSearchWord] = useState('');
 
   const onChange = (event) => {
@@ -13,7 +13,7 @@ const Search = () => {
   return (
     <div className={'SearchDiv'}>
       <div className={'SearchInputDiv'}>
-        <img src={'./search.svg'} alt={'search'} />
+        <img src={'./explore.svg'} alt={'search'} />
         <input
           className={'SearchInput'}
           name="검색"
@@ -29,4 +29,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default Explore;

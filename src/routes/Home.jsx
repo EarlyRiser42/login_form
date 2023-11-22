@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 import { ModalOpenState, userObjState } from '../util/recoil.jsx';
 import useOnClickOutside from '../hooks/useOnClickOutside.jsx';
 import { useMediaQuery } from 'react-responsive';
-import Search from './Search.jsx';
+import Explore from './Explore.jsx';
 import Nav from '../components/Nav.jsx';
 import Loading from '../components/Loading.jsx';
 import TweetsContainer from '../components/TweetsContainer.jsx';
@@ -94,7 +94,7 @@ const Home = () => {
           </ErrorBoundary>
         )}
       </HomeMiddleDiv>
-      {!useMediaQuery({ query: '(max-width: 1000px)' }) && <Search />}
+      {!useMediaQuery({ query: '(max-width: 1000px)' }) && <Explore />}
     </HomeDiv>
   );
 };
