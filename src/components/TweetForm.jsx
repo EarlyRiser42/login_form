@@ -247,10 +247,12 @@ const Container = styled.div`
 
 const LeftContainer = styled.div`
   width: 13%;
+  margin-bottom: 2%;
 `;
 
 const RightContainer = styled.div`
   width: 87%;
+  margin-bottom: 2%;
 `;
 
 const UpperContainer = styled.div`

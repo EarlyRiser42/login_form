@@ -191,15 +191,16 @@ const NavContainer = styled.div`
 
 const MyMentionContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: auto;
   display: flex;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   justify-content: space-between;
   align-items: flex-start;
   flex-direction: row;
 `;
 
 const PFP = styled.img`
-  margin-top: 4%;
+  margin-top: 3%;
   margin-left: 3%;
   width: 40px;
   height: 40px;
@@ -214,9 +215,9 @@ const MyMentionInnerContainer = styled.div`
   width: 90%;
   margin-left: 2%;
   margin-right: 3%;
+  margin-bottom: 1%;
   height: auto;
   min-height: 120px;
-  margin-top: 10px;
 `;
 
 const ButtonContainer = styled.div`
