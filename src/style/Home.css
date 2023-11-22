@@ -88,7 +88,7 @@
 
     .HomeImgDivForMobile{
         display: flex;
-        height: 7vh;
+        height: 5vh;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
@@ -104,7 +104,7 @@
     .HomeMiddleDiv{
         margin-left: 0;
         width: 100vw;
-        height: 93vh;
+        height: 95vh;
     }
 
     .HomeOpenNavImg{
@@ -121,8 +121,8 @@
 
     .HomeOpenSetting{
         border-radius: 50px;
-        width: 17px;
-        height: 17px;
+        width: 20px;
+        height: 20px;
         margin-top: 10px;
         margin-right: 20px;
     }

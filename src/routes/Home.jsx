@@ -7,7 +7,7 @@ import { useMediaQuery } from 'react-responsive';
 import Search from './Search.jsx';
 import Nav from '../components/Nav.jsx';
 import Loading from '../components/Loading.jsx';
-import TweetDiv from '../components/TweetDiv.jsx';
+import TweetsContainer from '../components/TweetsContainer.jsx';
 import ErrorRetry from '../components/ErrorRetry.jsx';
 import '../style/Home.css';
 import WriteTweet from '../components/WriteTweet.jsx';
@@ -80,7 +80,7 @@ const Home = () => {
             )}
           >
             <Suspense fallback={<Loading forComponent={true} />}>
-              <TweetDiv followingPage={followingPage} />
+              <TweetsContainer followingPage={followingPage} />
             </Suspense>
           </ErrorBoundary>
         )}
@@ -91,7 +91,7 @@ const Home = () => {
             )}
           >
             <Suspense fallback={<Loading forComponent={true} />}>
-              <TweetDiv followingPage={followingPage} />
+              <TweetsContainer followingPage={followingPage} />
             </Suspense>
           </ErrorBoundary>
         )}

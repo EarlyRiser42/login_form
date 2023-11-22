@@ -187,8 +187,8 @@ const MentionGuideSpan = styled.span`
 `;
 
 const MentionGuideSpanImg = styled.img`
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   margin-left: 5px;
   margin-right: 5px;
 `;
@@ -217,8 +217,8 @@ const StyledInput = styled.input`
 
 const Image = styled.img`
   margin-right: 45%;
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
 `;
 
 const SubmitButton = styled.button`

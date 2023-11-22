@@ -163,10 +163,10 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               linkText={'메시지'}
             />
             <NavIconDiv
-              imgSrc={'./list.svg'}
-              imgAlt={'list'}
-              linkTo={`/list`}
-              linkText={'리스트'}
+              imgSrc={'./bookmark.svg'}
+              imgAlt={'bookmark'}
+              linkTo={`/bookmark`}
+              linkText={'북마크'}
             />
             <div className={'Navline'}></div>
           </div>
@@ -206,10 +206,10 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               linkText={'메시지'}
             />
             <NavIconDiv
-              imgSrc={'./list.svg'}
-              imgAlt={'list'}
-              linkTo={`/list`}
-              linkText={'리스트'}
+              imgSrc={'./bookmark.svg'}
+              imgAlt={'bookmark'}
+              linkTo={`/bookmark`}
+              linkText={'북마크'}
             />
             <NavButton
               type="post"

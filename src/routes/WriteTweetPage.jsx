@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { ModalOpenState } from '../util/recoil.jsx';
 import styled from 'styled-components';
-const Login = () => {
+const WriteTweetPage = () => {
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
 
   useEffect(() => {
@@ -72,4 +72,4 @@ const WriteTweetCloseImg = styled.img`
   width: 20px;
   height: 20px;
 `;
-export default Login;
+export default WriteTweetPage;

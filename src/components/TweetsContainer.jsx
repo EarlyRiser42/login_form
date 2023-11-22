@@ -3,15 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { ModalOpenState, Tweets, userObjState } from '../util/recoil.jsx';
-import { useQuery } from 'react-query';
+import { useInfiniteQuery, useQuery } from 'react-query';
 import axios from 'axios';
 
-const TweetDiv = ({ followingPage }) => {
+const TweetsContainer = ({ followingPage }) => {
   // 전역변수 recoil
-
   const [userObj, setUserObj] = useRecoilState(userObjState);
   const [tweets, setTweets] = useRecoilState(Tweets);
-  // 지역변수
+
   const navigate = useNavigate();
 
   const {
@@ -49,7 +48,7 @@ const TweetDiv = ({ followingPage }) => {
     }
   }, [fetchtweet, tweetsError]);
 
-  const handleTweetClick = (event, writeObj, tweetId) => {
+  const handleTweetClick = (event, tweet, tweetId) => {
     // 이벤트 버블링을 막기 위해 해당 이벤트가 이미지 엘리먼트에서 발생한 경우에는 핸들러를 처리하지 않음
     if (
       event.target.tagName.toLowerCase() === 'img' ||
@@ -57,10 +56,8 @@ const TweetDiv = ({ followingPage }) => {
     ) {
       return;
     }
-    // 이동할 경로 설정
-    const newPath = `/${writeObj.uid}/${tweetId}`;
-    // 경로 변경, url 이동
-    navigate(newPath);
+
+    navigate(`/${tweet.creatorId}/${tweetId}`, { state: { tweet } });
   };
 
   return (
@@ -68,9 +65,7 @@ const TweetDiv = ({ followingPage }) => {
       {tweets.map((tweet) => (
         <div
           key={tweet.id}
-          onClick={(event) =>
-            handleTweetClick(event, tweet.creatorId, tweet.tweetId)
-          }
+          onClick={(event) => handleTweetClick(event, tweet, tweet.tweetId)}
           style={{ cursor: 'pointer' }}
         >
           <TweetForm
@@ -86,4 +81,4 @@ const TweetDiv = ({ followingPage }) => {
   );
 };
 
-export default TweetDiv;
+export default TweetsContainer;

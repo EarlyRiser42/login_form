@@ -161,7 +161,7 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
 
   const ActionImageContainer = ({ onClick, src, alt, isLink, link }) => {
     return isLink ? (
-      <Link to={link}>
+      <Link to={link} state={{ background: location, writeObj: writeObj }}>
         <ActionImage onClick={onClick} src={src} alt={alt} />
       </Link>
     ) : (
@@ -220,6 +220,11 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
               count={like_cnt}
             />
             <ActionContainer
+              src={'./bookmark_tweet.svg'}
+              alt="bookmark"
+              onClick={() => onShare(writeObj.id)}
+            />
+            <ActionContainer
               src={'./share.svg'}
               alt="Share"
               onClick={() => onShare(writeObj.id)}
@@ -241,11 +246,11 @@ const Container = styled.div`
 `;
 
 const LeftContainer = styled.div`
-  width: 17%;
+  width: 13%;
 `;
 
 const RightContainer = styled.div`
-  width: 83%;
+  width: 87%;
 `;
 
 const UpperContainer = styled.div`
