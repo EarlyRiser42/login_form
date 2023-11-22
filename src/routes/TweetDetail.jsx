@@ -31,7 +31,7 @@ const TweetDetail = () => {
   const [userObj, setUserObj] = useRecoilState(userObjState);
 
   // 지역변수
-  const [isnavopen, setIsNavOpen] = useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(false);
   const [attachment, setAttachment] = useState('');
   const [mentionText, setMentionText] = useState('');
 
