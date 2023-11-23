@@ -252,11 +252,18 @@ const Container = styled.div`
 const LeftContainer = styled.div`
   width: 13%;
   margin-bottom: 2%;
+  @media (max-width: 500px) {
+    width: 16%;
+    margin-right: 2%;
+  }
 `;
 
 const RightContainer = styled.div`
   width: 87%;
   margin-bottom: 2%;
+  @media (max-width: 500px) {
+    width: 82%;
+  }
 `;
 
 const UpperContainer = styled.div`
