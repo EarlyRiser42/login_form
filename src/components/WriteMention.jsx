@@ -9,7 +9,7 @@ import {
   userObjState,
   ModalOpenState,
 } from '../util/recoil.jsx';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   ClearImage,
   ClearImageDiv,
@@ -22,14 +22,14 @@ import {
   TweetTextArea,
 } from './WriteTweet.jsx';
 
-const WriteMention = () => {
+const WriteMention = ({ writeObj }) => {
   // 전역변수 recoil
   const [userObj, setUserObj] = useRecoilState(userObjState);
-  const [tweet, setTweet] = useRecoilState(myTweets);
   const [pfp, setPfp] = useRecoilState(profileImage);
 
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
   const location = useLocation();
+  const navigate = useNavigate();
   // 지역변수
   const [mentionText, setMentionText] = useState('');
   const [attachment, setAttachment] = useState('');
@@ -39,24 +39,26 @@ const WriteMention = () => {
     let attachmentUrl = '';
     const uuid = uuidv4();
     if (attachment !== '') {
-      const attachmentRef = storageService.ref().child(`tweets/${uuid}`);
+      const attachmentRef = storageService.ref().child(`Mentions/${uuid}`);
       const response = await attachmentRef.putString(attachment, 'data_url');
       attachmentUrl = await response.ref.getDownloadURL();
     }
 
-    const tweetObj = {
+    const MentionObj = {
       tweetId: uuid,
-      text: tweetText,
+      text: mentionText,
       createdAt: Date.now(),
       creatorId: userObj.uid,
       toDBAt: Date.now(),
       likeList: [],
+      MentionTo: [writeObj.tweetId, writeObj.creatorId],
       MentionList: [],
       attachmentUrl: attachmentUrl,
     };
-    await dbService.collection('tweets').add(tweetObj);
+    await dbService.collection('Mentions').add(MentionObj);
     setMentionText('');
     setAttachment('');
+    navigate(-1);
   };
 
   const autoResize = (event) => {

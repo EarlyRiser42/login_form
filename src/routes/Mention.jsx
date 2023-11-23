@@ -43,7 +43,7 @@ const Mention = () => {
           isModal={true}
           isMention={true}
         />
-        <WriteMention />
+        <WriteMention writeObj={writeObj} />
       </Modal>
     </div>
   );
