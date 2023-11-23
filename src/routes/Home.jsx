@@ -131,6 +131,7 @@ export const HomeMiddleDiv = styled.div`
     margin-left: 0;
     width: 100vw;
     height: 95vh;
+    border-right: none;
   }
 `;
 

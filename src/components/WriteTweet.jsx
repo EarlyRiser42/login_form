@@ -159,12 +159,20 @@ const TweetForm = styled.form`
 
 const LeftContainer = styled.div`
   width: 12%;
+  @media (max-width: 500px) {
+    width: 16%;
+  }
 `;
 
 const RightContainer = styled.div`
   width: 86%;
   margin-right: 2%;
   margin-bottom: 1%;
+  @media (max-width: 500px) {
+    width: 82%;
+    margin-right: 2%;
+    margin-bottom: 1%;
+  }
 `;
 
 const ProfileImage = styled.img`
