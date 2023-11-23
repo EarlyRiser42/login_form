@@ -33,8 +33,10 @@ export async function handler(event) {
   }
 
   const dbService = getFirestore();
-  const { following, userId, followingPage } = JSON.parse(event.body);
-  console.log(following, userId, followingPage);
+  const { following, userId, followingPage, size, page } = JSON.parse(
+    event.body,
+  );
+
   try {
     let query = '';
 
@@ -45,7 +47,6 @@ export async function handler(event) {
         .orderBy('toDBAt', 'desc')
         .where('creatorId', 'in', following);
     } else {
-      // 여기서 creatorId 필드를 기준으로 불평등 필터와 정렬을 동시에 수행
       query = dbService
         .collection('tweets')
         .orderBy('creatorId', 'desc')
@@ -55,10 +56,20 @@ export async function handler(event) {
 
     const snapshot = await query.get();
     const tweets = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    const totalCount = tweets.length;
+    const totalPages = Math.round(totalCount / size);
 
     return {
       statusCode: 200,
-      body: JSON.stringify(tweets),
+      body: JSON.stringify({
+        contents: tweets.slice(page * size, (page + 1) * size),
+        pageNumber: page,
+        pageSize: size,
+        totalPages,
+        totalCount,
+        isLastPage: totalPages <= page + 1,
+        isFirstPage: page === 0,
+      }),
     };
   } catch (error) {
     console.log(error);

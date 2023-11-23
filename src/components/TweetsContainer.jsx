@@ -1,10 +1,12 @@
 import TweetForm from './TweetForm.jsx';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { ModalOpenState, Tweets, userObjState } from '../util/recoil.jsx';
-import { useInfiniteQuery, useQuery } from 'react-query';
-import axios from 'axios';
+import { useFetchUsers } from '../hooks/useFetchUsers.jsx';
+import { useIntersect } from '../hooks/useIntersect.jsx';
+import Loading from './Loading.jsx';
+import styled from 'styled-components';
 
 const TweetsContainer = ({ followingPage }) => {
   // 전역변수 recoil
@@ -13,40 +15,28 @@ const TweetsContainer = ({ followingPage }) => {
 
   const navigate = useNavigate();
 
-  const {
-    data: fetchtweet,
-    isLoading: tweetsLoading,
-    error: tweetsError,
-  } = useQuery(
-    ['getTweets', followingPage],
-    () => {
-      const requestData = {
-        following: userObj.following,
-        userId: userObj.uid,
-        followingPage,
-      };
-      return axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/getTweets`,
-        requestData,
-      );
-    },
-    {
-      cacheTime: 60000 * 25, // 캐시 유지 시간: 25분
-      staleTime: 60000 * 25, // 스테일 데이터 시간: 25분
-      retry: false,
-      enabled: !!userObj.uid,
-      suspense: true,
-    },
+  const { data, hasNextPage, isFetching, fetchNextPage } = useFetchUsers({
+    size: 10, // 페이지 당 트윗 수
+    userObj,
+    followingPage,
+  });
+
+  const fetchedTweets = useMemo(
+    () => (data ? data.pages.flatMap((page) => page.data.contents) : []),
+    [data],
   );
 
+  // 불러온 트윗 데이터를 전역 Recoil 상태로 설정
   useEffect(() => {
-    if (fetchtweet) {
-      setTweets(fetchtweet.data);
+    setTweets(fetchedTweets);
+  }, [fetchedTweets, setTweets]);
+
+  const ref = useIntersect(async (entry, observer) => {
+    observer.unobserve(entry.target);
+    if (hasNextPage && !isFetching) {
+      fetchNextPage();
     }
-    if (tweetsError) {
-      throw new Error('Error fetching tweets');
-    }
-  }, [fetchtweet, tweetsError]);
+  });
 
   const handleTweetClick = (event, tweet, tweetId) => {
     // 이벤트 버블링을 막기 위해 해당 이벤트가 이미지 엘리먼트에서 발생한 경우에는 핸들러를 처리하지 않음
@@ -77,8 +67,14 @@ const TweetsContainer = ({ followingPage }) => {
           />
         </div>
       ))}
+      {isFetching && <Loading forComponent={true} />}
+      <Target ref={ref} />
     </div>
   );
 };
+
+const Target = styled.div`
+  height: 1px;
+`;
 
 export default TweetsContainer;

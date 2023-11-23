@@ -57,7 +57,7 @@ const ErrorRetry = ({ queryKey }) => {
     <ErrorWrapper>
       <ErrorMessage>무언가 잘못 됐습니다. 화면을 다시 시작하세요.</ErrorMessage>
       <RetryButton onClick={handleRetry}>
-        <img src={'./retry.png'} alt={'다시 시도'} />
+        <img src={'./retry.svg'} alt={'다시 시도'} />
         <span>다시 시도</span>
       </RetryButton>
     </ErrorWrapper>

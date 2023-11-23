@@ -88,9 +88,7 @@ const Home = () => {
               <ErrorRetry queryKey={['getTweets', followingPage]} />
             )}
           >
-            <Suspense fallback={<Loading forComponent={true} />}>
-              <TweetsContainer followingPage={followingPage} />
-            </Suspense>
+            <TweetsContainer followingPage={followingPage} />
           </ErrorBoundary>
         )}
       </HomeMiddleDiv>
