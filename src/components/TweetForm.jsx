@@ -161,11 +161,15 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
 
   const ActionImageContainer = ({ onClick, src, alt, isLink, link }) => {
     return isLink ? (
-      <Link to={link} state={{ background: location, writeObj: writeObj }}>
-        <ActionImage onClick={onClick} src={src} alt={alt} />
-      </Link>
+      <ActionImageDiv $type={alt}>
+        <Link to={link} state={{ background: location, writeObj: writeObj }}>
+          <ActionImage onClick={onClick} src={src} alt={alt} />
+        </Link>
+      </ActionImageDiv>
     ) : (
-      <ActionImage onClick={onClick} src={src} alt={alt} />
+      <ActionImageDiv $type={alt}>
+        <ActionImage onClick={onClick} src={src} alt={alt} />
+      </ActionImageDiv>
     );
   };
 
@@ -221,7 +225,7 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
             />
             <ActionContainer
               src={'./bookmark_tweet.svg'}
-              alt="bookmark"
+              alt="Bookmark"
               onClick={() => onShare(writeObj.id)}
             />
             <ActionContainer
@@ -312,10 +316,36 @@ const TweetActions = styled.div`
   align-items: center;
 `;
 
+const ActionImageDiv = styled.div`
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    background-color: ${(props) => {
+      switch (props.$type) {
+        case 'Mention':
+          return '#E4EEF7';
+        case 'Retweet':
+          return '#E3F1EB';
+        case 'Like':
+          return '#F9E3EB';
+        case 'Bookmark':
+          return '#E4EEF7';
+        case 'Share':
+          return '#E4EEF7';
+        default:
+          return 'transparent'; // 기본 색상
+      }
+    }};
+  }
+`;
+
 const ActionImage = styled.img`
   width: 18.75px;
   height: 18.75px;
-  margin-right: 5px;
   cursor: pointer;
 `;
 
