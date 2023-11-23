@@ -24,28 +24,26 @@ const Mention = () => {
   return (
     <div>
       <Modal className={'writeMentionModal'}>
-        <div className="writeMention-modal">
-          <WriteTweetCloseButtonDiv>
-            <WriteTweetCloseButton
-              onClick={() => {
-                setIsModalOpen(false);
-                navigate(-1);
-              }}
-            >
-              <WriteTweetCloseImg src="/close.svg" alt="close button" />
-            </WriteTweetCloseButton>
-            <span>초안</span>
-          </WriteTweetCloseButtonDiv>
-          <TweetForm
-            key={writeObj.id}
-            userObj={userObj}
-            writeObj={writeObj}
-            isOwner={writeObj.creatorId === userObj.uid}
-            isModal={true}
-            isMention={true}
-          />
-          <WriteMention />
-        </div>
+        <WriteTweetCloseButtonDiv>
+          <WriteTweetCloseButton
+            onClick={() => {
+              setIsModalOpen(false);
+              navigate(-1);
+            }}
+          >
+            <WriteTweetCloseImg src="/close.svg" alt="close button" />
+          </WriteTweetCloseButton>
+          <span>초안</span>
+        </WriteTweetCloseButtonDiv>
+        <TweetForm
+          key={writeObj.id}
+          userObj={userObj}
+          writeObj={writeObj}
+          isOwner={writeObj.creatorId === userObj.uid}
+          isModal={true}
+          isMention={true}
+        />
+        <WriteMention />
       </Modal>
     </div>
   );

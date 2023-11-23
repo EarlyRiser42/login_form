@@ -3,7 +3,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { storageService, dbService } from '../fbase';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
-import { profileImage, myTweets, userObjState } from '../util/recoil.jsx';
+import {
+  profileImage,
+  myTweets,
+  userObjState,
+  ModalOpenState,
+} from '../util/recoil.jsx';
 import { useLocation } from 'react-router-dom';
 import {
   ClearImage,
@@ -22,8 +27,9 @@ const WriteMention = () => {
   const [userObj, setUserObj] = useRecoilState(userObjState);
   const [tweet, setTweet] = useRecoilState(myTweets);
   const [pfp, setPfp] = useRecoilState(profileImage);
-  const location = useLocation();
 
+  const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
+  const location = useLocation();
   // 지역변수
   const [mentionText, setMentionText] = useState('');
   const [attachment, setAttachment] = useState('');
@@ -81,7 +87,7 @@ const WriteMention = () => {
   const onClearAttachment = () => setAttachment(null);
 
   return (
-    <MyMentionForm onSubmit={onSubmit}>
+    <MyMentionForm onSubmit={onSubmit} $isModalOpen={isModalOpen}>
       <PFP src={pfp} alt="PFP" />
       <MyMentionInnerContainer>
         <TweetTextArea
@@ -145,10 +151,15 @@ const MyMentionForm = styled.form`
   width: 100%;
   height: auto;
   display: flex;
+  background-color: #fff;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   justify-content: space-between;
   align-items: flex-start;
   flex-direction: row;
+  border-radius: ${(props) => (props.$isModalOpen ? '20px' : '0px')};
+\` ;
+  border-bottom: ${(props) =>
+    props.$isModalOpen ? 'none' : '1px solid rgba(0, 0, 0, 0.1)'};
 `;
 
 const PFP = styled.img`

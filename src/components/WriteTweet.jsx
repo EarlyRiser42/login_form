@@ -151,7 +151,7 @@ const TweetForm = styled.form`
   width: 100%;
   flex-direction: row;
   background-color: #fff;
-  border-radius: ${(props) => (props.$isModalOpen ? '40px' : '0px')};
+  border-radius: ${(props) => (props.$isModalOpen ? '20px' : '0px')};
 \` ;
   border-bottom: ${(props) =>
     props.$isModalOpen ? 'none' : '1px solid rgba(0, 0, 0, 0.1)'};
