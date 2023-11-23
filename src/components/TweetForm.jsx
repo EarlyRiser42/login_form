@@ -12,7 +12,7 @@ import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { Tweets } from '../util/recoil.jsx';
 
-const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
+const TweetForm = ({ userObj, writeObj, isOwner, isModal, isMention }) => {
   const [tweets, setTweets] = useRecoilState(Tweets);
 
   // for modal
@@ -38,7 +38,7 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
         await storageService.refFromURL(writeObj.photoURL).delete();
       }
     }
-    if (tweetPage) {
+    if (isModal) {
       navigate(-1);
     }
   };
@@ -205,35 +205,36 @@ const TweetForm = ({ userObj, writeObj, isOwner, tweetPage }) => {
               <TweetImage src={writeObj.photoURL} alt="Tweet" />
             </TweetImageContainer>
           )}
-
-          <TweetActions>
-            <ActionContainer
-              src={'./mention.svg'}
-              alt="Mention"
-              isLink={true}
-              link={`/compose/mention`}
-              isCount={true}
-              count={mention_cnt}
-            />
-            <ActionContainer src={'./retweet.svg'} alt="Retweet" />
-            <ActionContainer
-              src={like ? './like_color.svg' : './like.svg'}
-              alt="Like"
-              onClick={() => onLike(writeObj.id)}
-              isCount={true}
-              count={like_cnt}
-            />
-            <ActionContainer
-              src={'./bookmark_tweet.svg'}
-              alt="Bookmark"
-              onClick={() => onShare(writeObj.id)}
-            />
-            <ActionContainer
-              src={'./share.svg'}
-              alt="Share"
-              onClick={() => onShare(writeObj.id)}
-            />
-          </TweetActions>
+          {!isMention && (
+            <TweetActions>
+              <ActionContainer
+                src={'./mention.svg'}
+                alt="Mention"
+                isLink={true}
+                link={`/compose/mention`}
+                isCount={true}
+                count={mention_cnt}
+              />
+              <ActionContainer src={'./retweet.svg'} alt="Retweet" />
+              <ActionContainer
+                src={like ? './like_color.svg' : './like.svg'}
+                alt="Like"
+                onClick={() => onLike(writeObj.id)}
+                isCount={true}
+                count={like_cnt}
+              />
+              <ActionContainer
+                src={'./bookmark_tweet.svg'}
+                alt="Bookmark"
+                onClick={() => onShare(writeObj.id)}
+              />
+              <ActionContainer
+                src={'./share.svg'}
+                alt="Share"
+                onClick={() => onShare(writeObj.id)}
+              />
+            </TweetActions>
+          )}
         </DownContainer>
       </RightContainer>
     </Container>

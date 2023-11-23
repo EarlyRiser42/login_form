@@ -20,20 +20,18 @@ const Tweet = () => {
   return (
     <div>
       <Modal className={'writeTweetModal'}>
-        <div className="writeTweet-modal">
-          <WriteTweetCloseButtonDiv>
-            <WriteTweetCloseButton
-              onClick={() => {
-                setIsModalOpen(false);
-                navigate(-1);
-              }}
-            >
-              <WriteTweetCloseImg src="/close.svg" alt="close button" />
-            </WriteTweetCloseButton>
-            <span>초안</span>
-          </WriteTweetCloseButtonDiv>
-          <WriteTweet />
-        </div>
+        <WriteTweetCloseButtonDiv>
+          <WriteTweetCloseButton
+            onClick={() => {
+              setIsModalOpen(false);
+              navigate(-1);
+            }}
+          >
+            <WriteTweetCloseImg src="/close.svg" alt="close button" />
+          </WriteTweetCloseButton>
+          <span>초안</span>
+        </WriteTweetCloseButtonDiv>
+        <WriteTweet />
       </Modal>
     </div>
   );

@@ -41,6 +41,14 @@
     border-radius: 20px;
 }
 
+.writeMentionModal{
+    width: 590px;
+    height: 310px;
+    margin-bottom: 25%;
+    background-color: white;
+    border-radius: 20px;
+}
+
 .errorMessageDiv{
     width: 400px;
     height: 30px;
@@ -76,6 +84,12 @@
     }
 
     .writeTweetModal {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0px;
+    }
+
+    .writeMentionModal{
         width: 100vw;
         height: 100vh;
         border-radius: 0px;

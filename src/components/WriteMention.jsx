@@ -1,0 +1,182 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { storageService, dbService } from '../fbase';
+import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
+import { profileImage, myTweets, userObjState } from '../util/recoil.jsx';
+import { useLocation } from 'react-router-dom';
+import {
+  ClearImage,
+  ClearImageDiv,
+  Image,
+  ImageContainer,
+  PreviewImage,
+  StyledInput,
+  StyledLabel,
+  SubmitButton,
+  TweetTextArea,
+} from './WriteTweet.jsx';
+
+const WriteMention = () => {
+  // 전역변수 recoil
+  const [userObj, setUserObj] = useRecoilState(userObjState);
+  const [tweet, setTweet] = useRecoilState(myTweets);
+  const [pfp, setPfp] = useRecoilState(profileImage);
+  const location = useLocation();
+
+  // 지역변수
+  const [mentionText, setMentionText] = useState('');
+  const [attachment, setAttachment] = useState('');
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    let attachmentUrl = '';
+    const uuid = uuidv4();
+    if (attachment !== '') {
+      const attachmentRef = storageService.ref().child(`tweets/${uuid}`);
+      const response = await attachmentRef.putString(attachment, 'data_url');
+      attachmentUrl = await response.ref.getDownloadURL();
+    }
+
+    const tweetObj = {
+      tweetId: uuid,
+      text: tweetText,
+      createdAt: Date.now(),
+      creatorId: userObj.uid,
+      toDBAt: Date.now(),
+      likeList: [],
+      MentionList: [],
+      attachmentUrl: attachmentUrl,
+    };
+    await dbService.collection('tweets').add(tweetObj);
+    setMentionText('');
+    setAttachment('');
+  };
+
+  const autoResize = (event) => {
+    const textarea = event.target;
+    setMentionText(textarea.value); // This will update the tweet state with the textarea value
+
+    // Reset the height to shrink in case of text deletion
+    textarea.style.height = 'auto';
+    // Set the height to scrollHeight to expand to fit the content
+    textarea.style.height = `${textarea.scrollHeight}px`;
+  };
+
+  const onFileChange = (event) => {
+    const {
+      target: { files },
+    } = event;
+    const theFile = files[0];
+    const reader = new FileReader();
+    reader.onloadend = (finishedEvent) => {
+      const {
+        currentTarget: { result },
+      } = finishedEvent;
+      setAttachment(result);
+    };
+    reader.readAsDataURL(theFile);
+  };
+
+  const onClearAttachment = () => setAttachment(null);
+
+  return (
+    <MyMentionForm onSubmit={onSubmit}>
+      <PFP src={pfp} alt="PFP" />
+      <MyMentionInnerContainer>
+        <TweetTextArea
+          name="tweet"
+          placeholder="답글 게시하기"
+          rows="1"
+          required
+          value={mentionText}
+          onChange={autoResize}
+          maxLength={140}
+        />
+        {attachment && (
+          <ImageContainer>
+            <PreviewImage src={attachment} />
+            <ClearImageDiv>
+              <ClearImage
+                onClick={onClearAttachment}
+                src={'/close_cross.svg'}
+              />
+            </ClearImageDiv>
+          </ImageContainer>
+        )}
+        {!location.state && (
+          <ButtonContainer>
+            <StyledLabel htmlFor="fileInput3">
+              <Image src="/tweet_add_photo.svg" alt="이미지 추가" />
+            </StyledLabel>
+            <StyledInput
+              id="fileInput3"
+              type="file"
+              accept="image/*"
+              onChange={onFileChange}
+            />
+            <SubmitButton type="submit" disabled={!mentionText.trim()}>
+              답글
+            </SubmitButton>
+          </ButtonContainer>
+        )}
+        {!!location.state && (
+          <ButtonContainer>
+            <StyledLabel htmlFor="fileInput4">
+              <Image src="/tweet_add_photo.svg" alt="이미지 추가" />
+            </StyledLabel>
+            <StyledInput
+              id="fileInput4"
+              type="file"
+              accept="image/*"
+              onChange={onFileChange}
+            />
+            <SubmitButton type="submit" disabled={!mentionText.trim()}>
+              답글
+            </SubmitButton>
+          </ButtonContainer>
+        )}
+      </MyMentionInnerContainer>
+    </MyMentionForm>
+  );
+};
+
+const MyMentionForm = styled.form`
+  width: 100%;
+  height: auto;
+  display: flex;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: row;
+`;
+
+const PFP = styled.img`
+  margin-top: 3%;
+  margin-left: 3%;
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+`;
+
+const MyMentionInnerContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 90%;
+  margin-left: 2%;
+  margin-right: 3%;
+  margin-bottom: 1%;
+  height: auto;
+  min-height: 120px;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+export default WriteMention;

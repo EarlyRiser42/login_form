@@ -26,6 +26,7 @@ import axios from 'axios';
 import './App.css';
 import Tweet from './routes/Tweet.jsx';
 import TweetDetail from './routes/TweetDetail.jsx';
+import Mention from './routes/Mention.jsx';
 
 function App() {
   // 전역 변수 recoil
@@ -170,11 +171,11 @@ function App() {
               path="/:profile/:tweetPath"
               element={<TweetDetail userObj={userObj} />}
             />
-            <Route path="/compose/tweet" element={<Tweet />} />
           </Routes>
           {background && (
             <Routes>
               <Route path="/compose/tweet" element={<Tweet />} />
+              <Route path="/compose/mention" element={<Mention />} />
             </Routes>
           )}
         </>

@@ -63,7 +63,8 @@ const TweetsContainer = ({ followingPage }) => {
             userObj={userObj}
             writeObj={tweet}
             isOwner={tweet.creatorId === userObj.uid}
-            tweetPage={false}
+            isModal={false}
+            isMention={false}
           />
         </div>
       ))}

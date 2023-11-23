@@ -17,7 +17,7 @@ const WriteTweet = () => {
   const [tweet, setTweet] = useRecoilState(myTweets);
   const [pfp, setPfp] = useRecoilState(profileImage);
   const location = useLocation();
-
+  const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
   // 지역변수
   const [tweetText, setTweetText] = useState('');
   const [attachment, setAttachment] = useState('');
@@ -73,25 +73,10 @@ const WriteTweet = () => {
     reader.readAsDataURL(theFile);
   };
 
-  const onFileChange2 = (event) => {
-    const {
-      target: { files },
-    } = event;
-    const theFile = files[0];
-    const reader2 = new FileReader();
-    reader2.onloadend = (finishedEvent) => {
-      const {
-        currentTarget: { result },
-      } = finishedEvent;
-      setAttachment(result);
-    };
-    reader2.readAsDataURL(theFile);
-  };
-
   const onClearAttachment = () => setAttachment(null);
 
   return (
-    <TweetForm onSubmit={onSubmit}>
+    <TweetForm onSubmit={onSubmit} $isModalOpen={isModalOpen}>
       <LeftContainer>
         <ProfileImage src={pfp} />
       </LeftContainer>
@@ -148,7 +133,7 @@ const WriteTweet = () => {
               id="fileInput2"
               type="file"
               accept="image/*"
-              onChange={onFileChange2}
+              onChange={onFileChange}
             />
             <SubmitButton type="submit" disabled={!tweetText.trim()}>
               게시하기
@@ -163,11 +148,13 @@ const WriteTweet = () => {
 // Styled components
 const TweetForm = styled.form`
   display: flex;
+  width: 100%;
   flex-direction: row;
   background-color: #fff;
-  padding: 10px;
-  border-radius: 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: ${(props) => (props.$isModalOpen ? '40px' : '0px')};
+\` ;
+  border-bottom: ${(props) =>
+    props.$isModalOpen ? 'none' : '1px solid rgba(0, 0, 0, 0.1)'};
 `;
 
 const LeftContainer = styled.div`
@@ -175,10 +162,14 @@ const LeftContainer = styled.div`
 `;
 
 const RightContainer = styled.div`
-  width: 88%;
+  width: 86%;
+  margin-right: 2%;
+  margin-bottom: 1%;
 `;
 
 const ProfileImage = styled.img`
+  margin-left: 15%;
+  margin-top: 10%;
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -188,6 +179,7 @@ const ProfileImage = styled.img`
 const TweetContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 95%;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
