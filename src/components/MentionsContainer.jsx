@@ -2,24 +2,24 @@ import TweetForm from './TweetForm.jsx';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { ModalOpenState, Tweets, userObjState } from '../util/recoil.jsx';
-import { useGetTweets } from '../hooks/useGetTweets.jsx';
+import { ModalOpenState, userObjState } from '../util/recoil.jsx';
 import { useIntersect } from '../hooks/useIntersect.jsx';
 import Loading from './Loading.jsx';
 import styled from 'styled-components';
+import { useGetMentions } from '../hooks/useGetMentions.jsx';
 
-const TweetsContainer = ({ followingPage }) => {
+const MentionsContainer = ({ mentionPage }) => {
   // 전역변수 recoil
   const [userObj, setUserObj] = useRecoilState(userObjState);
-  const [tweets, setTweets] = useRecoilState(Tweets);
-  // 지역변수
 
+  // 지역변수
+  const [mentions, setMentions] = useState([]);
   const navigate = useNavigate();
 
-  const { data, hasNextPage, isFetching, fetchNextPage } = useGetTweets({
+  const { data, hasNextPage, isFetching, fetchNextPage } = useGetMentions({
     size: 10, // 페이지 당 트윗 수
     userObj,
-    followingPage,
+    mentionPage,
   });
 
   const fetchedTweets = useMemo(
@@ -29,7 +29,7 @@ const TweetsContainer = ({ followingPage }) => {
 
   // 불러온 트윗 데이터를 전역 Recoil 상태로 설정
   useEffect(() => {
-    setTweets(fetchedTweets);
+    setMentions(fetchedTweets);
   }, [fetchedTweets]);
 
   const ref = useIntersect(async (entry, observer) => {
@@ -47,25 +47,24 @@ const TweetsContainer = ({ followingPage }) => {
     ) {
       return;
     }
-
     navigate(`/${tweet.creatorId}/${tweetId}`, { state: { tweet } });
   };
 
   return (
     <div>
-      {tweets.map((tweet) => (
+      {mentions.map((mention) => (
         <div
-          key={tweet.id}
-          onClick={(event) => handleTweetClick(event, tweet, tweet.tweetId)}
+          key={mention.id}
+          onClick={(event) => handleTweetClick(event, mention, mention.tweetId)}
           style={{ cursor: 'pointer' }}
         >
           <TweetForm
-            key={tweet.id}
+            key={mention.id}
             userObj={userObj}
-            writeObj={tweet}
-            isOwner={tweet.creatorId === userObj.uid}
+            writeObj={mention}
+            isOwner={mention.creatorId === userObj.uid}
             isModal={false}
-            isMention={false}
+            isMention={true}
           />
         </div>
       ))}
@@ -79,4 +78,4 @@ const Target = styled.div`
   height: 1px;
 `;
 
-export default TweetsContainer;
+export default MentionsContainer;

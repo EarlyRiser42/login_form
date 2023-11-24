@@ -33,40 +33,48 @@ export async function handler(event) {
   }
 
   const dbService = getFirestore();
-  const { following, userId, followingPage, size, page } = JSON.parse(
-    event.body,
-  );
+  const { size, page, mentionPage } = JSON.parse(event.body);
 
   try {
-    let query;
-    if (followingPage) {
-      query = dbService
-        .collection('tweets')
-        .orderBy('creatorId', 'desc')
+    // mentionPage에 요소가 있을 경우에만 쿼리 실행
+    if (mentionPage.length) {
+      const query = dbService
+        .collection('mentions')
+        .orderBy('tweetId', 'desc')
         .orderBy('toDBAt', 'desc')
-        .where('creatorId', 'in', following);
-    } else {
-      query = dbService
-        .collection('tweets')
-        .orderBy('creatorId', 'desc')
-        .orderBy('toDBAt', 'desc')
-        .where('creatorId', '!=', userId);
+        .where('tweetId', 'in', mentionPage);
+
+      const snapshot = await query.get();
+      const tweets = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      const totalCount = tweets.length;
+      const totalPages = Math.round(totalCount / size);
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          contents: tweets.slice(page * size, (page + 1) * size),
+          pageNumber: page,
+          pageSize: size,
+          totalPages,
+          totalCount,
+          isLastPage: totalPages <= page + 1,
+          isFirstPage: page === 0,
+        }),
+      };
     }
-
-    const snapshot = await query.get();
-    const tweets = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    const totalCount = tweets.length;
-    const totalPages = Math.round(totalCount / size);
-
+    // mentionPage가 비어있을 경우 빈 배열 반환
     return {
       statusCode: 200,
       body: JSON.stringify({
-        contents: tweets.slice(page * size, (page + 1) * size),
+        contents: [],
         pageNumber: page,
         pageSize: size,
-        totalPages,
-        totalCount,
-        isLastPage: totalPages <= page + 1,
+        totalPages: 0,
+        totalCount: 0,
+        isLastPage: true,
         isFirstPage: page === 0,
       }),
     };

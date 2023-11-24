@@ -10,10 +10,11 @@ import { useMediaQuery } from 'react-responsive';
 import { useRecoilState } from 'recoil';
 import { userObjState } from '../util/recoil.jsx';
 import WriteMention from '../components/WriteMention.jsx';
+import { ErrorBoundary } from 'react-error-boundary';
+import ErrorRetry from '../components/ErrorRetry.jsx';
+import MentionsContainer from '../components/MentionsContainer.jsx';
 
 const TweetDetail = () => {
-  const parm = useParams();
-  const tweetId = parm.tweetPath;
   const { state } = useLocation();
   const writeObj = state.tweet;
 
@@ -24,24 +25,6 @@ const TweetDetail = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   const navigate = useNavigate();
-  const [mentions, setMentions] = useState([]);
-
-  useEffect(() => {
-    dbService
-      .collection('mentions')
-      .where('mentionTo', '==', tweetId)
-      .get()
-      .then((querySnapshot) => {
-        const documents = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setMentions(documents);
-      })
-      .catch((error) => {
-        console.error('Error getting mention documents:', error);
-      });
-  }, []);
 
   return (
     <HomeDiv>
@@ -77,19 +60,21 @@ const TweetDetail = () => {
           writeObj={writeObj}
           isOwner={writeObj.creatorId === userObj.uid}
           tweetPage={true}
+          isModal={false}
+          isMention={false}
         />
         <WriteMention />
-      </HomeMiddleDiv>
-      <div>
-        {mentions.map((mention) => (
-          <TweetForm
-            userObj={userObj}
-            writeObj={mention}
-            isOwner={mention.creatorId === userObj.uid}
-            tweetPage={false}
+        <ErrorBoundary
+          FallbackComponent={() => (
+            <ErrorRetry queryKey={['getTweets', false]} />
+          )}
+        >
+          <MentionsContainer
+            mentionPage={writeObj.MentionList}
+            followingPage={false}
           />
-        ))}
-      </div>
+        </ErrorBoundary>
+      </HomeMiddleDiv>
       {!useMediaQuery({ query: '(max-width: 1000px)' }) && <Explore />}
     </HomeDiv>
   );

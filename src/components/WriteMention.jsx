@@ -3,12 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { storageService, dbService } from '../fbase';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
-import {
-  profileImage,
-  myTweets,
-  userObjState,
-  ModalOpenState,
-} from '../util/recoil.jsx';
+import { profileImage, userObjState, ModalOpenState } from '../util/recoil.jsx';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   ClearImage,
@@ -24,6 +19,7 @@ import {
   SubmitButton,
   TweetTextArea,
 } from './WriteTweet.jsx';
+import { arrayUnion, updateDoc } from 'firebase/firestore';
 
 const WriteMention = ({ writeObj }) => {
   // 전역변수 recoil
@@ -42,7 +38,7 @@ const WriteMention = ({ writeObj }) => {
     let attachmentUrl = '';
     const uuid = uuidv4();
     if (attachment !== '') {
-      const attachmentRef = storageService.ref().child(`Mentions/${uuid}`);
+      const attachmentRef = storageService.ref().child(`mentions/${uuid}`);
       const response = await attachmentRef.putString(attachment, 'data_url');
       attachmentUrl = await response.ref.getDownloadURL();
     }
@@ -58,7 +54,11 @@ const WriteMention = ({ writeObj }) => {
       MentionList: [],
       attachmentUrl: attachmentUrl,
     };
-    await dbService.collection('Mentions').add(MentionObj);
+    await dbService.collection('mentions').add(MentionObj);
+    const tweetRef = dbService.collection('tweets').doc(writeObj.id);
+    await updateDoc(tweetRef, {
+      MentionList: arrayUnion(uuid),
+    });
     setMentionText('');
     setAttachment('');
     navigate(-1);

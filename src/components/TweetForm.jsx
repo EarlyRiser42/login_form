@@ -59,17 +59,9 @@ const TweetForm = ({ userObj, writeObj, isOwner, isModal, isMention }) => {
       // docSnap.data() will be undefined in this case
       console.log('No such document! failed to load tweet writer id');
     }
-    // 멘션 개수 가져오는 함수
-    dbService
-      .collection('mentions')
-      .where('mentionTo', '==', writeObj.tweetId)
-      .get()
-      .then((querySnapshot) => {
-        setMention_cnt(querySnapshot.size);
-      })
-      .catch((error) => {
-        console.error('Error getting mention documents:', error);
-      });
+    setMention_cnt(writeObj.MentionList.length);
+    setLike(writeObj.likeList.includes(userObj.uid));
+    setLike_cnt(writeObj.likeList.length);
   };
 
   // tweet 작성자 정보 가져오는 함수
@@ -85,12 +77,19 @@ const TweetForm = ({ userObj, writeObj, isOwner, isModal, isMention }) => {
       await updateDoc(profileRef, {
         likes: arrayRemove(writeObj.tweetId),
       });
-
-      const tweetRef = doc(dbService, 'tweets', writeObj.id);
-      // 트윗에 내 uid 삭제
-      await updateDoc(tweetRef, {
-        likeList: arrayRemove(userObj.uid),
-      });
+      if (isMention) {
+        const tweetRef = doc(dbService, 'mentions', writeObj.id);
+        // 멘션에 내 uid 삭제
+        await updateDoc(tweetRef, {
+          likeList: arrayRemove(userObj.uid),
+        });
+      } else {
+        const tweetRef = doc(dbService, 'tweets', writeObj.id);
+        // 트윗에 내 uid 삭제
+        await updateDoc(tweetRef, {
+          likeList: arrayRemove(userObj.uid),
+        });
+      }
 
       setLike(false);
       setLike_cnt(like_cnt - 1);
@@ -100,13 +99,19 @@ const TweetForm = ({ userObj, writeObj, isOwner, isModal, isMention }) => {
       await updateDoc(profileRef, {
         likes: arrayUnion(writeObj.tweetId),
       });
-
-      const tweetRef = doc(dbService, 'tweets', writeObj.id);
-      // 트윗에 내 uid 삭제
-      await updateDoc(tweetRef, {
-        likeList: arrayUnion(userObj.uid),
-      });
-
+      if (isMention) {
+        const tweetRef = doc(dbService, 'mentions', writeObj.id);
+        // 멘션에 내 uid 삭제
+        await updateDoc(tweetRef, {
+          likeList: arrayUnion(userObj.uid),
+        });
+      } else {
+        const tweetRef = doc(dbService, 'tweets', writeObj.id);
+        // 트윗에 내 uid 삭제
+        await updateDoc(tweetRef, {
+          likeList: arrayUnion(userObj.uid),
+        });
+      }
       setLike(true);
       setLike_cnt(like_cnt + 1);
     }
@@ -174,7 +179,7 @@ const TweetForm = ({ userObj, writeObj, isOwner, isModal, isMention }) => {
   };
 
   return (
-    <Container $isMention={isMention}>
+    <Container $isModal={isModal}>
       <LeftContainer>
         <Link to={`/profile/${writeObj.creatorId}`}>
           <ProfileImage src={photoURL} alt="Profile" />
@@ -205,7 +210,7 @@ const TweetForm = ({ userObj, writeObj, isOwner, isModal, isMention }) => {
               <TweetImage src={writeObj.photoURL} alt="Tweet" />
             </TweetImageContainer>
           )}
-          {!isMention && (
+          {!isModal && (
             <TweetActions>
               <ActionContainer
                 src={'./mention.svg'}
@@ -248,7 +253,7 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   border-bottom: ${(props) =>
-    props.$isMention ? 'none' : '1px solid rgba(0, 0, 0, 0.1)'};
+    props.$isModal ? 'none' : '1px solid rgba(0, 0, 0, 0.1)'};
 `;
 
 const LeftContainer = styled.div`

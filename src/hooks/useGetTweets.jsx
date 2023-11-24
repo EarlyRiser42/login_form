@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from 'react-query';
 import axios from 'axios';
 
-export const useFetchUsers = ({ size, userObj, followingPage }) =>
+export const useGetTweets = ({ size, userObj, followingPage }) =>
   useInfiniteQuery(
     ['getTweets', followingPage],
     ({ pageParam = 0 }) => {
@@ -19,9 +19,10 @@ export const useFetchUsers = ({ size, userObj, followingPage }) =>
     },
     {
       getNextPageParam: (lastPage, pages) => {
-        // 새로운 페이지 인덱스를 계산하여 반환
         const nextPage = lastPage.data.pageNumber + 1;
         return lastPage.data.isLastPage ? undefined : nextPage;
       },
+      cacheTime: 1000 * 60 * 5, // 예: 5분
+      staleTime: 1000 * 60 * 0, // 예: 1분
     },
   );

@@ -77,9 +77,11 @@ const Home = () => {
               <ErrorRetry queryKey={['getTweets', followingPage]} />
             )}
           >
-            <Suspense fallback={<Loading forComponent={true} />}>
-              <TweetsContainer followingPage={followingPage} />
-            </Suspense>
+            <TweetsContainer
+              isMention={false}
+              mentionPage={[]}
+              followingPage={followingPage}
+            />
           </ErrorBoundary>
         )}
         {followingPage && (
@@ -88,7 +90,11 @@ const Home = () => {
               <ErrorRetry queryKey={['getTweets', followingPage]} />
             )}
           >
-            <TweetsContainer followingPage={followingPage} />
+            <TweetsContainer
+              isMention={false}
+              mentionPage={[]}
+              followingPage={followingPage}
+            />
           </ErrorBoundary>
         )}
       </HomeMiddleDiv>
