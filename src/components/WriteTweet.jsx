@@ -157,14 +157,14 @@ const TweetForm = styled.form`
     props.$isModalOpen ? 'none' : '1px solid rgba(0, 0, 0, 0.1)'};
 `;
 
-const LeftContainer = styled.div`
+export const LeftContainer = styled.div`
   width: 12%;
   @media (max-width: 500px) {
     width: 16%;
   }
 `;
 
-const RightContainer = styled.div`
+export const RightContainer = styled.div`
   width: 86%;
   margin-right: 2%;
   margin-bottom: 1%;
@@ -175,11 +175,11 @@ const RightContainer = styled.div`
   }
 `;
 
-const ProfileImage = styled.img`
-  margin-left: 15%;
+export const ProfileImage = styled.img`
+  margin-left: 20%;
   margin-top: 10%;
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   margin-bottom: 10px;
 `;

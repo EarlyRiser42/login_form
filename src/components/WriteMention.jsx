@@ -15,7 +15,10 @@ import {
   ClearImageDiv,
   Image,
   ImageContainer,
+  LeftContainer,
   PreviewImage,
+  ProfileImage,
+  RightContainer,
   StyledInput,
   StyledLabel,
   SubmitButton,
@@ -90,8 +93,10 @@ const WriteMention = ({ writeObj }) => {
 
   return (
     <MyMentionForm onSubmit={onSubmit} $isModalOpen={isModalOpen}>
-      <PFP src={pfp} alt="PFP" />
-      <MyMentionInnerContainer>
+      <LeftContainer>
+        <ProfileImage src={pfp} />
+      </LeftContainer>
+      <RightContainer>
         <TweetTextArea
           name="tweet"
           placeholder="답글 게시하기"
@@ -144,7 +149,7 @@ const WriteMention = ({ writeObj }) => {
             </SubmitButton>
           </ButtonContainer>
         )}
-      </MyMentionInnerContainer>
+      </RightContainer>
     </MyMentionForm>
   );
 };
@@ -162,27 +167,6 @@ const MyMentionForm = styled.form`
 \` ;
   border-bottom: ${(props) =>
     props.$isModalOpen ? 'none' : '1px solid rgba(0, 0, 0, 0.1)'};
-`;
-
-const PFP = styled.img`
-  margin-top: 3%;
-  margin-left: 3%;
-  width: 40px;
-  height: 40px;
-  border-radius: 50px;
-`;
-
-const MyMentionInnerContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 90%;
-  margin-left: 2%;
-  margin-right: 3%;
-  margin-bottom: 1%;
-  height: auto;
-  min-height: 120px;
 `;
 
 const ButtonContainer = styled.div`

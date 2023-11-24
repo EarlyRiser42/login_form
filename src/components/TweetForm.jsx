@@ -174,7 +174,7 @@ const TweetForm = ({ userObj, writeObj, isOwner, isModal, isMention }) => {
   };
 
   return (
-    <Container>
+    <Container $isMention={isMention}>
       <LeftContainer>
         <Link to={`/profile/${writeObj.creatorId}`}>
           <ProfileImage src={photoURL} alt="Profile" />
@@ -247,7 +247,8 @@ const Container = styled.div`
   margin-top: 10px;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: ${(props) =>
+    props.$isMention ? 'none' : '1px solid rgba(0, 0, 0, 0.1)'};
 `;
 
 const LeftContainer = styled.div`
@@ -257,6 +258,13 @@ const LeftContainer = styled.div`
     width: 16%;
     margin-right: 2%;
   }
+`;
+
+const ProfileImage = styled.img`
+  margin-left: 20%;
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
 `;
 
 const RightContainer = styled.div`
@@ -273,13 +281,6 @@ const UpperContainer = styled.div`
 `;
 
 const DownContainer = styled.div``;
-
-const ProfileImage = styled.img`
-  margin-left: 20%;
-  width: 40px;
-  height: 40px;
-  border-radius: 50px;
-`;
 
 const UserInfoContainer = styled.div`
   display: flex;

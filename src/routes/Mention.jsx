@@ -43,6 +43,9 @@ const Mention = () => {
           isModal={true}
           isMention={true}
         />
+        <LinkingLineContainer>
+          <LinkingLine />
+        </LinkingLineContainer>
         <WriteMention writeObj={writeObj} />
       </Modal>
     </div>
@@ -51,8 +54,6 @@ const Mention = () => {
 
 const WriteTweetCloseButtonDiv = styled.div`
   margin-top: 10px;
-  margin-left: 3%;
-  margin-bottom: 4%;
   height: 10%;
   width: 93%;
   display: flex;
@@ -76,11 +77,27 @@ const WriteTweetCloseButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  // ... other styles
 `;
 
 const WriteTweetCloseImg = styled.img`
   width: 20px;
   height: 20px;
+`;
+
+const LinkingLineContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 5%;
+  min-height: 25px;
+`;
+
+const LinkingLine = styled.div`
+  width: 10px;
+  height: 5px;
+  min-height: 47px;
+  position: absolute;
+  top: -25px;
+  left: 34px;
+  border-left: 2px solid rgba(0, 0, 0, 0.2);
 `;
 export default Mention;
