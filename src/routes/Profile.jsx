@@ -66,8 +66,8 @@ const Profile = () => {
           <div onClick={() => setPage('게시물')}>{renderTabText('게시물')}</div>
           <div onClick={() => setPage('답글')}>{renderTabText('답글')}</div>
           <div onClick={() => setPage('미디어')}>{renderTabText('미디어')}</div>
-          <div onClick={() => setPage('마음에 들어')}>
-            {renderTabText('마음에 들어')}
+          <div onClick={() => setPage('마음에 들어요')}>
+            {renderTabText('마음에 들어요')}
           </div>
         </HomeMiddleSwitchFollowDiv>
       </HomeMiddleDiv>

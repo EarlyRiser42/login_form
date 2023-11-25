@@ -6,6 +6,7 @@ import { useRecoilState } from 'recoil';
 import { userObjState } from '../../util/recoil.jsx';
 import { NavContainer } from '../../routes/TweetDetail.jsx';
 import styled from 'styled-components';
+import { StyledNavUserObjFollow } from '../Nav.jsx';
 
 const Information = () => {
   // 전역변수 recoil
@@ -101,8 +102,16 @@ const Information = () => {
             <span>{elapsedTime(SignupAt)}</span>
           </SignupDateContainer>
           <FollowInfo>
-            <FollowCount>{follow_cnt} 팔로우 중</FollowCount>
-            <FollowCount>{follower_cnt} 팔로워</FollowCount>
+            <StyledNavUserObjFollow>
+              <span>
+                <span>{userObj.following.length}</span>
+                팔로우 중
+              </span>
+              <span>
+                <span> {userObj.follower.length}</span>
+                팔로워
+              </span>
+            </StyledNavUserObjFollow>
           </FollowInfo>
         </InfoSection>
       </ProfileSection>

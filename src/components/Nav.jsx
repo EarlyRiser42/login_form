@@ -112,14 +112,11 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
         />
       )}
       {isMobile && isNavOpen && (
-        <StyledNavDiv
-          className={`NavDiv ${isNavOpen ? 'NavDivOpen' : ''}`}
-          ref={ref}
-        >
+        <StyledNavDiv ref={ref}>
           <StyledNavLinkDiv>
             <StyledNavUserObjDiv>
               <StyledNavpfpDiv>
-                <StyledNavpfp className={'Navpfp'} src={pfp} alt="Profile" />
+                <StyledNavpfp src={pfp} alt="Profile" />
                 <StyledNavpfpLogoutImg
                   onClick={onLogOutClick}
                   src="/logout.svg"
@@ -127,12 +124,12 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
                 />
               </StyledNavpfpDiv>
               <StyledNavUserObjInfo>
-                <StyledNavUserObjInfoBold className={'NavUserObjInfoBold'}>
+                <StyledNavUserObjInfoBold>
                   {userObj.displayName}
                 </StyledNavUserObjInfoBold>
                 <span>{userObj.id}</span>
               </StyledNavUserObjInfo>
-              <StyledNavUserObjFollow className={'NavUserObjFollow'}>
+              <StyledNavUserObjFollow>
                 <span>
                   <span>{userObj.following.length}</span>
                   팔로우 중
@@ -178,7 +175,7 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
         </StyledNavDiv>
       )}
       {!isMobile && (
-        <StyledNavDiv className={'NavDiv'}>
+        <StyledNavDiv>
           <StyledNavLinkDiv className={'NavLinkDiv'}>
             <NavIconDiv imgSrc={'./X_logo'} imgAlt={'X_logo'} />
             <NavIconDiv
@@ -231,12 +228,12 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               imgAlt="Logout"
             />
           </StyledNavLinkDiv>
-          <StyledNavUserObjDiv className={'NavUserObjDiv'}>
-            <StyledNavpfpDiv className={'NavpfpDiv'}>
-              <StyledNavpfp className={'Navpfp'} src={pfp} alt="Profile" />
+          <StyledNavUserObjDiv>
+            <StyledNavpfpDiv>
+              <StyledNavpfp src={pfp} alt="Profile" />
             </StyledNavpfpDiv>
-            <StyledNavUserObjInfo className={'NavUserObjInfo'}>
-              <StyledNavUserObjInfoBold className={'NavUserObjInfoBold'}>
+            <StyledNavUserObjInfo>
+              <StyledNavUserObjInfoBold>
                 {userObj.displayName}
               </StyledNavUserObjInfoBold>
               <span>{userObj.id}</span>
@@ -353,13 +350,6 @@ const StyledNavpfp = styled.img`
   }
 `;
 
-const NavpfpLogoutImg = styled.img`
-  width: 20px;
-  height: 20px;
-  margin-top: 2%;
-  margin-right: 5%;
-`;
-
 const StyledNavUserObjInfo = styled.div`
   margin-left: 10%;
   display: flex;
@@ -383,14 +373,25 @@ const StyledNavUserObjInfo = styled.div`
 const StyledNavUserObjInfoBold = styled.span`
   font-weight: bolder;
 `;
-const StyledNavUserObjFollow = styled.div`
+export const StyledNavUserObjFollow = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  span {
+    margin-right: 5px;
+    font-size: 0.8rem;
+    span {
+      margin-right: 2px;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+  }
   @media (max-width: 500px) {
     margin-top: 2%;
     margin-left: 5%;
     display: flex;
     align-items: center;
     width: 100%;
-
     span {
       margin-right: 5px;
       font-size: 0.8rem;
