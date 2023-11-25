@@ -181,7 +181,10 @@ const TweetForm = ({ userObj, writeObj, isOwner, isModal, isMention }) => {
   return (
     <Container $isModal={isModal}>
       <LeftContainer>
-        <Link to={`/profile/${writeObj.creatorId}`}>
+        <Link
+          to={`/profile/${writeObj.creatorId}`}
+          state={{ writeObj: writeObj }}
+        >
           <ProfileImage src={photoURL} alt="Profile" />
         </Link>
       </LeftContainer>

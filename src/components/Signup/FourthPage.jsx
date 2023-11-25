@@ -26,15 +26,14 @@ const FourthPage = ({ onNext, onPrev, user_data, page, setPage }) => {
       email: user_data.email,
       password: hashedPassword,
       displayName: user_data.name,
-      photoURL:
-        'https://firebasestorage.googleapis.com/v0/b/loginform-6747a.appspot.com/o/pfp%2Fbasic.png?alt=media&token=d2b2f037-ee93-4fad-a09d-733332ec28fc',
-      backgroundimage:
-        'https://firebasestorage.googleapis.com/v0/b/loginform-6747a.appspot.com/o/pfp%2Fbackgroundimage.png?alt=media&token=6e328859-4a03-485e-a487-dfdd89c008ba',
+      photoURL: 'https://via.placeholder.com/150x150',
+      backgroundImage: 'https://via.placeholder.com/600x200',
       birthyear: user_data.year,
       birthmonth: user_data.month,
       birthday: user_data.day,
       SignupAt: Date.now(),
       uid: uid,
+      intro: '',
       following: ['DlMywOmW2pU3PtilMywBCnFffaC2'],
       follower: [],
       likes: [],

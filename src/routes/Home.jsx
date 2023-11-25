@@ -141,7 +141,7 @@ export const HomeMiddleDiv = styled.div`
   }
 `;
 
-const HomeMiddleSwitchFollowDiv = styled.div`
+export const HomeMiddleSwitchFollowDiv = styled.div`
   display: flex;
   flex-direction: row;
 
@@ -160,11 +160,11 @@ const HomeMiddleSwitchFollowDiv = styled.div`
   }
 `;
 
-const BoldText = styled.span`
+export const BoldText = styled.span`
   font-weight: bold;
 `;
 
-const NormalText = styled.span`
+export const NormalText = styled.span`
   font-weight: normal;
 `;
 

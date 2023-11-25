@@ -9,18 +9,20 @@ import {
   userObjState,
   ModalOpenState,
 } from '../util/recoil.jsx';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const WriteTweet = () => {
   // 전역변수 recoil
   const [userObj, setUserObj] = useRecoilState(userObjState);
   const [tweet, setTweet] = useRecoilState(myTweets);
   const [pfp, setPfp] = useRecoilState(profileImage);
-  const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
   // 지역변수
   const [tweetText, setTweetText] = useState('');
   const [attachment, setAttachment] = useState('');
+
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -46,6 +48,7 @@ const WriteTweet = () => {
     setTweet([{ ...tweetObj, id: tweetObj.tweetId }, ...tweet]);
     setTweetText('');
     setAttachment('');
+    navigate(-1);
   };
 
   const autoResize = (event) => {
