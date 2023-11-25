@@ -181,6 +181,8 @@ const EditProfileButton = styled.button`
 const FollowButton = styled(EditProfileButton)`
   width: 81px;
   height: 36px;
+  background-color: black;
+  color: white;
   &:hover {
     background-color: #272c30;
   }
@@ -229,10 +231,6 @@ const FollowInfo = styled.div`
   display: flex;
   justify-content: flex-start;
   margin-top: 10px;
-`;
-
-const FollowCount = styled.span`
-  color: #333;
 `;
 
 export default Information;
