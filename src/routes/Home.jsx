@@ -107,12 +107,12 @@ export const HomeDiv = styled.div`
   width: 100vw;
   height: 100vh;
   display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   @media (max-width: 500px) {
     width: 100vw;
     height: 100vh;
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
     background-color: ${(props) => (props.$isNavOpen ? 'gray' : 'transparent')};
   }
 `;

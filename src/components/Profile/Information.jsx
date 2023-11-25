@@ -135,8 +135,13 @@ const ProfileImage = styled.img`
   border-radius: 50%;
   border: 4px solid white;
   position: absolute;
-  top: -50px; // Adjust based on your actual layout
+  top: -70px; // Adjust based on your actual layout
   left: 20px;
+  @media (max-width: 680px) {
+    width: 25%;
+    height: 50%;
+    object-fit: cover;
+  }
 `;
 
 const ProfileSection = styled.div`
@@ -183,7 +188,7 @@ const FollowButton = styled(EditProfileButton)`
 
 const InfoSection = styled.div`
   width: 96%;
-  margin-top: 17%;
+  margin-top: 13%;
   margin-bottom: 3%;
   margin-left: 4%;
   display: flex;
