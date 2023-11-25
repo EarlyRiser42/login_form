@@ -208,9 +208,9 @@ const TweetForm = ({ userObj, writeObj, isOwner, isModal, isMention }) => {
         </UpperContainer>
         <DownContainer>
           <TweetText>{writeObj.text}</TweetText>
-          {writeObj.photoURL && (
+          {writeObj.attachmentUrl && (
             <TweetImageContainer>
-              <TweetImage src={writeObj.photoURL} alt="Tweet" />
+              <TweetImage src={writeObj.attachmentUrl} alt="Tweet" />
             </TweetImageContainer>
           )}
           {!isModal && (
@@ -276,7 +276,8 @@ const ProfileImage = styled.img`
 `;
 
 const RightContainer = styled.div`
-  width: 87%;
+  width: 85%;
+  margin-right: 2%;
   margin-bottom: 2%;
   @media (max-width: 500px) {
     width: 82%;
