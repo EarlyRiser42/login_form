@@ -80,9 +80,10 @@ const TweetDetail = () => {
   );
 };
 
-const NavContainer = styled.div`
+export const NavContainer = styled.div`
   width: 100%;
   height: 10%;
+  min-height: 47px;
   display: flex;
   justify-content: flex-start;
   align-items: center;

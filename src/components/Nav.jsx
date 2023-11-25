@@ -12,7 +12,6 @@ import {
 import { deleteCookie } from '../util/cookie.jsx';
 import styled from 'styled-components';
 import { useMediaQuery } from 'react-responsive';
-import '../style/Nav.css';
 
 const Nav = forwardRef(({ isNavOpen }, ref) => {
   // for modal
@@ -113,25 +112,27 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
         />
       )}
       {isMobile && isNavOpen && (
-        <nav className={`NavDiv ${isNavOpen ? 'NavDivOpen' : ''}`} ref={ref}>
-          <div className={'NavLinkDiv'}>
-            <div className={'NavUserObjDiv'}>
-              <div className={'NavpfpDiv'}>
-                <img className={'Navpfp'} src={pfp} />
-                <img
-                  className={'NavpfpLogoutImg'}
+        <StyledNavDiv
+          className={`NavDiv ${isNavOpen ? 'NavDivOpen' : ''}`}
+          ref={ref}
+        >
+          <StyledNavLinkDiv>
+            <StyledNavUserObjDiv>
+              <StyledNavpfpDiv>
+                <StyledNavpfp className={'Navpfp'} src={pfp} alt="Profile" />
+                <StyledNavpfpLogoutImg
                   onClick={onLogOutClick}
                   src="/logout.svg"
                   alt="Logout"
                 />
-              </div>
-              <div className={'NavUserObjInfo'}>
-                <span className={'NavUserObjInfoBold'}>
+              </StyledNavpfpDiv>
+              <StyledNavUserObjInfo>
+                <StyledNavUserObjInfoBold className={'NavUserObjInfoBold'}>
                   {userObj.displayName}
-                </span>
+                </StyledNavUserObjInfoBold>
                 <span>{userObj.id}</span>
-              </div>
-              <div className={'NavUserObjFollow'}>
+              </StyledNavUserObjInfo>
+              <StyledNavUserObjFollow className={'NavUserObjFollow'}>
                 <span>
                   <span>{userObj.following.length}</span>
                   팔로우 중
@@ -140,8 +141,8 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
                   <span> {userObj.follower.length}</span>
                   팔로워
                 </span>
-              </div>
-            </div>
+              </StyledNavUserObjFollow>
+            </StyledNavUserObjDiv>
             <NavIconDiv
               imgSrc={'./home'}
               imgAlt={'home'}
@@ -172,13 +173,13 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               linkTo={`/bookmark`}
               linkText={'북마크'}
             />
-            <div className={'Navline'}></div>
-          </div>
-        </nav>
+            <StyledNavline className={'Navline'}></StyledNavline>
+          </StyledNavLinkDiv>
+        </StyledNavDiv>
       )}
       {!isMobile && (
-        <nav className={'NavDiv'}>
-          <div className={'NavLinkDiv'}>
+        <StyledNavDiv className={'NavDiv'}>
+          <StyledNavLinkDiv className={'NavLinkDiv'}>
             <NavIconDiv imgSrc={'./X_logo'} imgAlt={'X_logo'} />
             <NavIconDiv
               imgSrc={'./home'}
@@ -214,12 +215,10 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               type="post"
               linkTo="/compose/tweet"
               buttonText="게시하기"
-              onClick={() => {
-                setIsModalOpen(true);
-              }}
+              onClick={() => {}}
               imgSrc="./write_tweet.svg"
               imgAlt="writeTweet"
-              mobile={false} // Note: Use boolean false instead of string "false"
+              mobile={false}
               state={{ background: location }}
             />
             <NavButton
@@ -231,24 +230,189 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               mobile="false"
               imgAlt="Logout"
             />
-          </div>
-          <div className={'NavUserObjDiv'}>
-            <div className={'NavpfpDiv'}>
-              <img className={'Navpfp'} src={pfp} />
-            </div>
-            <div className={'NavUserObjInfo'}>
-              <span className={'NavUserObjInfoBold'}>
+          </StyledNavLinkDiv>
+          <StyledNavUserObjDiv className={'NavUserObjDiv'}>
+            <StyledNavpfpDiv className={'NavpfpDiv'}>
+              <StyledNavpfp className={'Navpfp'} src={pfp} alt="Profile" />
+            </StyledNavpfpDiv>
+            <StyledNavUserObjInfo className={'NavUserObjInfo'}>
+              <StyledNavUserObjInfoBold className={'NavUserObjInfoBold'}>
                 {userObj.displayName}
-              </span>
+              </StyledNavUserObjInfoBold>
               <span>{userObj.id}</span>
-            </div>
-          </div>
-        </nav>
+            </StyledNavUserObjInfo>
+          </StyledNavUserObjDiv>
+        </StyledNavDiv>
       )}
     </>
   );
 });
 
+const StyledNavDiv = styled.nav`
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  margin-left: 11vw;
+  width: 17vw;
+  height: 100vh;
+  justify-content: space-between;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 1280px) {
+    margin-left: 6vw;
+    width: 10vw;
+  }
+
+  @media (max-width: 1000px) {
+    margin-left: 9vw;
+    width: 10vw;
+  }
+
+  @media (max-width: 500px) {
+    margin-left: 0vw;
+    width: 65vw;
+    position: absolute;
+    z-index: 100;
+    background: white;
+  }
+`;
+
+const StyledNavLinkDiv = styled.div`
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  @media (max-width: 1280px), (max-width: 1000px) {
+    width: 100%;
+  }
+`;
+
+const StyledNavUserObjDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 10vh;
+  border-radius: 40px;
+
+  &:hover {
+    background-color: #e7e7e8;
+  }
+
+  @media (max-width: 1280px), (max-width: 1000px) {
+    flex-direction: row;
+    justify-content: center;
+    width: 10vw;
+    height: 10vh;
+    margin-left: 0px;
+  }
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    width: 98%;
+    margin-left: 2%;
+    margin-top: 2%;
+    height: 20%;
+  }
+`;
+
+const StyledNavpfpDiv = styled.div`
+  margin-left: 15%;
+
+  @media (max-width: 1280px) {
+    margin-left: 0px;
+  }
+
+  @media (max-width: 500px) {
+    margin-left: 0px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+`;
+
+const StyledNavpfpLogoutImg = styled.img`
+  width: 20px;
+  height: 20px;
+  margin-top: 2%;
+  margin-right: 5%;
+`;
+
+const StyledNavpfp = styled.img`
+  border-radius: 50px;
+  width: 50px;
+  height: 50px;
+
+  @media (max-width: 500px) {
+    margin-left: 5%;
+  }
+`;
+
+const NavpfpLogoutImg = styled.img`
+  width: 20px;
+  height: 20px;
+  margin-top: 2%;
+  margin-right: 5%;
+`;
+
+const StyledNavUserObjInfo = styled.div`
+  margin-left: 10%;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 1280px) {
+    span {
+      display: none;
+    }
+  }
+
+  @media (max-width: 500px) {
+    height: auto;
+    margin-top: 3%;
+    margin-left: 5%;
+    span {
+      display: inline;
+    }
+  }
+`;
+const StyledNavUserObjInfoBold = styled.span`
+  font-weight: bolder;
+`;
+const StyledNavUserObjFollow = styled.div`
+  @media (max-width: 500px) {
+    margin-top: 2%;
+    margin-left: 5%;
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    span {
+      margin-right: 5px;
+      font-size: 0.8rem;
+      span {
+        margin-right: 2px;
+        font-weight: bold;
+        font-size: 1rem;
+      }
+    }
+  }
+`;
+const StyledNavline = styled.div`
+  @media (max-width: 500px) {
+    content: '';
+    width: 95%;
+    margin-top: 20px;
+    background: rgba(0, 0, 0, 0.1);
+    height: 2px;
+    font-size: 0px;
+    line-height: 0px;
+  }
+`;
 const StyledNavHomeIcon = styled.div`
   display: inline-flex;
   align-items: center;

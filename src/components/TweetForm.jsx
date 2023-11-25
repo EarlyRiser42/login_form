@@ -20,6 +20,7 @@ const TweetForm = ({ userObj, writeObj, isOwner, isModal, isMention }) => {
   const navigate = useNavigate();
 
   // 트윗 작성자 displayName, id, photoURL from profile DB
+  const [writerObj, setWriterObj] = useState({});
   const [id, setId] = useState(''); // 상태로 id를 관리
   const [displayName, setDisplayName] = useState('');
   const [photoURL, setPhotoURL] = useState('');
@@ -49,6 +50,7 @@ const TweetForm = ({ userObj, writeObj, isOwner, isModal, isMention }) => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
+      setWriterObj(docSnap.data());
       setId(docSnap.data().id);
       setDisplayName(docSnap.data().displayName);
       setPhotoURL(docSnap.data().photoURL);
@@ -183,7 +185,7 @@ const TweetForm = ({ userObj, writeObj, isOwner, isModal, isMention }) => {
       <LeftContainer>
         <Link
           to={`/profile/${writeObj.creatorId}`}
-          state={{ writeObj: writeObj }}
+          state={{ writerObj: writerObj }}
         >
           <ProfileImage src={photoURL} alt="Profile" />
         </Link>
