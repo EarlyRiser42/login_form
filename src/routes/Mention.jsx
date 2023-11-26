@@ -43,9 +43,6 @@ const Mention = () => {
           isModal={true}
           isMention={true}
         />
-        <LinkingLineContainer>
-          <LinkingLine />
-        </LinkingLineContainer>
         <WriteMention writeObj={writeObj} />
       </Modal>
     </div>
@@ -84,20 +81,4 @@ const WriteTweetCloseImg = styled.img`
   height: 20px;
 `;
 
-const LinkingLineContainer = styled.div`
-  position: relative;
-  width: 100%;
-  height: 5%;
-  min-height: 25px;
-`;
-
-const LinkingLine = styled.div`
-  width: 10px;
-  height: 5px;
-  min-height: 47px;
-  position: absolute;
-  top: -25px;
-  left: 34px;
-  border-left: 2px solid rgba(0, 0, 0, 0.2);
-`;
 export default Mention;

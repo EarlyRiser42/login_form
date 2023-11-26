@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { profileImage, userObjState, ModalOpenState } from '../util/recoil.jsx';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { LeftContainer, RightContainer } from './TweetForm.jsx';
 
 const WriteTweet = () => {
   // 전역변수 recoil
@@ -151,24 +152,6 @@ const TweetForm = styled.form`
 \` ;
   border-bottom: ${(props) =>
     props.$isModalOpen ? 'none' : '1px solid rgba(0, 0, 0, 0.1)'};
-`;
-
-export const LeftContainer = styled.div`
-  width: 12%;
-  @media (max-width: 500px) {
-    width: 16%;
-  }
-`;
-
-export const RightContainer = styled.div`
-  width: 86%;
-  margin-right: 2%;
-  margin-bottom: 1%;
-  @media (max-width: 500px) {
-    width: 82%;
-    margin-right: 2%;
-    margin-bottom: 1%;
-  }
 `;
 
 export const ProfileImage = styled.img`

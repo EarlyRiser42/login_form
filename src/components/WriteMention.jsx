@@ -10,16 +10,15 @@ import {
   ClearImageDiv,
   Image,
   ImageContainer,
-  LeftContainer,
   PreviewImage,
   ProfileImage,
-  RightContainer,
   StyledInput,
   StyledLabel,
   SubmitButton,
   TweetTextArea,
 } from './WriteTweet.jsx';
 import { arrayUnion, updateDoc } from 'firebase/firestore';
+import { LeftContainer, RightContainer } from './TweetForm.jsx';
 
 const WriteMention = ({ writeObj }) => {
   // 전역변수 recoil

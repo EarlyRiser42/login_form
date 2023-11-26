@@ -77,11 +77,7 @@ const Home = () => {
               <ErrorRetry queryKey={['getTweets', followingPage]} />
             )}
           >
-            <TweetsContainer
-              isMention={false}
-              mentionPage={[]}
-              followingPage={followingPage}
-            />
+            <TweetsContainer followingPage={followingPage} />
           </ErrorBoundary>
         )}
         {followingPage && (
@@ -90,11 +86,7 @@ const Home = () => {
               <ErrorRetry queryKey={['getTweets', followingPage]} />
             )}
           >
-            <TweetsContainer
-              isMention={false}
-              mentionPage={[]}
-              followingPage={followingPage}
-            />
+            <TweetsContainer followingPage={followingPage} />
           </ErrorBoundary>
         )}
       </HomeMiddleDiv>
@@ -136,7 +128,6 @@ export const HomeMiddleDiv = styled.div`
     margin-left: 0;
     width: 100vw;
     height: 95vh;
-    border-right: none;
   }
 `;
 

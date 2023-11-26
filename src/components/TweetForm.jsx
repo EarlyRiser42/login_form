@@ -196,6 +196,11 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
         >
           <ProfileImage src={photoURL} alt="Profile" />
         </Link>
+        {isMention && isModal && (
+          <LinkingLineContainer>
+            <LinkingLine />
+          </LinkingLineContainer>
+        )}
       </LeftContainer>
       <RightContainer>
         <UpperContainer>
@@ -262,15 +267,19 @@ const Container = styled.div`
   width: 100%;
   height: auto;
   margin-top: 10px;
+  margin-bottom: 2%;
   display: flex;
   justify-content: space-between;
   border-bottom: ${(props) =>
     props.$isModal ? 'none' : '1px solid rgba(0, 0, 0, 0.1)'};
 `;
 
-const LeftContainer = styled.div`
-  width: 13%;
-  margin-bottom: 2%;
+export const LeftContainer = styled.div`
+  width: 10%;
+  height: 100%;
+  margin-left: 1%;
+  margin-right: 1%;
+  overflow: hidden;
   @media (max-width: 500px) {
     width: 16%;
   }
@@ -283,12 +292,24 @@ const ProfileImage = styled.img`
   border-radius: 50px;
 `;
 
-const RightContainer = styled.div`
-  width: 85%;
+const LinkingLineContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 25px;
+`;
+
+const LinkingLine = styled.div`
+  height: 100%;
+  margin-left: 30px;
+  border-left: 2px solid rgba(0, 0, 0, 0.2);
+`;
+
+export const RightContainer = styled.div`
+  width: 86%;
   margin-right: 2%;
-  margin-bottom: 2%;
   @media (max-width: 500px) {
-    width: 80%;
+    width: 82%;
     margin-right: 4%;
   }
 `;
@@ -298,7 +319,11 @@ const UpperContainer = styled.div`
   justify-content: flex-start;
 `;
 
-const DownContainer = styled.div``;
+const DownContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
 
 const UserInfoContainer = styled.div`
   display: flex;
@@ -324,8 +349,10 @@ const TweetText = styled.div`
 const TweetImageContainer = styled.div`
   width: 100%;
   min-height: 100px;
+  margin-bottom: 10px;
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: flex-start;
   align-items: center;
 `;
 

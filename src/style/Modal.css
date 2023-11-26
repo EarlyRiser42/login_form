@@ -43,8 +43,8 @@
 
 .writeMentionModal{
     width: 590px;
-    height: 250px;
-    margin-bottom: 25%;
+    height: auto;
+    margin-bottom: 10%;
     background-color: white;
     border-radius: 20px;
     display: flex;
