@@ -15,12 +15,21 @@ import PostsContainer from '../components/Profile/PostsContainer.jsx';
 import MentionsContainer from '../components/Profile/MentionsContainer.jsx';
 import MediaContainer from '../components/Profile/MediaContainer.jsx';
 import LikesContainer from '../components/Profile/LikesContainer.jsx';
+import { useRecoilState } from 'recoil';
+import { userObjState } from '../util/recoil.jsx';
 
 const Profile = () => {
-  const params = useParams();
-
   // 전역변수 recoil
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [userObj, setUserObj] = useRecoilState(userObjState);
+
+  // 본인 계정/남 계정 확인
+  const profile_id = useParams().profile;
+  const location = useLocation();
+  const writerObj = location.state ? location.state.writerObj : '';
+  const owner = userObj.uid === profile_id;
+  const userInfo = owner ? userObj : writerObj;
+
   // 지역변수
   const [myTweets, setMyTweets] = useState([]);
   const [myMentions, setMyMentions] = useState([]);
@@ -41,7 +50,7 @@ const Profile = () => {
     <HomeDiv $isNavOpen={isNavOpen}>
       <Nav ref={navRef} isNavOpen={isNavOpen} />
       <HomeMiddleDiv>
-        <Information />
+        <Information userInfo={userInfo} owner={owner} />
         <HomeMiddleSwitchFollowDiv>
           <div onClick={() => setPageName('게시물')}>
             {renderTabText('게시물')}
@@ -56,6 +65,7 @@ const Profile = () => {
         </HomeMiddleSwitchFollowDiv>
         {pageName === '게시물' && (
           <PostsContainer
+            userInfo={userInfo}
             tweets={myTweets}
             setTweets={setMyTweets}
             pageName={pageName}
@@ -63,13 +73,15 @@ const Profile = () => {
         )}
         {pageName === '답글' && (
           <MentionsContainer
-            tweets={myTweets}
-            setTweets={setMyTweets}
+            userInfo={userInfo}
+            tweets={myMentions}
+            setTweets={setMyMentions}
             pageName={pageName}
           />
         )}
         {pageName === '미디어' && (
           <MediaContainer
+            userInfo={userInfo}
             tweets={myTweets}
             setTweets={setMyTweets}
             pageName={pageName}
@@ -77,8 +89,9 @@ const Profile = () => {
         )}{' '}
         {pageName === '마음에 들어요' && (
           <LikesContainer
-            tweets={myTweets}
-            setTweets={setMyTweets}
+            userInfo={userInfo}
+            tweets={myLikes}
+            setTweets={setMyLikes}
             pageName={pageName}
           />
         )}

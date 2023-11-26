@@ -7,19 +7,14 @@ import { userObjState } from '../../util/recoil.jsx';
 import { NavContainer } from '../../routes/TweetDetail.jsx';
 import styled from 'styled-components';
 
-const Information = () => {
+const Information = ({ userInfo, owner }) => {
   // 전역변수 recoil
   const [userObj, setUserObj] = useRecoilState(userObjState);
 
   const location = useLocation();
   const navigate = useNavigate();
-  const profile_id = useParams().profile;
   const writerObj = location.state ? location.state.writerObj : '';
-
-  // 본인 계정인지 아닌지 확인
-  const owner = userObj.uid === profile_id;
-  const userInfo = owner ? userObj : writerObj;
-
+  const profile_id = useParams().profile;
   // 유저 개인정보들
   const [backgroundImage, setBackgroundImage] = useState(
     userObj.backgroundImage,

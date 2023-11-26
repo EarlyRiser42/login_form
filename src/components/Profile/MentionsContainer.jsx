@@ -9,15 +9,12 @@ import styled from 'styled-components';
 import { useGetMentions } from '../../hooks/useGetMentions.jsx';
 import { useGetMyTweets } from '../../hooks/useGetMyTweets.jsx';
 
-const MentionsContainer = ({ tweets, setTweets, pageName }) => {
-  // 전역변수 recoil
-  const [userObj, setUserObj] = useRecoilState(userObjState);
-
+const MentionsContainer = ({ userInfo, tweets, setTweets, pageName }) => {
   const navigate = useNavigate();
 
   const { data, hasNextPage, isFetching, fetchNextPage } = useGetMyTweets({
     size: 10, // 페이지 당 트윗 수
-    userObj,
+    userInfo,
     pageName,
   });
 
@@ -59,9 +56,9 @@ const MentionsContainer = ({ tweets, setTweets, pageName }) => {
         >
           <TweetForm
             key={tweet.id}
-            userObj={userObj}
+            userObj={userInfo}
             writeObj={tweet}
-            isOwner={tweet.creatorId === userObj.uid}
+            isOwner={tweet.creatorId === userInfo.uid}
             isModal={false}
             isMention={false}
           />

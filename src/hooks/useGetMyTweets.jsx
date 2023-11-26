@@ -1,15 +1,15 @@
 import { useInfiniteQuery } from 'react-query';
 import axios from 'axios';
 
-export const useGetMyTweets = ({ size, userObj, pageName }) =>
+export const useGetMyTweets = ({ size, userInfo, pageName }) =>
   useInfiniteQuery(
-    ['getTweets', userObj],
+    ['getTweets', userInfo],
     ({ pageParam = 0 }) => {
       const requestData = {
-        userId: userObj.uid,
+        userId: userInfo.uid,
         pageName: pageName,
         page: pageParam,
-        likes: userObj.likes,
+        likes: userInfo.likes,
         size,
       };
       return axios.post(

@@ -121,7 +121,6 @@ export const HomeMiddleDiv = styled.div`
   margin-left: 28vw; /* nav의 크기 */
   width: 39vw;
   height: 100vh;
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
 
   @media (max-width: 1280px) {
     margin-left: 16vw;
