@@ -373,19 +373,7 @@ const StyledNavUserObjInfo = styled.div`
 const StyledNavUserObjInfoBold = styled.span`
   font-weight: bolder;
 `;
-export const StyledNavUserObjFollow = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  span {
-    margin-right: 5px;
-    font-size: 0.8rem;
-    span {
-      margin-right: 2px;
-      font-weight: bold;
-      font-size: 1rem;
-    }
-  }
+const StyledNavUserObjFollow = styled.div`
   @media (max-width: 500px) {
     margin-top: 2%;
     margin-left: 5%;

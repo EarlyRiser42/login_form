@@ -6,7 +6,6 @@ import { useRecoilState } from 'recoil';
 import { userObjState } from '../../util/recoil.jsx';
 import { NavContainer } from '../../routes/TweetDetail.jsx';
 import styled from 'styled-components';
-import { StyledNavUserObjFollow } from '../Nav.jsx';
 
 const Information = () => {
   // 전역변수 recoil
@@ -30,11 +29,32 @@ const Information = () => {
   const [intro, setIntro] = useState(userInfo.intro);
   const [SignupAt, setSignupAt] = useState(userInfo.SignupAt);
   const [pfp, setPfp] = useState(userInfo.photoURL);
-  const [follow_cnt, setFollow_cnt] = useState(userInfo.following.length);
-  const [follower_cnt, setFollower_cnt] = useState(userInfo.follower.length);
   const [isFollowing, setisFollowing] = useState(
     userInfo.following.includes(writerObj.uid),
   );
+
+  useEffect(() => {
+    const resizeHandler = () => {
+      const profileImage = document.querySelector('.profile-image');
+      if (profileImage) {
+        if (window.innerWidth <= 680) {
+          const newWidth = profileImage.offsetWidth;
+          console.log(newWidth);
+          profileImage.style.height = `${newWidth}px`;
+        } else {
+          profileImage.style.height = '135px';
+        }
+      }
+    };
+
+    window.addEventListener('resize', resizeHandler);
+
+    resizeHandler();
+
+    return () => {
+      window.removeEventListener('resize', resizeHandler);
+    };
+  }, []);
 
   const elapsedTime = (date) => {
     const start = new Date(date);
@@ -77,7 +97,7 @@ const Information = () => {
       <BackgroundImage src={backgroundImage} alt="background" />
       <ProfileSection>
         <UpperSection>
-          <ProfileImage src={pfp} alt="profile" />
+          <ProfileImage className={'profile-image'} src={pfp} alt="profile" />
           {owner && (
             <Link
               to={`${profile_id}/editProfile`}
@@ -102,7 +122,7 @@ const Information = () => {
             <span>{elapsedTime(SignupAt)}</span>
           </SignupDateContainer>
           <FollowInfo>
-            <StyledNavUserObjFollow>
+            <StyledProfileUserObjFollow>
               <span>
                 <span>{userObj.following.length}</span>
                 팔로우 중
@@ -111,13 +131,28 @@ const Information = () => {
                 <span> {userObj.follower.length}</span>
                 팔로워
               </span>
-            </StyledNavUserObjFollow>
+            </StyledProfileUserObjFollow>
           </FollowInfo>
         </InfoSection>
       </ProfileSection>
     </ProfileContainer>
   );
 };
+
+const StyledProfileUserObjFollow = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  span {
+    margin-right: 5px;
+    font-size: 0.8rem;
+    span {
+      margin-right: 2px;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+  }
+`;
 
 const ProfileContainer = styled.div`
   width: 100%;
@@ -135,12 +170,15 @@ const ProfileImage = styled.img`
   border-radius: 50%;
   border: 4px solid white;
   position: absolute;
-  top: -70px; // Adjust based on your actual layout
+  top: -70px;
   left: 20px;
   @media (max-width: 680px) {
-    width: 25%;
-    height: 50%;
+    width: 23%;
     object-fit: cover;
+    top: -70px;
+  }
+  @media (max-width: 440px) {
+    top: -60px;
   }
 `;
 

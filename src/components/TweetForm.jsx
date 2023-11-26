@@ -273,7 +273,6 @@ const LeftContainer = styled.div`
   margin-bottom: 2%;
   @media (max-width: 500px) {
     width: 16%;
-    margin-right: 2%;
   }
 `;
 
@@ -289,7 +288,8 @@ const RightContainer = styled.div`
   margin-right: 2%;
   margin-bottom: 2%;
   @media (max-width: 500px) {
-    width: 82%;
+    width: 80%;
+    margin-right: 4%;
   }
 `;
 
