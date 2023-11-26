@@ -267,7 +267,6 @@ const Container = styled.div`
   width: 100%;
   height: auto;
   margin-top: 10px;
-  margin-bottom: 2%;
   display: flex;
   justify-content: space-between;
   border-bottom: ${(props) =>
@@ -276,9 +275,10 @@ const Container = styled.div`
 
 export const LeftContainer = styled.div`
   width: 10%;
-  height: 100%;
+  height: 98%;
   margin-left: 1%;
   margin-right: 1%;
+  margin-bottom: 2%;
   overflow: hidden;
   @media (max-width: 500px) {
     width: 16%;
@@ -307,7 +307,9 @@ const LinkingLine = styled.div`
 
 export const RightContainer = styled.div`
   width: 86%;
+  height: 98%;
   margin-right: 2%;
+  margin-bottom: 2%;
   @media (max-width: 500px) {
     width: 82%;
     margin-right: 4%;
