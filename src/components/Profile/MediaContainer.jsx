@@ -1,25 +1,24 @@
-import TweetForm from './TweetForm.jsx';
+import TweetForm from '../TweetForm.jsx';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { ModalOpenState, Tweets, userObjState } from '../util/recoil.jsx';
-import { useGetTweets } from '../hooks/useGetTweets.jsx';
-import { useIntersect } from '../hooks/useIntersect.jsx';
-import Loading from './Loading.jsx';
+import { ModalOpenState, userObjState } from '../../util/recoil.jsx';
+import { useIntersect } from '../../hooks/useIntersect.jsx';
+import Loading from '../Loading.jsx';
 import styled from 'styled-components';
+import { useGetMentions } from '../../hooks/useGetMentions.jsx';
+import { useGetMyTweets } from '../../hooks/useGetMyTweets.jsx';
 
-const TweetsContainer = ({ followingPage }) => {
+const MediaContainer = ({ tweets, setTweets, pageName }) => {
   // 전역변수 recoil
   const [userObj, setUserObj] = useRecoilState(userObjState);
-  const [tweets, setTweets] = useRecoilState(Tweets);
-  // 지역변수
 
   const navigate = useNavigate();
 
-  const { data, hasNextPage, isFetching, fetchNextPage } = useGetTweets({
+  const { data, hasNextPage, isFetching, fetchNextPage } = useGetMyTweets({
     size: 10, // 페이지 당 트윗 수
     userObj,
-    followingPage,
+    pageName,
   });
 
   const fetchedTweets = useMemo(
@@ -47,7 +46,6 @@ const TweetsContainer = ({ followingPage }) => {
     ) {
       return;
     }
-
     navigate(`/${tweet.creatorId}/${tweetId}`, { state: { tweet } });
   };
 
@@ -61,6 +59,7 @@ const TweetsContainer = ({ followingPage }) => {
         >
           <TweetForm
             key={tweet.id}
+            userObj={userObj}
             writeObj={tweet}
             isOwner={tweet.creatorId === userObj.uid}
             isModal={false}
@@ -78,4 +77,4 @@ const Target = styled.div`
   height: 1px;
 `;
 
-export default TweetsContainer;
+export default MediaContainer;

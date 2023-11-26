@@ -27,11 +27,6 @@ export const Tweets = atom({
   default: [],
 });
 
-export const myTweets = atom({
-  key: 'myTweets',
-  default: [],
-});
-
 export const loadingState = atom({
   key: 'loadingState',
   default: false,

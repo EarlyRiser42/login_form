@@ -10,11 +10,11 @@ import {
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
-import { Tweets } from '../util/recoil.jsx';
+import { Tweets, userObjState } from '../util/recoil.jsx';
 
-const TweetForm = ({ userObj, writeObj, isOwner, isModal, isMention }) => {
+const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
   const [tweets, setTweets] = useRecoilState(Tweets);
-
+  const [userObj, setUserObj] = useRecoilState(userObjState);
   // for modal
   const location = useLocation();
   const navigate = useNavigate();
@@ -92,9 +92,12 @@ const TweetForm = ({ userObj, writeObj, isOwner, isModal, isMention }) => {
           likeList: arrayRemove(userObj.uid),
         });
       }
-
       setLike(false);
       setLike_cnt(like_cnt - 1);
+      setUserObj({
+        ...userObj,
+        likes: userObj.likes.filter((likeId) => likeId !== writeObj.id),
+      });
     } else {
       const profileRef = doc(dbService, 'users', userObj.uid);
       // 프로필에 좋아한 트윗 id 추가
@@ -116,6 +119,10 @@ const TweetForm = ({ userObj, writeObj, isOwner, isModal, isMention }) => {
       }
       setLike(true);
       setLike_cnt(like_cnt + 1);
+      setUserObj({
+        ...userObj,
+        likes: [...userObj.likes, writeObj.tweetId],
+      });
     }
   };
 

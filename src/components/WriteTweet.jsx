@@ -3,18 +3,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { storageService, dbService } from '../fbase';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
-import {
-  profileImage,
-  myTweets,
-  userObjState,
-  ModalOpenState,
-} from '../util/recoil.jsx';
+import { profileImage, userObjState, ModalOpenState } from '../util/recoil.jsx';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const WriteTweet = () => {
   // 전역변수 recoil
   const [userObj, setUserObj] = useRecoilState(userObjState);
-  const [tweet, setTweet] = useRecoilState(myTweets);
   const [pfp, setPfp] = useRecoilState(profileImage);
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
   // 지역변수
@@ -45,7 +39,6 @@ const WriteTweet = () => {
       attachmentUrl: attachmentUrl,
     };
     await dbService.collection('tweets').add(tweetObj);
-    setTweet([{ ...tweetObj, id: tweetObj.tweetId }, ...tweet]);
     setTweetText('');
     setAttachment('');
     navigate(-1);

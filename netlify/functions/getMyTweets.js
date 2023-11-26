@@ -33,14 +33,62 @@ export async function handler(event) {
   }
 
   const dbService = getFirestore();
-  const { userId, pageName, size, page } = JSON.parse(event.body);
+  const { userId, pageName, size, page, likes } = JSON.parse(event.body);
 
   try {
-    const query = dbService
-      .collection('tweets')
-      .orderBy('creatorId', 'desc')
-      .orderBy('toDBAt', 'desc')
-      .where('creatorId', '==', userId);
+    let query = '';
+    switch (pageName) {
+      case '게시물':
+        query = dbService
+          .collection('tweets')
+          .orderBy('creatorId', 'desc')
+          .orderBy('toDBAt', 'desc')
+          .where('creatorId', '==', userId);
+        break;
+      case '답글':
+        query = dbService
+          .collection('mentions')
+          .orderBy('creatorId', 'desc')
+          .orderBy('toDBAt', 'desc')
+          .where('creatorId', '==', userId);
+        break;
+      case '미디어':
+        query = dbService
+          .collection('tweets')
+          .orderBy('attachmentUrl', 'desc')
+          .orderBy('toDBAt', 'desc')
+          .where('creatorId', '==', userId)
+          .where('attachmentUrl', '!=', '');
+        break;
+      case '마음에 들어요':
+        if (likes.length === 0) {
+          return {
+            statusCode: 200,
+            body: JSON.stringify({
+              contents: [],
+              pageNumber: page,
+              pageSize: size,
+              totalPages: 0,
+              totalCount: 0,
+              isLastPage: true,
+              isFirstPage: true,
+            }),
+          };
+        }
+        query = dbService
+          .collection('tweets')
+          .orderBy('tweetId', 'desc')
+          .orderBy('toDBAt', 'desc')
+          .where('tweetId', 'in', likes);
+
+        break;
+      default:
+        return {
+          statusCode: 401,
+          body: '페이지 이름이 유효하지 않습니다',
+        };
+    }
+
     const snapshot = await query.get();
     const tweets = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     const totalCount = tweets.length;
