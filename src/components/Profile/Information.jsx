@@ -17,7 +17,7 @@ const Information = ({ userInfo, owner }) => {
   const profile_id = useParams().profile;
   // 유저 개인정보들
   const [backgroundImage, setBackgroundImage] = useState(
-    userObj.backgroundImage,
+    userInfo.backgroundImage,
   );
   const [id, setId] = useState(userInfo.id);
   const [displayName, setDisplayName] = useState(userInfo.displayName);
@@ -27,6 +27,15 @@ const Information = ({ userInfo, owner }) => {
   const [isFollowing, setisFollowing] = useState(
     userObj.following.includes(userInfo.uid),
   );
+
+  useEffect(() => {
+    setId(userInfo.id);
+    setDisplayName(userInfo.displayName);
+    setIntro(userInfo.intro);
+    setSignupAt(userInfo.SignupAt);
+    setPfp(userInfo.photoURL);
+    setisFollowing(userObj.following.includes(userInfo.uid));
+  }, [userInfo, userObj.following]);
 
   useEffect(() => {
     const resizeHandler = () => {
