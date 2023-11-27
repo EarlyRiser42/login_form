@@ -13,7 +13,7 @@ const Information = ({ userInfo, owner }) => {
 
   const location = useLocation();
   const navigate = useNavigate();
-  const writerObj = location.state ? location.state.writerObj : '';
+
   const profile_id = useParams().profile;
   // 유저 개인정보들
   const [backgroundImage, setBackgroundImage] = useState(
@@ -25,7 +25,7 @@ const Information = ({ userInfo, owner }) => {
   const [SignupAt, setSignupAt] = useState(userInfo.SignupAt);
   const [pfp, setPfp] = useState(userInfo.photoURL);
   const [isFollowing, setisFollowing] = useState(
-    userInfo.following.includes(writerObj.uid),
+    userObj.following.includes(userInfo.uid),
   );
 
   useEffect(() => {
@@ -68,13 +68,29 @@ const Information = ({ userInfo, owner }) => {
       await updateDoc(docRef, {
         following: arrayRemove(profile_id),
       });
+      const myDocRef = doc(dbService, 'users', userInfo.uid);
+      await updateDoc(myDocRef, {
+        follower: arrayRemove(userObj.uid),
+      });
       setisFollowing(!isFollowing);
+      setUserObj({
+        ...userObj,
+        following: userObj.following.filter((likeId) => likeId !== profile_id),
+      });
     } else {
       const docRef = doc(dbService, 'users', userObj.uid);
       await updateDoc(docRef, {
         following: arrayUnion(profile_id),
       });
+      const myDocRef = doc(dbService, 'users', userInfo.uid);
+      await updateDoc(myDocRef, {
+        follower: arrayUnion(userObj.uid),
+      });
       setisFollowing(!isFollowing);
+      setUserObj({
+        ...userObj,
+        following: [...userObj.following, profile_id],
+      });
     }
   };
 
@@ -102,10 +118,14 @@ const Information = ({ userInfo, owner }) => {
             </Link>
           )}
           {!owner && !isFollowing && (
-            <FollowButton onClick={modifyFollowing}>팔로우</FollowButton>
+            <FollowButton onClick={modifyFollowing} $isFollowing={isFollowing}>
+              팔로우
+            </FollowButton>
           )}
           {!owner && isFollowing && (
-            <FollowButton onClick={modifyFollowing}>언팔로우</FollowButton>
+            <FollowButton onClick={modifyFollowing} $isFollowing={isFollowing}>
+              팔로잉
+            </FollowButton>
           )}
         </UpperSection>
         <InfoSection>
@@ -119,11 +139,11 @@ const Information = ({ userInfo, owner }) => {
           <FollowInfo>
             <StyledProfileUserObjFollow>
               <span>
-                <span>{userObj.following.length}</span>
+                <span>{userInfo.following.length}</span>
                 팔로우 중
               </span>
               <span>
-                <span> {userObj.follower.length}</span>
+                <span> {userInfo.follower.length}</span>
                 팔로워
               </span>
             </StyledProfileUserObjFollow>
@@ -214,10 +234,12 @@ const EditProfileButton = styled.button`
 const FollowButton = styled(EditProfileButton)`
   width: 81px;
   height: 36px;
-  background-color: black;
-  color: white;
+  font-weight: 600;
+  background-color: ${(props) => (props.$isFollowing ? 'white' : 'black')};
+  color: ${(props) => (props.$isFollowing ? 'black' : 'white')};
   &:hover {
-    background-color: #272c30;
+    background-color: ${(props) =>
+      props.$isFollowing ? '#FFEAEB' : '#272c30'};
   }
 `;
 

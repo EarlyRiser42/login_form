@@ -106,13 +106,13 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
       });
       if (isMention) {
         const tweetRef = doc(dbService, 'mentions', writeObj.id);
-        // 멘션에 내 uid 삭제
+        // 멘션에 내 uid 추가
         await updateDoc(tweetRef, {
           likeList: arrayUnion(userObj.uid),
         });
       } else {
         const tweetRef = doc(dbService, 'tweets', writeObj.id);
-        // 트윗에 내 uid 삭제
+        // 트윗에 내 uid 추가
         await updateDoc(tweetRef, {
           likeList: arrayUnion(userObj.uid),
         });
