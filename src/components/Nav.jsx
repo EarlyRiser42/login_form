@@ -158,7 +158,7 @@ const Nav = forwardRef(({ isNavOpen, userInfo }, ref) => {
               imgSrc={'./explore'}
               imgAlt={'explore'}
               linkTo={`/explore`}
-              linkText={'검색'}
+              linkText={'탐색하기'}
             />
             <NavIconDiv
               imgSrc={'/profile'}
@@ -194,9 +194,9 @@ const Nav = forwardRef(({ isNavOpen, userInfo }, ref) => {
             />
             <NavIconDiv
               imgSrc={'./explore'}
-              imgAlt={'search'}
-              linkTo={`/search`}
-              linkText={'검색'}
+              imgAlt={'explore'}
+              linkTo={`/explore`}
+              linkText={'탐색하기'}
             />
             <NavIconDiv
               imgSrc={'./profile'}
