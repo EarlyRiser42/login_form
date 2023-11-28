@@ -11,13 +11,16 @@ import {
   HomeMiddleSwitchFollowDiv,
   NormalText,
 } from './Home.jsx';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import FollowsContainer from '../components/Profile/FollowsContainer.jsx';
+import { NavContainer } from './TweetDetail.jsx';
 
 const Follow = () => {
   // 전역변수 recoil
   const [isNavOpen, setIsNavOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+
   const userInfo = location.state.userInfo;
   const [followingPage, setFollowingPage] = useState(
     location.state.isFollowing,
@@ -29,6 +32,15 @@ const Follow = () => {
     <HomeDiv $isNavOpen={isNavOpen}>
       <Nav ref={navRef} isNavOpen={isNavOpen} />
       <HomeMiddleDiv>
+        <NavContainer>
+          <img
+            src={'./left_arrow.svg'}
+            onClick={() => {
+              navigate(-1);
+            }}
+          />
+          <span>{userInfo.displayName}</span>
+        </NavContainer>
         <HomeMiddleSwitchFollowDiv>
           <div onClick={() => setFollowingPage(false)}>
             {followingPage ? (
