@@ -48,7 +48,7 @@ const Profile = () => {
 
   return (
     <HomeDiv $isNavOpen={isNavOpen}>
-      <Nav ref={navRef} isNavOpen={isNavOpen} />
+      <Nav ref={navRef} isNavOpen={isNavOpen} userInfo={userInfo} />
       <HomeMiddleDiv>
         <Information userInfo={userInfo} owner={owner} />
         <HomeMiddleSwitchFollowDiv>

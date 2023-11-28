@@ -13,16 +13,14 @@ import { deleteCookie } from '../util/cookie.jsx';
 import styled from 'styled-components';
 import { useMediaQuery } from 'react-responsive';
 
-const Nav = forwardRef(({ isNavOpen }, ref) => {
+const Nav = forwardRef(({ isNavOpen, userInfo }, ref) => {
   // for modal
   const navigate = useNavigate();
   const location = useLocation();
 
   // 전역변수 recoil
   const [userObj, setUserObj] = useRecoilState(userObjState);
-  const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
-  const [recoilError, setRecoilError] = useRecoilState(errorState);
   const [pfp, setPfp] = useRecoilState(profileImage);
 
   const onLogOutClick = () => {
@@ -39,7 +37,7 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
     navigate('/');
   };
 
-  const NavIconDiv = ({ imgSrc, imgAlt, linkTo, linkText }) => {
+  const NavIconDiv = ({ imgSrc, imgAlt, linkTo, linkText, userInfo }) => {
     const isCurrentLocation = location.pathname === linkTo;
     return (
       <StyledNavHomeIcon>
@@ -130,14 +128,24 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
                 <span>{userObj.id}</span>
               </StyledNavUserObjInfo>
               <StyledNavUserObjFollow>
-                <span>
-                  <span>{userObj.following.length}</span>
-                  팔로우 중
-                </span>
-                <span>
-                  <span> {userObj.follower.length}</span>
-                  팔로워
-                </span>
+                <Link
+                  to={`/profile/${userObj.uid}/follow`}
+                  state={{ userInfo: userInfo, isFollowing: true }}
+                >
+                  <span>
+                    <span>{userObj.following.length}</span>
+                    팔로우 중
+                  </span>
+                </Link>
+                <Link
+                  to={`/profile/${userObj.uid}/follow`}
+                  state={{ userInfo: userInfo, isFollowing: false }}
+                >
+                  <span>
+                    <span> {userObj.follower.length}</span>
+                    팔로워
+                  </span>
+                </Link>
               </StyledNavUserObjFollow>
             </StyledNavUserObjDiv>
             <NavIconDiv
@@ -380,6 +388,18 @@ const StyledNavUserObjFollow = styled.div`
     display: flex;
     align-items: center;
     width: 100%;
+    a {
+      text-decoration: none;
+      color: inherit;
+      &:visited,
+      &:link,
+      &:active,
+      &:hover {
+        text-decoration: none;
+        color: inherit;
+      }
+    }
+
     span {
       margin-right: 5px;
       font-size: 0.8rem;

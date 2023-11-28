@@ -147,14 +147,24 @@ const Information = ({ userInfo, owner }) => {
           </SignupDateContainer>
           <FollowInfo>
             <StyledProfileUserObjFollow>
-              <span>
-                <span>{userInfo.following.length}</span>
-                팔로우 중
-              </span>
-              <span>
-                <span> {userInfo.follower.length}</span>
-                팔로워
-              </span>
+              <Link
+                to={`/profile/${userObj.uid}/follow`}
+                state={{ userInfo: userInfo, isFollowing: true }}
+              >
+                <span>
+                  <span>{userInfo.following.length}</span>
+                  팔로우 중
+                </span>
+              </Link>
+              <Link
+                to={`/profile/${userObj.uid}/follow`}
+                state={{ userInfo: userInfo, isFollowing: false }}
+              >
+                <span>
+                  <span> {userInfo.follower.length}</span>
+                  팔로워
+                </span>
+              </Link>
             </StyledProfileUserObjFollow>
           </FollowInfo>
         </InfoSection>
@@ -167,6 +177,18 @@ const StyledProfileUserObjFollow = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
+  a {
+    text-decoration: none;
+    color: inherit;
+    &:visited,
+    &:link,
+    &:active,
+    &:hover {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+
   span {
     margin-right: 5px;
     font-size: 0.8rem;

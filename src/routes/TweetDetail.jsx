@@ -29,22 +29,6 @@ const TweetDetail = () => {
   return (
     <HomeDiv>
       <Nav />
-      <HomeImgDivForMobile>
-        <img
-          className={'HomeOpenNavImg'}
-          src={userObj.photoURL}
-          alt={'OpenNav'}
-          onClick={() => {
-            setIsNavOpen(true);
-          }}
-        />
-        <img className={'HomeX_logo'} src={'./X_logo.svg'} alt={'X_logo'} />
-        <img
-          className={'HomeOpenSetting'}
-          src={'./setting.svg'}
-          alt={'OpenSetting'}
-        />
-      </HomeImgDivForMobile>
       <HomeMiddleDiv>
         <NavContainer>
           <img

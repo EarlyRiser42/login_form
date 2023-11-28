@@ -28,6 +28,7 @@ import Tweet from './routes/Tweet.jsx';
 import TweetDetail from './routes/TweetDetail.jsx';
 import Mention from './routes/Mention.jsx';
 import Profile from './routes/Profile.jsx';
+import Follow from './routes/Follow.jsx';
 
 function App() {
   // 전역 변수 recoil
@@ -173,6 +174,7 @@ function App() {
               element={<TweetDetail userObj={userObj} />}
             />
             <Route path="/profile/:profile" element={<Profile />} />
+            <Route path="/profile/:profile/follow" element={<Follow />} />
           </Routes>
           {background && (
             <Routes>
