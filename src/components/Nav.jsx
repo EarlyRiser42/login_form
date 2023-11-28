@@ -98,7 +98,7 @@ const Nav = forwardRef(({ isNavOpen, userInfo }, ref) => {
 
   return (
     <>
-      {isMobile && (
+      {isMobile && location.pathname === '/' && (
         <NavButton
           type="post"
           linkTo="/compose/tweet"
