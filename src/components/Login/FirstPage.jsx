@@ -165,9 +165,9 @@ export const LoginCloseButtonDiv = styled.div`
   margin-right: 37%;
   height: 100%;
 
-  @media (max-width: 700px), (max-width: 480px) {
+  @media (max-width: 480px) {
     margin-left: 4%;
-    margin-right: 37%;
+    margin-right: 35%;
     margin-top: 0%;
   }
 `;

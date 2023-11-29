@@ -121,11 +121,7 @@ const SecondPage = ({ user_data }) => {
             handleShowPwChecked={handleShowPwChecked}
           />
         </LoginPasswordInputDiv>
-        <LoginButton
-          password={password}
-          $password={password}
-          onClick={() => onClick(password)}
-        >
+        <LoginButton $password={password} onClick={() => onClick(password)}>
           로그인
         </LoginButton>
       </LoginInputDiv>
@@ -176,7 +172,7 @@ const LoginInputDiv = styled.div`
 
   @media (max-width: 480px) {
     min-height: 150px;
-    margin-top: 10%;
+    margin-top: -10%;
   }
 `;
 
@@ -260,7 +256,7 @@ const LoginButton = styled.button`
 
   @media (max-width: 480px) {
     width: 350px;
-    margin-top: 30%;
+    margin-top: 20%;
   }
 `;
 
@@ -277,7 +273,7 @@ const Loginh4Div2 = styled.div`
   @media (max-width: 480px) {
     max-width: 340px;
     width: 100%;
-    margin-top: 20%;
+    margin-top: 10%;
     margin-bottom: 0%;
   }
 `;

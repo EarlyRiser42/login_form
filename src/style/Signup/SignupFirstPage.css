@@ -109,7 +109,7 @@
     appearance: none; /* 기본 디자인 제거 */
     -webkit-appearance: none; /* 크롬, 사파리 대응 */
     -moz-appearance: none; /* 파이어폭스 대응 */
-    background: url('/arrow-down.svg') no-repeat 87% 50%; /* 화살표 아이콘 적용 */
+    background: url('/public/arrow-down.svg') no-repeat 87% 50%; /* 화살표 아이콘 적용 */
     background-size: 15px; /* 배경 이미지 크기 조정 */
     cursor: pointer; /* 마우스 오버 시 커서 변경 */
 }
