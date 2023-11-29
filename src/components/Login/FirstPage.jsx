@@ -132,7 +132,7 @@ const FirstPage = ({ onNext }) => {
   );
 };
 
-const LoginModal = styled.div`
+export const LoginModal = styled.div`
   width: 590px;
   height: 650px;
   display: flex;
@@ -151,7 +151,7 @@ const LoginModal = styled.div`
   }
 `;
 
-const LoginLogoDiv = styled.div`
+export const LoginLogoDiv = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -160,7 +160,7 @@ const LoginLogoDiv = styled.div`
   margin-top: 2%;
 `;
 
-const LoginCloseButtonDiv = styled.div`
+export const LoginCloseButtonDiv = styled.div`
   margin-left: 4%;
   margin-right: 37%;
   height: 100%;
@@ -172,7 +172,7 @@ const LoginCloseButtonDiv = styled.div`
   }
 `;
 
-const LoginCloseButton = styled.button`
+export const LoginCloseButton = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -188,12 +188,12 @@ const LoginCloseButton = styled.button`
   }
 `;
 
-const LoginCloseImg = styled.img`
+export const LoginCloseImg = styled.img`
   width: 20px;
   height: 20px;
 `;
 
-const LoginXLogo = styled.img`
+export const LoginXLogo = styled.img`
   width: 30px;
   height: 25px;
 `;
@@ -296,7 +296,8 @@ const Loginh4Div = styled.div`
     margin-bottom: 10%;
   }
 `;
-const LoginSignupLink = styled.span`
+
+export const LoginSignupLink = styled.span`
   margin-left: 2%;
   text-decoration: none; /* 밑줄 제거 */
   color: #4a99e9; /* 글씨색을 파란색으로 */

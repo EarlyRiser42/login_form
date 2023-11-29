@@ -11,11 +11,13 @@ const Modal = ({ children, className }) => {
 
   useEffect(() => {
     if (error) {
+      console.log(error);
       setTimeout(() => {
         setError('');
       }, 3000); // reset the error after 3 seconds
     }
   }, [error, setError]);
+
   return (
     <div className={modalBackground ? 'modalGrayDiv' : 'modalDiv'}>
       <div className={className}>

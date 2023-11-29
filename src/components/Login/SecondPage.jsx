@@ -5,6 +5,16 @@ import { useRecoilState } from 'recoil';
 import { ModalOpenState } from '../../util/recoil.jsx';
 import '../../style/Login/LoginSecondPage.css';
 import { sha256 } from 'crypto-hash';
+import {
+  LoginCloseButton,
+  LoginCloseButtonDiv,
+  LoginCloseImg,
+  LoginLogoDiv,
+  LoginModal,
+  LoginSignupLink,
+  LoginXLogo,
+} from './FirstPage.jsx';
+import styled, { css } from 'styled-components';
 
 const SecondPage = ({ user_data }) => {
   const [password, setPassword] = useState('');
@@ -54,34 +64,39 @@ const SecondPage = ({ user_data }) => {
     setPassword(value);
   };
 
+  const TogglePasswordVisibility = ({
+    isShowPwChecked,
+    handleShowPwChecked,
+  }) => {
+    return (
+      <TogglePasswordVisibilityButton onClick={handleShowPwChecked}>
+        {!isShowPwChecked ? (
+          <VisibilityIcon src="/show.svg" alt="비밀번호 보기" />
+        ) : (
+          <VisibilityIcon src="/hide.svg" alt="비밀번호 숨기기" />
+        )}
+      </TogglePasswordVisibilityButton>
+    );
+  };
+
   return (
-    <div className={'LoginModal2'}>
-      <div className={'LoginLogoDiv2'}>
-        <div className={'LoginCloseButtonDiv'}>
+    <LoginModal>
+      <LoginLogoDiv>
+        <LoginCloseButtonDiv>
           <Link to={'/'}>
-            <button
-              className={'LoginCloseButton'}
-              onClick={() => {
-                setIsModalOpen(false);
-              }}
-            >
-              <img
-                className={'LoginCloseImg'}
-                src="/close.svg"
-                alt="close button"
-              />
-            </button>
+            <LoginCloseButton onClick={() => setIsModalOpen(false)}>
+              <LoginCloseImg src="/close.svg" alt="close button" />
+            </LoginCloseButton>
           </Link>
-        </div>
-        <img className={'LoginXLogo'} src="/X_logo.svg" alt="X logo" />
-      </div>
-      <div className={'Loginh1Div_2'}>
-        <span className={'Loginh1_2'}>비밀번호를 입력하세요</span>
-      </div>
-      <div>
-        <div className={'LoginDisabledInputDiv'}>
-          <input
-            className={'LoginDisabledInput'}
+        </LoginCloseButtonDiv>
+        <LoginXLogo src="/X_logo.svg" alt="X logo" />
+      </LoginLogoDiv>
+      <Loginh1Div2>
+        <Loginh12>비밀번호를 입력하세요</Loginh12>
+      </Loginh1Div2>
+      <LoginInputDiv>
+        <LoginDisabledInputDiv>
+          <LoginDisabledInput
             name="email"
             type="text"
             placeholder={user_data.email}
@@ -90,56 +105,191 @@ const SecondPage = ({ user_data }) => {
             value={user_data.email}
             disabled={true}
           />
-        </div>
-      </div>
-      <div className={'LoginPasswordInputDiv'}>
-        <input
-          className={'LoginPasswordInput'}
-          name="password"
-          type="password"
-          placeholder="비밀번호"
-          maxLength={16}
-          required
-          value={password}
-          ref={passwordRef}
-          onChange={onChange}
-        />
-        <button
-          className={'TogglePasswordVisibility'}
-          onClick={handleShowPwChecked}
-        >
-          {!isShowPwChecked && (
-            <img
-              src={'/show.svg'}
-              alt={'비밀번호 보기'}
-              width={'25px'}
-              height={'25px'}
-            />
-          )}
-          {isShowPwChecked && (
-            <img
-              src={'/hide.svg'}
-              alt={'비밀번호 숨기기'}
-              width={'25px'}
-              height={'25px'}
-            />
-          )}
-        </button>
-      </div>
-      <button
-        className={password ? 'LoginDoneButtonBlack' : 'LoginDoneButtonGray'}
-        onClick={() => onClick(password)}
-      >
-        로그인
-      </button>
-      <div className={'Loginh4Div2'}>
-        <span className={'Loginh42'}>계정이 없으신가요?</span>
-        <Link className={'LoginSignupLink'} to={'/signup'}>
-          <span className={'LoginSignupLink'}>가입하기</span>
+        </LoginDisabledInputDiv>
+        <LoginPasswordInputDiv>
+          <LoginPasswordInput
+            name="password"
+            type="password"
+            placeholder="비밀번호"
+            maxLength={16}
+            required
+            value={password}
+            ref={passwordRef}
+            onChange={onChange}
+          />
+          <TogglePasswordVisibility
+            isShowPwChecked={isShowPwChecked}
+            handleShowPwChecked={handleShowPwChecked}
+          />
+        </LoginPasswordInputDiv>
+        <LoginButton password={password} onClick={() => onClick(password)}>
+          로그인
+        </LoginButton>
+      </LoginInputDiv>
+      <Loginh4Div2>
+        <span>계정이 없으신가요?</span>
+        <Link to={'/signup'}>
+          <LoginSignupLink>가입하기</LoginSignupLink>
         </Link>
-      </div>
-    </div>
+      </Loginh4Div2>
+    </LoginModal>
   );
 };
+
+const Loginh1Div2 = styled.div`
+  margin-bottom: 15%;
+  @media (max-width: 700px) {
+    margin-bottom: 30%;
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 15%;
+    margin-bottom: 20%;
+  }
+`;
+
+const Loginh12 = styled.span`
+  font-weight: bold;
+  font-size: 2rem;
+  @media (max-width: 480px) {
+    font-weight: bold;
+    font-size: 1.8rem;
+  }
+`;
+
+const LoginInputDiv = styled.div`
+  width: 100%;
+  height: auto;
+  min-height: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: -20%;
+
+  @media (max-width: 700px) {
+    margin-top: -30%;
+  }
+
+  @media (max-width: 480px) {
+    min-height: 150px;
+    margin-top: 10%;
+  }
+`;
+
+const LoginDisabledInputDiv = styled.div`
+  position: relative;
+  width: 100%;
+  max-width: 450px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5%;
+  border-radius: 5px;
+
+  @media (max-width: 480px) {
+    max-width: 350px;
+    border-radius: 25px;
+  }
+`;
+
+const LoginDisabledInput = styled.input`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 50px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  text-indent: 8px;
+  font-size: 17px;
+`;
+
+const LoginPasswordInputDiv = styled.div`
+  position: relative;
+  width: 100%;
+  max-width: 450px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5%;
+  border-radius: 5px;
+
+  @media (max-width: 480px) {
+    max-width: 350px;
+  }
+`;
+
+const LoginPasswordInput = styled(LoginDisabledInput)``;
+
+const TogglePasswordVisibilityButton = styled.button`
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  cursor: pointer;
+  border: none;
+`;
+
+// 이미지에 대한 스타일
+const VisibilityIcon = styled.img`
+  display: block; // Removes bottom space inherent to inline elements
+  height: 25px; // You can adjust the size as needed
+  width: 25px; // Ensure the width matches the height for a square aspect ratio
+`;
+
+const LoginButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 450px;
+  height: 50px;
+  min-height: 50px;
+  border-radius: 25px;
+  border: none;
+  font-size: 16px;
+  font-weight: 550;
+  color: white;
+  cursor: pointer;
+  margin-top: 100px;
+  margin-bottom: 10px;
+
+  /* 로그인 버튼이 활성화 되었을 때의 스타일 */
+  ${(props) =>
+    props.password &&
+    css`
+      background-color: black;
+    `}
+
+  /* 로그인 버튼이 비활성화 되었을 때의 스타일 */
+  ${(props) =>
+    !props.password &&
+    css`
+      background-color: #86898c;
+    `}
+
+  @media (max-width: 480px) {
+    width: 350px;
+    margin-top: 30%;
+  }
+`;
+
+const Loginh4Div2 = styled.div`
+  width: 100%;
+  max-width: 440px;
+  margin-bottom: 5%;
+  @media (max-width: 700px) {
+    max-width: 440px;
+    width: 100%;
+    height: auto;
+  }
+
+  @media (max-width: 480px) {
+    max-width: 340px;
+    width: 100%;
+    margin-top: 20%;
+    margin-bottom: 0%;
+  }
+`;
 
 export default SecondPage;
