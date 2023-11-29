@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useLogin } from '../../hooks/useLogin';
 import { useRecoilState } from 'recoil';
 import { ModalOpenState } from '../../util/recoil.jsx';
-import '../../style/Login/LoginSecondPage.css';
 import { sha256 } from 'crypto-hash';
 import {
   LoginCloseButton,
@@ -122,7 +121,11 @@ const SecondPage = ({ user_data }) => {
             handleShowPwChecked={handleShowPwChecked}
           />
         </LoginPasswordInputDiv>
-        <LoginButton password={password} onClick={() => onClick(password)}>
+        <LoginButton
+          password={password}
+          $password={password}
+          onClick={() => onClick(password)}
+        >
           로그인
         </LoginButton>
       </LoginInputDiv>
@@ -253,20 +256,7 @@ const LoginButton = styled.button`
   cursor: pointer;
   margin-top: 100px;
   margin-bottom: 10px;
-
-  /* 로그인 버튼이 활성화 되었을 때의 스타일 */
-  ${(props) =>
-    props.password &&
-    css`
-      background-color: black;
-    `}
-
-  /* 로그인 버튼이 비활성화 되었을 때의 스타일 */
-  ${(props) =>
-    !props.password &&
-    css`
-      background-color: #86898c;
-    `}
+  background-color: ${(props) => (props.$password ? 'black' : '#86898c')};
 
   @media (max-width: 480px) {
     width: 350px;
