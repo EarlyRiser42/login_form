@@ -27,7 +27,7 @@ const FourthPage = ({ onNext, onPrev, user_data, page, setPage }) => {
       password: hashedPassword,
       displayName: user_data.name,
       photoURL: 'https://via.placeholder.com/150x150',
-      backgroundImage: 'https://via.placeholder.com/600x200',
+      backgroundImage: 'https://placehold.co/600x400/1DA1F2/1DA1F2.png',
       birthyear: user_data.year,
       birthmonth: user_data.month,
       birthday: user_data.day,
