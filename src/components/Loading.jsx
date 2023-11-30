@@ -31,13 +31,14 @@ const LoadingX = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 232;
+  z-index: 300;
   position: fixed;
   top: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background-color: white;
   animation: ${hideLoadingScreen} 0.3s linear forwards;
+  animation-delay: 0.7s;
 `;
 
 const LoadingDiv = styled.div`

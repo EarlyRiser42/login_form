@@ -33,7 +33,6 @@ const SixthPage = ({ user_data }) => {
   const onClick = async () => {
     if (initial !== name || user_data.photoURL) {
       console.log('프로필 업데이트 중.');
-      setLoading(true);
       setSigning(false);
       await sleep(2000);
 

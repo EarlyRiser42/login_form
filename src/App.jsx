@@ -94,7 +94,9 @@ function App() {
           id: user.displayName,
           uid: user.uid,
           photoURL: user.photoURL,
-          following: ['DlMywOmW2pU3PtilMywBCnFffaC2'],
+          backgroundImage: 'https://placehold.co/600x400/1DA1F2/1DA1F2.png',
+          SignupAt: Date.now(),
+          following: ['3431d11c-cf44-481b-805d-0835f7e77a68'],
           follower: [],
         });
         setIsLoggedIn({ login: true, social: true });
