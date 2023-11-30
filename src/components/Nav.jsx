@@ -27,7 +27,7 @@ const Nav = forwardRef(({ isNavOpen, userInfo }, ref) => {
     navigate('/');
   };
 
-  const NavIconDiv = ({ imgSrc, imgAlt, linkTo, linkText, userInfo }) => {
+  const NavIconDiv = ({ imgSrc, imgAlt, linkTo, linkText }) => {
     const isCurrentLocation = location.pathname === linkTo;
     return (
       <StyledNavHomeIcon>
@@ -104,7 +104,7 @@ const Nav = forwardRef(({ isNavOpen, userInfo }, ref) => {
           <StyledNavLinkDiv>
             <StyledNavUserObjDiv>
               <StyledNavpfpDiv>
-                <StyledNavpfp src={pfp} alt="Profile" />
+                <StyledNavpfp src={userObj.photoURL} alt="Profile" />
                 <StyledNavpfpLogoutImg
                   onClick={onLogOutClick}
                   src="/logout.svg"
