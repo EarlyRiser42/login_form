@@ -106,7 +106,7 @@
 @media (max-width: 480px) {
     .modalDiv {
         width: 100vw;
-        height: 100vh;
+        height: 100dvh;
         position: fixed;
         top: 0;
         left: 0;
@@ -120,7 +120,7 @@
 
     .SignUpModal, .LoginModal {
         width: 100vw;
-        height: 100%;
+        height: 100dvh;
         border-radius: 0;
     }
 

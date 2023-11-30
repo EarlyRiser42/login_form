@@ -191,7 +191,7 @@ const LoginInputDiv = styled.div`
   margin-bottom: 40%;
   @media (max-width: 700px) {
     min-height: 150px;
-    margin-bottom: 60%;
+    margin-bottom: 40%;
   }
 
   @media (max-width: 480px) {
@@ -228,7 +228,7 @@ const LoginDisabledInput = styled.input`
 
 const LoginButtonDiv = styled.div`
   @media (max-width: 480px) {
-    margin-top: 70%;
+    margin-top: 50%;
   }
 `;
 
