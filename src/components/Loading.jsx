@@ -1,8 +1,8 @@
 import styled, { keyframes } from 'styled-components';
 
-const Loading = ({ forComponent }) => {
+const Loading = ({ forComponent, isCircleAtCenter }) => {
   return forComponent ? (
-    <LoadingDiv>
+    <LoadingDiv $isCircleAtCenter={isCircleAtCenter}>
       <LoadingIndicator />
     </LoadingDiv>
   ) : (
@@ -44,7 +44,8 @@ const LoadingX = styled.div`
 const LoadingDiv = styled.div`
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: ${(props) =>
+    props.$isCircleAtCenter ? 'center' : 'flex-start'};
   width: 100%;
   height: 100%;
   animation: ${hideLoadingScreen} 0.3s linear forwards;

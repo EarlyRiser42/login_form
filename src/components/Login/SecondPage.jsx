@@ -14,6 +14,7 @@ import {
   LoginXLogo,
 } from './FirstPage.jsx';
 import styled, { css } from 'styled-components';
+import Loading from '../Loading.jsx';
 
 const SecondPage = ({ user_data }) => {
   const [password, setPassword] = useState('');
@@ -23,7 +24,7 @@ const SecondPage = ({ user_data }) => {
   const passwordRef = useRef(null);
 
   // 로그인 api 전역 관리
-  const loginMutation = useLogin();
+  const { mutate, isLoading } = useLogin();
   // 전역 상태 recoil
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
 
@@ -41,7 +42,7 @@ const SecondPage = ({ user_data }) => {
       queryParam.id = user_data.email;
     }
 
-    loginMutation.mutate(queryParam);
+    mutate(queryParam);
   };
 
   const handleShowPwChecked = async () => {
@@ -80,57 +81,63 @@ const SecondPage = ({ user_data }) => {
 
   return (
     <LoginModal>
-      <LoginLogoDiv>
-        <LoginCloseButtonDiv>
-          <Link to={'/'}>
-            <LoginCloseButton onClick={() => setIsModalOpen(false)}>
-              <LoginCloseImg src="/close.svg" alt="close button" />
-            </LoginCloseButton>
-          </Link>
-        </LoginCloseButtonDiv>
-        <LoginXLogo src="/X_logo.svg" alt="X logo" />
-      </LoginLogoDiv>
-      <Loginh1Div2>
-        <Loginh12>비밀번호를 입력하세요</Loginh12>
-      </Loginh1Div2>
-      <LoginInputDiv>
-        <LoginDisabledInputDiv>
-          <LoginDisabledInput
-            name="email"
-            type="text"
-            placeholder={user_data.email}
-            maxLength={16}
-            required
-            value={user_data.email}
-            disabled={true}
-          />
-        </LoginDisabledInputDiv>
-        <LoginPasswordInputDiv>
-          <LoginPasswordInput
-            name="password"
-            type="password"
-            placeholder="비밀번호"
-            maxLength={16}
-            required
-            value={password}
-            ref={passwordRef}
-            onChange={onChange}
-          />
-          <TogglePasswordVisibility
-            isShowPwChecked={isShowPwChecked}
-            handleShowPwChecked={handleShowPwChecked}
-          />
-        </LoginPasswordInputDiv>
-        <LoginButton $password={password} onClick={() => onClick(password)}>
-          로그인
-        </LoginButton>
-      </LoginInputDiv>
-      <Loginh4Div2>
-        <span>계정이 없으신가요?</span>
-        <Link to={'/signup'}>
-          <LoginSignupLink>가입하기</LoginSignupLink>
-        </Link>
-      </Loginh4Div2>
+      {isLoading ? (
+        <Loading forComponent={true} isCircleAtCenter={true} />
+      ) : (
+        <>
+          <LoginLogoDiv>
+            <LoginCloseButtonDiv>
+              <Link to={'/'}>
+                <LoginCloseButton onClick={() => setIsModalOpen(false)}>
+                  <LoginCloseImg src="/close.svg" alt="close button" />
+                </LoginCloseButton>
+              </Link>
+            </LoginCloseButtonDiv>
+            <LoginXLogo src="/X_logo.svg" alt="X logo" />
+          </LoginLogoDiv>
+          <Loginh1Div2>
+            <Loginh12>비밀번호를 입력하세요</Loginh12>
+          </Loginh1Div2>
+          <LoginInputDiv>
+            <LoginDisabledInputDiv>
+              <LoginDisabledInput
+                name="email"
+                type="text"
+                placeholder={user_data.email}
+                maxLength={16}
+                required
+                value={user_data.email}
+                disabled={true}
+              />
+            </LoginDisabledInputDiv>
+            <LoginPasswordInputDiv>
+              <LoginPasswordInput
+                name="password"
+                type="password"
+                placeholder="비밀번호"
+                maxLength={16}
+                required
+                value={password}
+                ref={passwordRef}
+                onChange={onChange}
+              />
+              <TogglePasswordVisibility
+                isShowPwChecked={isShowPwChecked}
+                handleShowPwChecked={handleShowPwChecked}
+              />
+            </LoginPasswordInputDiv>
+            <LoginButton $password={password} onClick={() => onClick(password)}>
+              로그인
+            </LoginButton>
+          </LoginInputDiv>
+          <Loginh4Div2>
+            <span>계정이 없으신가요?</span>
+            <Link to={'/signup'}>
+              <LoginSignupLink>가입하기</LoginSignupLink>
+            </Link>
+          </Loginh4Div2>
+        </>
+      )}
     </LoginModal>
   );
 };
@@ -142,8 +149,7 @@ const Loginh1Div2 = styled.div`
   }
 
   @media (max-width: 480px) {
-    margin-top: 15%;
-    margin-bottom: 20%;
+    margin-bottom: 10%;
   }
 `;
 
@@ -172,7 +178,7 @@ const LoginInputDiv = styled.div`
 
   @media (max-width: 480px) {
     min-height: 150px;
-    margin-top: -10%;
+    margin-bottom: 10%;
   }
 `;
 
@@ -274,7 +280,7 @@ const Loginh4Div2 = styled.div`
     max-width: 340px;
     width: 100%;
     margin-top: 10%;
-    margin-bottom: 0%;
+    margin-bottom: 20%;
   }
 `;
 

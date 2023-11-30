@@ -5,6 +5,8 @@ import { useRecoilState } from 'recoil';
 import { errorState, loginState, ModalOpenState } from '../../util/recoil.jsx';
 import axios from 'axios';
 import styled from 'styled-components';
+import { useCheckEmailOrId } from '../../hooks/useCheckEmailOrId.jsx';
+import Loading from '../Loading.jsx';
 
 const FirstPage = ({ onNext }) => {
   const [email, setEmail] = useState('');
@@ -24,31 +26,21 @@ const FirstPage = ({ onNext }) => {
     </button>
   );
 
-  const onClick = async (value) => {
-    const isEmail = value.includes('@');
-    const requestData = isEmail ? { email: value } : { id: value };
+  const { mutate, isLoading } = useCheckEmailOrId();
 
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/checkEmailOrId`,
-        requestData,
-      );
-
-      if (response.status === 200 && response.data && response.data.exists) {
-        onNext({ email: value });
-      }
-      if (response.status === 200 && response.data && !response.data.exists) {
-        setRecoilError('죄송합니다. 해당 계정을 찾을 수 없습니다.');
-      }
-    } catch (error) {
-      if (error.response) {
-        // 서버에서 응답이 올 경우
-        setRecoilError('서버 오류가 발생했습니다.');
-      } else {
-        // 서버에서 응답이 오지 않는 경우
+  const onClick = (value) => {
+    mutate(value, {
+      onSuccess: (data) => {
+        if (data && data.exists) {
+          onNext({ email: value });
+        } else {
+          setRecoilError('죄송합니다. 해당 계정을 찾을 수 없습니다.');
+        }
+      },
+      onError: () => {
         setRecoilError('요청에 문제가 발생했습니다. 다시 시도해 주세요.');
-      }
-    }
+      },
+    });
   };
 
   const onSocialClick = async (event) => {
@@ -75,59 +67,67 @@ const FirstPage = ({ onNext }) => {
 
   return (
     <LoginModal>
-      <LoginLogoDiv>
-        <LoginCloseButtonDiv>
-          <Link to={'/'}>
-            <LoginCloseButton onClick={() => setIsModalOpen(false)}>
-              <LoginCloseImg src="/close.svg" alt="close button" />
-            </LoginCloseButton>
-          </Link>
-        </LoginCloseButtonDiv>
-        <LoginXLogo src="/X_logo.svg" alt="X logo" />
-      </LoginLogoDiv>
-      <Loginh1Div>
-        <Loginh1>X 가입하기</Loginh1>
-      </Loginh1Div>
-      <LoginButtonDiv>
-        <AuthButton
-          name="google"
-          onClick={onSocialClick}
-          logo="/google_logo.svg"
-          text="Google 계정으로 로그인하기"
-        />
-        <AuthButton
-          name="github"
-          onClick={onSocialClick}
-          logo="/github_logo.svg"
-          text="Github으로 로그인하기"
-        />
-        <div>
-          <LoginInput
-            name="email"
-            type="email"
-            placeholder="휴대폰 번호, 이메일 주소 또는 사용자 아이디"
-            required
-            value={email}
-            onChange={EmailChange}
-          />
-        </div>
-        <div>
-          <LoginNextButton onClick={() => onClick(email)}>다음</LoginNextButton>
-        </div>
-        <div>
-          <LoginPasswordResetButton
-            onClick={() => setRecoilError('구현중인 기능입니다.')}
-          >
-            비밀번호를 잊으셨나요?
-          </LoginPasswordResetButton>
-        </div>
-      </LoginButtonDiv>
-      <Loginh4Div>
-        <span>계정이 없으신가요?</span>
-        <Link to={'/signup'}>
-          <LoginSignupLink>가입하기</LoginSignupLink>
-        </Link>
-      </Loginh4Div>
+      {isLoading ? (
+        <Loading forComponent={true} isCircleAtCenter={true} />
+      ) : (
+        <>
+          <LoginLogoDiv>
+            <LoginCloseButtonDiv>
+              <Link to={'/'}>
+                <LoginCloseButton onClick={() => setIsModalOpen(false)}>
+                  <LoginCloseImg src="/close.svg" alt="close button" />
+                </LoginCloseButton>
+              </Link>
+            </LoginCloseButtonDiv>
+            <LoginXLogo src="/X_logo.svg" alt="X logo" />
+          </LoginLogoDiv>
+          <Loginh1Div>
+            <Loginh1>X 가입하기</Loginh1>
+          </Loginh1Div>
+          <LoginButtonDiv>
+            <AuthButton
+              name="google"
+              onClick={onSocialClick}
+              logo="/google_logo.svg"
+              text="Google 계정으로 로그인하기"
+            />
+            <AuthButton
+              name="github"
+              onClick={onSocialClick}
+              logo="/github_logo.svg"
+              text="Github으로 로그인하기"
+            />
+            <div>
+              <LoginInput
+                name="email"
+                type="email"
+                placeholder="휴대폰 번호, 이메일 주소 또는 사용자 아이디"
+                required
+                value={email}
+                onChange={EmailChange}
+              />
+            </div>
+            <div>
+              <LoginNextButton onClick={() => onClick(email)}>
+                다음
+              </LoginNextButton>
+            </div>
+            <div>
+              <LoginPasswordResetButton
+                onClick={() => setRecoilError('구현중인 기능입니다.')}
+              >
+                비밀번호를 잊으셨나요?
+              </LoginPasswordResetButton>
+            </div>
+          </LoginButtonDiv>
+          <Loginh4Div>
+            <span>계정이 없으신가요?</span>
+            <Link to={'/signup'}>
+              <LoginSignupLink>가입하기</LoginSignupLink>
+            </Link>
+          </Loginh4Div>
+        </>
+      )}
     </LoginModal>
   );
 };
@@ -147,6 +147,7 @@ export const LoginModal = styled.div`
 
   @media (max-width: 480px) {
     width: 100vw;
+    height: 100vh;
     height: 100dvh;
   }
 `;

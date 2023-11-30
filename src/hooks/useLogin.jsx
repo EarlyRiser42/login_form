@@ -2,12 +2,7 @@ import { useMutation } from 'react-query';
 import axios from 'axios';
 import { setCookie } from '../util/cookie.jsx';
 import { useRecoilState } from 'recoil';
-import {
-  errorState,
-  loadingState,
-  loginState,
-  userObjState,
-} from '../util/recoil.jsx';
+import { errorState, loginState, userObjState } from '../util/recoil.jsx';
 import { useNavigate } from 'react-router-dom';
 
 export const useLogin = () => {
