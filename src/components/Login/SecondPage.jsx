@@ -80,7 +80,7 @@ const SecondPage = ({ user_data }) => {
   };
 
   return (
-    <LoginModal>
+    <LoginModal2>
       {isLoading ? (
         <Loading forComponent={true} isCircleAtCenter={true} />
       ) : (
@@ -126,10 +126,12 @@ const SecondPage = ({ user_data }) => {
                 handleShowPwChecked={handleShowPwChecked}
               />
             </LoginPasswordInputDiv>
+          </LoginInputDiv>
+          <LoginButtonDiv>
             <LoginButton $password={password} onClick={() => onClick(password)}>
               로그인
             </LoginButton>
-          </LoginInputDiv>
+          </LoginButtonDiv>
           <Loginh4Div2>
             <span>계정이 없으신가요?</span>
             <Link to={'/signup'}>
@@ -138,18 +140,35 @@ const SecondPage = ({ user_data }) => {
           </Loginh4Div2>
         </>
       )}
-    </LoginModal>
+    </LoginModal2>
   );
 };
 
-const Loginh1Div2 = styled.div`
-  margin-bottom: 15%;
+const LoginModal2 = styled.div`
+  width: 590px;
+  height: 650px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
   @media (max-width: 700px) {
-    margin-bottom: 30%;
+    width: 100vw;
+    height: 100vh;
   }
 
   @media (max-width: 480px) {
-    margin-bottom: 10%;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+  }
+`;
+
+const Loginh1Div2 = styled.div`
+  margin-top: 5%;
+  @media (max-width: 480px) {
+    margin-top: 10%;
+    margin-bottom: 7%;
   }
 `;
 
@@ -165,15 +184,15 @@ const Loginh12 = styled.span`
 const LoginInputDiv = styled.div`
   width: 100%;
   height: auto;
-  min-height: 350px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  margin-top: -20%;
-
+  margin-top: 5%;
+  margin-bottom: 40%;
   @media (max-width: 700px) {
-    margin-top: -30%;
+    min-height: 150px;
+    margin-bottom: 60%;
   }
 
   @media (max-width: 480px) {
@@ -190,7 +209,6 @@ const LoginDisabledInputDiv = styled.div`
   justify-content: space-between;
   margin-bottom: 5%;
   border-radius: 5px;
-
   @media (max-width: 480px) {
     max-width: 350px;
     border-radius: 25px;
@@ -205,9 +223,14 @@ const LoginDisabledInput = styled.input`
   height: 50px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  margin-bottom: 10px;
   text-indent: 8px;
   font-size: 17px;
+`;
+
+const LoginButtonDiv = styled.div`
+  @media (max-width: 480px) {
+    margin-top: 70%;
+  }
 `;
 
 export const LoginPasswordInputDiv = styled.div`
@@ -216,9 +239,7 @@ export const LoginPasswordInputDiv = styled.div`
   max-width: 450px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 5%;
   border-radius: 5px;
-
   @media (max-width: 480px) {
     max-width: 350px;
   }
@@ -236,7 +257,6 @@ export const TogglePasswordVisibilityButton = styled.button`
   border: none;
 `;
 
-// 이미지에 대한 스타일
 export const VisibilityIcon = styled.img`
   display: block;
   height: 25px;
@@ -248,7 +268,6 @@ const LoginButton = styled.button`
   align-items: center;
   justify-content: center;
   width: 450px;
-  height: 50px;
   min-height: 50px;
   border-radius: 25px;
   border: none;
@@ -256,31 +275,20 @@ const LoginButton = styled.button`
   font-weight: 550;
   color: white;
   cursor: pointer;
-  margin-top: 100px;
-  margin-bottom: 10px;
   background-color: ${(props) => (props.$password ? 'black' : '#86898c')};
-
+  margin-bottom: 5%;
   @media (max-width: 480px) {
     width: 350px;
-    margin-top: 20%;
   }
 `;
 
 const Loginh4Div2 = styled.div`
   width: 100%;
   max-width: 440px;
-  margin-bottom: 5%;
-  @media (max-width: 700px) {
-    max-width: 440px;
-    width: 100%;
-    height: auto;
-  }
-
   @media (max-width: 480px) {
     max-width: 340px;
+    margin-top: 5%;
     width: 100%;
-    margin-top: 10%;
-    margin-bottom: 20%;
   }
 `;
 
