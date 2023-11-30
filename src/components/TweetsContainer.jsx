@@ -53,7 +53,7 @@ const TweetsContainer = ({ followingPage }) => {
 
   return (
     <div>
-      {tweets.map((tweet) => (
+      {fetchedTweets.map((tweet) => (
         <div
           key={tweet.id}
           onClick={(event) => handleTweetClick(event, tweet, tweet.tweetId)}

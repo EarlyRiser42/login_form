@@ -7,10 +7,13 @@ import { useMediaQuery } from 'react-responsive';
 import Explore from './Explore.jsx';
 import Nav from '../components/Nav.jsx';
 import Loading from '../components/Loading.jsx';
-import TweetsContainer from '../components/TweetsContainer.jsx';
 import ErrorRetry from '../components/ErrorRetry.jsx';
 import styled from 'styled-components';
 import WriteTweet from '../components/WriteTweet.jsx';
+
+const TweetsContainer = React.lazy(() =>
+  import('../components/TweetsContainer.jsx'),
+);
 
 const Home = () => {
   // 전역변수 recoil
@@ -77,7 +80,13 @@ const Home = () => {
               <ErrorRetry queryKey={['getTweets', followingPage]} />
             )}
           >
-            <TweetsContainer followingPage={followingPage} />
+            <Suspense
+              fallback={
+                <Loading forComponent={true} isCircleAtCenter={false} />
+              }
+            >
+              <TweetsContainer followingPage={followingPage} />
+            </Suspense>
           </ErrorBoundary>
         )}
         {followingPage && (
@@ -86,7 +95,13 @@ const Home = () => {
               <ErrorRetry queryKey={['getTweets', followingPage]} />
             )}
           >
-            <TweetsContainer followingPage={followingPage} />
+            <Suspense
+              fallback={
+                <Loading forComponent={true} isCircleAtCenter={false} />
+              }
+            >
+              <TweetsContainer followingPage={followingPage} />
+            </Suspense>
           </ErrorBoundary>
         )}
       </HomeMiddleDiv>
