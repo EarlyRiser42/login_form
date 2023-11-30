@@ -10,7 +10,7 @@ import styled from 'styled-components';
 const Information = ({ userInfo, owner }) => {
   // 전역변수 recoil
   const [userObj, setUserObj] = useRecoilState(userObjState);
-  console.log(userInfo);
+
   const location = useLocation();
   const navigate = useNavigate();
 

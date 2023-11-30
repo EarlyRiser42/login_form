@@ -136,16 +136,16 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
     const end = new Date();
 
     const seconds = Math.floor((end.getTime() - start.getTime()) / 1000);
-    if (seconds < 60) return '방금 전';
+    if (seconds < 60) return '방금';
 
     const minutes = seconds / 60;
-    if (minutes < 60) return `${Math.floor(minutes)}분 전`;
+    if (minutes < 60) return `${Math.floor(minutes)}분`;
 
     const hours = minutes / 60;
-    if (hours < 24) return `${Math.floor(hours)}시간 전`;
+    if (hours < 24) return `${Math.floor(hours)}시간`;
 
     const days = hours / 24;
-    if (days < 7) return `${Math.floor(days)}일 전`;
+    if (days < 7) return `${Math.floor(days)}일`;
 
     return `${start.toLocaleDateString()}`;
   };
@@ -207,8 +207,10 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
           <UserInfoContainer>
             <UerInfoInner>
               <span style={{ fontWeight: 'bold' }}>{displayName}</span>
-              <span>@{id}</span>
-              <span>{elapsedTime(writeObj.createdAt)}</span>
+              <div>
+                <span>@{id}</span>
+                <span>{elapsedTime(writeObj.createdAt)}</span>
+              </div>
             </UerInfoInner>
             {isOwner && (
               <img
@@ -332,6 +334,11 @@ const UserInfoContainer = styled.div`
   width: 100%;
   height: 1%;
   justify-content: space-between;
+  @media (max-width: 360px) {
+    div {
+      flex-direction: column;
+    }
+  }
 `;
 
 const UerInfoInner = styled.div`
@@ -339,6 +346,11 @@ const UerInfoInner = styled.div`
   justify-content: space-around;
   span {
     margin-right: 10px;
+  }
+  @media (max-width: 500px) {
+    span {
+      margin-right: 6px;
+    }
   }
 `;
 

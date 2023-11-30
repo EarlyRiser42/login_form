@@ -7,7 +7,7 @@ import { deleteCookie } from '../util/cookie.jsx';
 import styled from 'styled-components';
 import { useMediaQuery } from 'react-responsive';
 
-const Nav = forwardRef(({ isNavOpen, userInfo }, ref) => {
+const Nav = forwardRef(({ isNavOpen }, ref) => {
   // for modal
   const navigate = useNavigate();
   const location = useLocation();
@@ -120,7 +120,7 @@ const Nav = forwardRef(({ isNavOpen, userInfo }, ref) => {
               <StyledNavUserObjFollow>
                 <Link
                   to={`/profile/${userObj.uid}/follow`}
-                  state={{ userInfo: userInfo, isFollowing: true }}
+                  state={{ userInfo: userObj, isFollowing: true }}
                 >
                   <span>
                     <span>{userObj.following.length}</span>
@@ -129,7 +129,7 @@ const Nav = forwardRef(({ isNavOpen, userInfo }, ref) => {
                 </Link>
                 <Link
                   to={`/profile/${userObj.uid}/follow`}
-                  state={{ userInfo: userInfo, isFollowing: false }}
+                  state={{ userInfo: userObj, isFollowing: false }}
                 >
                   <span>
                     <span> {userObj.follower.length}</span>
