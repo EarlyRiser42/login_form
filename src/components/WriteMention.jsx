@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { storageService, dbService } from '../fbase';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
-import { profileImage, userObjState, ModalOpenState } from '../util/recoil.jsx';
+import { userObjState, ModalOpenState } from '../util/recoil.jsx';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   ClearImage,
@@ -23,7 +23,6 @@ import { LeftContainer, RightContainer } from './TweetForm.jsx';
 const WriteMention = ({ writeObj }) => {
   // 전역변수 recoil
   const [userObj, setUserObj] = useRecoilState(userObjState);
-  const [pfp, setPfp] = useRecoilState(profileImage);
 
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
   const location = useLocation();
@@ -93,7 +92,7 @@ const WriteMention = ({ writeObj }) => {
   return (
     <MyMentionForm onSubmit={onSubmit} $isModalOpen={isModalOpen}>
       <LeftContainer>
-        <ProfileImage src={pfp} />
+        <ProfileImage src={userObj.photoURL} />
       </LeftContainer>
       <RightContainer>
         <TweetTextArea

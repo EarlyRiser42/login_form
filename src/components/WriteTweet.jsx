@@ -3,14 +3,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { storageService, dbService } from '../fbase';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
-import { profileImage, userObjState, ModalOpenState } from '../util/recoil.jsx';
+import { userObjState, ModalOpenState } from '../util/recoil.jsx';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { LeftContainer, RightContainer } from './TweetForm.jsx';
 
 const WriteTweet = () => {
   // 전역변수 recoil
   const [userObj, setUserObj] = useRecoilState(userObjState);
-  const [pfp, setPfp] = useRecoilState(profileImage);
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
   // 지역변수
   const [tweetText, setTweetText] = useState('');
@@ -75,7 +74,7 @@ const WriteTweet = () => {
   return (
     <TweetForm onSubmit={onSubmit} $isModalOpen={isModalOpen}>
       <LeftContainer>
-        <ProfileImage src={pfp} />
+        <ProfileImage src={userObj.photoURL} />
       </LeftContainer>
       <RightContainer>
         <TweetContainer>

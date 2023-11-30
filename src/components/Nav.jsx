@@ -2,13 +2,7 @@ import React, { forwardRef, useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { authService, dbService } from '../fbase.js';
 import { useRecoilState } from 'recoil';
-import {
-  errorState,
-  loginState,
-  ModalOpenState,
-  profileImage,
-  userObjState,
-} from '../util/recoil.jsx';
+import { loginState, userObjState } from '../util/recoil.jsx';
 import { deleteCookie } from '../util/cookie.jsx';
 import styled from 'styled-components';
 import { useMediaQuery } from 'react-responsive';
@@ -21,7 +15,6 @@ const Nav = forwardRef(({ isNavOpen, userInfo }, ref) => {
   // 전역변수 recoil
   const [userObj, setUserObj] = useRecoilState(userObjState);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
-  const [pfp, setPfp] = useRecoilState(profileImage);
 
   const onLogOutClick = () => {
     if (isLoggedIn.social) {
@@ -29,9 +22,6 @@ const Nav = forwardRef(({ isNavOpen, userInfo }, ref) => {
     }
     setIsLoggedIn({ login: false, social: false });
     setUserObj({ displayName: '', uid: '', photoURL: '', id: '' });
-    setPfp(
-      'https://firebasestorage.googleapis.com/v0/b/loginform-6747a.appspot.com/o/pfp%2Fbasic.png?alt=media&token=d2b2f037-ee93-4fad-a09d-733332ec28fc',
-    );
     deleteCookie('accessToken');
     deleteCookie('refreshTokenId');
     navigate('/');
@@ -238,7 +228,7 @@ const Nav = forwardRef(({ isNavOpen, userInfo }, ref) => {
           </StyledNavLinkDiv>
           <StyledNavUserObjDiv>
             <StyledNavpfpDiv>
-              <StyledNavpfp src={pfp} alt="Profile" />
+              <StyledNavpfp src={userObj.photoURL} alt="Profile" />
             </StyledNavpfpDiv>
             <StyledNavUserObjInfo>
               <StyledNavUserObjInfoBold>

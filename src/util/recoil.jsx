@@ -16,12 +16,6 @@ export const isSigning = atom({
   default: false,
 });
 
-export const profileImage = atom({
-  key: 'profileImage',
-  default:
-    'https://firebasestorage.googleapis.com/v0/b/loginform-6747a.appspot.com/o/pfp%2Fbasic.png?alt=media&token=d2b2f037-ee93-4fad-a09d-733332ec28fc',
-});
-
 export const Tweets = atom({
   key: 'Tweets',
   default: [],
