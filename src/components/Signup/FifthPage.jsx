@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { storageService } from '../../fbase';
 import '../../style/Signup/SignupFifthPage.css';
+import styled from 'styled-components';
 
 const FifthPage = ({ user_data, onNext }) => {
   const [photo, setphoto] = useState('');
@@ -32,9 +33,9 @@ const FifthPage = ({ user_data, onNext }) => {
 
   return (
     <div className={'SignupFifthPageDiv'}>
-      <div className={'SignupFifthPageLogoDiv'}>
-        <img className={'LoginXLogo'} src="/X_logo.svg" alt="X logo" />
-      </div>
+      <SignupLogoDiv>
+        <SignupXLogo src="/X_logo.svg" alt="X logo" />
+      </SignupLogoDiv>
       <div>
         <h1>프로필 사진 선택하기</h1>
         <h4>마음에 드는 셀카 사진이 있나요? 지금 업로드하세요.</h4>
@@ -129,5 +130,19 @@ const FifthPage = ({ user_data, onNext }) => {
     </div>
   );
 };
+
+export const SignupLogoDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2%;
+`;
+
+export const SignupXLogo = styled.img`
+  width: 30px;
+  height: 25px;
+`;
 
 export default FifthPage;

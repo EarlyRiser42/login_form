@@ -3,7 +3,45 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { errorState, ModalOpenState } from '../../util/recoil.jsx';
 import axios from 'axios';
+import styled from 'styled-components';
 import '../../style/Signup/SignupFirstPage.css';
+
+export const SignupButton = ({ disabled, onClick, children }) => (
+  <ButtonDiv>
+    <NextButton disabled={disabled} onClick={onClick}>
+      {children}
+    </NextButton>
+  </ButtonDiv>
+);
+
+export const NextButton = styled.button`
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 500px;
+  min-height: 50px;
+  border-radius: 25px;
+  border: none;
+  font-size: 16px;
+  font-weight: 550;
+  color: white;
+  cursor: pointer;
+  bottom: 120px;
+  background-color: ${(props) => (props.disabled ? '#86898C' : 'black')};
+  @media (max-width: 600px) {
+    width: 430px;
+  }
+  @media (max-width: 480px) {
+    width: 350px;
+  }
+`;
+
+export const ButtonDiv = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
 
 const FirstPage = ({ onNext, user_data }) => {
   // 유저 정보(출생년도)
@@ -83,7 +121,10 @@ const FirstPage = ({ onNext, user_data }) => {
     const isEmail = value.includes('@');
     const requestData = isEmail ? { email: value } : { id: value };
     try {
-      const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/checkEmailOrId`, requestData);
+      const response = await axios.post(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/checkEmailOrId`,
+        requestData,
+      );
 
       if (response.status === 200 && response.data && response.data.exists) {
         setRecoilError('이미 등록된 이메일입니다.');
@@ -213,35 +254,23 @@ const FirstPage = ({ onNext, user_data }) => {
           <SelectYear options={years}></SelectYear>
         </div>
       </div>
-      <div className={'SignupFirstPageMiddleButtonDiv'}>
-        <button
-          disabled={
-            !(
-              email.length > 0 &&
-              name.length > 0 &&
-              year !== '' &&
-              month !== '' &&
-              day !== '' &&
-              recoilError === ''
-            )
-          }
-          onClick={() => {
-            toNextPage(email);
-          }}
-          className={
+      <SignupButton
+        disabled={
+          !(
             email.length > 0 &&
             name.length > 0 &&
             year !== '' &&
             month !== '' &&
             day !== '' &&
             recoilError === ''
-              ? 'SignNextButtonBlack'
-              : 'SignNextButtonGray'
-          }
-        >
-          다음
-        </button>
-      </div>
+          )
+        }
+        onClick={() => {
+          toNextPage(email);
+        }}
+      >
+        다음
+      </SignupButton>
     </div>
   );
 };

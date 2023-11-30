@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../../style/Signup/SignupSecondPage.css';
+import { SignupButton } from './FirstPage.jsx';
 
 const SecondPage = ({ onNext, onPrev, user_data }) => {
   // 유저 정보(이름, 개인정보)
@@ -68,12 +69,9 @@ const SecondPage = ({ onNext, onPrev, user_data }) => {
           정보를 사용할 수 있습니다. <span>자세히 알아보기</span>
         </span>
       </div>
-
-      <div className={'SignupsECONDPageButtonDiv'}>
-        <button className={'SignupsECONDPageButton'} onClick={handleNext}>
-          다음
-        </button>
-      </div>
+      <SignupButton disabled={false} onClick={handleNext}>
+        다음
+      </SignupButton>
     </div>
   );
 };

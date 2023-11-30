@@ -147,7 +147,6 @@ export const LoginModal = styled.div`
 
   @media (max-width: 480px) {
     width: 100vw;
-    height: 100vh;
     height: 100dvh;
   }
 `;

@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useSignUp } from '../../hooks/useSignup.jsx';
 import '../../style/Signup/SignupFourthPage.css';
 import { sha256 } from 'crypto-hash';
+import { SignupButton } from './FirstPage.jsx';
 
 const FourthPage = ({ onNext, onPrev, user_data, page, setPage }) => {
   // react query hooks
@@ -118,9 +119,9 @@ const FourthPage = ({ onNext, onPrev, user_data, page, setPage }) => {
         />
         <img src={'/greencheck.svg'} alt={'greencheck'} width={20} />
       </div>
-      <button className={'SignupFourthPageButtonBlack'} onClick={Signup}>
+      <SignupButton disabled={false} onClick={Signup}>
         가입
-      </button>
+      </SignupButton>
     </div>
   );
 };

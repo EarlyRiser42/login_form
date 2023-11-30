@@ -4,6 +4,7 @@ import useUpdateProfile from '../../hooks/useUpdateProfile';
 import '../../style/Signup/SignupSixthPage.css';
 import { useRecoilState } from 'recoil';
 import { isSigning, loadingState } from '../../util/recoil.jsx';
+import { SignupLogoDiv, SignupXLogo } from './FifthPage.jsx';
 
 const SixthPage = ({ user_data }) => {
   // 전역 변수 recoil
@@ -54,9 +55,9 @@ const SixthPage = ({ user_data }) => {
 
   return (
     <div className={'SignupSixthPageDiv'}>
-      <div className={'SignupFifthPageLogoDiv'}>
-        <img className={'LoginXLogo'} src="/X_logo.svg" alt="X logo" />
-      </div>
+      <SignupLogoDiv>
+        <SignupXLogo src="/X_logo.svg" alt="X logo" />
+      </SignupLogoDiv>
       <div className={'SignupSixthPageUpperDiv'}>
         <div className={'SignupSixthPageSpanDiv'}>
           <h1>이름을 가르쳐 주시겠어요?</h1>

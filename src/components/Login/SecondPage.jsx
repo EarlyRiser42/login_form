@@ -210,7 +210,7 @@ const LoginDisabledInput = styled.input`
   font-size: 17px;
 `;
 
-const LoginPasswordInputDiv = styled.div`
+export const LoginPasswordInputDiv = styled.div`
   position: relative;
   width: 100%;
   max-width: 450px;
@@ -224,9 +224,9 @@ const LoginPasswordInputDiv = styled.div`
   }
 `;
 
-const LoginPasswordInput = styled(LoginDisabledInput)``;
+export const LoginPasswordInput = styled(LoginDisabledInput)``;
 
-const TogglePasswordVisibilityButton = styled.button`
+export const TogglePasswordVisibilityButton = styled.button`
   position: absolute;
   right: 10px;
   top: 50%;
@@ -237,10 +237,10 @@ const TogglePasswordVisibilityButton = styled.button`
 `;
 
 // 이미지에 대한 스타일
-const VisibilityIcon = styled.img`
-  display: block; // Removes bottom space inherent to inline elements
-  height: 25px; // You can adjust the size as needed
-  width: 25px; // Ensure the width matches the height for a square aspect ratio
+export const VisibilityIcon = styled.img`
+  display: block;
+  height: 25px;
+  width: 25px;
 `;
 
 const LoginButton = styled.button`

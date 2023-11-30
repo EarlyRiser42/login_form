@@ -1,6 +1,22 @@
 import React, { useEffect, useState, useRef } from 'react';
 import '../../style/Signup/SignupThirdPage.css';
+import {
+  LoginPasswordInput,
+  LoginPasswordInputDiv,
+  TogglePasswordVisibilityButton,
+  VisibilityIcon,
+} from '../Login/SecondPage.jsx';
+import * as PropTypes from 'prop-types';
+import { SignupButton } from './FirstPage.jsx';
 
+function TogglePasswordVisibility(props) {
+  return null;
+}
+
+TogglePasswordVisibility.propTypes = {
+  isShowPwChecked: PropTypes.bool,
+  handleShowPwChecked: PropTypes.func,
+};
 const ThirdPage = ({ onNext, onPrev, user_data }) => {
   const [password, setPassword] = useState('');
 
@@ -42,6 +58,21 @@ const ThirdPage = ({ onNext, onPrev, user_data }) => {
     setPassword(value);
   };
 
+  const TogglePasswordVisibility = ({
+    isShowPwChecked,
+    handleShowPwChecked,
+  }) => {
+    return (
+      <TogglePasswordVisibilityButton onClick={handleShowPwChecked}>
+        {!isShowPwChecked ? (
+          <VisibilityIcon src="/show.svg" alt="비밀번호 보기" />
+        ) : (
+          <VisibilityIcon src="/hide.svg" alt="비밀번호 숨기기" />
+        )}
+      </TogglePasswordVisibilityButton>
+    );
+  };
+
   return (
     <div>
       <div className={'SignupPrevButtonDiv'}>
@@ -62,53 +93,27 @@ const ThirdPage = ({ onNext, onPrev, user_data }) => {
         <h1>비밀번호가 필요합니다</h1>
         <h3>8자 이상이어야 합니다.</h3>
         <div className={'SignupPasswordInputDiv'}>
-          <input
-            className={'SignupPasswordInput'}
-            name="password"
-            type="password"
-            placeholder="비밀번호"
-            maxLength={16}
-            required
-            value={password}
-            ref={passwordRef}
-            onChange={onChange}
-          />
-          <button
-            className={'TogglePasswordVisibility'}
-            onClick={handleShowPwChecked}
-          >
-            {!isShowPwChecked && (
-              <img
-                src={'/show.svg'}
-                alt={'비밀번호 보기'}
-                width={'25px'}
-                height={'25px'}
-              />
-            )}
-            {isShowPwChecked && (
-              <img
-                src={'/hide.svg'}
-                alt={'비밀번호 숨기기'}
-                width={'25px'}
-                height={'25px'}
-              />
-            )}
-          </button>
+          <LoginPasswordInputDiv>
+            <LoginPasswordInput
+              name="password"
+              type="password"
+              placeholder="비밀번호"
+              maxLength={16}
+              required
+              value={password}
+              ref={passwordRef}
+              onChange={onChange}
+            />
+            <TogglePasswordVisibility
+              isShowPwChecked={isShowPwChecked}
+              handleShowPwChecked={handleShowPwChecked}
+            />
+          </LoginPasswordInputDiv>
         </div>
       </div>
-      <div className={'SignupThirdPageButtonDiv'}>
-        <button
-          className={
-            password.length > 8
-              ? 'SignupThirdPageButtonBlack'
-              : 'SignupThirdPageButtonGray'
-          }
-          disabled={password.length < 8}
-          onClick={handleNext}
-        >
-          다음
-        </button>
-      </div>
+      <SignupButton disabled={password.length < 8} onClick={handleNext}>
+        다음
+      </SignupButton>
     </div>
   );
 };
