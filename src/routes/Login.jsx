@@ -23,7 +23,7 @@ const Login = () => {
     setUser_data({ ...user_data, ...data });
     setPage(page + 1);
   };
-
+  console.log(page);
   return (
     <div>
       <Modal className={'LoginModal'}>

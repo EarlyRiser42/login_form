@@ -38,7 +38,6 @@ const LoadingX = styled.div`
   height: 100%;
   background-color: white;
   animation: ${hideLoadingScreen} 0.3s linear forwards;
-  animation-delay: 0.7s;
 `;
 
 const LoadingDiv = styled.div`
@@ -48,8 +47,7 @@ const LoadingDiv = styled.div`
     props.$isCircleAtCenter ? 'center' : 'flex-start'};
   width: 100%;
   height: 100%;
-  animation: ${hideLoadingScreen} 0.3s linear forwards;
-  animation-delay: 0.5s;
+  animation: ${hideLoadingScreen} 10s linear forwards;
 `;
 
 const LoadingIndicator = styled.div`
@@ -59,7 +57,7 @@ const LoadingIndicator = styled.div`
   border: 3px solid #dbebfb; /* Lighter blue border */
   border-top: 3px solid #4a99e9; /* Darker blue top border */
   border-radius: 50%;
-  animation: ${spin} 1s ease-in-out infinite;
+  animation: ${spin} 0.7s ease-in-out infinite;
 `;
 
 export default Loading;
