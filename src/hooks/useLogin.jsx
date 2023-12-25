@@ -13,6 +13,21 @@ export const useLogin = () => {
 
   const navigate = useNavigate();
 
+  const setExpiryCookie = (name, value, expiryDuration, expiryType) => {
+    const expiryDate = new Date();
+    if (expiryType === 'minutes') {
+      expiryDate.setMinutes(expiryDate.getMinutes() + expiryDuration);
+    } else if (expiryType === 'hours') {
+      expiryDate.setHours(expiryDate.getHours() + expiryDuration);
+    }
+
+    setCookie(name, value, {
+      path: '/',
+      secure: false,
+      expires: expiryDate,
+    });
+  };
+
   return useMutation(
     async (queryParam) => {
       const response = await axios.post(
@@ -26,32 +41,15 @@ export const useLogin = () => {
     },
     {
       onSuccess: (data) => {
-        const currentDateTime = new Date();
-        // accessToken 만료시간 30분
-        const accessTokenExpiry = new Date(currentDateTime);
-        accessTokenExpiry.setMinutes(currentDateTime.getMinutes() + 30);
-        // refreshToken 만료시간 1시간
-        const refreshTokenExpiry = new Date(currentDateTime);
-        refreshTokenExpiry.setHours(currentDateTime.getHours() + 1);
-
-        setCookie('accessToken', data.accessToken, {
-          path: '/',
-          secure: false,
-          expires: accessTokenExpiry,
-        });
-
-        setCookie('refreshTokenId', data.refreshTokenId, {
-          path: '/',
-          secure: false,
-          expires: refreshTokenExpiry,
-        });
+        setExpiryCookie('accessToken', data.accessToken, 30, 'minutes');
+        setExpiryCookie('refreshTokenId', data.refreshTokenId, 1, 'hours');
 
         setIsLoggedIn({ login: true, social: false });
         setUserObj(data.userObj);
         navigate('/');
       },
       onError: (error) => {
-        if (error.response?.status === 401) {
+        if (error.response?.status === 201) {
           setRecoilError('잘못된 비밀번호입니다.');
         } else {
           setRecoilError('서버 오류가 발생했습니다.');

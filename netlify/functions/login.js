@@ -32,7 +32,7 @@ const JWT_SECRET = process.env.VITE_REACT_APP_JWT_SECRET;
 const REFRESH_SECRET = process.env.VITE_REACT_APP_REFRESH_SECRET;
 
 // Netlify 함수 정의
-export async function handler(event, context) {
+export async function handler(event) {
   // POST 요청이 아닐 경우 처리하지 않음
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
@@ -59,7 +59,7 @@ export async function handler(event, context) {
     }
 
     if (!user || user.password !== hashedPassword) {
-      return { statusCode: 401, body: '잘못된 비밀번호입니다.' };
+      return { statusCode: 201, body: '잘못된 비밀번호입니다.' };
     }
 
     const accessToken = jwt.sign(

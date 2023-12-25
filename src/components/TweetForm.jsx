@@ -11,6 +11,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { Tweets, userObjState } from '../util/recoil.jsx';
+import useLazyImageLoader from '../hooks/useLazyImageLoader.jsx';
 
 const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
   const [tweets, setTweets] = useRecoilState(Tweets);
@@ -187,6 +188,18 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
     );
   };
 
+  // TweetImage 컴포넌트
+  const TweetImage = ({ dataSrc, ...props }) => {
+    const src = useLazyImageLoader(dataSrc, props.src);
+    return <StyledTweetImage {...props} src={src} />;
+  };
+
+  // ProfileImage 컴포넌트
+  const ProfileImage = ({ dataSrc, ...props }) => {
+    const src = useLazyImageLoader(dataSrc, props.src);
+    return <StyledProfileImage {...props} src={src} />;
+  };
+
   return (
     <Container $isModal={isModal}>
       <LeftContainer>
@@ -194,7 +207,11 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
           to={`/profile/${writeObj.creatorId}`}
           state={{ writerObj: writerObj }}
         >
-          <ProfileImage src={photoURL} alt="Profile" />
+          <ProfileImage
+            dataSrc={photoURL}
+            src="https://fakeimg.pl/50x50/?text=+"
+            alt="ProfilePicture"
+          />
         </Link>
         {isMention && isModal && (
           <LinkingLineContainer>
@@ -226,7 +243,11 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
           <TweetText>{writeObj.text}</TweetText>
           {writeObj.attachmentUrl && (
             <TweetImageContainer>
-              <TweetImage src={writeObj.attachmentUrl} alt="Tweet" />
+              <TweetImage
+                src="https://fakeimg.pl/600x400/?text=+"
+                dataSrc={writeObj.attachmentUrl}
+                alt="Tweet"
+              />
             </TweetImageContainer>
           )}
           {!isModal && (
@@ -287,7 +308,7 @@ export const LeftContainer = styled.div`
   }
 `;
 
-const ProfileImage = styled.img`
+const StyledProfileImage = styled.img`
   margin-left: 20%;
   width: 40px;
   height: 40px;
@@ -370,7 +391,7 @@ const TweetImageContainer = styled.div`
   align-items: center;
 `;
 
-const TweetImage = styled.img`
+const StyledTweetImage = styled.img`
   width: 100%;
   height: 100%;
   border-radius: 30px;
