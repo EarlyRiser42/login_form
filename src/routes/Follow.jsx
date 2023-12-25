@@ -46,14 +46,14 @@ const Follow = () => {
             {followingPage ? (
               <NormalText>팔로워</NormalText>
             ) : (
-              <BoldText>팔로잉</BoldText>
+              <BoldText>팔로워</BoldText>
             )}
           </div>
           <div onClick={() => setFollowingPage(true)}>
             {followingPage ? (
               <BoldText>팔로잉</BoldText>
             ) : (
-              <NormalText>팔로워</NormalText>
+              <NormalText>팔로잉</NormalText>
             )}
           </div>
         </HomeMiddleSwitchFollowDiv>
