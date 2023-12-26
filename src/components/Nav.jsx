@@ -269,6 +269,15 @@ const StyledNavDiv = styled.nav`
     position: absolute;
     z-index: 100;
     background: white;
+    animation: LeftToRight 0.2s forwards;
+    @keyframes LeftToRight {
+      from {
+        left: -65vw;
+      }
+      to {
+        left: 0vw;
+      }
+    }
   }
 `;
 
