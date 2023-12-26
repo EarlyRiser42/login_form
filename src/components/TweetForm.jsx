@@ -30,7 +30,7 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
   const [mention_cnt, setMention_cnt] = useState(writeObj.MentionList.length);
   const [like, setLike] = useState(writeObj.likeList.includes(userObj.uid));
   const [like_cnt, setLike_cnt] = useState(writeObj.likeList.length);
-
+  const [like_animation, setLike_animation] = useState(false);
   const onDeleteClick = async () => {
     const ok = window.confirm('Are you sure you want to delete this write?');
     if (ok) {
@@ -100,6 +100,7 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
         likes: userObj.likes.filter((likeId) => likeId !== writeObj.id),
       });
     } else {
+      setLike_animation(true);
       const profileRef = doc(dbService, 'users', userObj.uid);
       // 프로필에 좋아한 트윗 id 추가
       await updateDoc(profileRef, {
@@ -124,6 +125,9 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
         ...userObj,
         likes: [...userObj.likes, writeObj.tweetId],
       });
+      setTimeout(() => {
+        setLike_animation(false);
+      }, 200);
     }
   };
 
@@ -188,16 +192,28 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
     );
   };
 
+  const LikeContainer = ({ alt, count }) => {
+    return (
+      <TweetActions>
+        <ActionImageDiv $type={alt}>
+          {!like_animation && (
+            <ActionImage
+              src={like ? './like_color.svg' : './like.svg'}
+              alt="Like"
+              onClick={() => onLike(writeObj.id)}
+            />
+          )}
+          {like_animation && <LikeImage></LikeImage>}
+        </ActionImageDiv>
+        {count > 0 && <span>{count}</span>}
+      </TweetActions>
+    );
+  };
+
   // TweetImage 컴포넌트
   const TweetImage = ({ dataSrc, ...props }) => {
     const src = useLazyImageLoader(dataSrc, props.src);
     return <StyledTweetImage {...props} src={src} />;
-  };
-
-  // ProfileImage 컴포넌트
-  const ProfileImage = ({ dataSrc, ...props }) => {
-    const src = useLazyImageLoader(dataSrc, props.src);
-    return <StyledProfileImage {...props} src={src} />;
   };
 
   return (
@@ -261,13 +277,7 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
                 count={mention_cnt}
               />
               <ActionContainer src={'./retweet.svg'} alt="Retweet" />
-              <ActionContainer
-                src={like ? './like_color.svg' : './like.svg'}
-                alt="Like"
-                onClick={() => onLike(writeObj.id)}
-                isCount={true}
-                count={like_cnt}
-              />
+              <LikeContainer alt="Like" count={like_cnt} />
               <ActionContainer
                 src={'./bookmark_tweet.svg'}
                 alt="Bookmark"
@@ -437,5 +447,29 @@ const ActionImage = styled.img`
   height: 18.75px;
   cursor: pointer;
 `;
+
+const LikeImage = styled.div`
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  background-image: url('/like.png');
+  background-position: left;
+  background-repeat: no-repeat;
+  background-size: 4900%;
+  animation: heart-burst 0.3s steps(28) forwards;
+  @keyframes heart-burst {
+    from {
+      background-position: left;
+    }
+    to {
+      background-position: right;
+    }
+  }
+`;
+
+export const ProfileImage = ({ dataSrc, ...props }) => {
+  const src = useLazyImageLoader(dataSrc, props.src);
+  return <StyledProfileImage {...props} src={src} />;
+};
 
 export default TweetForm;

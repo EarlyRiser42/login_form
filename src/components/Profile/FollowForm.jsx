@@ -11,6 +11,7 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import { dbService } from '../../fbase.js';
+import { ProfileImage } from '../TweetForm.jsx';
 
 const FollowForm = ({ info, writerObj }) => {
   const [userObj, setUserObj] = useRecoilState(userObjState);
@@ -54,7 +55,11 @@ const FollowForm = ({ info, writerObj }) => {
     <Container>
       <LeftContainer>
         <Link to={`/profile/${info}`} state={{ writerObj: writerObj }}>
-          <ProfileImage src={writerObj.photoURL} alt="Profile" />
+          <ProfileImage
+            dataSrc={writerObj.photoURL}
+            src="https://fakeimg.pl/50x50/?text=+"
+            alt="ProfilePicture"
+          />
         </Link>
       </LeftContainer>
       <RightContainer>
@@ -96,13 +101,6 @@ const LeftContainer = styled.div`
   @media (max-width: 500px) {
     width: 16%;
   }
-`;
-
-const ProfileImage = styled.img`
-  margin-left: 20%;
-  width: 40px;
-  height: 40px;
-  border-radius: 50px;
 `;
 
 const RightContainer = styled.div`
