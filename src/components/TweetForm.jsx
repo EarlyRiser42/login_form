@@ -30,7 +30,7 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
   const [mention_cnt, setMention_cnt] = useState(writeObj.MentionList.length);
   const [like, setLike] = useState(writeObj.likeList.includes(userObj.uid));
   const [like_cnt, setLike_cnt] = useState(writeObj.likeList.length);
-  const [likeSVGOpacity, setLikeSVGOpacity] = useState(0);
+  const [likeSVGOpacity, setLikeSVGOpacity] = useState(like ? 1 : 0);
 
   const onDeleteClick = async () => {
     const ok = window.confirm('Are you sure you want to delete this write?');
@@ -440,6 +440,8 @@ const ActionSVGDiv = styled.div`
           return '#E4EEF7';
         case 'Retweet':
           return '#E3F1EB';
+        case 'Like':
+          return '#F9E3EB';
         case 'Bookmark':
           return '#E4EEF7';
         case 'Share':
