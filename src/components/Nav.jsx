@@ -161,12 +161,12 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               linkTo={`/profile/${userObj.uid}`}
               linkText={'프로필'}
             />
-            <NavIconDiv
-              imgSrc={'./message'}
-              imgAlt={'message'}
-              linkTo={`/message`}
-              linkText={'메시지'}
-            />
+            {/* <NavIconDiv
+            imgSrc={'./message'}
+            imgAlt={'message'}
+            linkTo={`/message`}
+            linkText={'메시지'}
+            /> */}
             <NavIconDiv
               imgSrc={'./bookmark'}
               imgAlt={'bookmark'}
@@ -199,12 +199,12 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               linkTo={`/profile/${userObj.uid}`}
               linkText={'프로필'}
             />
-            <NavIconDiv
-              imgSrc={'./message'}
-              imgAlt={'message'}
-              linkTo={`/message`}
-              linkText={'메시지'}
-            />
+            {/* <NavIconDiv
+            imgSrc={'./message'}
+            imgAlt={'message'}
+            linkTo={`/message`}
+            linkText={'메시지'}
+            /> */}
             <NavIconDiv
               imgSrc={'./bookmark'}
               imgAlt={'bookmark'}

@@ -25,7 +25,7 @@ const Follow = () => {
   const [followingPage, setFollowingPage] = useState(
     location.state.isFollowing,
   );
-  console.log(userInfo);
+
   const navRef = useRef(null);
 
   return (
