@@ -5,6 +5,7 @@ import {
   errorState,
   loginState,
   ModalBackgroundGrayState,
+  userObjState,
 } from '../util/recoil';
 import { setCookie } from '../util/cookie.jsx'; // Adjust the path to your actual recoil state
 
@@ -14,15 +15,19 @@ export const useSignUp = () => {
   const [modalBackground, setModalBackground] = useRecoilState(
     ModalBackgroundGrayState,
   );
+  const [userObj, setUserObj] = useRecoilState(userObjState);
   const setError = useSetRecoilState(errorState);
 
   return useMutation(
-    async ({ userObj }) => {
+    async ({ queryParam }) => {
+      console.log(queryParam);
       const response = await axios.post(
         `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/signUp`,
-        { userObj: userObj },
+        { userObj: queryParam },
       );
-      if (response.status !== 200) {
+      if (response.status === 200) {
+        setUserObj(queryParam);
+      } else {
         throw new Error(
           response.data.message || '회원가입 중 오류가 발생했습니다.',
         );

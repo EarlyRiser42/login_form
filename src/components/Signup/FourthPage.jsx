@@ -42,7 +42,7 @@ const FourthPage = ({ onNext, onPrev, user_data, page, setPage }) => {
     };
 
     try {
-      const signUpResult = await signUp.mutateAsync({ userObj });
+      const signUpResult = await signUp.mutateAsync({ queryParam: userObj });
       if (signUpResult) {
         onNext({ uid });
       }
