@@ -8,7 +8,7 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { Tweets, userObjState } from '../util/recoil.jsx';
 import useLazyImageLoader from '../hooks/useLazyImageLoader.jsx';
@@ -30,7 +30,7 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
   const [mention_cnt, setMention_cnt] = useState(writeObj.MentionList.length);
   const [like, setLike] = useState(writeObj.likeList.includes(userObj.uid));
   const [like_cnt, setLike_cnt] = useState(writeObj.likeList.length);
-  const [likeSVGOpacity, setLikeSVGOpacity] = useState(like ? 1 : 0);
+  const [animation, setAnimation] = useState(0);
 
   const onDeleteClick = async () => {
     const ok = window.confirm('Are you sure you want to delete this write?');
@@ -76,7 +76,6 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
 
   const onLike = async () => {
     if (like) {
-      setLikeSVGOpacity(0);
       const profileRef = doc(dbService, 'users', userObj.uid);
       // 프로필에 좋아한 트윗 id 삭제
       await updateDoc(profileRef, {
@@ -102,7 +101,7 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
         likes: userObj.likes.filter((likeId) => likeId !== writeObj.id),
       });
     } else {
-      setLikeSVGOpacity(1);
+      setLike(true);
       const profileRef = doc(dbService, 'users', userObj.uid);
       // 프로필에 좋아한 트윗 id 추가
       await updateDoc(profileRef, {
@@ -121,7 +120,7 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
           likeList: arrayUnion(userObj.uid),
         });
       }
-      setLike(true);
+
       setLike_cnt(like_cnt + 1);
       setUserObj({
         ...userObj,
@@ -129,6 +128,15 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
       });
     }
   };
+
+  useEffect(() => {
+    if (like) {
+      setAnimation(1);
+      setTimeout(() => {
+        setAnimation(0);
+      }, 1000); //
+    }
+  }, [like_cnt]);
 
   const onShare = async () => {
     const url = window.location.href;
@@ -188,20 +196,56 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
   };
 
   const LikeContainer = ({ alt, count }) => {
+    let dots = [];
+    const colors = [
+      '#A0D6D8',
+      '#92D2FC',
+      '#B28FF6',
+      '#A0D6D8',
+      '#EE91AC',
+      '#92D2FC',
+    ];
+    const angleBetweenPairs = 60; // 쌍 사이의 각도
+    const angleOffsetWithinPair = 15; // 쌍 내에서 원 사이의 각도
+    const pairs = colors.length;
+
+    for (let i = 0, angle = 0; i < pairs; i++) {
+      const color = colors[i];
+      // 첫 번째 원
+      dots.push(
+        <OrbitDotWrapper key={`dot-first-${angle}-${i}`} $angle={angle}>
+          <OrbitDot color={color} $index={angle} />
+        </OrbitDotWrapper>,
+      );
+      // 애니메이션을 적용할 두 번째 원
+      angle += angleOffsetWithinPair;
+      dots.push(
+        <OrbitDotWrapper key={`dot-second-${angle}-${i}`} $angle={angle}>
+          <OrbitDot color={color} $index={angle} />
+        </OrbitDotWrapper>,
+      );
+      angle += angleBetweenPairs - angleOffsetWithinPair;
+    }
     return (
       <TweetActions>
         <ActionSVGDiv $type={alt}>
-          <LikeSVG
-            viewBox="0 0 24 24"
-            opacity={!likeSVGOpacity}
-            onClick={onLike}
-            alt={alt}
-          >
-            <path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z" />
-            <LikeSVGColor opacity={likeSVGOpacity}>
+          {animation === 1 && <Orbit>{dots}</Orbit>}
+          {!like && (
+            <LikeSVG viewBox="0 0 24 24" onClick={onLike} alt={alt}>
+              <path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z" />
+            </LikeSVG>
+          )}
+
+          {like && (
+            <LikeSVGColor
+              viewBox="0 0 24 24"
+              onClick={onLike}
+              alt={alt}
+              $animation={animation}
+            >
               <path d="M20.884 13.19c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z" />
             </LikeSVGColor>
-          </LikeSVG>
+          )}
         </ActionSVGDiv>
         {count > 0 && <span>{count}</span>}
       </TweetActions>
@@ -430,6 +474,7 @@ const ActionSVGDiv = styled.div`
   width: 30px;
   height: 30px;
   border-radius: 50px;
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -468,17 +513,182 @@ const LikeSVG = styled.svg`
   height: 18.75px;
   cursor: pointer;
   fill: #536471;
-  opacity: ${(props) => props.opacity};
   &:hover {
     fill: #f91880;
   }
 `;
 
+const heartburst = keyframes`
+  0% {
+    transform: scale(0);
+  }
+  30%{
+    transform: scale(0.1);
+  }
+  35%{
+    transform: scale(0.5);
+  }
+  40%{
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
+
 const LikeSVGColor = styled.svg`
-  width: 24px;
-  height: 24px;
+  width: 18.75px;
+  height: 18.75px;
   fill: #f91880;
-  opacity: ${(props) => props.opacity};
+  animation: ${(props) =>
+    props.$animation === 1
+      ? css`
+          ${heartburst} 1s linear
+        `
+      : 'none'};
+`;
+
+const circleToOrbit = keyframes`
+  0% {
+    width: 1px;
+    height: 1px;
+    background-color: #DD4588;
+  }
+  
+  20%{
+    width: 6px;
+    height: 6px;
+    background-color: #D56AC0;
+  }
+
+  25%{
+    width: 8px;
+    height: 8px;
+    background-color: #D56AC0;
+  }
+  
+  30%{
+    width: 9px;
+    height: 9px;
+    background-color: transparent;
+    border: 7px solid #CC8EF5;
+  }
+  
+  35%{
+    width: 13px;
+    height: 13px;
+    background-color: transparent;
+    border: 5px solid #CC8EF5;
+  }
+  
+  40%{
+    width: 20px;
+    height: 20px;
+    border: 1px solid #CC8EF5;
+  }
+  45%{
+    width: 22px;
+    height: 22px;
+    background-color: transparent;
+    border: none;
+  }
+  100% {
+    width: 22px;
+    height: 22px;
+    background-color: transparent;
+    border: none;
+  }
+`;
+
+const Orbit = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  animation: ${circleToOrbit} 1s linear;
+  transform: translate(-50%, -50%);
+`;
+
+const moveOutwards = keyframes`
+  0% {
+    transform: translateX(0px);
+  opacity: 0;
+}
+  28% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-2px) 
+    scale(0.9);
+  }
+  75% {
+    transform: translateX(-4px) 
+    scale(0.7);
+  }
+  100% {
+    transform: translateX(-7px) 
+    scale(0);}
+`;
+
+const fadeout = keyframes`
+  0% { 
+    transform: scale(1);
+    opacity: 0;
+  }
+  33%{
+    opacity: 0;
+  }
+  35%{
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-1px)
+    scale(0.7);
+  }
+  75% {
+    transform: translateX(-2px)
+    scale(0.5);
+  }
+  85% {
+    transform: translateX(-4px)
+    scale(0.3);
+  }
+  90% { transform: scale(0);}
+`;
+
+// 궤도 위의 작은 원
+const OrbitDot = styled.div`
+  position: absolute;
+  top: 0;
+  left: 25%;
+  width: 2px;
+  height: 2px;
+  opacity: 0;
+  background-color: ${(props) => props.color};
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: ${(props) =>
+    props.$index % 2 === 0
+      ? css`
+          ${moveOutwards} 0.3s linear 0.4s
+        `
+      : css`
+          ${fadeout} 0.3s linear 0.4s
+        `};
+`;
+
+const OrbitDotWrapper = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) ${(props) => `rotate(${props.$angle}deg)`}
+    translateX(-15px);
+  transform-origin: 50% 50%;
 `;
 
 export const ProfileImage = ({ dataSrc, ...props }) => {
