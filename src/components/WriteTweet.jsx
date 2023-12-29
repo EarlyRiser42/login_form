@@ -6,6 +6,7 @@ import { useRecoilState } from 'recoil';
 import { userObjState, ModalOpenState } from '../util/recoil.jsx';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { LeftContainer, RightContainer } from './TweetForm.jsx';
+import useLazyImageLoader from '../hooks/useLazyImageLoader.jsx';
 
 const WriteTweet = () => {
   // 전역변수 recoil
@@ -74,7 +75,7 @@ const WriteTweet = () => {
   return (
     <TweetForm onSubmit={onSubmit} $isModalOpen={isModalOpen}>
       <LeftContainer>
-        <ProfileImage src={userObj.photoURL} />
+        <LazyProfileImageTweet src={userObj.photoURL} />
       </LeftContainer>
       <RightContainer>
         <TweetContainer>
@@ -153,7 +154,7 @@ const TweetForm = styled.form`
     props.$isModalOpen ? 'none' : '1px solid rgba(0, 0, 0, 0.1)'};
 `;
 
-export const ProfileImage = styled.img`
+const StyledProfileImage = styled.img`
   margin-left: 20%;
   margin-top: 10%;
   width: 40px;
@@ -161,6 +162,11 @@ export const ProfileImage = styled.img`
   border-radius: 50%;
   margin-bottom: 10px;
 `;
+
+export const LazyProfileImageTweet = ({ dataSrc, ...props }) => {
+  const src = useLazyImageLoader(dataSrc, props.src);
+  return <StyledProfileImage {...props} src={src} />;
+};
 
 const TweetContainer = styled.div`
   display: flex;

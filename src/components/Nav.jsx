@@ -6,6 +6,7 @@ import { loginState, userObjState } from '../util/recoil.jsx';
 import { deleteCookie } from '../util/cookie.jsx';
 import styled from 'styled-components';
 import { useMediaQuery } from 'react-responsive';
+import useLazyImageLoader from '../hooks/useLazyImageLoader.jsx';
 
 const Nav = forwardRef(({ isNavOpen }, ref) => {
   // for modal
@@ -104,7 +105,11 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
           <StyledNavLinkDiv>
             <StyledNavUserObjDiv>
               <StyledNavpfpDiv>
-                <StyledNavpfp src={userObj.photoURL} alt="Profile" />
+                <LazyNavPfp
+                  src={'https://fakeimg.pl/50x50/?text=+'}
+                  dataSrc={userObj.photoURL}
+                  alt="PFP"
+                />
                 <StyledNavpfpLogoutImg
                   onClick={onLogOutClick}
                   src="/logout.svg"
@@ -228,7 +233,11 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
           </StyledNavLinkDiv>
           <StyledNavUserObjDiv>
             <StyledNavpfpDiv>
-              <StyledNavpfp src={userObj.photoURL} alt="Profile" />
+              <LazyNavPfp
+                src={'https://fakeimg.pl/50x50/?text=+'}
+                dataSrc={userObj.photoURL}
+                alt="PFP"
+              />
             </StyledNavpfpDiv>
             <StyledNavUserObjInfo>
               <StyledNavUserObjInfoBold>
@@ -356,6 +365,11 @@ const StyledNavpfp = styled.img`
     margin-left: 5%;
   }
 `;
+
+export const LazyNavPfp = ({ dataSrc, ...props }) => {
+  const src = useLazyImageLoader(dataSrc, props.src);
+  return <StyledNavpfp {...props} src={src} />;
+};
 
 const StyledNavUserObjInfo = styled.div`
   margin-left: 10%;

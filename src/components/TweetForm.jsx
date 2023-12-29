@@ -31,7 +31,7 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
   const [like, setLike] = useState(writeObj.likeList.includes(userObj.uid));
   const [like_cnt, setLike_cnt] = useState(writeObj.likeList.length);
   const [animation, setAnimation] = useState(0);
-
+  const [isAnimated, setIsAnimated] = useState(false);
   const onDeleteClick = async () => {
     const ok = window.confirm('Are you sure you want to delete this write?');
     if (ok) {
@@ -102,6 +102,7 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
       });
     } else {
       setLike(true);
+      setIsAnimated(true);
       const profileRef = doc(dbService, 'users', userObj.uid);
       // 프로필에 좋아한 트윗 id 추가
       await updateDoc(profileRef, {
@@ -120,7 +121,6 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
           likeList: arrayUnion(userObj.uid),
         });
       }
-
       setLike_cnt(like_cnt + 1);
       setUserObj({
         ...userObj,
@@ -130,7 +130,7 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
   };
 
   useEffect(() => {
-    if (like) {
+    if (like && isAnimated) {
       setAnimation(1);
       setTimeout(() => {
         setAnimation(0);
@@ -252,8 +252,7 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
     );
   };
 
-  // TweetImage 컴포넌트
-  const TweetImage = ({ dataSrc, ...props }) => {
+  const LazyTweetImage = ({ dataSrc, ...props }) => {
     const src = useLazyImageLoader(dataSrc, props.src);
     return <StyledTweetImage {...props} src={src} />;
   };
@@ -265,7 +264,7 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
           to={`/profile/${writeObj.creatorId}`}
           state={{ writerObj: writerObj }}
         >
-          <ProfileImage
+          <LazyProfileImage
             dataSrc={photoURL}
             src="https://fakeimg.pl/50x50/?text=+"
             alt="ProfilePicture"
@@ -301,8 +300,8 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
           <TweetText>{writeObj.text}</TweetText>
           {writeObj.attachmentUrl && (
             <TweetImageContainer>
-              <TweetImage
-                src="https://fakeimg.pl/600x400/?text=+"
+              <LazyTweetImage
+                src="https://fakeimg.pl/400x200/?text=+"
                 dataSrc={writeObj.attachmentUrl}
                 alt="Tweet"
               />
@@ -379,6 +378,11 @@ const StyledProfileImage = styled.img`
   height: 40px;
   border-radius: 50px;
 `;
+
+export const LazyProfileImage = ({ dataSrc, ...props }) => {
+  const src = useLazyImageLoader(dataSrc, props.src);
+  return <StyledProfileImage {...props} src={src} />;
+};
 
 const LinkingLineContainer = styled.div`
   position: relative;
@@ -690,10 +694,5 @@ const OrbitDotWrapper = styled.div`
     translateX(-15px);
   transform-origin: 50% 50%;
 `;
-
-export const ProfileImage = ({ dataSrc, ...props }) => {
-  const src = useLazyImageLoader(dataSrc, props.src);
-  return <StyledProfileImage {...props} src={src} />;
-};
 
 export default TweetForm;

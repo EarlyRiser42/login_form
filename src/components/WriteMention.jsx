@@ -11,7 +11,7 @@ import {
   Image,
   ImageContainer,
   PreviewImage,
-  ProfileImage,
+  LazyProfileImageTweet,
   StyledInput,
   StyledLabel,
   SubmitButton,
@@ -92,7 +92,7 @@ const WriteMention = ({ writeObj }) => {
   return (
     <MyMentionForm onSubmit={onSubmit} $isModalOpen={isModalOpen}>
       <LeftContainer>
-        <ProfileImage src={userObj.photoURL} />
+        <LazyProfileImageTweet src={userObj.photoURL} />
       </LeftContainer>
       <RightContainer>
         <TweetTextArea

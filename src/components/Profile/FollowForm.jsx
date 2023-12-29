@@ -11,7 +11,7 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import { dbService } from '../../fbase.js';
-import { ProfileImage } from '../TweetForm.jsx';
+import { LazyProfileImage } from '../TweetForm.jsx';
 
 const FollowForm = ({ info, writerObj }) => {
   const [userObj, setUserObj] = useRecoilState(userObjState);
@@ -55,7 +55,7 @@ const FollowForm = ({ info, writerObj }) => {
     <Container>
       <LeftContainer>
         <Link to={`/profile/${info}`} state={{ writerObj: writerObj }}>
-          <ProfileImage
+          <LazyProfileImage
             dataSrc={writerObj.photoURL}
             src="https://fakeimg.pl/50x50/?text=+"
             alt="ProfilePicture"

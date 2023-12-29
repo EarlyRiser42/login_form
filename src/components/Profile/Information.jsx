@@ -6,6 +6,7 @@ import { useRecoilState } from 'recoil';
 import { userObjState } from '../../util/recoil.jsx';
 import { NavContainer } from '../../routes/TweetDetail.jsx';
 import styled from 'styled-components';
+import useLazyImageLoader from '../../hooks/useLazyImageLoader.jsx';
 
 const Information = ({ userInfo, owner }) => {
   // 전역변수 recoil
@@ -114,10 +115,19 @@ const Information = ({ userInfo, owner }) => {
         />
         <span>{displayName}</span>
       </NavContainer>
-      <BackgroundImage src={backgroundImage} alt="background" />
+      <LazyBackgroundImage
+        src="https://fakeimg.pl/600x200/?text=+"
+        dataSrc={backgroundImage}
+        alt="background"
+      />
       <ProfileSection>
         <UpperSection>
-          <ProfileImage className={'profile-image'} src={pfp} alt="profile" />
+          <LazyProfileImageInfo
+            className={'profile-image'}
+            src="https://fakeimg.pl/140x140/?text=+"
+            dataSrc={pfp}
+            alt="PFP"
+          />
           {owner && (
             <Link
               to={`${profile_id}/editProfile`}
@@ -210,7 +220,12 @@ const BackgroundImage = styled.img`
   object-fit: cover;
 `;
 
-const ProfileImage = styled.img`
+const LazyBackgroundImage = ({ dataSrc, ...props }) => {
+  const src = useLazyImageLoader(dataSrc, props.src);
+  return <BackgroundImage {...props} src={src} />;
+};
+
+const StyledProfileImage = styled.img`
   width: 135px;
   height: 135px;
   border-radius: 50%;
@@ -227,6 +242,11 @@ const ProfileImage = styled.img`
     top: -60px;
   }
 `;
+
+const LazyProfileImageInfo = ({ dataSrc, ...props }) => {
+  const src = useLazyImageLoader(dataSrc, props.src);
+  return <StyledProfileImage {...props} src={src} />;
+};
 
 const ProfileSection = styled.div`
   display: flex;
