@@ -103,7 +103,9 @@ const FirstPage = ({ onNext }) => {
                 type="email"
                 placeholder="휴대폰 번호, 이메일 주소 또는 사용자 아이디"
                 required
+                maxLength={20}
                 value={email}
+                onKeyDown={(e) => signalByEnter(e, () => onClick(email))}
                 onChange={EmailChange}
               />
             </div>
@@ -130,6 +132,12 @@ const FirstPage = ({ onNext }) => {
       )}
     </LoginModal>
   );
+};
+
+export const signalByEnter = (event, callback) => {
+  if (event.key === 'Enter') {
+    callback();
+  }
 };
 
 export const LoginModal = styled.div`

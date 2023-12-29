@@ -6,17 +6,9 @@ import {
   TogglePasswordVisibilityButton,
   VisibilityIcon,
 } from '../Login/SecondPage.jsx';
-import * as PropTypes from 'prop-types';
 import { SignupButton } from './FirstPage.jsx';
+import { signalByEnter } from '../Login/FirstPage.jsx';
 
-function TogglePasswordVisibility(props) {
-  return null;
-}
-
-TogglePasswordVisibility.propTypes = {
-  isShowPwChecked: PropTypes.bool,
-  handleShowPwChecked: PropTypes.func,
-};
 const ThirdPage = ({ onNext, onPrev, user_data }) => {
   const [password, setPassword] = useState('');
 
@@ -102,6 +94,7 @@ const ThirdPage = ({ onNext, onPrev, user_data }) => {
               required
               value={password}
               ref={passwordRef}
+              onKeyDown={(e) => signalByEnter(e, () => handleNext())}
               onChange={onChange}
             />
             <TogglePasswordVisibility

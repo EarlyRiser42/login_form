@@ -73,7 +73,7 @@ const SixthPage = ({ user_data }) => {
               name="name"
               type="text"
               placeholder="사용자 아이디"
-              maxLength="25"
+              maxLength="20"
               required
               value={name}
               onChange={onChange}

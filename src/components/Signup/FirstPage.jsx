@@ -230,6 +230,7 @@ const FirstPage = ({ onNext, user_data }) => {
         <input
           name="name"
           type="text"
+          maxLength={20}
           placeholder="이름"
           required
           value={name}
@@ -238,6 +239,7 @@ const FirstPage = ({ onNext, user_data }) => {
         <input
           name="email"
           type="text"
+          maxLength={20}
           placeholder="이메일"
           required
           value={email}

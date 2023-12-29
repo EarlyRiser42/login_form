@@ -12,6 +12,7 @@ import {
   LoginModal,
   LoginSignupLink,
   LoginXLogo,
+  signalByEnter,
 } from './FirstPage.jsx';
 import styled, { css } from 'styled-components';
 import Loading from '../Loading.jsx';
@@ -119,6 +120,7 @@ const SecondPage = ({ user_data }) => {
                 required
                 value={password}
                 ref={passwordRef}
+                onKeyDown={(e) => signalByEnter(e, () => onClick(password))}
                 onChange={onChange}
               />
               <TogglePasswordVisibility

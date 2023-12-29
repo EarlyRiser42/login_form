@@ -59,7 +59,9 @@ const WriteMention = ({ writeObj }) => {
     });
     setMentionText('');
     setAttachment('');
-    navigate(-1);
+    if (location.state) {
+      navigate(-1);
+    }
   };
 
   const autoResize = (event) => {

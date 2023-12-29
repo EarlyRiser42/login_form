@@ -372,10 +372,11 @@ export const LazyNavPfp = ({ dataSrc, ...props }) => {
 };
 
 const StyledNavUserObjInfo = styled.div`
-  margin-left: 10%;
+  margin-left: 3%;
+  margin-bottom: 3%;
   display: flex;
   flex-direction: column;
-
+  overflow-x: hidden;
   @media (max-width: 1280px) {
     span {
       display: none;
@@ -394,6 +395,7 @@ const StyledNavUserObjInfo = styled.div`
 const StyledNavUserObjInfoBold = styled.span`
   font-weight: bolder;
 `;
+
 const StyledNavUserObjFollow = styled.div`
   @media (max-width: 500px) {
     margin-top: 2%;
