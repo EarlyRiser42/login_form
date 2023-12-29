@@ -42,7 +42,9 @@ const WriteTweet = () => {
     await dbService.collection('tweets').add(tweetObj);
     setTweetText('');
     setAttachment('');
-    navigate(-1);
+    if (location.state) {
+      navigate(-1);
+    }
   };
 
   const autoResize = (event) => {
