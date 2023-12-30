@@ -127,7 +127,10 @@ const FirstPage = ({ onNext, user_data }) => {
       );
 
       if (response.status === 200 && response.data && response.data.exists) {
-        setToastText('이미 등록된 이메일입니다.');
+        setToastText({
+          type: 'error',
+          text: '이미 등록된 이메일입니다.',
+        });
       }
       if (response.status === 200 && response.data && !response.data.exists) {
         onNext({ name, email, year, month, day });
@@ -135,10 +138,16 @@ const FirstPage = ({ onNext, user_data }) => {
     } catch (error) {
       if (error.response) {
         // 서버에서 응답이 올 경우
-        setToastText('서버 오류가 발생했습니다.');
+        setToastText({
+          type: 'error',
+          text: '서버 오류가 발생했습니다.',
+        });
       } else {
         // 서버에서 응답이 오지 않는 경우
-        setToastText('요청에 문제가 발생했습니다. 다시 시도해 주세요.');
+        setToastText({
+          type: 'error',
+          text: '요청에 문제가 발생했습니다. 다시 시도해 주세요.',
+        });
       }
     }
   };

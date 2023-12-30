@@ -50,9 +50,15 @@ export const useLogin = () => {
       },
       onError: (error) => {
         if (error.response?.status === 201) {
-          setToastText('잘못된 비밀번호입니다.');
+          setToastText({
+            type: 'error',
+            text: '잘못된 비밀번호입니다.',
+          });
         } else {
-          setToastText('서버 오류가 발생했습니다.');
+          setToastText({
+            type: 'error',
+            text: '서버 오류가 발생했습니다.',
+          });
         }
       },
     },

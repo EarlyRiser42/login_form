@@ -61,7 +61,7 @@ const WriteMention = ({ writeObj }) => {
     await updateDoc(tweetRef, {
       MentionList: arrayUnion(uuid),
     });
-    setToastText('답글을 보냈습니다.');
+    setToastText({ type: 'notice', text: '답글을 보냈습니다.' });
     setMentionText('');
     setAttachment('');
 

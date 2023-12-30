@@ -38,11 +38,17 @@ const FirstPage = ({ onNext }) => {
         if (data && data.exists) {
           onNext({ email: value });
         } else {
-          setToastText('죄송합니다. 해당 계정을 찾을 수 없습니다.');
+          setToastText({
+            type: 'error',
+            text: '죄송합니다. 해당 계정을 찾을 수 없습니다.',
+          });
         }
       },
       onError: () => {
-        setToastText('요청에 문제가 발생했습니다. 다시 시도해 주세요.');
+        setToastText({
+          type: 'error',
+          text: '요청에 문제가 발생했습니다. 다시 시도해 주세요.',
+        });
       },
     });
   };
@@ -119,7 +125,12 @@ const FirstPage = ({ onNext }) => {
             </div>
             <div>
               <LoginPasswordResetButton
-                onClick={() => setToastText('구현중인 기능입니다.')}
+                onClick={() =>
+                  setToastText({
+                    type: 'notice',
+                    text: '구현중인 기능입니다.',
+                  })
+                }
               >
                 비밀번호를 잊으셨나요?
               </LoginPasswordResetButton>

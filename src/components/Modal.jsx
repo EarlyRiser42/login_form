@@ -14,7 +14,7 @@ const Modal = ({ children, className }) => {
     <div className={modalBackground ? 'modalGrayDiv' : 'modalDiv'}>
       <div className={className}>
         {children}
-        {toastText && <Toast></Toast>}
+        {toastText.text && <Toast></Toast>}
       </div>
     </div>
   );

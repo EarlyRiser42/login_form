@@ -141,7 +141,7 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
     const url =
       window.location.href + `/${writeObj.creatorId}/${writeObj.tweetId}`;
     await navigator.clipboard.writeText(url);
-    setToastText('클립보드에 복사했습니다.');
+    setToastText({ type: 'notice', text: '클립보드에 복사했습니다.' });
   };
 
   const elapsedTime = (date) => {

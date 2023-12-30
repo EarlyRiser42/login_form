@@ -110,7 +110,7 @@ const Home = () => {
             </Suspense>
           </ErrorBoundary>
         )}
-        {toastText && <Toast></Toast>}
+        {toastText.text && <Toast></Toast>}
       </HomeMiddleDiv>
       {!useMediaQuery({ query: '(max-width: 1000px)' }) && <Explore />}
     </HomeDiv>
