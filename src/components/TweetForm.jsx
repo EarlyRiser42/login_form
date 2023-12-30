@@ -10,11 +10,10 @@ import {
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled, { css, keyframes } from 'styled-components';
 import { useRecoilState } from 'recoil';
-import { Tweets, userObjState } from '../util/recoil.jsx';
+import { userObjState } from '../util/recoil.jsx';
 import useLazyImageLoader from '../hooks/useLazyImageLoader.jsx';
 
 const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
-  const [tweets, setTweets] = useRecoilState(Tweets);
   const [userObj, setUserObj] = useRecoilState(userObjState);
   // for modal
   const location = useLocation();
@@ -36,7 +35,6 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
     const ok = window.confirm('Are you sure you want to delete this write?');
     if (ok) {
       await dbService.doc(`tweets/${writeObj.id}`).delete();
-      setTweets(tweets.filter((tweet) => tweet.tweetId !== writeObj.tweetId));
       if (writeObj.photoURL) {
         await storageService.refFromURL(writeObj.photoURL).delete();
       }

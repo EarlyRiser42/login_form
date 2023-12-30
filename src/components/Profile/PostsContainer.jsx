@@ -1,15 +1,12 @@
 import TweetForm from '../TweetForm.jsx';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { ModalOpenState, userObjState } from '../../util/recoil.jsx';
 import { useIntersect } from '../../hooks/useIntersect.jsx';
 import Loading from '../Loading.jsx';
 import styled from 'styled-components';
-import { useGetMentions } from '../../hooks/useGetMentions.jsx';
 import { useGetMyTweets } from '../../hooks/useGetMyTweets.jsx';
 
-const PostsContainer = ({ userInfo, tweets, setTweets, pageName }) => {
+const PostsContainer = ({ userInfo, pageName }) => {
   const navigate = useNavigate();
 
   const { data, hasNextPage, isFetching, fetchNextPage } = useGetMyTweets({
@@ -18,15 +15,10 @@ const PostsContainer = ({ userInfo, tweets, setTweets, pageName }) => {
     pageName,
   });
 
-  const fetchedTweets = useMemo(
+  const fetchedPosts = useMemo(
     () => (data ? data.pages.flatMap((page) => page.data.contents) : []),
     [data],
   );
-
-  // 불러온 트윗 데이터를 전역 Recoil 상태로 설정
-  useEffect(() => {
-    setTweets(fetchedTweets);
-  }, [fetchedTweets]);
 
   const ref = useIntersect(async (entry, observer) => {
     observer.unobserve(entry.target);
@@ -39,7 +31,9 @@ const PostsContainer = ({ userInfo, tweets, setTweets, pageName }) => {
     // 이벤트 버블링을 막기 위해 해당 이벤트가 이미지 엘리먼트에서 발생한 경우에는 핸들러를 처리하지 않음
     if (
       event.target.tagName.toLowerCase() === 'svg' ||
-      event.target.closest('svg')
+      event.target.closest('svg') ||
+      event.target.tagName.toLowerCase() === 'img' ||
+      event.target.closest('img')
     ) {
       return;
     }
@@ -48,7 +42,7 @@ const PostsContainer = ({ userInfo, tweets, setTweets, pageName }) => {
 
   return (
     <div>
-      {tweets.map((tweet) => (
+      {fetchedPosts.map((tweet) => (
         <div
           key={tweet.id}
           onClick={(event) => handleTweetClick(event, tweet, tweet.tweetId)}
@@ -56,7 +50,6 @@ const PostsContainer = ({ userInfo, tweets, setTweets, pageName }) => {
         >
           <TweetForm
             key={tweet.id}
-            userObj={userInfo}
             writeObj={tweet}
             isOwner={tweet.creatorId === userInfo.uid}
             isModal={false}

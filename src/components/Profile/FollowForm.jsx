@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
-import { Tweets, userObjState } from '../..//util/recoil.jsx';
+import { userObjState } from '../..//util/recoil.jsx';
 import {
   arrayRemove,
   arrayUnion,

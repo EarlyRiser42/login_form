@@ -35,6 +35,11 @@ const Home = () => {
     }
   }, [isModalOpen]);
 
+  const toast = (text) => {
+    return {(
+      <div></div>
+  )};
+  };
   return (
     <HomeDiv $isNavOpen={isNavOpen}>
       <Nav ref={navRef} isNavOpen={isNavOpen} />
@@ -104,6 +109,7 @@ const Home = () => {
             </Suspense>
           </ErrorBoundary>
         )}
+        <toast></toast>
       </HomeMiddleDiv>
       {!useMediaQuery({ query: '(max-width: 1000px)' }) && <Explore />}
     </HomeDiv>

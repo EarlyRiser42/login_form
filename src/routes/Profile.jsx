@@ -12,7 +12,7 @@ import { useMediaQuery } from 'react-responsive';
 import Explore from './Explore.jsx';
 import Information from '../components/Profile/Information.jsx';
 import PostsContainer from '../components/Profile/PostsContainer.jsx';
-import MentionsContainer from '../components/Profile/MentionsContainer.jsx';
+import MyMentionsContainer from '../components/Profile/MyMentionsContainer.jsx';
 import MediaContainer from '../components/Profile/MediaContainer.jsx';
 import LikesContainer from '../components/Profile/LikesContainer.jsx';
 import { useRecoilState } from 'recoil';
@@ -23,7 +23,7 @@ const Profile = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [userObj, setUserObj] = useRecoilState(userObjState);
 
-  // 본인 계정/남 계정 확인
+  // 본인 계정 여부 확인
   const profile_id = useParams().profile;
   const location = useLocation();
   const writerObj = location.state ? location.state.writerObj : '';
@@ -31,9 +31,6 @@ const Profile = () => {
   const userInfo = owner ? userObj : writerObj;
 
   // 지역변수
-  const [myTweets, setMyTweets] = useState([]);
-  const [myMentions, setMyMentions] = useState([]);
-  const [myLikes, setMyLikes] = useState([]);
   const [pageName, setPageName] = useState('게시물');
   const navRef = useRef(null);
 
@@ -64,36 +61,16 @@ const Profile = () => {
           </div>
         </HomeMiddleSwitchFollowDiv>
         {pageName === '게시물' && (
-          <PostsContainer
-            userInfo={userInfo}
-            tweets={myTweets}
-            setTweets={setMyTweets}
-            pageName={pageName}
-          />
+          <PostsContainer userInfo={userInfo} pageName={pageName} />
         )}
         {pageName === '답글' && (
-          <MentionsContainer
-            userInfo={userInfo}
-            tweets={myMentions}
-            setTweets={setMyMentions}
-            pageName={pageName}
-          />
+          <MyMentionsContainer userInfo={userInfo} pageName={pageName} />
         )}
         {pageName === '미디어' && (
-          <MediaContainer
-            userInfo={userInfo}
-            tweets={myTweets}
-            setTweets={setMyTweets}
-            pageName={pageName}
-          />
+          <MediaContainer userInfo={userInfo} pageName={pageName} />
         )}{' '}
         {pageName === '마음에 들어요' && (
-          <LikesContainer
-            userInfo={userInfo}
-            tweets={myLikes}
-            setTweets={setMyLikes}
-            pageName={pageName}
-          />
+          <LikesContainer userInfo={userInfo} pageName={pageName} />
         )}
       </HomeMiddleDiv>
       {!useMediaQuery({ query: '(max-width: 1000px)' }) && <Explore />}

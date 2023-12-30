@@ -1,15 +1,12 @@
 import TweetForm from '../TweetForm.jsx';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { ModalOpenState, userObjState } from '../../util/recoil.jsx';
 import { useIntersect } from '../../hooks/useIntersect.jsx';
 import Loading from '../Loading.jsx';
 import styled from 'styled-components';
-import { useGetMentions } from '../../hooks/useGetMentions.jsx';
 import { useGetMyTweets } from '../../hooks/useGetMyTweets.jsx';
 
-const MentionsContainer = ({ userInfo, tweets, setTweets, pageName }) => {
+const MyMentionsContainer = ({ userInfo, pageName }) => {
   const navigate = useNavigate();
 
   const { data, hasNextPage, isFetching, fetchNextPage } = useGetMyTweets({
@@ -18,15 +15,10 @@ const MentionsContainer = ({ userInfo, tweets, setTweets, pageName }) => {
     pageName,
   });
 
-  const fetchedTweets = useMemo(
+  const fetchedMyMentions = useMemo(
     () => (data ? data.pages.flatMap((page) => page.data.contents) : []),
     [data],
   );
-
-  // 불러온 트윗 데이터를 전역 Recoil 상태로 설정
-  useEffect(() => {
-    setTweets(fetchedTweets);
-  }, [fetchedTweets]);
 
   const ref = useIntersect(async (entry, observer) => {
     observer.unobserve(entry.target);
@@ -48,7 +40,7 @@ const MentionsContainer = ({ userInfo, tweets, setTweets, pageName }) => {
 
   return (
     <div>
-      {tweets.map((tweet) => (
+      {fetchedMyMentions.map((tweet) => (
         <div
           key={tweet.id}
           onClick={(event) => handleTweetClick(event, tweet, tweet.tweetId)}
@@ -56,11 +48,10 @@ const MentionsContainer = ({ userInfo, tweets, setTweets, pageName }) => {
         >
           <TweetForm
             key={tweet.id}
-            userObj={userInfo}
             writeObj={tweet}
             isOwner={tweet.creatorId === userInfo.uid}
             isModal={false}
-            isMention={false}
+            isMention={true}
           />
         </div>
       ))}
@@ -74,4 +65,4 @@ const Target = styled.div`
   height: 1px;
 `;
 
-export default MentionsContainer;
+export default MyMentionsContainer;

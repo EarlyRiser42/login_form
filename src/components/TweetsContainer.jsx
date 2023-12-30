@@ -2,7 +2,7 @@ import TweetForm from './TweetForm.jsx';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { ModalOpenState, Tweets, userObjState } from '../util/recoil.jsx';
+import { ModalOpenState, userObjState } from '../util/recoil.jsx';
 import { useGetTweets } from '../hooks/useGetTweets.jsx';
 import { useIntersect } from '../hooks/useIntersect.jsx';
 import Loading from './Loading.jsx';
@@ -11,8 +11,6 @@ import styled from 'styled-components';
 const TweetsContainer = ({ followingPage }) => {
   // 전역변수 recoil
   const [userObj, setUserObj] = useRecoilState(userObjState);
-  const [tweets, setTweets] = useRecoilState(Tweets);
-  // 지역변수
 
   const navigate = useNavigate();
 
@@ -27,11 +25,6 @@ const TweetsContainer = ({ followingPage }) => {
     [data],
   );
 
-  // 불러온 트윗 데이터를 전역 Recoil 상태로 설정
-  useEffect(() => {
-    setTweets(fetchedTweets);
-  }, [fetchedTweets]);
-
   const ref = useIntersect(async (entry, observer) => {
     observer.unobserve(entry.target);
     if (hasNextPage && !isFetching) {
@@ -43,7 +36,9 @@ const TweetsContainer = ({ followingPage }) => {
     // 이벤트 버블링을 막기 위해 해당 이벤트가 이미지 엘리먼트에서 발생한 경우에는 핸들러를 처리하지 않음
     if (
       event.target.tagName.toLowerCase() === 'svg' ||
-      event.target.closest('svg')
+      event.target.closest('svg') ||
+      event.target.tagName.toLowerCase() === 'img' ||
+      event.target.closest('img')
     ) {
       return;
     }

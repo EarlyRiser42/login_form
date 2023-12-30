@@ -16,11 +16,6 @@ export const isSigning = atom({
   default: false,
 });
 
-export const Tweets = atom({
-  key: 'Tweets',
-  default: [],
-});
-
 export const loadingState = atom({
   key: 'loadingState',
   default: false,

@@ -43,7 +43,9 @@ const MentionsContainer = ({ mentionPage }) => {
     // 이벤트 버블링을 막기 위해 해당 이벤트가 이미지 엘리먼트에서 발생한 경우에는 핸들러를 처리하지 않음
     if (
       event.target.tagName.toLowerCase() === 'svg' ||
-      event.target.closest('svg')
+      event.target.closest('svg') ||
+      event.target.tagName.toLowerCase() === 'img' ||
+      event.target.closest('img')
     ) {
       return;
     }
