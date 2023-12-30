@@ -10,11 +10,12 @@ import {
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled, { css, keyframes } from 'styled-components';
 import { useRecoilState } from 'recoil';
-import { userObjState } from '../util/recoil.jsx';
+import { toastTextState, userObjState } from '../util/recoil.jsx';
 import useLazyImageLoader from '../hooks/useLazyImageLoader.jsx';
 
 const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
   const [userObj, setUserObj] = useRecoilState(userObjState);
+  const [toastText, setToastText] = useRecoilState(toastTextState);
   // for modal
   const location = useLocation();
   const navigate = useNavigate();
@@ -137,8 +138,10 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
   }, [like_cnt]);
 
   const onShare = async () => {
-    const url = window.location.href;
+    const url =
+      window.location.href + `/${writeObj.creatorId}/${writeObj.tweetId}`;
     await navigator.clipboard.writeText(url);
+    setToastText('클립보드에 복사했습니다.');
   };
 
   const elapsedTime = (date) => {

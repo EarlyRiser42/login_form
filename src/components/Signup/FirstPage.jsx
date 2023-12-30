@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { errorState, ModalOpenState } from '../../util/recoil.jsx';
+import { toastTextState, ModalOpenState } from '../../util/recoil.jsx';
 import axios from 'axios';
 import styled from 'styled-components';
 import '../../style/Signup/SignupFirstPage.css';
@@ -55,7 +55,7 @@ const FirstPage = ({ onNext, user_data }) => {
 
   // 전역상태 recoil
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
-  const [recoilError, setRecoilError] = useRecoilState(errorState);
+  const [toastText, setToastText] = useRecoilState(toastTextState);
 
   useEffect(() => {
     if (user_data.year) {
@@ -127,7 +127,7 @@ const FirstPage = ({ onNext, user_data }) => {
       );
 
       if (response.status === 200 && response.data && response.data.exists) {
-        setRecoilError('이미 등록된 이메일입니다.');
+        setToastText('이미 등록된 이메일입니다.');
       }
       if (response.status === 200 && response.data && !response.data.exists) {
         onNext({ name, email, year, month, day });
@@ -135,10 +135,10 @@ const FirstPage = ({ onNext, user_data }) => {
     } catch (error) {
       if (error.response) {
         // 서버에서 응답이 올 경우
-        setRecoilError('서버 오류가 발생했습니다.');
+        setToastText('서버 오류가 발생했습니다.');
       } else {
         // 서버에서 응답이 오지 않는 경우
-        setRecoilError('요청에 문제가 발생했습니다. 다시 시도해 주세요.');
+        setToastText('요청에 문제가 발생했습니다. 다시 시도해 주세요.');
       }
     }
   };
@@ -230,7 +230,6 @@ const FirstPage = ({ onNext, user_data }) => {
         <input
           name="name"
           type="text"
-          maxLength={20}
           placeholder="이름"
           required
           value={name}
@@ -239,7 +238,6 @@ const FirstPage = ({ onNext, user_data }) => {
         <input
           name="email"
           type="text"
-          maxLength={20}
           placeholder="이메일"
           required
           value={email}

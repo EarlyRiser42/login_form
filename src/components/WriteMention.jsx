@@ -3,7 +3,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { storageService, dbService } from '../fbase';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
-import { userObjState, ModalOpenState } from '../util/recoil.jsx';
+import {
+  userObjState,
+  ModalOpenState,
+  toastTextState,
+} from '../util/recoil.jsx';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   ClearImage,
@@ -23,7 +27,7 @@ import { LeftContainer, RightContainer } from './TweetForm.jsx';
 const WriteMention = ({ writeObj }) => {
   // 전역변수 recoil
   const [userObj, setUserObj] = useRecoilState(userObjState);
-
+  const [toastText, setToastText] = useRecoilState(toastTextState);
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
   const location = useLocation();
   const navigate = useNavigate();
@@ -40,7 +44,7 @@ const WriteMention = ({ writeObj }) => {
       const response = await attachmentRef.putString(attachment, 'data_url');
       attachmentUrl = await response.ref.getDownloadURL();
     }
-
+    console.log(writeObj);
     const MentionObj = {
       tweetId: uuid,
       text: mentionText,
@@ -57,8 +61,10 @@ const WriteMention = ({ writeObj }) => {
     await updateDoc(tweetRef, {
       MentionList: arrayUnion(uuid),
     });
+    setToastText('답글을 보냈습니다.');
     setMentionText('');
     setAttachment('');
+
     if (location.state) {
       navigate(-1);
     }

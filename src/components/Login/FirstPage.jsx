@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authService, firebaseInstance } from '../../fbase';
 import { useRecoilState } from 'recoil';
-import { errorState, loginState, ModalOpenState } from '../../util/recoil.jsx';
+import {
+  toastTextState,
+  loginState,
+  ModalOpenState,
+} from '../../util/recoil.jsx';
 import axios from 'axios';
 import styled from 'styled-components';
 import { useCheckEmailOrId } from '../../hooks/useCheckEmailOrId.jsx';
@@ -11,7 +15,7 @@ import Loading from '../Loading.jsx';
 const FirstPage = ({ onNext }) => {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
-  const [recoilError, setRecoilError] = useRecoilState(errorState);
+  const [toastText, setToastText] = useRecoilState(toastTextState);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
 
@@ -34,11 +38,11 @@ const FirstPage = ({ onNext }) => {
         if (data && data.exists) {
           onNext({ email: value });
         } else {
-          setRecoilError('죄송합니다. 해당 계정을 찾을 수 없습니다.');
+          setToastText('죄송합니다. 해당 계정을 찾을 수 없습니다.');
         }
       },
       onError: () => {
-        setRecoilError('요청에 문제가 발생했습니다. 다시 시도해 주세요.');
+        setToastText('요청에 문제가 발생했습니다. 다시 시도해 주세요.');
       },
     });
   };
@@ -103,7 +107,6 @@ const FirstPage = ({ onNext }) => {
                 type="email"
                 placeholder="휴대폰 번호, 이메일 주소 또는 사용자 아이디"
                 required
-                maxLength={20}
                 value={email}
                 onKeyDown={(e) => signalByEnter(e, () => onClick(email))}
                 onChange={EmailChange}
@@ -116,7 +119,7 @@ const FirstPage = ({ onNext }) => {
             </div>
             <div>
               <LoginPasswordResetButton
-                onClick={() => setRecoilError('구현중인 기능입니다.')}
+                onClick={() => setToastText('구현중인 기능입니다.')}
               >
                 비밀번호를 잊으셨나요?
               </LoginPasswordResetButton>

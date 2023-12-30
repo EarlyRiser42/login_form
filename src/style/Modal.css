@@ -53,23 +53,6 @@
 
 }
 
-.errorMessageDiv {
-    width: 400px;
-    height: 30px;
-    position: fixed;
-    left: 50%;
-    bottom: 50px;
-    transform: translateX(-50%); /* X축 기준 중앙 정렬 */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    background-color: #1D9BF0;
-    border-radius: 5px;
-}
-
-
 @media (max-width: 700px) {
     .modalDiv {
         width: 100vw;
@@ -122,13 +105,5 @@
         width: 100vw;
         height: 100dvh;
         border-radius: 0;
-    }
-
-    .errorMessageDiv{
-        font-size: 0.8rem;
-        width: 100%;
-        height: 40px;
-        bottom: 0px;
-        border-radius: 0px;
     }
 }

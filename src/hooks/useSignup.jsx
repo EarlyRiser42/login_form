@@ -2,7 +2,7 @@ import { useMutation } from 'react-query';
 import axios from 'axios';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
-  errorState,
+  toastTextState,
   loginState,
   ModalBackgroundGrayState,
   userObjState,
@@ -16,7 +16,7 @@ export const useSignUp = () => {
     ModalBackgroundGrayState,
   );
   const [userObj, setUserObj] = useRecoilState(userObjState);
-  const setError = useSetRecoilState(errorState);
+  const setToastText = useSetRecoilState(toastTextState);
 
   return useMutation(
     async ({ queryParam }) => {
@@ -59,7 +59,7 @@ export const useSignUp = () => {
         setModalBackground(true);
       },
       onError: (error) => {
-        setError(
+        setToastText(
           error.response?.data.message || '회원가입 중 오류가 발생했습니다.',
         );
       },

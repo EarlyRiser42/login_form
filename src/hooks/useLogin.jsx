@@ -2,12 +2,12 @@ import { useMutation } from 'react-query';
 import axios from 'axios';
 import { setCookie } from '../util/cookie.jsx';
 import { useRecoilState } from 'recoil';
-import { errorState, loginState, userObjState } from '../util/recoil.jsx';
+import { toastTextState, loginState, userObjState } from '../util/recoil.jsx';
 import { useNavigate } from 'react-router-dom';
 
 export const useLogin = () => {
   // 전역 변수 recoil
-  const [recoilError, setRecoilError] = useRecoilState(errorState);
+  const [toastText, setToastText] = useRecoilState(toastTextState);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
   const [userObj, setUserObj] = useRecoilState(userObjState);
 
@@ -50,9 +50,9 @@ export const useLogin = () => {
       },
       onError: (error) => {
         if (error.response?.status === 201) {
-          setRecoilError('잘못된 비밀번호입니다.');
+          setToastText('잘못된 비밀번호입니다.');
         } else {
-          setRecoilError('서버 오류가 발생했습니다.');
+          setToastText('서버 오류가 발생했습니다.');
         }
       },
     },

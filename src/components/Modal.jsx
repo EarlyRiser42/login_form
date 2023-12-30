@@ -1,28 +1,20 @@
 import React, { useEffect } from 'react';
 import '../style/Modal.css';
-import { errorState, ModalBackgroundGrayState } from '../util/recoil.jsx';
+import { toastTextState, ModalBackgroundGrayState } from '../util/recoil.jsx';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import Toast from './toast.jsx';
 
 const Modal = ({ children, className }) => {
-  const [error, setError] = useRecoilState(errorState);
+  const [toastText, setToastText] = useRecoilState(toastTextState);
   const [modalBackground, setModalBackground] = useRecoilState(
     ModalBackgroundGrayState,
   );
-
-  useEffect(() => {
-    if (error) {
-      console.log(error);
-      setTimeout(() => {
-        setError('');
-      }, 3000); // reset the error after 3 seconds
-    }
-  }, [error, setError]);
 
   return (
     <div className={modalBackground ? 'modalGrayDiv' : 'modalDiv'}>
       <div className={className}>
         {children}
-        {error && <div className={'errorMessageDiv'}>{error}</div>}
+        {toastText && <Toast></Toast>}
       </div>
     </div>
   );

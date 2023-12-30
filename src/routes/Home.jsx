@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useRecoilState } from 'recoil';
-import { ModalOpenState, userObjState } from '../util/recoil.jsx';
+import {
+  ModalOpenState,
+  toastTextState,
+  userObjState,
+} from '../util/recoil.jsx';
 import useOnClickOutside from '../hooks/useOnClickOutside.jsx';
 import { useMediaQuery } from 'react-responsive';
 import Explore from './Explore.jsx';
@@ -10,6 +14,7 @@ import Loading from '../components/Loading.jsx';
 import ErrorRetry from '../components/ErrorRetry.jsx';
 import styled from 'styled-components';
 import WriteTweet from '../components/WriteTweet.jsx';
+import Toast from '../components/toast.jsx';
 
 const TweetsContainer = React.lazy(() =>
   import('../components/TweetsContainer.jsx'),
@@ -18,9 +23,10 @@ const TweetsContainer = React.lazy(() =>
 const Home = () => {
   // 전역변수 recoil
   const [userObj, setUserObj] = useRecoilState(userObjState);
-  const [isNavOpen, setIsNavOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
-
+  const [toastText, setToastText] = useRecoilState(toastTextState);
+  // 지역변수
+  const [isNavOpen, setIsNavOpen] = useState(false);
   const [followingPage, setFollowingPage] = useState(false);
 
   const navRef = useRef(null);
@@ -35,11 +41,6 @@ const Home = () => {
     }
   }, [isModalOpen]);
 
-  const toast = (text) => {
-    return {(
-      <div></div>
-  )};
-  };
   return (
     <HomeDiv $isNavOpen={isNavOpen}>
       <Nav ref={navRef} isNavOpen={isNavOpen} />
@@ -109,7 +110,7 @@ const Home = () => {
             </Suspense>
           </ErrorBoundary>
         )}
-        <toast></toast>
+        {toastText && <Toast></Toast>}
       </HomeMiddleDiv>
       {!useMediaQuery({ query: '(max-width: 1000px)' }) && <Explore />}
     </HomeDiv>
