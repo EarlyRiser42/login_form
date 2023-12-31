@@ -44,7 +44,6 @@ const Information = ({ userInfo, owner }) => {
       if (profileImage) {
         if (window.innerWidth <= 680) {
           const newWidth = profileImage.offsetWidth;
-          console.log(newWidth);
           profileImage.style.height = `${newWidth}px`;
         } else {
           profileImage.style.height = '135px';

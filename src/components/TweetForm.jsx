@@ -10,11 +10,17 @@ import {
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled, { css, keyframes } from 'styled-components';
 import { useRecoilState } from 'recoil';
-import { toastTextState, userObjState } from '../util/recoil.jsx';
+import {
+  PopUpOpenState,
+  toastTextState,
+  userObjState,
+} from '../util/recoil.jsx';
 import useLazyImageLoader from '../hooks/useLazyImageLoader.jsx';
+import PopUp from './PopUp.jsx';
 
 const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
   const [userObj, setUserObj] = useRecoilState(userObjState);
+  const [isPopUpOpen, setIsPopUpOpen] = useRecoilState(PopUpOpenState);
   const [toastText, setToastText] = useRecoilState(toastTextState);
   // for modal
   const location = useLocation();
@@ -33,13 +39,7 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
   const [animation, setAnimation] = useState(0);
   const [isAnimated, setIsAnimated] = useState(false);
   const onDeleteClick = async () => {
-    const ok = window.confirm('Are you sure you want to delete this write?');
-    if (ok) {
-      await dbService.doc(`tweets/${writeObj.id}`).delete();
-      if (writeObj.photoURL) {
-        await storageService.refFromURL(writeObj.photoURL).delete();
-      }
-    }
+    setIsPopUpOpen(true);
     if (isModal) {
       navigate(-1);
     }
@@ -260,6 +260,7 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
 
   return (
     <Container $isModal={isModal}>
+      {isPopUpOpen && <PopUp writeObj={writeObj} />}
       <LeftContainer>
         <Link
           to={`/profile/${writeObj.creatorId}`}
@@ -291,7 +292,12 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
               <img
                 src={'./close.svg'}
                 alt="Delete"
-                style={{ width: '15px', height: '18px', marginRight: '20px' }}
+                style={{
+                  width: '15px',
+                  height: '18px',
+                  marginRight: '20px',
+                  cursor: 'pointer',
+                }}
                 onClick={() => onDeleteClick(writeObj.id)}
               />
             )}

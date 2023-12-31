@@ -33,10 +33,13 @@ const PostsContainer = ({ userInfo, pageName }) => {
       event.target.tagName.toLowerCase() === 'svg' ||
       event.target.closest('svg') ||
       event.target.tagName.toLowerCase() === 'img' ||
-      event.target.closest('img')
+      event.target.closest('img') ||
+      event.target.tagName.toLowerCase() === 'button' ||
+      event.target.closest('button')
     ) {
       return;
     }
+
     navigate(`/${tweet.creatorId}/${tweetId}`, { state: { tweet } });
   };
 

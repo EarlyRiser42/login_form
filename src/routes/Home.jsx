@@ -3,6 +3,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { useRecoilState } from 'recoil';
 import {
   ModalOpenState,
+  PopUpOpenState,
   toastTextState,
   userObjState,
 } from '../util/recoil.jsx';
@@ -24,6 +25,7 @@ const Home = () => {
   // 전역변수 recoil
   const [userObj, setUserObj] = useRecoilState(userObjState);
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
+  const [isPopUpOpen, setIsPopUpOpen] = useRecoilState(PopUpOpenState);
   const [toastText, setToastText] = useRecoilState(toastTextState);
   // 지역변수
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -32,14 +34,14 @@ const Home = () => {
   const navRef = useRef(null);
   useOnClickOutside(navRef, () => setIsNavOpen(false));
 
-  // 모달 창 열릴시 부모 요소 스크롤 차단
+  // 모달, 팝업 창 열릴시 부모 요소 스크롤 차단
   useEffect(() => {
-    if (isModalOpen) {
+    if (isModalOpen || isPopUpOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'auto';
     }
-  }, [isModalOpen]);
+  }, [isModalOpen, isPopUpOpen]);
 
   return (
     <HomeDiv $isNavOpen={isNavOpen}>
