@@ -36,12 +36,12 @@ const Home = () => {
 
   // 모달, 팝업 창 열릴시 부모 요소 스크롤 차단
   useEffect(() => {
-    if (isModalOpen || isPopUpOpen) {
+    if (isModalOpen || isPopUpOpen || isNavOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'auto';
     }
-  }, [isModalOpen, isPopUpOpen]);
+  }, [isModalOpen, isPopUpOpen, isNavOpen]);
 
   return (
     <HomeDiv $isNavOpen={isNavOpen}>
@@ -192,7 +192,7 @@ export const HomeImgDivForMobile = styled.div`
   }
 
   .HomeOpenNavImg {
-    margin-left: 2%;
+    margin-left: 4%;
     border-radius: 50px;
     width: 40px;
     height: 40px;
@@ -208,7 +208,7 @@ export const HomeImgDivForMobile = styled.div`
     width: 20px;
     height: 20px;
     margin-top: 10px;
-    margin-right: 20px;
+    margin-right: 4%;
   }
 `;
 

@@ -69,7 +69,6 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
 
   // tweet 작성자 정보 가져오는 함수
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 writeObj.creatorId를 이용하여 getId를 호출하고 결과를 상태에 저장
     getTweetInfo(writeObj);
   }, [writeObj]);
 
@@ -257,7 +256,6 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
     const src = useLazyImageLoader(dataSrc, props.src);
     return <StyledTweetImage {...props} src={src} />;
   };
-
   return (
     <Container $isModal={isModal}>
       {isPopUpOpen && <PopUp writeObj={writeObj} />}
@@ -272,7 +270,7 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
             alt="ProfilePicture"
           />
         </Link>
-        {isMention && isModal && (
+        {isMention && (
           <LinkingLineContainer>
             <LinkingLine />
           </LinkingLineContainer>

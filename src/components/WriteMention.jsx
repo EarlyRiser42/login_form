@@ -44,7 +44,7 @@ const WriteMention = ({ writeObj }) => {
       const response = await attachmentRef.putString(attachment, 'data_url');
       attachmentUrl = await response.ref.getDownloadURL();
     }
-    console.log(writeObj);
+
     const MentionObj = {
       tweetId: uuid,
       text: mentionText,

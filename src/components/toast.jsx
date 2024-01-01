@@ -8,10 +8,9 @@ const Toast = () => {
 
   useEffect(() => {
     if (toastText.text) {
-      console.log(toastText);
       const timer = setTimeout(() => {
         setToastText({ type: 'notice', text: '' });
-      }, 2000); // reset the toast after 3 seconds
+      }, 1000); // reset the toast after 3 seconds
 
       return () => clearTimeout(timer);
     }

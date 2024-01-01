@@ -37,7 +37,6 @@ const Mention = () => {
         </WriteTweetCloseButtonDiv>
         <TweetForm
           key={writeObj.id}
-          userObj={userObj}
           writeObj={writeObj}
           isOwner={writeObj.creatorId === userObj.uid}
           isModal={true}
