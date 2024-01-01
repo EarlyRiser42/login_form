@@ -65,11 +65,12 @@ export async function handler(event) {
     const accessToken = jwt.sign(
       { userId: user.id, userEmail: user.email },
       JWT_SECRET,
-      { expiresIn: '30m' },
+      { expiresIn: '1s' },
     );
     const refreshToken = jwt.sign(
       { userId: user.id, userEmail: user.email },
       REFRESH_SECRET,
+      { expiresIn: '30m' },
     );
 
     const refreshTokenDoc = await db
@@ -81,6 +82,7 @@ export async function handler(event) {
       body: JSON.stringify({
         accessToken,
         refreshTokenId: refreshTokenDoc.id,
+        userEmail: user.email,
         userObj: { ...user },
       }),
       headers: { 'Content-Type': 'application/json' },

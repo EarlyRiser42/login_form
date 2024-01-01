@@ -43,7 +43,6 @@ export const useLogin = () => {
       onSuccess: (data) => {
         setExpiryCookie('accessToken', data.accessToken, 30, 'minutes');
         setExpiryCookie('refreshTokenId', data.refreshTokenId, 1, 'hours');
-
         setIsLoggedIn({ login: true, social: false });
         setUserObj(data.userObj);
         navigate('/');
