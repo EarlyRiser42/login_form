@@ -65,7 +65,7 @@ export async function handler(event) {
     const accessToken = jwt.sign(
       { userId: user.id, userEmail: user.email },
       JWT_SECRET,
-      { expiresIn: '1s' },
+      { expiresIn: '5m' },
     );
     const refreshToken = jwt.sign(
       { userId: user.id, userEmail: user.email },
