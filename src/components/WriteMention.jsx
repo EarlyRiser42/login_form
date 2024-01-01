@@ -65,8 +65,9 @@ const WriteMention = ({ writeObj }) => {
     setMentionText('');
     setAttachment('');
 
-    if (location.state) {
+    if (isModalOpen) {
       navigate(-1);
+      setIsModalOpen(false);
     }
   };
 

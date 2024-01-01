@@ -43,6 +43,7 @@ const TweetDetail = () => {
 
   useEffect(() => {
     getOriginTweet(writeObj);
+    // 멘션 디테일 페이지에서 뒤로가기 시 원 트윗이 두개 렌더링 되는것 방지
     return () => {
       setOriginTweet({});
     };
@@ -77,7 +78,7 @@ const TweetDetail = () => {
           isModal={false}
           isMention={false}
         />
-        <WriteMention />
+        <WriteMention writeObj={writeObj} />
         <ErrorBoundary
           FallbackComponent={() => (
             <ErrorRetry queryKey={['getTweets', false]} />
@@ -93,19 +94,6 @@ const TweetDetail = () => {
     </HomeDiv>
   );
 };
-
-const LinkingLineContainer = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  min-height: 25px;
-`;
-
-const LinkingLine = styled.div`
-  height: 100%;
-  margin-left: 30px;
-  border-left: 2px solid rgba(0, 0, 0, 0.2);
-`;
 
 export const NavContainer = styled.div`
   width: 100%;

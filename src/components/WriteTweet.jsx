@@ -42,8 +42,9 @@ const WriteTweet = () => {
     await dbService.collection('tweets').add(tweetObj);
     setTweetText('');
     setAttachment('');
-    if (location.state) {
+    if (isModalOpen) {
       navigate(-1);
+      setIsModalOpen(false);
     }
   };
 
