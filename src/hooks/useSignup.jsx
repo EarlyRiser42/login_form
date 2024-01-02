@@ -20,7 +20,6 @@ export const useSignUp = () => {
 
   return useMutation(
     async ({ queryParam }) => {
-      console.log(queryParam);
       const response = await axios.post(
         `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/signUp`,
         { userObj: queryParam },

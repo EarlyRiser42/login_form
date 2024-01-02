@@ -1,6 +1,6 @@
 import { useMutation } from 'react-query';
 import axios from 'axios';
-import { setCookie } from '../util/cookie.jsx';
+import { setExpiryCookie } from '../util/cookie.jsx';
 import { useRecoilState } from 'recoil';
 import { toastTextState, loginState, userObjState } from '../util/recoil.jsx';
 import { useNavigate } from 'react-router-dom';
@@ -12,21 +12,6 @@ export const useLogin = () => {
   const [userObj, setUserObj] = useRecoilState(userObjState);
 
   const navigate = useNavigate();
-
-  const setExpiryCookie = (name, value, expiryDuration, expiryType) => {
-    const expiryDate = new Date();
-    if (expiryType === 'minutes') {
-      expiryDate.setMinutes(expiryDate.getMinutes() + expiryDuration);
-    } else if (expiryType === 'hours') {
-      expiryDate.setHours(expiryDate.getHours() + expiryDuration);
-    }
-
-    setCookie(name, value, {
-      path: '/',
-      secure: false,
-      expires: expiryDate,
-    });
-  };
 
   return useMutation(
     async (queryParam) => {
@@ -41,10 +26,10 @@ export const useLogin = () => {
     },
     {
       onSuccess: (data) => {
-        setExpiryCookie('accessToken', data.accessToken, 30, 'minutes');
-        setExpiryCookie('refreshTokenId', data.refreshTokenId, 1, 'hours');
-        setIsLoggedIn({ login: true, social: false });
+        setExpiryCookie('accessToken', data.accessToken, 5, 'minutes');
+        setExpiryCookie('refreshTokenId', data.refreshTokenId, 30, 'minutes');
         setUserObj(data.userObj);
+        setIsLoggedIn({ login: true, social: false });
         navigate('/');
       },
       onError: (error) => {
