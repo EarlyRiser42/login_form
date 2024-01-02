@@ -36,6 +36,7 @@
 .writeTweetModal {
     width: 590px;
     height: 210px;
+    overflow-y: scroll;
     margin-bottom: 25%;
     background-color: white;
     border-radius: 20px;
@@ -44,6 +45,7 @@
 .writeMentionModal{
     width: 590px;
     height: auto;
+    overflow-y: scroll;
     margin-bottom: 10%;
     background-color: white;
     border-radius: 20px;
