@@ -5,6 +5,7 @@ import '../style/Auth.css';
 import { useRecoilState } from 'recoil';
 import { isSigning, ModalOpenState } from '../util/recoil.jsx';
 import { useSocialLogin } from '../hooks/useSocialLogin.jsx';
+import Loading from '../components/Loading.jsx';
 
 const Auth = () => {
   // modal 뒷배경
@@ -46,6 +47,9 @@ const Auth = () => {
 
   return (
     <div className={isModalOpen ? 'auth_Div_withModal' : 'auth_Div'}>
+      {isLoginLoading && (
+        <Loading forComponent={false} isCircleAtCenter={true} />
+      )}
       <div className={'auth_LeftDiv'}>
         <img src="/X_logo.svg" alt="X logo" className={'X_Logo_svg'} />
       </div>
