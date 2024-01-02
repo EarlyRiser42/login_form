@@ -142,6 +142,10 @@ export const HomeMiddleDiv = styled.div`
     margin-left: 16vw;
     width: 46vw;
     overflow-y: scroll;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   @media (max-width: 1000px) {
