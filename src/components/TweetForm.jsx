@@ -256,6 +256,7 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
     const src = useLazyImageLoader(dataSrc, props.src);
     return <StyledTweetImage {...props} src={src} />;
   };
+
   return (
     <Container $isModal={isModal}>
       {isPopUpOpen && <PopUp writeObj={writeObj} />}
@@ -293,7 +294,7 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
                 style={{
                   width: '15px',
                   height: '18px',
-                  marginRight: '20px',
+                  marginRight: '4%',
                   cursor: 'pointer',
                 }}
                 onClick={() => onDeleteClick(writeObj.id)}
