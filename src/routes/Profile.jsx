@@ -16,13 +16,14 @@ import MyMentionsContainer from '../components/Profile/MyMentionsContainer.jsx';
 import MediaContainer from '../components/Profile/MediaContainer.jsx';
 import LikesContainer from '../components/Profile/LikesContainer.jsx';
 import { useRecoilState } from 'recoil';
-import { userObjState } from '../util/recoil.jsx';
+import { toastTextState, userObjState } from '../util/recoil.jsx';
+import Toast from '../components/toast.jsx';
 
 const Profile = () => {
   // 전역변수 recoil
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [userObj, setUserObj] = useRecoilState(userObjState);
-
+  const [toastText, setToastText] = useRecoilState(toastTextState);
   // 본인 계정 여부 확인
   const profile_id = useParams().profile;
   const location = useLocation();
@@ -72,6 +73,7 @@ const Profile = () => {
         {pageName === '마음에 들어요' && (
           <LikesContainer userInfo={userInfo} pageName={pageName} />
         )}
+        {toastText.text && <Toast></Toast>}
       </HomeMiddleDiv>
       {!useMediaQuery({ query: '(max-width: 1000px)' }) && <Explore />}
     </HomeDiv>

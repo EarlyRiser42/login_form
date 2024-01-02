@@ -8,16 +8,18 @@ import styled from 'styled-components';
 import { HomeDiv, HomeMiddleDiv } from './Home.jsx';
 import { useMediaQuery } from 'react-responsive';
 import { useRecoilState } from 'recoil';
-import { userObjState } from '../util/recoil.jsx';
+import { toastTextState, userObjState } from '../util/recoil.jsx';
 import WriteMention from '../components/WriteMention.jsx';
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorRetry from '../components/ErrorRetry.jsx';
 import MentionsContainer from '../components/MentionsContainer.jsx';
 import { getDocs, query, collection, where } from 'firebase/firestore';
+import Toast from '../components/toast.jsx';
 
 const TweetDetail = () => {
   // 전역변수 recoil
   const [userObj, setUserObj] = useRecoilState(userObjState);
+  const [toastText, setToastText] = useRecoilState(toastTextState);
   const navigate = useNavigate();
   const { state } = useLocation();
   //  지역변수
@@ -89,6 +91,7 @@ const TweetDetail = () => {
             followingPage={false}
           />
         </ErrorBoundary>
+        {toastText.text && <Toast></Toast>}
       </HomeMiddleDiv>
       {!useMediaQuery({ query: '(max-width: 1000px)' }) && <Explore />}
     </HomeDiv>
