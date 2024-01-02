@@ -78,25 +78,21 @@ const FirstPage = ({ onNext, user_data }) => {
   const generateYears = () => {
     const startYear = 1960;
     const currentYear = new Date().getFullYear();
-    const years = [];
-    for (let year = currentYear; year >= startYear; year--) {
-      years.push({ value: year.toString(), name: 'year' });
-    }
 
-    return years;
+    return Array.from({ length: currentYear - startYear + 1 }, (_, index) => {
+      const year = currentYear - index;
+      return { value: year.toString(), name: 'year' };
+    });
   };
 
   const generateDates = (date) => {
-    const startDay = 1;
-    const dates = [];
-    for (let day = startDay; day <= date; day++) {
-      if (date < 31) {
-        dates.push({ value: day.toString(), name: 'month' });
-      } else {
-        dates.push({ value: day.toString(), name: 'day' });
-      }
-    }
-    return dates;
+    return Array.from({ length: date }, (_, index) => {
+      const day = index + 1;
+      return {
+        value: day.toString(),
+        name: date < 31 ? 'month' : 'day',
+      };
+    });
   };
 
   const years = generateYears();

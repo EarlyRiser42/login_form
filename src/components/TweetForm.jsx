@@ -196,7 +196,6 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
   };
 
   const LikeContainer = ({ alt, count }) => {
-    let dots = [];
     const colors = [
       '#A0D6D8',
       '#92D2FC',
@@ -205,27 +204,29 @@ const TweetForm = ({ writeObj, isOwner, isModal, isMention }) => {
       '#EE91AC',
       '#92D2FC',
     ];
-    const angleBetweenPairs = 60; // 쌍 사이의 각도
-    const angleOffsetWithinPair = 15; // 쌍 내에서 원 사이의 각도
-    const pairs = colors.length;
+    const angleBetweenPairs = 60;
+    const angleOffsetWithinPair = 15;
 
-    for (let i = 0, angle = 0; i < pairs; i++) {
-      const color = colors[i];
-      // 첫 번째 원
-      dots.push(
-        <OrbitDotWrapper key={`dot-first-${angle}-${i}`} $angle={angle}>
-          <OrbitDot color={color} $index={angle} />
+    const dots = colors.flatMap((color, i) => {
+      const firstAngle = i * angleBetweenPairs;
+      const secondAngle = firstAngle + angleOffsetWithinPair;
+
+      return [
+        <OrbitDotWrapper
+          key={`dot-first-${firstAngle}-${i}`}
+          $angle={firstAngle}
+        >
+          <OrbitDot color={color} $index={firstAngle} />
         </OrbitDotWrapper>,
-      );
-      // 애니메이션을 적용할 두 번째 원
-      angle += angleOffsetWithinPair;
-      dots.push(
-        <OrbitDotWrapper key={`dot-second-${angle}-${i}`} $angle={angle}>
-          <OrbitDot color={color} $index={angle} />
+        <OrbitDotWrapper
+          key={`dot-second-${secondAngle}-${i}`}
+          $angle={secondAngle}
+        >
+          <OrbitDot color={color} $index={secondAngle} />
         </OrbitDotWrapper>,
-      );
-      angle += angleBetweenPairs - angleOffsetWithinPair;
-    }
+      ];
+    });
+
     return (
       <TweetActions>
         <ActionSVGDiv $type={alt}>
