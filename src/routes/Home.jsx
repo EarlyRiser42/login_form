@@ -128,6 +128,7 @@ export const HomeDiv = styled.div`
   @media (max-width: 500px) {
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     display: flex;
     background-color: ${(props) => (props.$isNavOpen ? 'gray' : 'transparent')};
   }
@@ -141,6 +142,8 @@ export const HomeMiddleDiv = styled.div`
   @media (max-width: 1280px) {
     margin-left: 16vw;
     width: 46vw;
+    height: 100vh;
+    height: 100dvh;
     overflow-y: scroll;
     scrollbar-width: none;
     &::-webkit-scrollbar {
@@ -157,6 +160,7 @@ export const HomeMiddleDiv = styled.div`
     margin-left: 0;
     width: 100vw;
     height: 95vh;
+    height: 95dvh;
   }
 `;
 
@@ -192,6 +196,7 @@ export const HomeImgDivForMobile = styled.div`
   @media (max-width: 500px) {
     display: flex;
     height: 5vh;
+    height: 5dvh;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;

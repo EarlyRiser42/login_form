@@ -157,10 +157,6 @@ const LoginModal2 = styled.div`
   @media (max-width: 700px) {
     width: 100vw;
     height: 100vh;
-  }
-
-  @media (max-width: 480px) {
-    width: 100vw;
     height: 100dvh;
   }
 `;
