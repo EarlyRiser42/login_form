@@ -70,4 +70,4 @@ const Target = styled.div`
   height: 1px;
 `;
 
-export default MediaContainer;
+export default React.memo(MediaContainer);

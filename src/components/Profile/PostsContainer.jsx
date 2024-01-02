@@ -70,4 +70,4 @@ const Target = styled.div`
   height: 1px;
 `;
 
-export default PostsContainer;
+export default React.memo(PostsContainer);

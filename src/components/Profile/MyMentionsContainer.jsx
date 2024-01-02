@@ -70,4 +70,4 @@ const Target = styled.div`
   height: 1px;
 `;
 
-export default MyMentionsContainer;
+export default React.memo(MyMentionsContainer);

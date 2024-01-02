@@ -73,4 +73,4 @@ const Target = styled.div`
   height: 1px;
 `;
 
-export default TweetsContainer;
+export default React.memo(TweetsContainer);
