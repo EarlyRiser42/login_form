@@ -6,19 +6,24 @@ import {
   toastTextState,
   loginState,
   ModalOpenState,
+  userObjState,
 } from '../../util/recoil.jsx';
-import axios from 'axios';
 import styled from 'styled-components';
 import { useCheckEmailOrId } from '../../hooks/useCheckEmailOrId.jsx';
 import Loading from '../Loading.jsx';
+import { useSocialLogin } from '../../hooks/useSocialLogin.jsx';
 
 const FirstPage = ({ onNext }) => {
   const [email, setEmail] = useState('');
-  const navigate = useNavigate();
+
   const [toastText, setToastText] = useRecoilState(toastTextState);
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
 
+  // react query hooks
+  const { mutate: socialLoginMutate, isLoading: isLoginLoading } =
+    useSocialLogin();
+  const { mutate, isLoading } = useCheckEmailOrId();
+  console.log(isLoginLoading);
   const AuthButton = ({ name, onClick, logo, text }) => (
     <button className={'authButton'} name={name} onClick={onClick}>
       {text}
@@ -29,8 +34,6 @@ const FirstPage = ({ onNext }) => {
       />
     </button>
   );
-
-  const { mutate, isLoading } = useCheckEmailOrId();
 
   const onClick = (value) => {
     mutate(value, {
@@ -64,8 +67,11 @@ const FirstPage = ({ onNext }) => {
       provider = new firebaseInstance.auth.GithubAuthProvider();
     }
     await authService.signInWithPopup(provider);
-    setIsLoggedIn({ login: true, social: true });
-    navigate('/');
+    authService.onAuthStateChanged((user) => {
+      if (user) {
+        socialLoginMutate(user);
+      }
+    });
   };
 
   const EmailChange = async (event) => {
@@ -77,7 +83,7 @@ const FirstPage = ({ onNext }) => {
 
   return (
     <LoginModal>
-      {isLoading ? (
+      {isLoading || isLoginLoading ? (
         <Loading forComponent={true} isCircleAtCenter={true} />
       ) : (
         <>

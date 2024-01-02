@@ -45,30 +45,7 @@ function App() {
   const location = useLocation();
   const background = location.state && location.state.background;
 
-  useEffect(() => {
-    // social login했을때 로그인 유지
-    authService.onAuthStateChanged((user) => {
-      if (user) {
-        setUserObj({
-          // Auth에 담겨 있는 값
-          displayName: user.displayName,
-          id: user.displayName,
-          uid: user.uid,
-          photoURL: user.photoURL,
-          backgroundImage: 'https://placehold.co/600x400/1DA1F2/1DA1F2.png',
-          SignupAt: Date.now(),
-          following: ['3431d11c-cf44-481b-805d-0835f7e77a68'],
-          follower: [],
-        });
-        setIsLoggedIn({ login: true, social: true });
-        setIsAuthChecked(true);
-      } else {
-        setIsAuthChecked(true);
-      }
-    });
-  }, []);
-
-  // 로그인 후에 지속적 로그인
+  // 자동 로그인
   const {
     data: validLogin,
     isLoading: validLoading,
@@ -94,7 +71,7 @@ function App() {
     },
   );
 
-  // use query의 response가 변화할 때 실행
+  // use query의 response가 변화할 때 실행 (자동로그인)
   useEffect(() => {
     if (validLogin) {
       const user = validLogin.data.user;

@@ -4,12 +4,15 @@ import { authService, firebaseInstance } from '../fbase';
 import '../style/Auth.css';
 import { useRecoilState } from 'recoil';
 import { isSigning, ModalOpenState } from '../util/recoil.jsx';
+import { useSocialLogin } from '../hooks/useSocialLogin.jsx';
 
 const Auth = () => {
   // modal 뒷배경
   const location = useLocation();
 
   // 전역변수 recoil
+  const { mutate: socialLoginMutate, isLoading: isLoginLoading } =
+    useSocialLogin();
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
 
   const AuthButton = ({ name, onClick, logo, text }) => (
@@ -34,6 +37,11 @@ const Auth = () => {
       provider = new firebaseInstance.auth.GithubAuthProvider();
     }
     await authService.signInWithPopup(provider);
+    authService.onAuthStateChanged((user) => {
+      if (user) {
+        socialLoginMutate(user);
+      }
+    });
   };
 
   return (

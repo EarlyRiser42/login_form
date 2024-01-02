@@ -61,7 +61,7 @@ const Information = ({ userInfo, owner }) => {
   }, []);
 
   const elapsedTime = (date) => {
-    const start = new Date(date);
+    const start = new Date(parseInt(date));
     return (
       '가입일: ' +
       String(start.getFullYear()) +

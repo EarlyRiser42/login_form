@@ -1,8 +1,7 @@
+import { initializeApp, getApps, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
-import { cert, getApps, initializeApp } from 'firebase-admin/app';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { createHash } from 'crypto';
 
 dotenv.config();
 
@@ -21,7 +20,7 @@ const firebaseConfig = {
   universe_domain: process.env.VITE_REACT_APP_UNIVERSE_DOMAIN,
 };
 
-// Firebase Admin SDK 초기화
+// Firebase 앱 초기화
 if (!getApps().length) {
   initializeApp({
     credential: cert(firebaseConfig),
@@ -31,42 +30,60 @@ if (!getApps().length) {
 const JWT_SECRET = process.env.VITE_REACT_APP_JWT_SECRET;
 const REFRESH_SECRET = process.env.VITE_REACT_APP_REFRESH_SECRET;
 
-// Netlify 함수 정의
-export async function handler(event, context) {
+export async function handler(event) {
+  // POST 요청이 아닐 경우 처리하지 않음
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
   try {
     const db = getFirestore();
-    const { userObj } = JSON.parse(event.body);
+    const userData = JSON.parse(event.body);
 
-    // 비밀번호를 SHA-256으로 해시
-    userObj.password = createHash('sha256')
-      .update(userObj.password + process.env.VITE_REACT_APP_BACK_HASH)
-      .digest('hex');
+    const userObj = {
+      id: `${userData.email.slice(0, userData.email.indexOf('@'))}${Math.floor(
+        Math.random() * 1000,
+      )}`,
+      email: userData.email,
+      password: '',
+      displayName: userData.displayName,
+      photoURL: userData.photoURL,
+      backgroundImage: 'https://fakeimg.pl/600x400/?text=+',
+      birthyear: '1998',
+      birthmonth: '4',
+      birthday: '16',
+      SignupAt: userData.createdAt,
+      uid: userData.uid,
+      intro: '',
+      following: ['3431d11c-cf44-481b-805d-0835f7e77a68'],
+      follower: [],
+      likes: [],
+      mentions: [],
+    };
+
+    let user;
+    const query = db.collection('users').where('email', '==', userData.email);
+
+    const snapshot = await query.get();
+    if (snapshot.empty) {
+      // Firestore에 사용자 데이터 추가
+      await db.collection('users').doc(userObj.uid).set(userObj);
+      user = userObj;
+    } else {
+      user = snapshot.docs[0].data();
+    }
 
     const accessToken = jwt.sign(
-      {
-        userId: userObj.id,
-        userEmail: userObj.email,
-      },
+      { userId: user.id, userEmail: user.email },
       JWT_SECRET,
       { expiresIn: '5m' },
     );
     const refreshToken = jwt.sign(
-      {
-        userId: userObj.id,
-        userEmail: userObj.email,
-      },
+      { userId: user.id, userEmail: user.email },
       REFRESH_SECRET,
       { expiresIn: '30m' },
     );
 
-    // Firestore에 사용자 데이터 추가
-    await db.collection('users').doc(userObj.uid).set(userObj);
-
-    // Firestore에 refreshTokenId 추가
     const refreshTokenDoc = await db
       .collection('refreshTokens')
       .add({ token: refreshToken });
@@ -76,14 +93,13 @@ export async function handler(event, context) {
       body: JSON.stringify({
         accessToken,
         refreshTokenId: refreshTokenDoc.id,
+        userEmail: user.email,
+        userObj: { ...user },
       }),
       headers: { 'Content-Type': 'application/json' },
     };
   } catch (error) {
-    console.error('Error during signup:', error);
-    return {
-      statusCode: 500,
-      body: '회원 가입 중 서버 오류가 발생했습니다.',
-    };
+    console.error(error);
+    return { statusCode: 500, body: '서버 오류가 발생했습니다.' };
   }
 }
