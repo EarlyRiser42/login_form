@@ -53,7 +53,6 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
     imgSrc,
     imgAlt,
     state,
-    mobile,
   }) => {
     return (
       <StyledNavButtonDiv>
@@ -63,7 +62,7 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               <button className="NavPostButton" onClick={onClick}>
                 {buttonText}
               </button>
-              <div className={mobile ? 'NavPostImgDivMobile' : 'NavPostImgDiv'}>
+              <div className={'NavPostImgDiv'}>
                 <img className="NavPostImg" src={imgSrc} alt={imgAlt} />
               </div>
             </Link>
@@ -84,11 +83,29 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
     );
   };
 
+  const PostTweetButton = ({ linkTo, imgSrc, imgAlt, state }) => {
+    return (
+      <Link to={linkTo} state={state}>
+        <NavPostImgDivMobile>
+          <NavPostImg src={imgSrc} alt={imgAlt} />
+        </NavPostImgDivMobile>
+      </Link>
+    );
+  };
+
   // 화면 너비 500px이하
   const isMobile = useMediaQuery({ query: '(max-width: 500px)' });
 
   return (
     <>
+      {isMobile && location.pathname === '/' && (
+        <PostTweetButton
+          linkTo="/compose/tweet"
+          imgSrc="/write_tweet.svg"
+          imgAlt="writeTweet"
+          state={{ background: location }}
+        />
+      )}
       {isMobile && isNavOpen && (
         <StyledNavDiv ref={ref}>
           <StyledNavLinkDiv>
@@ -207,7 +224,6 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               onClick={() => {}}
               imgSrc="./write_tweet.svg"
               imgAlt="writeTweet"
-              mobile={false}
               state={{ background: location }}
             />
             <NavButton
@@ -216,7 +232,6 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               onClick={onLogOutClick}
               buttonText="Log Out"
               imgSrc="./logout.svg"
-              mobile="false"
               imgAlt="Logout"
             />
           </StyledNavLinkDiv>
@@ -611,12 +626,6 @@ const StyledNavButtonDiv = styled.div`
       background-color: #4a99e9;
     }
 
-    .NavPostImg {
-      display: flex;
-      width: 60%;
-      height: 60%;
-    }
-
     .NavLogoutButton {
       display: none;
     }
@@ -636,16 +645,6 @@ const StyledNavButtonDiv = styled.div`
       display: none;
     }
 
-    .NavPostImgDivMobile {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: fixed;
-      bottom: 3%;
-      right: 3%;
-      background-color: #4a99e9;
-    }
-
     .NavPostImgDiv,
     .NavLogoutImgDiv {
       display: none;
@@ -656,4 +655,25 @@ const StyledNavButtonDiv = styled.div`
     }
   }
 `;
+
+const NavPostImgDivMobile = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  border-radius: 50%;
+  z-index: 100;
+  width: 65px;
+  height: 65px;
+  bottom: 3%;
+  right: 3%;
+  background-color: #4a99e9;
+`;
+
+const NavPostImg = styled.img`
+  display: flex;
+  width: 60%;
+  height: 60%;
+`;
+
 export default Nav;

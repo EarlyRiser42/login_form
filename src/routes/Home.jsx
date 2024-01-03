@@ -49,7 +49,7 @@ const Home = () => {
     <HomeDiv $isNavOpen={isNavOpen}>
       <Nav ref={navRef} isNavOpen={isNavOpen} />
       {isMobile && (
-        <HomeImgDivForMobile>
+        <HomeNavDiv>
           <img
             className={'HomeOpenNavImg'}
             src={userObj.photoURL}
@@ -64,7 +64,7 @@ const Home = () => {
             src={'./setting.svg'}
             alt={'OpenSetting'}
           />
-        </HomeImgDivForMobile>
+        </HomeNavDiv>
       )}
       <HomeMiddleDiv>
         <HomeMiddleSwitchFollowDiv>
@@ -195,11 +195,11 @@ export const NormalText = styled.span`
   font-weight: normal;
 `;
 
-export const HomeImgDivForMobile = styled.div`
+const HomeNavDiv = styled.div`
   display: flex;
-  height: 5vh;
-  height: 5dvh;
-  background-color: rgba(255, 255, 255, 0.1);
+  height: 7vh;
+  height: 7dvh;
+  background-color: transparent;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
