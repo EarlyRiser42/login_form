@@ -89,17 +89,6 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
 
   return (
     <>
-      {isMobile && location.pathname === '/' && (
-        <NavButton
-          type="post"
-          linkTo="/compose/tweet"
-          buttonText="게시하기"
-          imgSrc="/write_tweet.svg"
-          imgAlt="writeTweet"
-          mobile="true"
-          state={{ background: location }}
-        />
-      )}
       {isMobile && isNavOpen && (
         <StyledNavDiv ref={ref}>
           <StyledNavLinkDiv>

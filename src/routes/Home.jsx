@@ -43,25 +43,29 @@ const Home = () => {
     }
   }, [isModalOpen, isPopUpOpen, isNavOpen]);
 
+  const isMobile = useMediaQuery({ query: '(max-width: 500px)' });
+
   return (
     <HomeDiv $isNavOpen={isNavOpen}>
       <Nav ref={navRef} isNavOpen={isNavOpen} />
-      <HomeImgDivForMobile>
-        <img
-          className={'HomeOpenNavImg'}
-          src={userObj.photoURL}
-          alt={'OpenNav'}
-          onClick={() => {
-            setIsNavOpen(true);
-          }}
-        />
-        <img className={'HomeX_logo'} src={'./X_logo.svg'} alt={'X_logo'} />
-        <img
-          className={'HomeOpenSetting'}
-          src={'./setting.svg'}
-          alt={'OpenSetting'}
-        />
-      </HomeImgDivForMobile>
+      {isMobile && (
+        <HomeImgDivForMobile>
+          <img
+            className={'HomeOpenNavImg'}
+            src={userObj.photoURL}
+            alt={'OpenNav'}
+            onClick={() => {
+              setIsNavOpen(true);
+            }}
+          />
+          <img className={'HomeX_logo'} src={'./X_logo.svg'} alt={'X_logo'} />
+          <img
+            className={'HomeOpenSetting'}
+            src={'./setting.svg'}
+            alt={'OpenSetting'}
+          />
+        </HomeImgDivForMobile>
+      )}
       <HomeMiddleDiv>
         <HomeMiddleSwitchFollowDiv>
           <div onClick={() => setFollowingPage(false)}>
@@ -192,15 +196,13 @@ export const NormalText = styled.span`
 `;
 
 export const HomeImgDivForMobile = styled.div`
-  display: none;
-  @media (max-width: 500px) {
-    display: flex;
-    height: 5vh;
-    height: 5dvh;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
+  display: flex;
+  height: 5vh;
+  height: 5dvh;
+  background-color: rgba(255, 255, 255, 0.1);
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 
   .HomeOpenNavImg {
     margin-left: 4%;
