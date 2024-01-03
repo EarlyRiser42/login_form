@@ -47,54 +47,61 @@ const Auth = () => {
 
   return (
     <div className={isModalOpen ? 'auth_Div_withModal' : 'auth_Div'}>
-      {isLoginLoading && (
-        <Loading forComponent={false} isCircleAtCenter={true} />
-      )}
-      <div className={'auth_LeftDiv'}>
-        <img src="/X_logo.svg" alt="X logo" className={'X_Logo_svg'} />
-      </div>
-      <div className={'auth_RightDiv'}>
-        <div className={'auth_h14'}>
-          <span className={'auth_h1'}>지금 일어나고 있는 일</span>
-          <span className={'auth_h4'}>지금 가입하세요.</span>
-        </div>
-        <div className={'authButtonDiv'}>
-          <AuthButton
-            name="google"
-            onClick={onSocialClick}
-            logo="/google_logo.svg"
-            text="Google 계정으로 가입하기"
-          />
-          <AuthButton
-            name="github"
-            onClick={onSocialClick}
-            logo="/github_logo.svg"
-            text="Github으로 가입하기"
-          />
-          <div>
-            <div className={'line'}>
-              <span style={{ fontWeight: 'normal', color: 'black' }}>또는</span>
+      {isLoginLoading ? (
+        <Loading forComponent={true} isCircleAtCenter={true} />
+      ) : (
+        <>
+          <div className={'auth_LeftDiv'}>
+            <img src="/X_logo.svg" alt="X logo" className={'X_Logo_svg'} />
+          </div>
+          <div className={'auth_RightDiv'}>
+            <div className={'auth_h14'}>
+              <span className={'auth_h1'}>지금 일어나고 있는 일</span>
+              <span className={'auth_h4'}>지금 가입하세요.</span>
+            </div>
+            <div className={'authButtonDiv'}>
+              <AuthButton
+                name="google"
+                onClick={onSocialClick}
+                logo="/google_logo.svg"
+                text="Google 계정으로 가입하기"
+              />
+              <AuthButton
+                name="github"
+                onClick={onSocialClick}
+                logo="/github_logo.svg"
+                text="Github으로 가입하기"
+              />
+              <div>
+                <div className={'line'}>
+                  <span style={{ fontWeight: 'normal', color: 'black' }}>
+                    또는
+                  </span>
+                </div>
+              </div>
+              <Link to={'/signup'} state={{ background: location }}>
+                <button className={'authCreateAccountButton'}>
+                  계정 만들기
+                </button>
+              </Link>
+              <span style={{ fontWeight: 'lighter', fontSize: '0.7rem' }}>
+                가입하시려면 <span>쿠키 사용</span>을 포함해{' '}
+                <span>이용약관과 개인정보 처리</span>
+                {<br />}
+                방침에 동의해야 합니다.
+              </span>
+            </div>
+            <div className={'authLoginDiv'}>
+              <span style={{ fontWeight: 'bolder', fontSize: '1rem' }}>
+                이미 트위터에 가입하셨나요?
+              </span>
+              <Link to={'/login'} state={{ background: location }}>
+                <button className={'authLoginButton'}>로그인</button>
+              </Link>
             </div>
           </div>
-          <Link to={'/signup'} state={{ background: location }}>
-            <button className={'authCreateAccountButton'}>계정 만들기</button>
-          </Link>
-          <span style={{ fontWeight: 'lighter', fontSize: '0.7rem' }}>
-            가입하시려면 <span>쿠키 사용</span>을 포함해{' '}
-            <span>이용약관과 개인정보 처리</span>
-            {<br />}
-            방침에 동의해야 합니다.
-          </span>
-        </div>
-        <div className={'authLoginDiv'}>
-          <span style={{ fontWeight: 'bolder', fontSize: '1rem' }}>
-            이미 트위터에 가입하셨나요?
-          </span>
-          <Link to={'/login'} state={{ background: location }}>
-            <button className={'authLoginButton'}>로그인</button>
-          </Link>
-        </div>
-      </div>
+        </>
+      )}
     </div>
   );
 };
