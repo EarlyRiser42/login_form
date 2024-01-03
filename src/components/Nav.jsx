@@ -275,6 +275,8 @@ const StyledNavDiv = styled.nav`
   @media (max-width: 500px) {
     margin-left: 0vw;
     width: 65vw;
+    height: 100vh;
+    height: 100dvh;
     position: absolute;
     z-index: 100;
     background: white;

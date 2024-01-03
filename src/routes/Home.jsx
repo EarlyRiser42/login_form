@@ -218,7 +218,7 @@ export const HomeImgDivForMobile = styled.div`
     border-radius: 50px;
     width: 20px;
     height: 20px;
-    margin-top: 10px;
+    margin-top: 1%;
     margin-right: 4%;
   }
 `;
