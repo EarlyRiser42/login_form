@@ -33,7 +33,7 @@ export const useLogin = () => {
         navigate('/');
       },
       onError: (error) => {
-        if (error.response?.status === 201) {
+        if (error.response?.status === 202) {
           setToastText({
             type: 'error',
             text: '잘못된 비밀번호입니다.',

@@ -59,7 +59,7 @@ export async function handler(event) {
     }
 
     if (!user || user.password !== hashedPassword) {
-      return { statusCode: 201, body: '잘못된 비밀번호입니다.' };
+      return { statusCode: 202, body: '잘못된 비밀번호입니다.' };
     }
 
     const accessToken = jwt.sign(

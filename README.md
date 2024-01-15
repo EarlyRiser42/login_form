@@ -4,9 +4,10 @@
 ## 사용 기술:
 - 코어: React, JavaScript
 - 상태관리: React-Query, Recoil
-- 스타일링: CSS
+- 스타일링: Styled components, Vanilla CSS
 - 빌드: Vite
 - CI/CD: GitHub Actions
+- DB: Firebase
 - 배포: Netlify
 
 ## 커밋 컨벤션:
