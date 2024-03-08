@@ -23,7 +23,7 @@ const FirstPage = ({ onNext }) => {
   const { mutate: socialLoginMutate, isLoading: isLoginLoading } =
     useSocialLogin();
   const { mutate, isLoading } = useCheckEmailOrId();
-  console.log(isLoginLoading);
+
   const AuthButton = ({ name, onClick, logo, text }) => (
     <button className={'authButton'} name={name} onClick={onClick}>
       {text}
