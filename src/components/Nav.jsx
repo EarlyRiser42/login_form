@@ -199,30 +199,36 @@ const Nav = forwardRef(({ isNavOpen }, ref) => {
               linkTo={'/'}
               linkText={'홈'}
             />
+            {/*
             <NavIconDiv
               imgSrc={'./explore'}
               imgAlt={'explore'}
               linkTo={`/explore`}
               linkText={'탐색하기'}
             />
+            */}
             <NavIconDiv
-              imgSrc={'./profile'}
+              imgSrc={'/profile'}
               imgAlt={'profile'}
               linkTo={`/profile/${userObj.uid}`}
               linkText={'프로필'}
             />
-            {/* <NavIconDiv
+            {/*
+            <NavIconDiv
             imgSrc={'./message'}
             imgAlt={'message'}
             linkTo={`/message`}
             linkText={'메시지'}
-            /> */}
+            />
+            */}
+            {/*
             <NavIconDiv
               imgSrc={'./bookmark'}
               imgAlt={'bookmark'}
               linkTo={`/bookmark`}
               linkText={'북마크'}
             />
+             */}
             <NavButton
               type="post"
               linkTo="/compose/tweet"
